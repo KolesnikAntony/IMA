@@ -1,0 +1,21 @@
+
+@import './../src/assets/style/variables';
+@import './../src/assets/style/mixins';
+
+.container {
+  max-width: 1200px;
+  padding: 0 15px;
+  margin: 0 auto;
+}
+
+.nav-items {
+  margin-right: 35px;
+  font-family: Libre Baskerville;
+  font-size: 18px;
+  line-height: 26px;
+  &:last-of-type {
+    margin-right: 0;
+  }
+}
+
+

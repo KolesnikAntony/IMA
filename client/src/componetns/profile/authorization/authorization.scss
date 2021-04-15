@@ -1,0 +1,29 @@
+@import '../../../../src/assets/style/variables';
+
+.auth {
+  &__buttons {
+    display: flex;
+    padding-bottom: 24px;
+    margin-bottom: 40px;
+    border-bottom: 1px solid $color-nude;
+  }
+  &__button{
+    flex: 0.5 0 0;
+    text-align: center;
+    padding: 8px 12px;
+    font-weight: bold;
+    color: $color-dark;
+    cursor: pointer;
+    transition: 0.2s;
+    &.active {
+      background: $color-mocco;
+      color: $color-smoke;
+      &:hover {
+        background-color: $color-mocco;
+      }
+    }
+    &:hover {
+      background-color: $color-mocco-opasy;
+    }
+  }
+}

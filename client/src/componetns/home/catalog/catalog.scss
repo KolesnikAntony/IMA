@@ -1,0 +1,26 @@
+@import '../../../../src/assets/style/variables';
+
+.catalog {
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  .container {
+    width: 100%;
+  }
+  &__items {
+    display: flex;
+    flex-wrap: wrap;
+  }
+  &__item {
+    box-sizing: border-box;
+    width: 25%;
+    padding: 20px;
+    display: flex;
+    justify-content: center;
+    img {
+      width: 200px;
+      height: 200px;
+    }
+  }
+}
