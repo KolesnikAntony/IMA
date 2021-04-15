@@ -1,14 +1,13 @@
 import React, {FC} from "react";
 import  {Field, WrappedFieldProps} from "redux-form";
 import {ValidatorsFieldType} from "../../helpers/validation/validation";
+import './form-controls.scss'
 
 const FormControls: FC<WrappedFieldProps> = ({input, meta, ...props}) => {
     let hasError = meta.touched && meta.error;
-    return <div className={`formControls ${hasError ? 'error' : null}`}>
-        <div>
+    return <div className={`form-controls ${hasError ?  'error' : null}`}>
             {props.children}
             <span>{hasError && meta.error}</span>
-        </div>
     </div>
 }
 

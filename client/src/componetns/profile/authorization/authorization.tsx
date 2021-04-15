@@ -1,13 +1,9 @@
 import React, {useCallback, useState} from "react";
 import './authorization.scss'
 import {LOGIN_TYPES} from "../../../constants/constants";
-import {LoginReduxForm} from "./login";
-import Registration from "./registration";
+import Login  from "./login/login";
+import Registration from "./registration/registration";
 
-export interface LoginValueType {
-    login: string
-    password: string
-}
 
 const Authorization = () => {
 
@@ -17,13 +13,10 @@ const Authorization = () => {
         setShowForm(type);
     }, [showForm]);
 
-    let onSubmit = (formData:LoginValueType)  => {
-        let {login, password} = formData;
-        console.log(login,password );
-    };
+
 
     const renderForm = () => {
-        if(showForm === LOGIN_TYPES.LOGIN) return <LoginReduxForm onSubmit={onSubmit}/>;
+        if(showForm === LOGIN_TYPES.LOGIN) return <Login />;
         if(showForm === LOGIN_TYPES.SIGNUP) return <Registration/>
     };
 
