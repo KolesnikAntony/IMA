@@ -14,7 +14,6 @@ const Authorization = () => {
     }, [showForm]);
 
 
-
     const renderForm = () => {
         if(showForm === LOGIN_TYPES.LOGIN) return <Login />;
         if(showForm === LOGIN_TYPES.SIGNUP) return <Registration/>
@@ -32,3 +31,8 @@ const Authorization = () => {
 
 };
 export default Authorization;
+
+export interface LoginValueType {
+    login: string
+    password: string
+}

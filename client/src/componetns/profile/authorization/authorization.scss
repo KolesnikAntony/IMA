@@ -1,4 +1,5 @@
 @import '../../../../src/assets/style/variables';
+@import '../../../../src/assets/style/mixins';
 
 .auth {
   &__buttons {
@@ -9,13 +10,7 @@
   }
 
   &__button {
-    flex: 0.5 0 0;
-    text-align: center;
-    padding: 8px 12px;
-    font-weight: bold;
-    color: $color-dark;
-    cursor: pointer;
-    transition: 0.2s;
+    @include buttonActionProfile;
 
     &.active {
       background: $color-mocco;
@@ -24,10 +19,6 @@
       &:hover {
         background-color: $color-mocco;
       }
-    }
-
-    &:hover {
-      background-color: $color-mocco-opasy;
     }
   }
 

@@ -1,0 +1,51 @@
+@import '../../../../src/assets/style/variables';
+@import '../../../../src/assets/style/mixins';
+.user {
+  @include column;
+  &__img{
+    width: 150px;
+    height: 150px;
+    margin-bottom: 24px;
+    border-radius: 50%;
+    overflow: hidden;
+    &--content{
+      width: 150px;
+      height: 150px;
+    }
+  }
+  &__self {
+    @include column;
+    margin-bottom: 24px;
+  }
+  &__info {
+    width: 100%;
+    max-width: 340px;
+    &-list {
+
+    }
+    &-item{
+      padding: 8px 0;
+      border-bottom: 1px solid $color-mocco-opasy;
+      &:not(:last-of-type) {
+        margin-bottom: 20px;
+      }
+    }
+    &-caption {
+      width: 120px;
+      display: inline-block;
+      font-weight: bold;
+    }
+  }
+  .user__buttons {
+    display: flex;
+    align-items: center;
+    position: absolute;
+    left: 24px;
+    right: 24px;
+    bottom: 0;
+    padding-bottom: 24px;
+  }
+  .user__button {
+    @include buttonActionProfile;
+  }
+}

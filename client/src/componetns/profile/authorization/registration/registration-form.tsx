@@ -6,16 +6,15 @@ import  {reduxForm, InjectedFormProps} from "redux-form";
 import {LoginValueType} from "../authorization";
 
 
-
 type  LoginFormValueTypeKeys = Extract<keyof LoginValueType, string>
 
-const LoginForm:FC<InjectedFormProps<LoginValueType>> = ({handleSubmit}) => {
+const RegistrationForm:FC<InjectedFormProps<LoginValueType>> = ({handleSubmit}) => {
     return <form  onSubmit={handleSubmit} className={`auth__form`}>
         {createField<LoginFormValueTypeKeys>(Input, 'login','Login', 'email',[required] )}
         {createField<LoginFormValueTypeKeys>(Input, 'password','Password', 'password',[required] )}
-        <button className='auth__content-btn auth__content-btn--login'>Login</button>
+        <button className='auth__content-btn auth__content-btn--login'>Sign Up</button>
     </form>
 
 };
 
-export const LoginReduxForm = reduxForm<LoginValueType>({form: 'login'})(LoginForm);
+export const RegistrationReduxForm = reduxForm<LoginValueType>({form: 'registration'})(RegistrationForm);

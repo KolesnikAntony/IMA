@@ -1,3 +1,5 @@
+@import "variables";
+
 @mixin sidePopup($width) {
   display: block;
   width: $width;
@@ -13,5 +15,24 @@
   transition: all 0.5s ease-in-out;
   &.show {
     transform: translateX(0);
+  }
+}
+
+@mixin column($align : center) {
+  display: flex;
+  flex-direction: column;
+  align-items: $align;
+}
+
+@mixin buttonActionProfile() {
+  flex: 0.5 0 0;
+  text-align: center;
+  padding: 8px 12px;
+  font-weight: bold;
+  color: $color-dark;
+  cursor: pointer;
+  transition: 0.2s;
+  &:hover {
+    background-color: $color-mocco-opasy;
   }
 }
