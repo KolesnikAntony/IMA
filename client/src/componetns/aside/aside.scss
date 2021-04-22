@@ -1,0 +1,36 @@
+@import './../../../src/assets/style/variables';
+@import './../../../src/assets/style/mixins';
+
+.aside{
+  @include sidePopup(500px);
+  &__close {
+    display: block;
+    width: 20px;
+    height: 20px;
+    position: absolute;
+    top: 24px;
+    left: 24px;
+    background-image: url("./../../assets/img/close.svg");
+    background-size: 18px 18px;
+    background-position: center center;
+    background-repeat: no-repeat;
+    cursor: pointer;
+    border-radius: 4px;
+    transform: rotate(0);
+    transition: 0.2s;
+    &:hover{
+      transform: rotate(90deg);
+    }
+  }
+  &__title {
+    padding-bottom: 24px;
+    border-bottom: 1px solid $color-nude;
+    text-align: right;
+  }
+}
+
+@media (max-width: 504px) {
+  .aside {
+    width: 100%;
+  }
+}

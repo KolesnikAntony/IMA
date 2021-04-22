@@ -1,0 +1,154 @@
+@import '../../../../src/assets/style/variables';
+@import '../../../../src/assets/style/mixins';
+
+.auth {
+  &__buttons {
+    display: flex;
+    padding-bottom: 24px;
+    margin-bottom: 40px;
+    border-bottom: 1px solid $color-mocco-opasy;
+  }
+
+  &__button {
+    @include buttonActionProfile;
+
+    &.active {
+      background: $color-mocco;
+      color: $color-smoke;
+
+      &:hover {
+        background-color: $color-mocco;
+      }
+    }
+  }
+
+  &__form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    .form-controls {
+      margin-bottom: 24px;
+    }
+
+    input {
+      width: 340px;
+      height: 44px;
+      border-radius: 2px;
+      padding-left: 16px;
+      padding-right: 16px;
+      border: 1px solid $color-nude;
+      &:focus,
+      &:active{
+        outline: none;
+      }
+    }
+
+    input:not(:last-of-type) {
+      margin-bottom: 24px;
+    }
+  }
+
+  &__content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-bottom: 24px;
+    border-bottom: 1px solid $color-mocco-opasy;
+
+    &-btn {
+      width: 100%;
+      max-width: 340px;
+      padding: 14px 28px;
+      cursor: pointer;
+      transition: 0.2s;
+
+      &--login {
+        margin-bottom: 24px;
+        background: $color-mocco;
+        color: $color-smoke;
+        font-weight: bold;
+
+
+        &:hover {
+          background: $color-nude;
+        }
+      }
+
+      &--forgot:hover {
+        background: $color-mocco-opasy;
+      }
+    }
+  }
+  &__social {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 40px 0;
+    &-title {
+      margin-bottom: 24px;
+    }
+    &-links {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      width: 100%;
+      max-width: 340px;
+    }
+    &-link {
+      padding: 8px;
+      flex: 0.3;
+      text-align: center;
+      border: 1px solid transparent;
+      border-radius: 4px;
+      &:hover {
+        opacity: 0.8;
+      }
+      &:nth-child(1){
+        background-color: #3f82f8;
+        color: $color-smoke;
+      }
+      &:nth-child(2){
+        background-color: #4460a0;
+        color: $color-smoke;
+      }
+      &:nth-child(3){
+        border-color: $color-dark;
+        color: $color-dark;
+      }
+    }
+  }
+}
+
+
+@media (max-width: 375px) {
+  .auth{
+    &__form {
+      width: 100%;
+      .form-controls {
+        width: 100%;
+      }
+      input {
+        width: 100%;
+      }
+    }
+  }
+}
+
+@media (max-width: 320px) {
+  .auth{
+    &__buttons {
+      margin-bottom: 12px;
+    }
+    &__form {
+      input {
+       height: 34px;
+      }
+    }
+    &__content-btn {
+     padding: 8px 12px;
+      margin-bottom: 12px;
+    }
+
+  }
+}
