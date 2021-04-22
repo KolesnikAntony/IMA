@@ -4,8 +4,6 @@ const { authVerify } = require('../middleware/authVerify');
 const { authAdmin } = require('../middleware/authAdmin');
 
 
-
-
 router.post('/signup', authController.signup);
 
 router.post('/activation', authController.activateEmail);
@@ -29,7 +27,6 @@ router.patch('/user/update', authVerify, authController.updateUser);
 router.patch('/user/update_role/:id', authVerify, authAdmin, authController.updateUserRole);
 
 router.delete('/user/delete/:id', authVerify, authAdmin, authController.deleteUser);
-
 
 
 module.exports = router;
