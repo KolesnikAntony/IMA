@@ -1,0 +1,74 @@
+@import '../../../../src/assets/style/variables';
+@import '../../../../src/assets/style/mixins';
+
+.cart-product {
+  display: flex;
+  justify-content: space-between;
+  padding-bottom: 24px;
+  border-bottom: 1px solid $color-nude;
+  &:not(:last-of-type) {
+    margin-bottom: 24px;
+  }
+  &__img {
+    width: 120px;
+    height: 120px;
+    box-shadow: 0 0 4px $color-nude;
+  }
+  &__name {
+    padding-right: 24px;
+    padding-left: 24px;
+    max-height: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    align-self: center;
+  }
+  &__price {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+  }
+  &__price-qty {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    &-title {
+      margin-bottom: 24px;
+    }
+    &-buttons {
+      display: flex;
+      align-items: center;
+    }
+  }
+  &__price-count{
+    margin: 0 10px;
+    font-family: $font-libre;
+    width: 22px;
+    text-align: center;
+  }
+  &__price-btn {
+    width: 40px;
+    height: 40px;
+    padding: 0;
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: contain;
+    cursor: pointer;
+    transition: 0.2s;
+    &--plus {
+      background-image: url("./../../../assets/img/plus-qty-gray.svg");
+      &:hover {
+        background-image: url("./../../../assets/img/plus-qty.svg");
+      }
+    }
+    &--min {
+      background-image: url("./../../../assets/img/minus-qty-gray.svg");
+      &:hover {
+        background-image: url("./../../../assets/img/minus-qty.svg");
+      }
+    }
+  }
+  &__price-total {
+    font-family: $font-libre;
+  }
+}
