@@ -1,5 +1,5 @@
 const router = require('express').Router();
 
-router.post('./upload_avatar');
+router.post('/upload');
 
 module.exports = router;
