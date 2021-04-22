@@ -19,7 +19,6 @@ function App() {
     }, []);
     const handleClose = useCallback(() => setOpen(false), []);
 
-
     return (<>
             <BrowserRouter>
                 <Provider store={store}>

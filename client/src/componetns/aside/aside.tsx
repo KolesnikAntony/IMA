@@ -4,6 +4,7 @@ import {VIEW_TYPES} from "../../constants/constants";
 import Cart from "../cart/cart";
 import WishList from "../wish/wish-list";
 import Profile from "../profile/profile";
+import Burger from "../burger-menu/burger-menu";
 
 interface PropsType {
     open: boolean,
@@ -16,6 +17,7 @@ const Aside:FC<PropsType> = ({open, view, onClose}) => {
         if(view === VIEW_TYPES.CART) return <Cart/>;
         if(view === VIEW_TYPES.WISH) return <WishList/>;
         if(view === VIEW_TYPES.PROFILE) return <Profile/>;
+        if(view === VIEW_TYPES.BURGER) return <Burger/>;
     };
     const classes = useMemo(() => `aside ${open ? 'show': null}`, [open]);
 

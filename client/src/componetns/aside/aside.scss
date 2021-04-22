@@ -28,3 +28,9 @@
     text-align: right;
   }
 }
+
+@media (max-width: 504px) {
+  .aside {
+    width: 100%;
+  }
+}

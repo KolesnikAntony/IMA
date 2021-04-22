@@ -1,0 +1,20 @@
+@import '../../../src/assets/style/variables';
+@import '../../../src/assets/style/mixins';
+.burger {
+  height: 100%;
+  @include column;
+  justify-content: center;
+  &__nav {
+    @include column;
+    margin-bottom: 32px;
+    &-item:not(:last-of-type) {
+      margin-right: 0;
+      margin-bottom: 32px;
+    }
+  }
+  &__social {
+    display: flex;
+    width: 120px;
+    justify-content: space-between;
+  }
+}

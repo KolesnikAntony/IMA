@@ -119,3 +119,36 @@
     }
   }
 }
+
+
+@media (max-width: 375px) {
+  .auth{
+    &__form {
+      width: 100%;
+      .form-controls {
+        width: 100%;
+      }
+      input {
+        width: 100%;
+      }
+    }
+  }
+}
+
+@media (max-width: 320px) {
+  .auth{
+    &__buttons {
+      margin-bottom: 12px;
+    }
+    &__form {
+      input {
+       height: 34px;
+      }
+    }
+    &__content-btn {
+     padding: 8px 12px;
+      margin-bottom: 12px;
+    }
+
+  }
+}

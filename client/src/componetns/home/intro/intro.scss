@@ -15,6 +15,7 @@
   }
   &__title {
     max-width: 600px;
+    font-size: 72px;
   }
   &__btn {
     position: absolute;
@@ -71,6 +72,53 @@
       &--mail {
         background-image: url("./../../../assets/img/mail.svg");
       }
+    }
+  }
+}
+
+@media (max-width: 834px) {
+  .intro {
+    &__title {
+      font-size: 48px;
+      line-height: 54px;
+      margin-top: -150px;
+    }
+  }
+}
+
+@media (max-width: 724px) {
+  .intro {
+    &__social {
+      display: none;
+    }
+    &__btn{
+      &:after {
+        display: none;
+      }
+    }
+  }
+}
+@media (max-width: 574px) {
+  .intro {
+    &__title {
+      margin-top: -250px;
+    }
+  }
+}
+@media (max-width: 420px) {
+  .intro {
+    &__title {
+     font-size: 36px;
+      line-height: 42px;
+    }
+  }
+}
+@media (max-width: 358px) {
+  .intro {
+    background-position: 90% 60px, 70% 0px, left bottom;
+    &__title {
+
+      margin-top: 60px;
     }
   }
 }

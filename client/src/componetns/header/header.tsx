@@ -4,11 +4,13 @@ import {Link} from "react-router-dom";
 import logo from '../../assets/img/logo-for-IMA.png'
 import {VIEW_TYPES} from "../../constants/constants";
 
+
 interface PropsType {
     onOpen: ({}) => void
 }
 
 const Header: FC<PropsType> = ({onOpen}) => {
+
     return (
         <header className={'header'}>
             <div className='container'>
@@ -34,6 +36,14 @@ const Header: FC<PropsType> = ({onOpen}) => {
                         <li className="header__menu-item">
                             <button className="header__menu-btn--profile header__menu-btn"
                                     onClick={() => onOpen(VIEW_TYPES.PROFILE)}/>
+                        </li>
+                        <li className="header__menu-item">
+                            <button className="header__menu-btn--burger header__menu-btn"
+                                    onClick={() => onOpen(VIEW_TYPES.BURGER)}>
+                                <span></span>
+                                <span></span>
+                                <span></span>
+                            </button>
                         </li>
                     </ul>
                 </div>
