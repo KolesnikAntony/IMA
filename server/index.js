@@ -1,7 +1,7 @@
 require('dotenv').config({path: './.env'});
 const connectDB = require('./config/db');
 const express = require('express');
-const cors = require('cors');
+const cors = require ('cors');
 const fileUpload = require('express-fileupload');
 const cookieParser = require('cookie-parser');
 const morgan = require('morgan');
@@ -19,8 +19,11 @@ app.use('/uploads', express.static('uploads'));
 app.use(fileUpload({
 	useTempFiles: true
 }));
+
+// Add a list of allowed origins.
+// If you have more origins you would like to add, you can add them to the array below.
+
 app.use(cors());
-app.options('*', cors);
 
 //routes
 readdirSync('./routes').map((r) => app.use('/api', require('./routes/' + r)));
