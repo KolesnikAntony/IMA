@@ -12,7 +12,6 @@ const app = express();
 
 connectDB();
 
-app.use(cors());
 app.use(morgan('dev'));
 app.use(express.json());
 app.use(cookieParser());
@@ -20,9 +19,11 @@ app.use('/uploads', express.static('uploads'));
 app.use(fileUpload({
 	useTempFiles: true
 }));
+app.use(cors());
+app.options('*', cors);
 
 //routes
-readdirSync('./routes').map((r) => app.use('/', require('./routes/' + r)));
+readdirSync('./routes').map((r) => app.use('/api', require('./routes/' + r)));
 
 
 const PORT = process.env.PORT || 5000;
