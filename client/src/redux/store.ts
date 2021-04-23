@@ -7,13 +7,15 @@ import homeReducer from "./home-reducer";
 import {composeWithDevTools} from 'redux-devtools-extension';
 import {reducer as formReducer} from 'redux-form'
 import UserReducer from "./user-reducer";
+import AuthReducer from "./auth-reducer";
 
 const middleware = [thunk];
 const reducers = combineReducers(
     {
         home: homeReducer,
         form: formReducer,
-        user: UserReducer
+        user: UserReducer,
+        auth: AuthReducer,
     }
 )
 

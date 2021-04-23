@@ -1,15 +1,19 @@
 import React from "react";
 import '../authorization.scss'
-import {LoginReduxForm} from "../login/login-form";
 import SocialAuth from "../social-auth";
 import {LoginValueType} from "../authorization";
 import {RegistrationReduxForm} from "./registration-form";
+import {useDispatch} from "react-redux";
+import {setToSignUP} from "../../../../redux/auth-reducer";
 
 
 const Registration = () => {
+
+    const dispatch = useDispatch();
+
     let onSubmit = (formData: LoginValueType) => {
         let {login, password} = formData;
-        console.log(login, password);
+        dispatch(setToSignUP(login,password))
     };
 
     return <>
