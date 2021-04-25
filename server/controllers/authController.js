@@ -2,7 +2,11 @@ const User = require('../models/User');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const sendMail = require('../utils/sendEmail');
+const { google } = require('googleapis');
+const { OAuth2 } = google.auth;
 
+const client = new OAuth2(process.env.EMAIL_SERVICE_CLIENT_ID);
+const { CLIENT_URL } = process.env;
 
 module.exports.signup = async (req, res) => {
 
@@ -207,6 +211,57 @@ module.exports.deleteUser = async (req, res) => {
 		return res.status(500).json({ error: err.message });
 	}
 };
+
+module.exports.googleLogin = async (req, res) => {
+	try {
+		const { tokenId } = req.body;
+
+		const verify = await client.verifyIdToken({ idToken: tokenId,  audience: process.env.EMAIL_SERVICE_CLIENT_ID });
+
+		console.log(verify);
+		const { email_verified, email } = verify.payload;
+
+		const password = email + process.env.GOOGLE_SECRET;
+
+		const hashedPass = await bcrypt.hash(password, 12);
+
+		if (!email_verified)
+			return res.status(400).json({message: 'Ошибка проверки Емейл'});
+
+		if (email_verified) {
+			const user = await User.findOne({ email });
+			if (user) {
+				const isMatch = await bcrypt.compare(password, user.password)
+				if (!isMatch) return res.status(400).json({message: 'Неправильный пароль'});
+
+				const refreshToken = createRefreshToken({id: user._id});
+					res.cookie('refreshToken', refreshToken, {
+						httpOnly: true,
+						path: '/login/refresh_token',
+						maxAge: 7*24*60*60*1000
+					});
+
+					res.json({ message: 'Авторизация прошла успешно!'});
+			} else {
+				const newUser = new User({ email, password: hashedPass });
+	
+				await newUser.save();
+				
+				const refreshToken = createRefreshToken({id: newUser._id});
+				res.cookie('refreshToken', refreshToken, {
+					httpOnly: true,
+					path: '/login/refresh_token',
+					maxAge: 7*24*60*60*1000
+				});
+	
+				res.json({ message: 'Авторизация прошла успешно!'});
+			}
+		}
+	}	catch (err) {
+		return res.status(500).json({ error: err.message });
+	}
+};
+
 
 const validateEmail = (email) => {
 	const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
