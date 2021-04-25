@@ -8,8 +8,10 @@ import {LoginValueType} from "../authorization";
 
 type  LoginFormValueTypeKeys = Extract<keyof LoginValueType, string>
 
-const RegistrationForm:FC<InjectedFormProps<LoginValueType>> = ({handleSubmit}) => {
+const RegistrationForm:FC<InjectedFormProps<LoginValueType>> = ({handleSubmit, error}) => {
+    console.log(error);
     return <form  onSubmit={handleSubmit} className={`auth__form`}>
+        {error && <span>{error}</span>}
         {createField<LoginFormValueTypeKeys>(Input, 'login','Login', 'email',[required] )}
         {createField<LoginFormValueTypeKeys>(Input, 'password','Password', 'password',[required] )}
         <button className='auth__content-btn auth__content-btn--login'>Sign Up</button>

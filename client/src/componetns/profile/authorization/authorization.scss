@@ -118,6 +118,20 @@
       }
     }
   }
+  &__accept {
+    @include column;
+    &-logo {
+      width: 100%;
+      margin-bottom: 44px;
+    }
+    &-email {
+      font-weight: bold;
+      transition: 0.2s;
+      &:hover {
+        color: $color-mocco;
+      }
+    }
+  }
 }
 
 

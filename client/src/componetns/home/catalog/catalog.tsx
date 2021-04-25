@@ -1,9 +1,6 @@
-import React, {FC} from "react";
+import React from "react";
 import './catalog.scss';
-import {ProductType} from "../../../types/types";
 import {Link} from "react-router-dom";
-
-
 
 
 const Catalog = () => {

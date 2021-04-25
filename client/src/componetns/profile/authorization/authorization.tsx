@@ -1,7 +1,7 @@
 import React, {useCallback, useState} from "react";
 import './authorization.scss'
 import {LOGIN_TYPES} from "../../../constants/constants";
-import Login  from "./login/login";
+import Login from "./login/login";
 import Registration from "./registration/registration";
 
 

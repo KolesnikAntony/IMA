@@ -36,3 +36,23 @@
     background-color: $color-mocco-opasy;
   }
 }
+
+@mixin closeBtn($width: 20px, $height:20px , $top: 24px, $left: 24px ) {
+  display: block;
+  width: $width;
+  height: $height;
+  position: absolute;
+  top: $top;
+  left: $left;
+  background-image: url("./../../assets/img/close.svg");
+  background-size: 18px 18px;
+  background-position: center center;
+  background-repeat: no-repeat;
+  cursor: pointer;
+  border-radius: 4px;
+  transform: rotate(0);
+  transition: 0.2s;
+  &:hover{
+    transform: rotate(90deg);
+  }
+}

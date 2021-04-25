@@ -1,4 +1,3 @@
-import axios from "axios";
 import {instance} from './api';
 
 export const AuthAPI = {
@@ -7,6 +6,6 @@ export const AuthAPI = {
             email,
             password
         });
-        return instance.post('/api/signup', data).then(res => console.log(res))
+        return instance.post('/api/signup', data).then(res => res)
     }
 };
