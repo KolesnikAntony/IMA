@@ -5,8 +5,11 @@ const cors = require ('cors');
 const fileUpload = require('express-fileupload');
 const cookieParser = require('cookie-parser');
 const morgan = require('morgan');
+//routes
+const authRouter = require('./routes/authRouter');
+const {me} = require('./middleware/authVerify');
 
-const { readdirSync } = require('fs');
+
 
 const app = express();
 
@@ -21,7 +24,10 @@ app.use(fileUpload({
 app.use(cors());
 
 //routes
-readdirSync('./routes').map((r) => app.use('/api', require('./routes/' + r)));
+app.get('/', me, async (req, res) => {
+	res.json({message: 'work'});
+});
+app.use('/api', authRouter);
 
 
 const PORT = process.env.PORT || 5000;

@@ -8,25 +8,6 @@ const { OAuth2 } = google.auth;
 const client = new OAuth2(process.env.EMAIL_SERVICE_CLIENT_ID);
 const { CLIENT_URL } = process.env;
 
-module.exports.auth = async (req, res, next) => {
-	try {
-		const token = req.header('Authorization');
-		console.log(token);
-		if (!token)
-			return res.status(401).json({message: 'Ошибка авторизации'});
-
-		jwt.verify(token, process.env.JWT_ACCESS, (err, user) => {
-			if (err)
-				return res.status(401).json({message: 'Ошибка авторизации'});
-
-			req.user = user;
-			next();
-		})
-	} catch (err) {
-		return res.status(500).json({message: err.message});
-	}
-};
-
 module.exports.signup = async (req, res) => {
 
 	try {
@@ -86,9 +67,8 @@ module.exports.activateEmail = async (req, res) => {
 };
 
 module.exports.login = async (req, res, next) => {
-	
 	try {
-		const { email, password} = req.body;
+		const { email, password } = req.body;
 
 		const user = await User.findOne({ email });
 		if (!user)
@@ -98,10 +78,10 @@ module.exports.login = async (req, res, next) => {
 		if (!isMatch)
 			return res.status(400).json({message: 'Неправильный пароль'});
 
-		const refreshToken = createRefreshToken({id: user._id});
-		res.cookie('refreshToken', refreshToken, {
+		const refreshtoken = createRefreshToken({id: user._id});
+		res.cookie('refreshtoken', refreshtoken, {
 			httpOnly: true,
-			path: '/login/refresh_token',
+			path: '/',
 			maxAge: 7*24*60*60*1000
 		});
 		res.status(200).json({message: 'Авторизация прошла успешно!'});
@@ -112,13 +92,14 @@ module.exports.login = async (req, res, next) => {
 
 module.exports.accessToken = async (req, res) => {
 	try {
-		const rfToken = req.cookies.refreshToken;
+		const rfToken = req.cookies.refreshtoken;
+		console.log('rfToken--->', rfToken);
 		if (!rfToken)
 			return res.status(401).json({message: 'Пожалуйста войдите в аккаунт'});
 
 		jwt.verify(rfToken, process.env.JWT_REFRESH, (err, user) => {
 			if (err)
-				return res.status(400).json({message: err.message});
+				return res.status(401).json({message: 'Пожалуйста войдите в аккаунт'});
 
 			const accessToken = createAccessToken({ id: user.id});
 			res.json({accessToken});
@@ -253,6 +234,7 @@ module.exports.googleLogin = async (req, res) => {
 				if (!isMatch) return res.status(400).json({message: 'Неправильный пароль'});
 
 				const refreshToken = createRefreshToken({id: user._id});
+
 					res.cookie('refreshToken', refreshToken, {
 						httpOnly: true,
 						path: '/login/refresh_token',
@@ -291,7 +273,7 @@ const createActivationToken = (payload) => {
 };
 
 const createRefreshToken = (payload) => {
-	return jwt.sign(payload, process.env.JWT_REFRESH, {expiresIn: '20m'});
+	return jwt.sign(payload, process.env.JWT_REFRESH, {expiresIn: '60m'});
 };
 
 const createAccessToken = (payload) => {
