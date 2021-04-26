@@ -9,9 +9,8 @@ import {loginThunk} from "../../../../redux/auth-reducer";
 const Login = () => {
     const dispatch = useDispatch();
 
-    let onSubmit = (formData: LoginValueType) => {
+    const onSubmit = (formData: LoginValueType) => {
         let {email, password} = formData;
-        console.log(email, password);
         dispatch(loginThunk(email, password));
     };
 

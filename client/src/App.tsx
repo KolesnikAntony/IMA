@@ -37,7 +37,7 @@ function App() {
                         <BackAside open={open} onClose={handleClose}/>
                         <Switch>
                             <Route exact path='/' component={Home}/>
-                            <Route path='/activate' render={() => <Home isNewMember={true}/> }/>
+                            <Route path='/activate/:key?' render={() => <Home isNewMember={true}/> }/>
                             <Route exact path='/product/:id' component={ProductScreen}/>
                             {/*ProfileEdit*/}
                             {/*Catalog*/}
