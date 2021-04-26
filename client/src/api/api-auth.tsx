@@ -26,6 +26,6 @@ export const AuthAPI = {
         return instance.post('/api/activate', data).then(res => res);
     },
     me() {
-        return instance.get('/api/auth', {}).then(res => res);
+        return instance.get('/api/me', {}).then(res => res);
     }
 };

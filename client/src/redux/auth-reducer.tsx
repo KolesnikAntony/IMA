@@ -19,9 +19,7 @@ const AuthReducer = (state = initialState, action: ActionType): AuthInitialState
         case SIGN_UP:
             return {...state, isSuccessReg: true, email: action.email};
         case LOGIN:
-            return {...state, isAuth: true, email: action.email};
-        case LOGOUT:
-            return {...state, isAuth: false};
+            return {...state, email: action.email};
         case ISAUTH:
             return {...state, isAuth: action.isAuth}
 
@@ -53,9 +51,9 @@ export const getIsAuth = ():ThunkType => async (dispatch) => {
     try {
         let res = await AuthAPI.me();
         console.log(res)
-       // dispatch(actions.setIsAuth(true))
+         dispatch(actions.setIsAuth(true))
     }catch (err) {
-       // dispatch(actions.setIsAuth(false))
+        dispatch(actions.setIsAuth(false))
         console.log(err.response);
     }
 };
@@ -74,6 +72,7 @@ export const loginThunk = (email: string, password: string):ThunkType => async (
     try {
         await AuthAPI.login(email,password);
         dispatch(actions.loginSuccess(email));
+        dispatch(actions.setIsAuth(true))
     }catch (err) {
        dispatch(stopSubmit('login', {_error: err.response.data.message}));
     }
@@ -89,8 +88,10 @@ export const activateUser = (key: string):ThunkType => async (dispatch) => {
 
 export const logout = ():ThunkType => async (dispatch) => {
     try {
-        await AuthAPI.logout();
-        dispatch(actions.logout())
+        let res = await AuthAPI.logout();
+        console.log(res,'----logout');
+        dispatch(actions.logout());
+        dispatch(actions.setIsAuth(false))
     }catch (err) {
         console.log(err.response)
     }
