@@ -52,9 +52,10 @@ const actions = {
 export const getIsAuth = ():ThunkType => async (dispatch) => {
     try {
         let res = await AuthAPI.me();
-        dispatch(actions.setIsAuth(true))
+        console.log(res)
+       // dispatch(actions.setIsAuth(true))
     }catch (err) {
-        dispatch(actions.setIsAuth(false))
+       // dispatch(actions.setIsAuth(false))
         console.log(err.response);
     }
 };
