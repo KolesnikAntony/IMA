@@ -42,6 +42,16 @@ const actions = {
     } as const)
 };
 
+export const setIsAuth = ():ThunkType => async (dispatch) => {
+    try {
+        let res = await AuthAPI.me()
+        console.log(res)
+    }catch (err) {
+        console.log(err.response);
+    }
+};
+
+
 export const signUpThunk = (email: string, password: string): ThunkType => async (dispatch) => {
     try {
         const response = await AuthAPI.signUp(email, password);

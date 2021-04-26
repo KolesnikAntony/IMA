@@ -23,6 +23,9 @@ export const AuthAPI = {
             activationToken: key,
         });
 
-        return instance.post('/api/activate', data).then(res => console.log(res));
+        return instance.post('/api/activate', data).then(res => res);
+    },
+    me() {
+        return instance.get('/api/auth', {}).then(res => res);
     }
 };
