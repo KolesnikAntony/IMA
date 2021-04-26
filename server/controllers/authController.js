@@ -11,12 +11,13 @@ const { CLIENT_URL } = process.env;
 module.exports.auth = async (req, res, next) => {
 	try {
 		const token = req.header('Authorization');
+		console.log(token);
 		if (!token)
-			return res.status(400).json({message: 'Ошибка авторизации'});
+			return res.status(401).json({message: 'Ошибка авторизации'});
 
 		jwt.verify(token, process.env.JWT_ACCESS, (err, user) => {
 			if (err)
-				return res.status(400).json({message: 'Ошибка авторизации'});
+				return res.status(401).json({message: 'Ошибка авторизации'});
 
 			req.user = user;
 			next();
@@ -103,7 +104,6 @@ module.exports.login = async (req, res, next) => {
 			path: '/login/refresh_token',
 			maxAge: 7*24*60*60*1000
 		});
-
 		res.status(200).json({message: 'Авторизация прошла успешно!'});
 	} catch (err) {
 		return res.status(500).json({message: err.message});
@@ -114,7 +114,7 @@ module.exports.accessToken = async (req, res) => {
 	try {
 		const rfToken = req.cookies.refreshToken;
 		if (!rfToken)
-			return res.status(400).json({message: 'Пожалуйста войдите в аккаунт'});
+			return res.status(401).json({message: 'Пожалуйста войдите в аккаунт'});
 
 		jwt.verify(rfToken, process.env.JWT_REFRESH, (err, user) => {
 			if (err)
