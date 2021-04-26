@@ -5,9 +5,9 @@ const cors = require ('cors');
 const fileUpload = require('express-fileupload');
 const cookieParser = require('cookie-parser');
 const morgan = require('morgan');
+const {me} = require('./middleware/authVerify');
 //routes
 const authRouter = require('./routes/authRouter');
-const {me} = require('./middleware/authVerify');
 
 
 
@@ -24,7 +24,7 @@ app.use(fileUpload({
 app.use(cors());
 
 //routes
-app.get('/', me, async (req, res) => {
+app.get('/api/me', me, async (req, res) => {
 	res.json({message: 'work'});
 });
 app.use('/api', authRouter);

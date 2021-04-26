@@ -81,7 +81,7 @@ module.exports.login = async (req, res, next) => {
 		const refreshtoken = createRefreshToken({id: user._id});
 		res.cookie('refreshtoken', refreshtoken, {
 			httpOnly: true,
-			path: '/',
+			path: '/api/me',
 			maxAge: 7*24*60*60*1000
 		});
 		res.status(200).json({message: 'Авторизация прошла успешно!'});
