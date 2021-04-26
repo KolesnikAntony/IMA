@@ -8,8 +8,7 @@ import ProductScreen from "./componetns/product-screen/product-screen";
 import Aside from "./componetns/aside/aside";
 import Home from './componetns/home/home';
 import BackAside from "./common/back-aside/back-aside";
-import {setIsAuth} from './redux/auth-reducer';
-
+import {getIsAuth} from './redux/auth-reducer';
 
 
 function AppMain() {
@@ -27,7 +26,7 @@ function AppMain() {
     }, [open]);
 
     useEffect(() => {
-        dispatch(setIsAuth())
+        dispatch(getIsAuth());
         console.log('is auth effect')
     }, [isAuth]);
 

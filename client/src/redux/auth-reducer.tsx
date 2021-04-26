@@ -5,6 +5,7 @@ import {AuthAPI} from "../api/api-auth";
 const SIGN_UP = 'auth-reducer/SIGH_UP';
 const LOGIN = 'auth-reducer/LOGIN';
 const LOGOUT = 'auth-reducer/LOGOUT';
+const ISAUTH = 'auth-reducer/ISAUTH';
 
 const initialState = {
     email: null as string | null,
@@ -21,6 +22,8 @@ const AuthReducer = (state = initialState, action: ActionType): AuthInitialState
             return {...state, isAuth: true, email: action.email};
         case LOGOUT:
             return {...state, isAuth: false};
+        case ISAUTH:
+            return {...state, isAuth: action.isAuth}
 
         default:
             return state;
@@ -28,10 +31,9 @@ const AuthReducer = (state = initialState, action: ActionType): AuthInitialState
 };
 
 const actions = {
-    signUpSuccess: (email: string, password: string) => ({
+    signUpSuccess: (email: string) => ({
         type: SIGN_UP,
         email,
-        password,
     } as const),
     loginSuccess: (email: string) => ({
         type: LOGIN,
@@ -39,14 +41,20 @@ const actions = {
     } as const),
     logout: () => ({
         type: LOGOUT
+    } as const),
+    setIsAuth: (isAuth: boolean) => ({
+        type: ISAUTH,
+        isAuth
     } as const)
+
 };
 
-export const setIsAuth = ():ThunkType => async (dispatch) => {
+export const getIsAuth = ():ThunkType => async (dispatch) => {
     try {
-        let res = await AuthAPI.me()
-        console.log(res)
+        let res = await AuthAPI.me();
+        dispatch(actions.setIsAuth(true))
     }catch (err) {
+        dispatch(actions.setIsAuth(false))
         console.log(err.response);
     }
 };
@@ -54,8 +62,8 @@ export const setIsAuth = ():ThunkType => async (dispatch) => {
 
 export const signUpThunk = (email: string, password: string): ThunkType => async (dispatch) => {
     try {
-        const response = await AuthAPI.signUp(email, password);
-        console.log(response);
+        await AuthAPI.signUp(email, password);
+        dispatch(actions.signUpSuccess(email))
     } catch (err) {
         dispatch(stopSubmit('registration', {_error: err.response.data.message }))
     }
@@ -72,8 +80,7 @@ export const loginThunk = (email: string, password: string):ThunkType => async (
 
 export const activateUser = (key: string):ThunkType => async (dispatch) => {
     try {
-        const response = await AuthAPI.activateUser(key);
-        console.log(response)
+        await AuthAPI.activateUser(key);
     }catch (err) {
         console.log(err.response)
     }
@@ -81,8 +88,7 @@ export const activateUser = (key: string):ThunkType => async (dispatch) => {
 
 export const logout = ():ThunkType => async (dispatch) => {
     try {
-        const response = await AuthAPI.logout();
-        console.log (response)
+        await AuthAPI.logout();
         dispatch(actions.logout())
     }catch (err) {
         console.log(err.response)
