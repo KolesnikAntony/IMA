@@ -9,9 +9,10 @@ import {LoginValueType} from "../authorization";
 
 type  LoginFormValueTypeKeys = Extract<keyof LoginValueType, string>
 
-const LoginForm:FC<InjectedFormProps<LoginValueType>> = ({handleSubmit}) => {
+const LoginForm:FC<InjectedFormProps<LoginValueType>> = ({handleSubmit, error}) => {
     return <form  onSubmit={handleSubmit} className={`auth__form`}>
-        {createField<LoginFormValueTypeKeys>(Input, 'login','Login', 'email',[required])}
+        {error && <span>{error}</span>}
+        {createField<LoginFormValueTypeKeys>(Input, 'email','Email', 'email',[required])}
         {createField<LoginFormValueTypeKeys>(Input, 'password','Password', 'password',[required] )}
         <button className='auth__content-btn auth__content-btn--login'>Login</button>
     </form>

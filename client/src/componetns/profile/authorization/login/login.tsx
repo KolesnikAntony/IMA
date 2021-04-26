@@ -3,12 +3,16 @@ import '../authorization.scss'
 import {LoginReduxForm} from "./login-form";
 import SocialAuth from "../social-auth";
 import {LoginValueType} from "../authorization";
+import {useDispatch} from "react-redux";
+import {loginThunk} from "../../../../redux/auth-reducer";
 
 const Login = () => {
+    const dispatch = useDispatch();
 
     let onSubmit = (formData: LoginValueType) => {
-        let {login, password} = formData;
-        console.log(login, password);
+        let {email, password} = formData;
+        console.log(email, password);
+        dispatch(loginThunk(email, password));
     };
 
     return <>

@@ -1,4 +1,4 @@
-import React, {FC} from 'react';
+import React, {FC, useEffect} from 'react';
 import './home.scss';
 import Intro from "./intro/intro";
 import Catalog from "./catalog/catalog";
@@ -9,6 +9,7 @@ interface PropsType {
 }
 
 const Home:FC<PropsType> = ({isNewMember}) => {
+
     return <>
         {isNewMember && <NewMemberPopup/>}
         <Intro/>

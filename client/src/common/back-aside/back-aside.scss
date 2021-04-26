@@ -1,0 +1,16 @@
+.back {
+  position: fixed;
+  top:0;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  transition: 0.7s;
+  cursor: pointer;
+  z-index: -1;
+  background-color: rgba(0,0,0, 0);
+}
+.back.show{
+  transition: 0.7s;
+  z-index: 1;
+  background-color: rgba(0,0,0, 0.3);
+}

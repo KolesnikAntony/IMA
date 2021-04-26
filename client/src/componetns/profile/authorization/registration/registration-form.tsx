@@ -12,7 +12,7 @@ const RegistrationForm:FC<InjectedFormProps<LoginValueType>> = ({handleSubmit, e
     console.log(error);
     return <form  onSubmit={handleSubmit} className={`auth__form`}>
         {error && <span>{error}</span>}
-        {createField<LoginFormValueTypeKeys>(Input, 'login','Login', 'email',[required] )}
+        {createField<LoginFormValueTypeKeys>(Input, 'email','Login', 'email',[required] )}
         {createField<LoginFormValueTypeKeys>(Input, 'password','Password', 'password',[required] )}
         <button className='auth__content-btn auth__content-btn--login'>Sign Up</button>
     </form>

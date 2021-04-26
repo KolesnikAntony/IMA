@@ -4,7 +4,7 @@ import SocialAuth from "../social-auth";
 import {LoginValueType} from "../authorization";
 import {RegistrationReduxForm} from "./registration-form";
 import {useDispatch} from "react-redux";
-import {setToSignUP} from "../../../../redux/auth-reducer";
+import {signUpThunk} from "../../../../redux/auth-reducer";
 
 
 const Registration = () => {
@@ -12,8 +12,8 @@ const Registration = () => {
     const dispatch = useDispatch();
 
     let onSubmit = (formData: LoginValueType) => {
-        let {login, password} = formData;
-        dispatch(setToSignUP(login,password))
+        let {email, password} = formData;
+        dispatch(signUpThunk(email,password))
     };
 
     return <>

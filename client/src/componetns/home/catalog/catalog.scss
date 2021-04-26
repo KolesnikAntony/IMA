@@ -1,26 +1,23 @@
 @import '../../../../src/assets/style/variables';
+@import '../../../../src/assets/style/mixins';
 
-.catalog {
-  height: 100vh;
+.home-catalog {
+  z-index: 2;
   display: flex;
   align-items: center;
   justify-content: center;
+  margin-bottom: 80px;
   .container {
     width: 100%;
   }
   &__items {
-    display: flex;
-    flex-wrap: wrap;
+    display: grid;
+    grid-template-columns: 3fr 3fr 3fr 3fr;
+    grid-column-gap: 20px;
+    grid-gap: 20px;
   }
-  &__item {
-    box-sizing: border-box;
-    width: 25%;
-    padding: 20px;
-    display: flex;
-    justify-content: center;
-    img {
-      width: 200px;
-      height: 200px;
-    }
+
+  &__title {
+  @include homeTitles('Product catalog')
   }
 }

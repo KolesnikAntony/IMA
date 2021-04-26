@@ -33,6 +33,6 @@ const Authorization = () => {
 export default Authorization;
 
 export interface LoginValueType {
-    login: string
+    email: string
     password: string
 }

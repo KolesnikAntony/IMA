@@ -13,9 +13,7 @@ interface PropsType {
 
 const Profile: FC<PropsType> = () => {
 
-    const {email, isSuccessReg} = useSelector<RootState, AuthInitialStateType>(state => state.auth);
-
-    let isAuth = false;
+    const {email,isAuth, isSuccessReg} = useSelector<RootState, AuthInitialStateType>(state => state.auth);
 
     return (
         <section className='profile'>
