@@ -5,7 +5,7 @@ import './form-controls.scss'
 
 const FormControls: FC<WrappedFieldProps> = ({input, meta, ...props}) => {
     let hasError = meta.touched && meta.error;
-    return <div className={`form-controls ${hasError ? 'error' : null}`}>
+    return <div className={` ${hasError ? 'form-controls error' : 'form-controls'}`}>
         {props.children}
         <span>{hasError && meta.error}</span>
     </div>
@@ -22,8 +22,7 @@ export function createField<KeyOfName extends string>(component: FC<WrappedField
                                                       name: KeyOfName,
                                                       placeholder: string | null,
                                                       type: string,
-                                                      validators: Array<ValidatorsFieldType>,
-                                                      restAttr?: any
+                                                      validators: Array<ValidatorsFieldType>
 ){
-    return <Field component={component} name={name} placeholder={placeholder} type={type} validate={validators} restAttr={restAttr}/>
+    return <Field component={component} name={name} placeholder={placeholder} type={type} validate={validators} />
 }

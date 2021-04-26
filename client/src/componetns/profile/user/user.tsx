@@ -7,6 +7,7 @@ import {ContainerUserSelfForm, UserSelfFormValueType} from "./user-self/user-sel
 import {useDispatch, useSelector} from "react-redux";
 import {AppDispatch, RootState} from "../../../redux/store";
 import {getNewName, getPhoto, getProfileData, UserInitialStateType} from "../../../redux/user-reducer";
+import {logout} from "../../../redux/auth-reducer";
 
 
 const VIEW_CHANGE_PROFILE = {
@@ -43,6 +44,11 @@ const User = () => {
         if(photo !== null) dispatch(getPhoto(photo))
     };
 
+    const onLogout = () => {
+        dispatch(logout())
+    };
+
+
     return <div className='user'>
         {currentViewType === VIEW_CHANGE_PROFILE.SELF ?
             <ContainerUserSelfForm onSubmit={changeName} changePhoto={changePhoto} name={name} photo={photo}/>
@@ -70,7 +76,7 @@ const User = () => {
 
         {<div className="user__buttons">
             <button className="user__button reset">Change password</button>
-            <button className="user__button logout">Log out</button>
+            <button className="user__button logout" onClick={()=> onLogout()}>Log out</button>
         </div>}
     </div>
 };
