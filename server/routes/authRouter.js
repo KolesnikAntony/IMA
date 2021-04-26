@@ -4,6 +4,8 @@ const { authVerify } = require('../middleware/authVerify');
 const { authAdmin } = require('../middleware/authAdmin');
 
 
+router.get('/auth', authController.auth);
+
 router.post('/signup', authController.signup);
 
 router.post('/activate', authController.activateEmail);

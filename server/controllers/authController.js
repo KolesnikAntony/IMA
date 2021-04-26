@@ -8,6 +8,24 @@ const { OAuth2 } = google.auth;
 const client = new OAuth2(process.env.EMAIL_SERVICE_CLIENT_ID);
 const { CLIENT_URL } = process.env;
 
+module.exports.auth = async (req, res, next) => {
+	try {
+		const token = req.header('Authorization');
+		if (!token)
+			return res.status(400).json({message: 'Ошибка авторизации'});
+
+		jwt.verify(token, process.env.JWT_ACCESS, (err, user) => {
+			if (err)
+				return res.status(400).json({message: 'Ошибка авторизации'});
+
+			req.user = user;
+			next();
+		})
+	} catch (err) {
+		return res.status(500).json({message: err.message});
+	}
+};
+
 module.exports.signup = async (req, res) => {
 
 	try {
@@ -75,7 +93,7 @@ module.exports.login = async (req, res, next) => {
 		if (!user)
 			return res.status(400).json({message: 'Емейл не найден'});
 
-		const isMatch = await bcrypt.compare(password, user.password)
+		const isMatch = await bcrypt.compare(password, user.password);
 		if (!isMatch)
 			return res.status(400).json({message: 'Неправильный пароль'});
 
