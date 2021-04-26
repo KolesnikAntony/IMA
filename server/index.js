@@ -15,14 +15,9 @@ connectDB();
 app.use(morgan('dev'));
 app.use(express.json());
 app.use(cookieParser());
-app.use('/uploads', express.static('uploads'));
 app.use(fileUpload({
 	useTempFiles: true
 }));
-
-// Add a list of allowed origins.
-// If you have more origins you would like to add, you can add them to the array below.
-
 app.use(cors());
 
 //routes

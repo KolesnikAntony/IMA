@@ -6,7 +6,7 @@ const { authAdmin } = require('../middleware/authAdmin');
 
 router.post('/signup', authController.signup);
 
-router.post('/activation', authController.activateEmail);
+router.post('/activate', authController.activateEmail);
 
 router.post('/login', authController.login);
 
@@ -28,5 +28,7 @@ router.patch('/user/update_role/:id', authVerify, authAdmin, authController.upda
 
 router.delete('/user/delete/:id', authVerify, authAdmin, authController.deleteUser);
 
+//socian login
+router.post('/google_login', authController.googleLogin);
 
 module.exports = router;
