@@ -22,7 +22,6 @@ module.exports.authVerify = async (req, res, next) => {
 module.exports.me = async (req, res, next) => {
 	try {
 		const rfToken = req.cookies.refreshtoken;
-		console.log('rfToken--->', rfToken);
 		if (!rfToken)
 			return res.status(401).json({message: 'Пожалуйста войдите в аккаунт'});
 
