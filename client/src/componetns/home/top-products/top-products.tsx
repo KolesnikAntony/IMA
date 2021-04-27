@@ -1,10 +1,10 @@
 import React, {useCallback} from "react";
-import './top-products.scss';
 import ProductCard from "../../product-card/product-card";
 import {Swiper, SwiperSlide} from "swiper/react";
 import SwiperCore, { Navigation } from 'swiper';
 import 'swiper/swiper.scss';
 import 'swiper/components/navigation/navigation.scss';
+import './top-products.scss';
 import {useViewSize} from "../../../hooks/hooks";
 
 

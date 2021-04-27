@@ -22,9 +22,9 @@ const Home:FC<PropsType> = ({isNewMember, match}) => {
     return <>
         {isNewMember && <NewMemberPopup/>}
         <Intro/>
-        <Catalog/>
-        <Banner/>
         <TopProducts />
+        <Banner/>
+        <Catalog/>
     </>
 
 };

@@ -2,6 +2,7 @@
 @import '../../../../src/assets/style/mixins';
 
 .top {
+  margin-bottom: 80px;
   &__title {
     @include homeTitles('Top products')
   }
