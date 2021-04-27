@@ -451,3 +451,32 @@ input[type=text]{
 *::placeholder {
   color: $color-nude;
 }
+
+.carousel .slide {
+  padding: 12px 60px;
+}
+
+
+@media (max-width: 424px) {
+  .carousel .slide {
+    padding: 0;
+  }
+}
+.carousel .control-arrow {
+  width: 40px!important;
+  height: 40px!important;
+  top: calc(50% - 20px)!important;
+  background-color: $color-mocco-opasy!important;
+  border-radius: 50%;
+  &:hover {
+    opacity: 0.4!important;
+    background-color: $color-mocco-opasy!important;
+  }
+}
+.control-arrow {
+  right: 10px!important;
+}
+
+.control-prev {
+  left: 10px!important;
+}

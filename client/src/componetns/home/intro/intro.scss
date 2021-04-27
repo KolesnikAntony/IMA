@@ -1,4 +1,5 @@
 @import '../../../../src/assets/style/variables';
+@import '../../../../src/assets/style/mixins';
 
 .intro {
   position: relative;
@@ -10,7 +11,7 @@
   background-image:url("./../../../assets/img/bg-img-1.png") ,url("./../../../assets/img/main-bg-2.svg"), $gradient-baner;
   background-repeat: no-repeat;
   background-position:  90% bottom, left bottom;
-  margin-bottom: 80px;
+  margin-bottom: 120px;
   .container {
     width: 100%;
   }
@@ -22,25 +23,7 @@
     position: absolute;
     bottom: 15%;
     left: calc(50% - 50px);
-    display: block;
-    width: 100px;
-    height: 100px;
-    background-color: $color-mocco;
-    color: $color-smoke;
-    font-size: 16px;
-    font-weight: 400;
-    text-transform: uppercase;
-    text-align: center;
-    line-height: 100px;
-    vertical-align: middle;
-    border-radius: 50%;
-    &:after {
-      content: url('./../../../assets/img/arrow.svg');
-      position: absolute;
-      top: 0;
-      right: 135px;
-      cursor: default;
-    }
+    @include circleBtn;
   }
   &__social{
     position: absolute;

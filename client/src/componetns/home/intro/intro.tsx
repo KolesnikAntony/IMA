@@ -9,7 +9,7 @@ const Intro = () => {
                 <div className="intro__wrapp">
                     <h1 className={'intro__title '}>Lakier idealny?
                         SIMPLE</h1>
-                    <a href="#" className='intro__btn'>SHOP NOW</a>
+                    <a href="#" className='intro__btn circle-btn'>SHOP NOW</a>
                     <ul className='intro__social'>
                         <li className='intro__social-item'>
                             <a href="" className="intro__social-link intro__social-link--inst"></a>

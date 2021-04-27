@@ -1,0 +1,8 @@
+@import '../../../../src/assets/style/variables';
+@import '../../../../src/assets/style/mixins';
+
+.top {
+  &__title {
+    @include homeTitles('Top products')
+  }
+}

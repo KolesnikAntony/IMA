@@ -9,7 +9,7 @@
   right: 0;
   padding: 24px;
   background: $color-smoke;
-  box-shadow: 0 0 4px rgba(0,0,0,0.4);
+  box-shadow: 0 0 4px rgba(0, 0, 0, 0.4);
   z-index: 5;
   transform: translateX(100%);
   transition: all 0.5s ease-in-out;
@@ -52,7 +52,7 @@
   border-radius: 4px;
   transform: rotate(0);
   transition: 0.2s;
-  &:hover{
+  &:hover {
     transform: rotate(90deg);
   }
 }
@@ -69,5 +69,35 @@
     font-size: 62px;
     text-shadow: 10px 0px 2px rgba(67, 59, 156, 0.1);
     color: transparent;
+    @media (max-width: 564px){
+      font-size: 48px;
+      top: -38px;
+    }
+    @media (max-width: 424px) {
+      display: none;
+    }
+  }
+}
+
+@mixin circleBtn($radius: 50%, $width: 100px, $height: 100px, $line: 100px) {
+  display: block;
+  width: $width;
+  height: $height;
+  background-color: $color-mocco;
+  color: $color-smoke;
+  font-size: 16px;
+  font-weight: 400;
+  text-transform: uppercase;
+  text-align: center;
+  line-height: $line;
+  vertical-align: middle;
+  border-radius: $radius;
+  box-shadow: 0 4px 12px 0 rgba(67, 59, 156, 0.15);
+  transition: 0.3s;
+  @media (hover: hover) and (pointer: fine) {
+    &:hover {
+      box-shadow: 0 4px 12px 0 $color-mocco;
+      background-color: $color-nude;
+    }
   }
 }
