@@ -5,6 +5,8 @@ import Cart from "../cart/cart";
 import WishList from "../wish/wish-list";
 import Profile from "../profile/profile";
 import Burger from "../burger-menu/burger-menu";
+import {useDisableBodyScroll} from "../../hooks/hooks";
+import BackAside from "../../common/back-aside/back-aside";
 
 interface PropsType {
     open: boolean,
@@ -13,6 +15,9 @@ interface PropsType {
 }
 
 const Aside:FC<PropsType> = ({open, view, onClose}) => {
+
+    useDisableBodyScroll(open);
+
     const currentView = () => {
         if(view === VIEW_TYPES.CART) return <Cart/>;
         if(view === VIEW_TYPES.WISH) return <WishList/>;
@@ -21,11 +26,13 @@ const Aside:FC<PropsType> = ({open, view, onClose}) => {
     };
     const classes = useMemo(() => `aside ${open ? 'show': null}`, [open]);
 
-    return (
+    return (<>
         <div className={classes}>
             {currentView()}
             <button className='aside__close' onClick={onClose}/>
         </div>
+            <BackAside open={open} onClose={onClose}/>
+        </>
     )
 }
 export default Aside;

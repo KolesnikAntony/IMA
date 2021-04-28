@@ -451,32 +451,42 @@ input[type=text]{
 *::placeholder {
   color: $color-nude;
 }
-
-.carousel .slide {
-  padding: 12px 60px;
-}
-
-
-@media (max-width: 424px) {
-  .carousel .slide {
-    padding: 0;
-  }
-}
-.carousel .control-arrow {
-  width: 40px!important;
-  height: 40px!important;
-  top: calc(50% - 20px)!important;
-  background-color: $color-mocco-opasy!important;
+.app .swiper-button-prev,
+.app .swiper-button-next{
+  width: 40px;
+  height: 40px;
   border-radius: 50%;
-  &:hover {
-    opacity: 0.4!important;
-    background-color: $color-mocco-opasy!important;
+  background-color: $color-smoke;
+  box-shadow: 0px 0px 6px 0px rgba(0,0,0, 0.3);
+  opacity:1;
+  &:after {
+    content: url("./../img/arrow-nav.svg");
+    position: absolute;
   }
 }
-.control-arrow {
-  right: 10px!important;
+.app .swiper-button-prev {
+  left: -12px;
+  &:after {
+    top: -6px;
+    left: 6px;
+  }
 }
 
-.control-prev {
-  left: 10px!important;
+.app .swiper-button-next {
+  right: -12px;
+  &:after {
+    top: 2px;
+    left: 10px;
+    transform: rotate(180deg);
+  }
+}
+
+@media (max-width: 504px) {
+  .app .swiper-button-prev {
+    left: 10px;
+  }
+
+  .app .swiper-button-next {
+    right: 10px;
+  }
 }

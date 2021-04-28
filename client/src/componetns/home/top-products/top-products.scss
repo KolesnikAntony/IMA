@@ -6,4 +6,12 @@
   &__title {
     @include homeTitles('Top products')
   }
+  .swiper-container {
+    overflow: unset;
+  }
+  .container {
+    overflow: hidden;
+    padding-top: 40px;
+    padding-bottom: 20px;
+  }
 }

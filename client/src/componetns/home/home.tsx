@@ -1,4 +1,4 @@
-import React, {FC, useEffect, useState} from 'react';
+import React, {FC, useCallback, useEffect, useState} from 'react';
 import './home.scss';
 import Intro from "./intro/intro";
 import Catalog from "./catalog/catalog";
@@ -8,19 +8,21 @@ import {useDispatch} from "react-redux";
 import {activateUser} from "../../redux/auth-reducer";
 import Banner from './banner/banner';
 import TopProducts from "./top-products/top-products";
+import {useDisableBodyScroll} from "../../hooks/hooks";
+import BackAside from "../../common/back-aside/back-aside";
 
 
 
 const Home:FC<PropsType> = ({isNewMember, match}) => {
-    const dispatch = useDispatch();
     let key = match.params.key;
 
+    const dispatch = useDispatch();
     useEffect(()=> {
         isNewMember && dispatch(activateUser(key))
     });
 
     return <>
-        {isNewMember && <NewMemberPopup/>}
+        {isNewMember && <NewMemberPopup />}
         <Intro/>
         <TopProducts />
         <Banner/>
@@ -36,5 +38,6 @@ type PathParamsType = {
 }
 // Your component own properties
 type PropsType = RouteComponentProps<PathParamsType> & {
-    isNewMember?: boolean
+    isNewMember: boolean
+    onClose: () => void
 }

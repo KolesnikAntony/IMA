@@ -8,6 +8,7 @@
   background-position: 90% bottom, left bottom, center;
   background-size: 297px 535px, contain, contain;
   margin-bottom: 120px;
+  box-shadow: $props-shadow;
 
   .container{
     height: 100%;
@@ -47,5 +48,11 @@
     &__text {
       max-width: 100%;
     }
+  }
+}
+
+@media (max-width: 574px) {
+  .banner {
+    margin-bottom: 60px;
   }
 }

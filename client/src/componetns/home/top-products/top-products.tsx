@@ -18,7 +18,7 @@ const TopProducts = () => {
             return 4
         }else if(width > 814){
             return 3
-        }else if(width > 524){
+        }else if(width > 504){
             return 2
         }else{
             return 1

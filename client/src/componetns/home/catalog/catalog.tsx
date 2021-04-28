@@ -1,4 +1,4 @@
-import React, {useCallback} from "react";
+import React from "react";
 import './catalog.scss';
 import CatalogItemsDesk from "./catalog-desk";
 import CatalogItemsMob from "./catalog-mob";

@@ -9,7 +9,7 @@
   right: 0;
   padding: 24px;
   background: $color-smoke;
-  box-shadow: 0 0 4px rgba(0, 0, 0, 0.4);
+  box-shadow: $props-shadow;
   z-index: 5;
   transform: translateX(100%);
   transition: all 0.5s ease-in-out;
@@ -92,12 +92,12 @@
   line-height: $line;
   vertical-align: middle;
   border-radius: $radius;
-  box-shadow: 0 4px 12px 0 rgba(67, 59, 156, 0.15);
+  box-shadow: $props-shadow;
   transition: 0.3s;
   @media (hover: hover) and (pointer: fine) {
     &:hover {
-      box-shadow: 0 4px 12px 0 $color-mocco;
-      background-color: $color-nude;
+      box-shadow: $props-shadow_hover;
+      background-color: $color-mocco-opasy;
     }
   }
 }

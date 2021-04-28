@@ -16,3 +16,15 @@ export const useViewSize = () => {
 
     return dimensions;
 };
+
+export const useDisableBodyScroll = (stopScroll: boolean) => {
+    useEffect(() => {
+        if (stopScroll) {
+            console.log('to hide')
+            document.body.style.overflow = 'hidden';
+        } else {
+            console.log('to unset')
+            document.body.style.overflow = 'unset';
+        }
+    }, [stopScroll]);
+};

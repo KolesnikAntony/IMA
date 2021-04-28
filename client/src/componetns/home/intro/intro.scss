@@ -12,6 +12,7 @@
   background-repeat: no-repeat;
   background-position:  90% bottom, left bottom;
   margin-bottom: 120px;
+  box-shadow: $props-shadow;
   .container {
     width: 100%;
   }
@@ -25,38 +26,12 @@
     left: calc(50% - 50px);
     @include circleBtn;
   }
-  &__social{
+  &__social.social {
     position: absolute;
     right: 20px;
     top: calc(50% - 45px);
-    display: flex;
-    flex-direction: column;
     height: 90px;
-    align-items: center;
-    justify-content: space-between;
-    &-item {
-
-    }
-    &-link {
-      display: block;
-      width: 20px;
-      height: 20px;
-      background-repeat: no-repeat;
-      background-position: center center;
-      background-size: cover;
-
-      &--inst {
-        background-image: url("./../../../assets/img/inst.svg");
-      }
-
-      &--wu {
-        background-image: url("./../../../assets/img/wu.svg");
-      }
-
-      &--mail {
-        background-image: url("./../../../assets/img/mail.svg");
-      }
-    }
+    flex-direction: column;
   }
 }
 
@@ -72,18 +47,14 @@
 
 @media (max-width: 724px) {
   .intro {
-    &__social {
+    &__social.social {
       display: none;
-    }
-    &__btn{
-      &:after {
-        display: none;
-      }
     }
   }
 }
 @media (max-width: 574px) {
   .intro {
+    margin-bottom: 60px;
     &__title {
       margin-top: -250px;
     }
@@ -99,7 +70,7 @@
 }
 @media (max-width: 358px) {
   .intro {
-    background-position: 90% 60px, 70% 0px, left bottom;
+    background-position: 90% 60px, 70% 0, left bottom;
     &__title {
 
       margin-top: 60px;
