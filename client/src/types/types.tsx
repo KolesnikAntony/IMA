@@ -25,6 +25,9 @@ export interface UserInfoPropsType {
     flat: string
     build: string
     kod: string
+    name: string
+    changePhoto: (e: React.ChangeEvent<HTMLInputElement>) => void
+    photo: string
 }
 
 export interface UserSelfPropsType {
