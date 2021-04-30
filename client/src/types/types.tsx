@@ -15,10 +15,26 @@ export type ProductType = {
     wish: boolean,
 }
 
-//USER_TYPES
+//PROFILE_TYPES
 
-export interface UserInfoPropsType {
+export type ProfileAPIDataType = {
+    user: ProfileDataType
+}
+export type ProfileDataType = {
+    address: {
+        kod: string
+        street: string
+        build: string
+        flat: string
+        city: string
+    },
     email: string
+    phone: string
+    name: string
+    photo?: string
+}
+
+export type ProfileFormValueType = {email: string
     phone: string
     city: string
     street: string
@@ -26,12 +42,9 @@ export interface UserInfoPropsType {
     build: string
     kod: string
     name: string
-    changePhoto: (e: React.ChangeEvent<HTMLInputElement>) => void
-    photo: string
-}
+};
 
-export interface UserSelfPropsType {
-    name: string | null
-    photo: string | null
-    changePhoto: (e: React.ChangeEvent<HTMLInputElement>) => void
-}
+export type ProfilePropsType<P> = {
+    photo?: string
+    changePhoto?: (e: React.ChangeEvent<HTMLInputElement>)=> void
+} & P;

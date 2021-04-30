@@ -13,7 +13,3 @@ export const instance = axios.create(
 
     }
 );
-
-export type APIResponseType<D = {}> = {
-    data: D
-}
