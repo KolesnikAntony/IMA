@@ -1,8 +1,6 @@
-const mongoose = require('mongoose');
+const { Schema, model } = require('mongoose');
 
-
-
-const userSchema = new mongoose.Schema({
+const userSchema = new Schema({
 	email: {
 		type: String,
 		required: [true, 'Пожалуйста, укажите емейл'],
@@ -23,9 +21,36 @@ const userSchema = new mongoose.Schema({
 	avatar: {
 		type: String,
 		default: ''
-	}
+	},
+	name: {
+		type: String,
+		default: ''
+	},
+	phone: {
+		type: String,
+		default: ''
+	},
+	address:
+		{
+			city: {
+				type: String,
+				default: ''
+			},
+			build: {
+				type: String,
+				default: ''
+			},
+			flat: {
+				type: String,
+				default: ''
+			},
+			kod: {
+				type: String,
+				default: ''
+			},
+		},
 }, {
 	timestamps: true
 });
 
-module.exports = mongoose.model('user', userSchema);
+module.exports = model('User', userSchema);

@@ -5,9 +5,10 @@ const cors = require ('cors');
 const fileUpload = require('express-fileupload');
 const cookieParser = require('cookie-parser');
 const morgan = require('morgan');
-const {me} = require('./middleware/authVerify');
+const { me } = require('./middleware/authVerify');
 //routes
 const authRouter = require('./routes/authRouter');
+const userProfile = require('./routes/userProfile');
 
 
 
@@ -28,6 +29,7 @@ app.get('/api/me', me, async (req, res) => {
 	res.json({message: 'work'});
 });
 app.use('/api', authRouter);
+app.use('/api/user', userProfile);
 
 
 const PORT = process.env.PORT || 5000;
