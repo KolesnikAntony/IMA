@@ -36,6 +36,10 @@ const userSchema = new Schema({
 				type: String,
 				default: ''
 			},
+			street: {
+				type: String,
+				default: ''
+			},
 			build: {
 				type: String,
 				default: ''
