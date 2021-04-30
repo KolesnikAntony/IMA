@@ -1,6 +1,7 @@
 import {BaseThunkType, InferActionsTypes} from "./store";
 import {FormAction, stopSubmit} from "redux-form";
 import {AuthAPI} from "../api/api-auth";
+import {UserAPI} from "../api/api-user";
 
 const SIGN_UP = 'auth-reducer/SIGH_UP';
 const LOGIN = 'auth-reducer/LOGIN';
@@ -50,7 +51,7 @@ const actions = {
 export const getIsAuth = ():ThunkType => async (dispatch) => {
     try {
         let res = await AuthAPI.me();
-        console.log(res)
+        console.log(res);
          dispatch(actions.setIsAuth(true))
     }catch (err) {
         dispatch(actions.setIsAuth(false))
@@ -72,6 +73,7 @@ export const loginThunk = (email: string, password: string):ThunkType => async (
     try {
         await AuthAPI.login(email,password);
         dispatch(actions.loginSuccess(email));
+        await UserAPI.getUser();
         dispatch(actions.setIsAuth(true))
     }catch (err) {
        dispatch(stopSubmit('login', {_error: err.response.data.message}));

@@ -34,8 +34,12 @@ const Filter = () => {
         console.log(data)
     };
 
-    const colors = products.map(el => el.color);
-    const categories = products.map(el => el.categories);
+    const getUniqueNameOfCategories = (array:Array<string>) => {
+        return array.filter((e, i, a) => a.indexOf(e) === i);
+    };
+
+    const colors = getUniqueNameOfCategories(products.map(el => el.color));
+    const categories = getUniqueNameOfCategories(products.map(el => el.categories));
 
     return (
         <div>
@@ -45,10 +49,6 @@ const Filter = () => {
     );
 };
 
-type formTypeData = object;
-type formFilterData = {
-    nameForCategories: Array<string>
-}
 const FilterForm: FC<InjectedFormProps<formTypeData, formFilterData> & formFilterData> = ({handleSubmit, nameForCategories}) => {
     console.log(nameForCategories);
     return (
@@ -67,13 +67,13 @@ const FormFilterHOC = (component: FC<InjectedFormProps<formTypeData, formFilterD
     return reduxForm<formTypeData, formFilterData>({form: name})(component);
 };
 
-
-
-
-
-
 const Categories = FormFilterHOC(FilterForm, 'categories');
 const Colors = FormFilterHOC(FilterForm, 'colors');
+
+type formTypeData = object;
+type formFilterData = {
+    nameForCategories: Array<string>
+}
 
 
 export default Filter;

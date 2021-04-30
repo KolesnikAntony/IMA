@@ -20,7 +20,7 @@ function AppMain() {
 
     useEffect(() => {
         dispatch(getIsAuth());
-    }, [isAuth]);
+    }, []);
 
     const handleOpen = useCallback((type) => {
         setCurrentView(type);

@@ -1,6 +1,7 @@
 import { FormAction } from "redux-form";
 import { UserInfoPropsType } from "../types/types";
 import {BaseThunkType, InferActionsTypes } from "./store";
+import {UserAPI} from "../api/api-user";
 
 const SET_SELF_DATA = 'user-reducer/SET_SELF_DATA';
 const SET_PHOTO = 'user-reducer/SET_PHOTO';
@@ -64,7 +65,8 @@ export const getPhoto = (photoFile:any):ThunkType => async (dispatch) => {
     dispatch(actions.setPhoto(photoFile));
 };
 export const getProfileData = (payload: UserInfoPropsType):ThunkType => async (dispatch) => {
-    dispatch(actions.setProfileData(payload));
+
+    // dispatch(actions.setProfileData(payload));
 };
 
 export type UserInitialStateType = typeof  initialState;
