@@ -25,7 +25,7 @@ app.use(fileUpload({
 app.use(cors());
 
 //routes
-app.get('/api/me', me, async (req, res) => {
+app.get('/api', me, async (req, res) => {
 	res.json({message: 'work'});
 });
 app.use('/api', authRouter);
