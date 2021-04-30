@@ -23,19 +23,19 @@ const UserInfoForm: FC<InjectedFormProps<UserInfoFormValueType, UserInfoPropsTyp
                 </li>
                 <li className="user__info-item--field user__info-item">
                     <span className="user__info-caption">City: </span>
-                    {createField<UserFormValueTypeKeys>(Input, 'country', 'City', 'text', [])}
+                    {createField<UserFormValueTypeKeys>(Input, 'city', 'City', 'text', [])}
                 </li>
                 <li className="user__info-item--field user__info-item">
                     <span className="user__info-caption">Address: </span>
-                    {createField<UserFormValueTypeKeys>(Input, 'address', 'Address', 'text', [])}
+                    {createField<UserFormValueTypeKeys>(Input, 'street', 'Address', 'text', [])}
                 </li>
                 <li className="user__info-item--field user__info-item">
                     <span className="user__info-caption">Build: </span>
-                    {createField<UserFormValueTypeKeys>(Input, 'numberOfHouse', 'Build', 'text', [])}
+                    {createField<UserFormValueTypeKeys>(Input, 'build', 'Build', 'text', [])}
                 </li>
                 <li className="user__info-item--field user__info-item">
                     <span className="user__info-caption">Flat: </span>
-                    {createField<UserFormValueTypeKeys>(Input, 'numberOfFlat', 'Flat', 'text', [])}
+                    {createField<UserFormValueTypeKeys>(Input, 'flat', 'Flat', 'text', [])}
                 </li>
                 <li className="user__info-item--field user__info-item">
                     <span className="user__info-caption">Kod: </span>
@@ -53,11 +53,11 @@ const mapStateToProps = (state: AppStateType):mapStateToPropsType  => {
         initialValues: {
             email: state.user.email,
             phone: state.user.phone,
-            address: state.user.address,
-            numberOfHouse: state.user.numberOfHouse,
-            numberOfFlat: state.user.numberOfFlat,
-            country: state.user.country,
-            kod: state.user.kod
+            street: state.user.address.street,
+            build: state.user.address.build,
+            flat: state.user.address.flat,
+            city: state.user.address.city,
+            kod: state.user.address.kod
         }
     }
 }
@@ -65,22 +65,23 @@ export const ContainerUserInfoForm = connect(mapStateToProps, {})(UserInfoReduxF
 
 interface mapStateToPropsType {
     initialValues: {
-        email: string | null
-        phone: string | null
-        country: string | null
-        address: string | null
-        numberOfFlat: string | null
-        numberOfHouse: string | null
-        kod: string | null
+        email: string
+        phone: string
+        city: string
+        street: string
+        flat: string
+        build: string
+        kod: string
     }
 }
 export interface UserInfoFormValueType {
-    email: string | null
-    phone: string | null
-    country: string | null
-    address: string | null
-    numberOfFlat: string | null
-    numberOfHouse: string | null
-    kod: string | null
+    email: string
+    phone: string
+    city: string
+    street: string
+    flat: string
+    build: string
+    kod: string
 }
+
 type UserFormValueTypeKeys = Extract<keyof UserInfoFormValueType, string>

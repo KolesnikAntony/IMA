@@ -21,7 +21,7 @@ const User = () => {
     const dispatch = useDispatch<AppDispatch>();
 
     const user = useSelector<RootState, UserInitialStateType>((state) => state.user);
-    const {name, photo, email, address, country, numberOfHouse, numberOfFlat, phone, kod} = user;
+    const {name,  email, address, phone} = user;
 
     const toggleCurrentChangeList = useCallback((type) => {
         setCurrentViewType(type);
@@ -29,7 +29,6 @@ const User = () => {
 
 
     const changeProfileData = (formData: UserInfoFormValueType) => {
-        dispatch(getProfileData(formData))
         toggleCurrentChangeList('')
     };
 
@@ -51,27 +50,27 @@ const User = () => {
 
     return <div className='user'>
         {currentViewType === VIEW_CHANGE_PROFILE.SELF ?
-            <ContainerUserSelfForm onSubmit={changeName} changePhoto={changePhoto} name={name} photo={photo}/>
+            <ContainerUserSelfForm onSubmit={changeName} changePhoto={changePhoto} name={name} photo={''}/>
             : <UserSelf toggleList={() => toggleCurrentChangeList(VIEW_CHANGE_PROFILE.SELF)}
                         name={name}
-                        photo={photo}/>}
+                        photo={''}/>}
         {currentViewType === VIEW_CHANGE_PROFILE.INFO ?
             <ContainerUserInfoForm onSubmit={changeProfileData}
                                email={email}
-                               address={address}
-                               country={country}
-                               numberOfHouse={numberOfHouse}
-                               numberOfFlat={numberOfFlat}
+                               street={"address"}
+                               city={address.city}
+                               build={address.build}
+                               flat={address.flat}
                                phone={phone}
-                               kod={kod}/>
+                               kod={address.kod}/>
             : <UserInfo toggleList={() => toggleCurrentChangeList(VIEW_CHANGE_PROFILE.INFO)}
                         email={email}
-                        address={address}
-                        country={country}
-                        numberOfHouse={numberOfHouse}
-                        numberOfFlat={numberOfFlat}
+                        street={"address"}
+                        city={address.city}
+                        build={address.build}
+                        flat={address.flat}
                         phone={phone}
-                        kod={kod}/>}
+                        kod={address.kod}/>}
 
 
         {<div className="user__buttons">
