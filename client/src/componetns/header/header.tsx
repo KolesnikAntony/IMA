@@ -1,8 +1,9 @@
-import React, {FC} from "react";
+import React, {FC, useEffect, useState} from "react";
 import './header.scss';
 import {Link} from "react-router-dom";
 import logo from '../../assets/img/logo-for-IMA.png'
-import {VIEW_TYPES} from "../../constants/constants";
+import NavBar from "../../common/navbar/navbar";
+import MenuButtons from "../../common/menu-buttons/menu-buttons";
 
 
 interface PropsType {
@@ -11,41 +12,42 @@ interface PropsType {
 
 const Header: FC<PropsType> = ({onOpen}) => {
 
+    const [headerClass, setHeaderClass] = useState('header');
+
+    const handleScroll = () => {
+        const position = window.pageYOffset;
+
+        if(position <= 80) {
+            setHeaderClass('header');
+        }
+        if (position > 80) {
+            setHeaderClass('header hide');
+        }
+        if(position > 200) {
+            setHeaderClass('header fix');
+        }
+        if(position > 400 ) {
+            setHeaderClass('header fix fix--show');
+        }
+    };
+
+    useEffect(() => {
+        window.addEventListener('scroll', handleScroll, { passive: true });
+
+        return () => {
+            window.removeEventListener('scroll', handleScroll);
+        };
+    }, []);
+
     return (
-        <header className={'header'}>
+        <header className={headerClass} >
             <div className='container'>
                 <div className="header__wrapp">
                     <Link to="/">
                         <img src={logo} alt="Ima" className="header__logo"/>
                     </Link>
-                    <nav className="header__nav">
-                        <Link to={'/'} className="header__nav-item nav-items">Home</Link>
-                        <a href="" className="header__nav-item nav-items">Catalog</a>
-                        <a href="" className="header__nav-item nav-items">Contacts</a>
-                        <a href="" className="header__nav-item nav-items">About us</a>
-                    </nav>
-                    <ul className='header__menu'>
-                        <li className="header__menu-item">
-                            <button className="header__menu-btn--cart header__menu-btn"
-                                    onClick={() => onOpen(VIEW_TYPES.CART)}/>
-                        </li>
-                        <li className="header__menu-item">
-                            <button className="header__menu-btn--wish header__menu-btn"
-                                    onClick={() => onOpen(VIEW_TYPES.WISH)}/>
-                        </li>
-                        <li className="header__menu-item">
-                            <button className="header__menu-btn--profile header__menu-btn"
-                                    onClick={() => onOpen(VIEW_TYPES.PROFILE)}/>
-                        </li>
-                        <li className="header__menu-item">
-                            <button className="header__menu-btn--burger header__menu-btn"
-                                    onClick={() => onOpen(VIEW_TYPES.BURGER)}>
-                                <span></span>
-                                <span></span>
-                                <span></span>
-                            </button>
-                        </li>
-                    </ul>
+                    <NavBar outclass={'header-nav'}/>
+                   <MenuButtons onOpen={onOpen}/>
                 </div>
             </div>
         </header>

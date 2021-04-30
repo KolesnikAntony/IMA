@@ -1,5 +1,6 @@
 import React from "react";
 import './intro.scss';
+import SocialLinks from "../../../common/social-links/social-links";
 
 
 const Intro = () => {
@@ -9,18 +10,8 @@ const Intro = () => {
                 <div className="intro__wrapp">
                     <h1 className={'intro__title '}>Lakier idealny?
                         SIMPLE</h1>
-                    <a href="#" className='intro__btn'>SHOP NOW</a>
-                    <ul className='intro__social'>
-                        <li className='intro__social-item'>
-                            <a href="" className="intro__social-link intro__social-link--inst"></a>
-                        </li>
-                        <li className='intro__social-item'>
-                            <a href="" className="intro__social-link intro__social-link--wu"></a>
-                        </li>
-                        <li className='intro__social-item'>
-                            <a href="" className="intro__social-link intro__social-link--mail"></a>
-                        </li>
-                    </ul>
+                    <a href="#" className='intro__btn circle-btn'>SHOP NOW</a>
+                    <SocialLinks outclass={'intro'}/>
                 </div>
             </div>
         </section>

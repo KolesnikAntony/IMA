@@ -1,0 +1,58 @@
+@import '../../../../src/assets/style/variables';
+@import '../../../../src/assets/style/mixins';
+
+.banner {
+  height: 560px;
+  background-image:url("./../../../assets/img/bg-img-2.png") ,url("./../../../assets/img/main-bg-2.svg"), $gradient-baner;
+  background-repeat: no-repeat;
+  background-position: 90% bottom, left bottom, center;
+  background-size: 297px 535px, contain, contain;
+  margin-bottom: 120px;
+  box-shadow: $props-shadow;
+
+  .container{
+    height: 100%;
+    display: flex;
+    align-items: center;
+  }
+  &__text {
+    width: 100%;
+    max-width: 600px;
+    font-weight: bold;
+  }
+  &__paragraph:not(:last-of-type) {
+    margin-bottom: 32px;
+  }
+}
+@media (min-width: 1448px) {
+  .banner{
+    background-position: 70% bottom, left bottom, center;
+  }
+}
+
+@media (max-width: 976px) {
+  .banner {
+    &__text {
+      max-width: 500px;
+    }
+  }
+}
+@media (max-width: 852px) {
+  .banner {
+    background-image: url("./../../../assets/img/main-bg-2.svg"), $gradient-baner;
+    background-size: cover;
+    height: 400px;
+    .container{
+      justify-content: center;
+    }
+    &__text {
+      max-width: 100%;
+    }
+  }
+}
+
+@media (max-width: 574px) {
+  .banner {
+    margin-bottom: 60px;
+  }
+}

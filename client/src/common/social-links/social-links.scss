@@ -1,0 +1,26 @@
+.social {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  &-link {
+    display: block;
+    width: 20px;
+    height: 20px;
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: cover;
+
+    &--inst {
+      background-image: url("./../../assets/img/inst.svg");
+    }
+
+    &--wu {
+      background-image: url("./../../assets/img/wu.svg");
+    }
+
+    &--mail {
+      background-image: url("./../../assets/img/mail.svg");
+    }
+  }
+}

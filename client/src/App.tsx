@@ -7,8 +7,9 @@ import store, {RootState} from "./redux/store";
 import ProductScreen from "./componetns/product-screen/product-screen";
 import Aside from "./componetns/aside/aside";
 import Home from './componetns/home/home';
-import BackAside from "./common/back-aside/back-aside";
 import {getIsAuth} from './redux/auth-reducer';
+import Footer from "./componetns/footer/footer";
+import Shop from './componetns/shop/shop';
 
 
 function AppMain() {
@@ -18,16 +19,7 @@ function AppMain() {
     const dispatch = useDispatch();
 
     useEffect(() => {
-        if (open) {
-            document.body.style.overflow = 'hidden';
-        } else {
-            document.body.style.overflow = 'auto';
-        }
-    }, [open]);
-
-    useEffect(() => {
         dispatch(getIsAuth());
-        console.log('is auth effect')
     }, [isAuth]);
 
     const handleOpen = useCallback((type) => {
@@ -40,18 +32,18 @@ function AppMain() {
             <Header onOpen={handleOpen}/>
             <main className={'app'}>
                 <Aside open={open} view={currentView} onClose={handleClose}/>
-                <BackAside open={open} onClose={handleClose}/>
                 <Switch>
                     <Route exact path='/' component={Home}/>
-                    <Route path='/activate/:key?' render={() => <Home isNewMember={true}/>}/>
+                    <Route path='/activate/:key?' render={() => <Home isNewMember={true} onClose={handleClose}/>}/>
                     <Route exact path='/product/:id' component={ProductScreen}/>
+                    <Route path='/shop' render={() => <Shop/>}/>
                     {/*ProfileEdit*/}
-                    {/*Catalog*/}
                     {/*About Us*/}
                     {/*Contacts*/}
                     {/*CheckOut*/}
                 </Switch>
             </main>
+            <Footer onOpen={handleOpen}/>
         </>
     )
 }

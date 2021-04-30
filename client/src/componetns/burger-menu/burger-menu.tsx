@@ -7,7 +7,7 @@ const Burger = () => {
         <div className="burger">
             <nav className="burger__nav">
                 <Link to={'/'} className="burger__nav-item nav-items">Home</Link>
-                <a href="" className="burger__nav-item nav-items">Catalog</a>
+                <Link to={'/shop'} className="burger__nav-item nav-items">Shop</Link>
                 <a href="" className="burger__nav-item nav-items">Contacts</a>
                 <a href="" className="burger__nav-item nav-items">About us</a>
             </nav>
