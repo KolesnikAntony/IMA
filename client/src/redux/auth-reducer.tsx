@@ -73,7 +73,8 @@ export const loginThunk = (email: string, password: string):ThunkType => async (
     try {
         await AuthAPI.login(email,password);
         dispatch(actions.loginSuccess(email));
-        // await UserAPI.getUser();
+        const response = await UserAPI.getUser();
+        console.log(response);
         dispatch(actions.setIsAuth(true))
     }catch (err) {
        dispatch(stopSubmit('login', {_error: err.response.data.message}));
