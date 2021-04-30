@@ -10,7 +10,7 @@ const NavBar:FC<PropsType> = ({outclass}) => {
     return (
         <nav className={outclass ? outclass + " " + "nav" : "nav"}>
             <Link to={'/'} className={outclass ? outclass+"__items nav__items" : "nav__items"}>Home</Link>
-            <a href="" className={outclass ? outclass+"__items nav__items" : "nav__items"}>Catalog</a>
+            <Link to={'/shop'} className={outclass ? outclass+"__items nav__items" : "nav__items"}>Shop</Link>
             <a href="" className={outclass ? outclass+"__items nav__items" : "nav__items"}>Contacts</a>
             <a href="" className={outclass ? outclass+"__items nav__items" : "nav__items"}>About us</a>
         </nav>

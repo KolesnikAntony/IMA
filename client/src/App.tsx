@@ -9,6 +9,7 @@ import Aside from "./componetns/aside/aside";
 import Home from './componetns/home/home';
 import {getIsAuth} from './redux/auth-reducer';
 import Footer from "./componetns/footer/footer";
+import Shop from './componetns/shop/shop';
 
 
 function AppMain() {
@@ -35,8 +36,8 @@ function AppMain() {
                     <Route exact path='/' component={Home}/>
                     <Route path='/activate/:key?' render={() => <Home isNewMember={true} onClose={handleClose}/>}/>
                     <Route exact path='/product/:id' component={ProductScreen}/>
+                    <Route path='/shop' render={() => <Shop/>}/>
                     {/*ProfileEdit*/}
-                    {/*Catalog*/}
                     {/*About Us*/}
                     {/*Contacts*/}
                     {/*CheckOut*/}

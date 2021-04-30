@@ -8,7 +8,19 @@
   width: 100%;
   height: 68px;
   padding: 12px 0;
-  z-index: 1;
+  z-index: 200;
+  &.hide {
+    opacity: 0;
+  }
+  &.fix{
+    background: $color-smoke;
+    transition: 0.5s;
+    opacity: 0;
+    position: fixed;
+    &--show {
+      opacity: 1;
+    }
+  }
 
   &__wrapp {
     display: flex;

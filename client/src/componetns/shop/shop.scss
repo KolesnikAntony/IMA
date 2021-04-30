@@ -1,0 +1,8 @@
+@import '../../../src/assets/style/variables';
+@import '../../../src/assets/style/mixins';
+.shop {
+  padding: 120px 0;
+  &__title {
+    @include homeTitles('Shop')
+  }
+}
