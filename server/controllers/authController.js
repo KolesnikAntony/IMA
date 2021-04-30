@@ -81,29 +81,11 @@ module.exports.login = async (req, res, next) => {
 		const refreshtoken = createRefreshToken({id: user._id});
 		res.cookie('refreshtoken', refreshtoken, {
 			httpOnly: true,
-			path: '/api/me',
-			maxAge: 7*24*60*60*1000
+			maxAge: 24*60*60*1000
 		});
-		res.status(200).json({message: 'Авторизация прошла успешно!'});
-	} catch (err) {
-		return res.status(500).json({message: err.message});
-	}
-};
 
-module.exports.accessToken = async (req, res) => {
-	try {
-		const rfToken = req.cookies.refreshtoken;
-		console.log('rfToken--->', rfToken);
-		if (!rfToken)
-			return res.status(401).json({message: 'Пожалуйста войдите в аккаунт'});
+		res.json({message: `Добро пожаловать ${user.email}`});
 
-		jwt.verify(rfToken, process.env.JWT_REFRESH, (err, user) => {
-			if (err)
-				return res.status(401).json({message: 'Пожалуйста войдите в аккаунт'});
-
-			const accessToken = createAccessToken({ id: user.id});
-			res.json({accessToken});
-		});
 	} catch (err) {
 		return res.status(500).json({message: err.message});
 	}
@@ -168,8 +150,8 @@ module.exports.getAllUserInfo = async (req, res) => {
 
 module.exports.logout = async (req, res) => {
 	try {
-		res.clearCookie('refreshtoken', { path: '/api/me' });
-		return res.json({ message: 'Выход из системы успешно выполнен' });
+		res.clearCookie('refreshtoken');
+		return res.json({ message: 'Выход успешно выполнен' });
 	}	catch (err) {
 		return res.status(500).json({ error: err.message });
 	}
@@ -262,7 +244,6 @@ module.exports.googleLogin = async (req, res) => {
 	}
 };
 
-
 const validateEmail = (email) => {
 	const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 	return re.test(email);
@@ -274,8 +255,4 @@ const createActivationToken = (payload) => {
 
 const createRefreshToken = (payload) => {
 	return jwt.sign(payload, process.env.JWT_REFRESH, {expiresIn: '60m'});
-};
-
-const createAccessToken = (payload) => {
-	return jwt.sign(payload, process.env.JWT_ACCESS, {expiresIn: '7d'});
 };

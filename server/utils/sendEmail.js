@@ -50,5 +50,4 @@ const sendEmail = async (to, url, txt) => {
 		return info;
 	});
 };
-
 module.exports = sendEmail;
