@@ -18,13 +18,13 @@ export type ProductType = {
 //USER_TYPES
 
 export interface UserInfoPropsType {
-    email: string | null
-    address: string | null
-    country: string | null
-    numberOfHouse: string | null
-    numberOfFlat: string | null
-    phone: string | null
-    kod: string | null
+    email: string
+    phone: string
+    city: string
+    street: string
+    flat: string
+    build: string
+    kod: string
 }
 
 export interface UserSelfPropsType {

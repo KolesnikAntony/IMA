@@ -1,6 +1,5 @@
-import { FormAction } from "redux-form";
-import { UserInfoPropsType } from "../types/types";
-import {BaseThunkType, InferActionsTypes } from "./store";
+import {FormAction} from "redux-form";
+import {BaseThunkType, InferActionsTypes} from "./store";
 import {UserAPI} from "../api/api-user";
 
 const SET_SELF_DATA = 'user-reducer/SET_SELF_DATA';
@@ -8,33 +7,31 @@ const SET_PHOTO = 'user-reducer/SET_PHOTO';
 const SET_INFO_DATA = 'user-reducer/SET_INFO_DATA';
 
 const initialState = {
-    name: 'Anton' as string | null,
-    photo:  null as string | null,
-    email: 'kolesiaaa@gmail.com' as string | null,
-    phone: '+380935384862' as string | null,
-    country: 'Poland' as string | null,
-    address: 'Kabacki dukt' as string | null,
-    numberOfFlat: "6" as string | null,
-    numberOfHouse: '67' as string | null,
-    kod: '314-313' as string | null
+    address: {
+        build: '',
+        city: '',
+        flat: '',
+        kod: '',
+        street: '',
+    },
+    email: '',
+    name: '',
+    phone: '',
 };
 
 
 const UserReducer = (state = initialState, action: ActionType): UserInitialStateType => {
     switch (action.type) {
         case SET_SELF_DATA:
-            return {...state, name: action.name,}
+            return state
         case SET_PHOTO:
-            return {...state, photo: action.photo}
+            return state
         case SET_INFO_DATA:
-            return {...state, email: action.email, phone: action.phone,
-                address: action.address, kod: action.kod, country: action.country,
-            numberOfFlat: action.numberOfFlat, numberOfHouse: action.numberOfHouse}
+            return {...state, address: {...action.address}, email: action.email, phone: action.phone, name: action.name}
         default:
             return state
     }
 };
-
 
 
 const actions = {
@@ -46,32 +43,43 @@ const actions = {
         type: SET_PHOTO,
         photo
     } as const),
-    setProfileData: (payload: UserInfoPropsType) => ({
+    setProfileData: (data: ProfileData) => ({
         type: SET_INFO_DATA,
-        email: payload.email,
-        phone: payload.phone,
-        address: payload.address,
-        numberOfFlat: payload.numberOfFlat,
-        numberOfHouse: payload.numberOfHouse,
-        kod: payload.kod,
-        country: payload.country
+        address: data.address,
+        email: data.email,
+        phone: data.phone,
+        name: data.name
     } as const)
 };
 
-export const getNewName = (name: string | null):ThunkType => async (dispatch) => {
+export const getNewName = (name: string | null): ThunkType => async (dispatch) => {
     dispatch(actions.setNewName(name));
 };
-export const getPhoto = (photoFile:any):ThunkType => async (dispatch) => {
+export const getPhoto = (photoFile: any): ThunkType => async (dispatch) => {
     dispatch(actions.setPhoto(photoFile));
 };
-export const getProfileData = (payload: UserInfoPropsType):ThunkType => async (dispatch) => {
+export const getProfileData = (): ThunkType => async (dispatch) => {
 
-    // dispatch(actions.setProfileData(payload));
+    const data = await UserAPI.getUser();
+    console.log('thunk is work');
+    dispatch(actions.setProfileData(data));
 };
 
-export type UserInitialStateType = typeof  initialState;
+export type UserInitialStateType = typeof initialState;
 type ActionType = InferActionsTypes<typeof actions>
 type ThunkType = BaseThunkType<ActionType | FormAction>
+type ProfileData = {
+    address: {
+        kod: string
+        street: string
+        build: string
+        flat: string
+        city: string
+    },
+    email: string
+    phone: string
+    name: string
+}
 
 
 export default UserReducer;
