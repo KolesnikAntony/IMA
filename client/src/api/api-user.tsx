@@ -9,7 +9,7 @@ export const UserAPI = {
             data: userInfo
         });
 
-        return instance.patch<userDataType>('/api/user/profile/update', data).then(res => console.log(res));
+        return instance.patch<userDataType>('/api/user/profile/update', data).then(res => res.data.user);
     }
 };
 
