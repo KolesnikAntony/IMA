@@ -217,10 +217,9 @@ module.exports.googleLogin = async (req, res) => {
 
 				const refreshToken = createRefreshToken({id: user._id});
 
-					res.cookie('refreshToken', refreshToken, {
+					res.cookie('refreshtoken', refreshToken, {
 						httpOnly: true,
-						path: '/login/refresh_token',
-						maxAge: 7*24*60*60*1000
+						maxAge: 24*60*60*1000
 					});
 
 					res.json({ message: 'Авторизация прошла успешно!'});
@@ -230,10 +229,9 @@ module.exports.googleLogin = async (req, res) => {
 				await newUser.save();
 				
 				const refreshToken = createRefreshToken({id: newUser._id});
-				res.cookie('refreshToken', refreshToken, {
+				res.cookie('refreshtoken', refreshToken, {
 					httpOnly: true,
-					path: '/login/refresh_token',
-					maxAge: 7*24*60*60*1000
+					maxAge: 24*60*60*1000
 				});
 	
 				res.json({ message: 'Авторизация прошла успешно!'});

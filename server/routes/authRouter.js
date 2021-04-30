@@ -8,8 +8,6 @@ router.post('/activate', authController.activateEmail);
 
 router.post('/login', authController.login);
 
-// router.post('/refresh_token', authController.accessToken);
-
 router.post('/login/forgot', authController.forgotPassword);
 
 router.post('/login/reset', me, authController.resetPassword);
