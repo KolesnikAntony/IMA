@@ -5,11 +5,12 @@ export const UserAPI = {
         return instance.get<userDataType>('/api/user/profile', {}).then(res => res.data.user);
     },
     uploadUser(userInfo:ProfileDataType ){
-        let data = JSON.stringify({
-            data: userInfo
-        });
+        let data = userInfo;
 
-        return instance.patch<userDataType>('/api/user/profile/update', data).then(res => res.data.user);
+        return instance.patch<userDataType>('/api/user/profile/update', data).then(res => {
+            console.log(res)
+            return res.data.user
+        });
     }
 };
 

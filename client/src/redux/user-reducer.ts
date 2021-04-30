@@ -66,10 +66,10 @@ export const getProfileData = (): ThunkType => async (dispatch) => {
     dispatch(actions.setProfileData(data));
 };
 export const updateUserInfo = (userInfo: ProfileDataType):ThunkType => async (dispatch) =>{
+    console.log(userInfo);
     const data = await UserAPI.uploadUser(userInfo);
     console.log(data);
-
-    //dispatch(actions.setProfileData(data));
+    dispatch(actions.setProfileData(data));
 };
 
 export type UserInitialStateType = typeof initialState;

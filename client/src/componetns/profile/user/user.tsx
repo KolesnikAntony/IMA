@@ -30,7 +30,9 @@ const User = () => {
 
 
     const changeProfileData = (formData: ProfileDataType) => {
+        console.log(formData);
         dispatch(updateUserInfo(formData));
+        console.log('click on')
         toggleCurrentChangeList('')
     };
 
