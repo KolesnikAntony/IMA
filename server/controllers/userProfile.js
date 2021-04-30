@@ -26,12 +26,13 @@ module.exports.getSingleProfile = async (req, res) => {
 
 module.exports.updateProfile = async (req, res) => {
 	try {
-		 await User.findOneAndUpdate(
+		const updateProfile = await User.findOneAndUpdate(
 			{_id: req.user.id},
 			{$set: req.body },
 			{new: true}
-		);
-		res.json({message: 'Профиль обновлён!'});
+		).select('-password -_id -role -cart -avatar -__v -createdAt -updatedAt');
+
+		 res.json({updateProfile});
 	} catch (err) {
 		return res.status(500).json({message: err.message});
 	}
