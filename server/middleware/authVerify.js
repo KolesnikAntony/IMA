@@ -1,8 +1,11 @@
 const jwt = require('jsonwebtoken');
+const User = require('../models/User');
+
 
 module.exports.me = async (req, res, next) => {
 	try {
 		const rfToken = req.cookies.refreshtoken;
+
 		if (!rfToken)
 			return res.status(401).json({message: 'Пожалуйста войдите в аккаунт'});
 
