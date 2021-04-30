@@ -1,6 +1,6 @@
 import {FormAction} from "redux-form";
 import {BaseThunkType, InferActionsTypes} from "./store";
-import {UserAPI} from "../api/api-user";
+import {ProfileDataType, UserAPI} from "../api/api-user";
 
 const SET_SELF_DATA = 'user-reducer/SET_SELF_DATA';
 const SET_PHOTO = 'user-reducer/SET_PHOTO';
@@ -15,8 +15,9 @@ const initialState = {
         street: '',
     },
     email: '',
-    name: '',
+    name: 'Name',
     phone: '',
+    photo: '',
 };
 
 
@@ -43,7 +44,7 @@ const actions = {
         type: SET_PHOTO,
         photo
     } as const),
-    setProfileData: (data: ProfileData) => ({
+    setProfileData: (data: ProfileDataType) => ({
         type: SET_INFO_DATA,
         address: data.address,
         email: data.email,
@@ -64,22 +65,17 @@ export const getProfileData = (): ThunkType => async (dispatch) => {
     console.log('thunk is work');
     dispatch(actions.setProfileData(data));
 };
+export const updateUserInfo = (userInfo: ProfileDataType):ThunkType => async (dispatch) =>{
+    const data = await UserAPI.uploadUser(userInfo);
+    console.log(data);
+
+    //dispatch(actions.setProfileData(data));
+};
 
 export type UserInitialStateType = typeof initialState;
 type ActionType = InferActionsTypes<typeof actions>
 type ThunkType = BaseThunkType<ActionType | FormAction>
-type ProfileData = {
-    address: {
-        kod: string
-        street: string
-        build: string
-        flat: string
-        city: string
-    },
-    email: string
-    phone: string
-    name: string
-}
+
 
 
 export default UserReducer;

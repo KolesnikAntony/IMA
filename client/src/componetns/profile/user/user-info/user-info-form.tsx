@@ -1,15 +1,28 @@
 import React, {FC} from "react";
-import {InjectedFormProps, reduxForm} from "redux-form";
+import {Field, InjectedFormProps, reduxForm} from "redux-form";
 import {createField, Input} from "../../../../common/formControls/form-controls";
-import {required} from "../../../../helpers/validation/validation";
 import {UserInfoPropsType} from "../../../../types/types";
 import {connect} from "react-redux";
 import {AppStateType} from "../../../../redux/store";
+import {ProfileDataType} from "../../../../api/api-user";
+import avatar from "../../../../assets/img/avatar.svg";
+import {required} from "../../../../helpers/validation/validation";
 
 
-const UserInfoForm: FC<InjectedFormProps<UserInfoFormValueType, UserInfoPropsType> & UserInfoPropsType> = ({handleSubmit}) => {
+const UserInfoForm: FC<InjectedFormProps<ProfileDataType, UserInfoPropsType> & UserInfoPropsType> = ({handleSubmit, photo, changePhoto}) => {
     return (
         <form onSubmit={handleSubmit} className="user__form--info">
+            <div className="user__img">
+                <img src={photo ? photo : avatar} alt="" className="user__img--content"/>
+                <label htmlFor="change-photo">
+                    Change Photo
+                    <input className="user__change-photo" id="change-photo" type="file" onChange={changePhoto}/>
+                </label>
+            </div>
+            <h4 className="user__name">
+                <Field component={'input'} name='name' placeholder='Name' type='text' validate={[required]} autoFocus />
+                {/*{createField<UserFormValueTypeKeys>(Input, 'name', "Email", 'text',[required], autoFocus )}*/}
+            </h4>
             <ul className="user__info">
                 <button className="user__change--info user__change user__change--done"/>
 
@@ -46,7 +59,7 @@ const UserInfoForm: FC<InjectedFormProps<UserInfoFormValueType, UserInfoPropsTyp
     )
 }
 
-const UserInfoReduxForm = reduxForm<UserInfoFormValueType, UserInfoPropsType>({form: 'user_info'})(UserInfoForm);
+const UserInfoReduxForm = reduxForm<ProfileDataType, UserInfoPropsType>({form: 'user_info'})(UserInfoForm);
 
 const mapStateToProps = (state: AppStateType):mapStateToPropsType  => {
     return {
@@ -57,8 +70,9 @@ const mapStateToProps = (state: AppStateType):mapStateToPropsType  => {
             build: state.user.address.build,
             flat: state.user.address.flat,
             city: state.user.address.city,
-            kod: state.user.address.kod
-        }
+            kod: state.user.address.kod,
+            name: state.user.name,
+        },
     }
 }
 export const ContainerUserInfoForm = connect(mapStateToProps, {})(UserInfoReduxForm);
@@ -72,9 +86,11 @@ interface mapStateToPropsType {
         flat: string
         build: string
         kod: string
-    }
+        name: string
+    },
 }
-export interface UserInfoFormValueType {
+
+type FormValueType = {
     email: string
     phone: string
     city: string
@@ -82,6 +98,6 @@ export interface UserInfoFormValueType {
     flat: string
     build: string
     kod: string
+    name: string
 }
-
-type UserFormValueTypeKeys = Extract<keyof UserInfoFormValueType, string>
+type UserFormValueTypeKeys = Extract<keyof FormValueType, string>
