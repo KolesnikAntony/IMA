@@ -6,10 +6,8 @@ import SwiperCore, { Navigation } from 'swiper';
 import 'swiper/swiper.scss';
 import 'swiper/components/navigation/navigation.scss';
 
-interface PropsType {
-}
 
-const CatalogItemsMob:FC<PropsType> = () => {
+const CatalogItemsMob:FC = () => {
 
     SwiperCore.use([Navigation]);
 
@@ -19,14 +17,14 @@ const CatalogItemsMob:FC<PropsType> = () => {
                     navigation
                     onSlideChange={() => console.log('slide change')}
                     onSwiper={(swiper) => console.log(swiper)}>
-                <SwiperSlide><ProductCard/></SwiperSlide>
-                <SwiperSlide><ProductCard/></SwiperSlide>
-                <SwiperSlide><ProductCard/></SwiperSlide>
-                <SwiperSlide><ProductCard/></SwiperSlide>
-                <SwiperSlide><ProductCard/></SwiperSlide>
-                <SwiperSlide><ProductCard/></SwiperSlide>
-                <SwiperSlide><ProductCard/></SwiperSlide>
-                <SwiperSlide><ProductCard/></SwiperSlide>
+                {/*<SwiperSlide><ProductCard/></SwiperSlide>*/}
+                {/*<SwiperSlide><ProductCard/></SwiperSlide>*/}
+                {/*<SwiperSlide><ProductCard/></SwiperSlide>*/}
+                {/*<SwiperSlide><ProductCard/></SwiperSlide>*/}
+                {/*<SwiperSlide><ProductCard/></SwiperSlide>*/}
+                {/*<SwiperSlide><ProductCard/></SwiperSlide>*/}
+                {/*<SwiperSlide><ProductCard/></SwiperSlide>*/}
+                {/*<SwiperSlide><ProductCard/></SwiperSlide>*/}
             </Swiper>
         </div>
         )

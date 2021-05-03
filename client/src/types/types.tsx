@@ -2,17 +2,17 @@ import React from "react";
 
 export type ProductType = {
     id: number,
-    name: string,
+    title: string,
     price: number,
     color: string,
-    catigories: string,
-    description: string,
-    shortDescr: string,
+    categories: string,
+    description?: string,
+    shortDescr?: string,
     image: string,
-    salePrice: number | null,
+    salePrice?: number | null,
     sale: boolean,
     top: boolean,
-    wish: boolean,
+    isNew: boolean
 }
 
 //PROFILE_TYPES
@@ -44,7 +44,10 @@ export type ProfileFormValueType = {email: string
     name: string
 };
 
-export type ProfilePropsType<P> = {
-    photo?: string
-    changePhoto?: (e: React.ChangeEvent<HTMLInputElement>)=> void
-} & P;
+export type ProfilePropsType<P> = ProfileFormValueType & P;
+
+//PRODUCTS_TYPES
+export type formTypeData = object;
+export type formFilterData = {
+    nameForCategories: Array<string>
+}

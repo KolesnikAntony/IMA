@@ -5,8 +5,16 @@ export const VIEW_TYPES = {
     BURGER: "BURGER"
 };
 
-export const LOGIN_TYPES= {
+export const LOGIN_TYPES = {
     LOGIN: "LOGIN",
     SIGNUP: "SIGNUP"
-}
+};
 
+
+export const STATE_TYPES = {
+    AUTH: {
+        SIGN_UP: 'auth-reducer/SIGH_UP',
+        IS_AUTH: 'auth-reducer/IS_AUTH',
+    },
+
+};

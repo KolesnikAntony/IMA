@@ -7,9 +7,13 @@ import {AppStateType} from "../../../../redux/store";
 import avatar from "../../../../assets/img/avatar.svg";
 import {required} from "../../../../helpers/validation/validation";
 
+interface PropsType {
+    photo?: string
+    changePhoto: (e: React.ChangeEvent<HTMLInputElement>)=> void
+}
 
 const UserInfoForm: FC<InjectedFormProps<ProfileFormValueType,
-    ProfilePropsType<ProfileFormValueType>> & ProfilePropsType<ProfileFormValueType>> = ({handleSubmit, photo, changePhoto}) => {
+    ProfilePropsType<PropsType>> & ProfilePropsType<PropsType>> = ({handleSubmit, photo, changePhoto}) => {
     return (
         <form onSubmit={handleSubmit} className="user__form--info">
             <div className="user__self">
@@ -61,7 +65,7 @@ const UserInfoForm: FC<InjectedFormProps<ProfileFormValueType,
     )
 }
 
-const UserInfoReduxForm = reduxForm<ProfileFormValueType, ProfilePropsType<ProfileFormValueType>>({form: 'user_info'})(UserInfoForm);
+const UserInfoReduxForm = reduxForm<ProfileFormValueType, ProfilePropsType<PropsType>>({form: 'user_info'})(UserInfoForm);
 
 const mapStateToProps = (state: AppStateType): mapStateToPropsType => {
     return {

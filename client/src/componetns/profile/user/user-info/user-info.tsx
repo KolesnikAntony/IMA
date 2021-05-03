@@ -2,9 +2,12 @@ import React, {FC} from "react";
 import avatar from "../../../../assets/img/avatar.svg";
 import {ProfileFormValueType, ProfilePropsType} from "../../../../types/types";
 
-type PropsType = ProfilePropsType<ProfileFormValueType & {toggleList: () => void}>
+type PropsType = {
+    toggleList: () => void
+    photo: string
+}
 
-const UserInfo: FC<PropsType> = ({toggleList, email, phone, kod, build, city, street, flat, name, photo }) => {
+const UserInfo: FC<ProfilePropsType<PropsType>> = ({toggleList, email, phone, kod, build, city, street, flat, name, photo }) => {
     return (
        <>
            <div className="user__self">

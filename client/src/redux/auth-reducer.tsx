@@ -1,13 +1,11 @@
 import {BaseThunkType, InferActionsTypes} from "./store";
 import {FormAction, stopSubmit} from "redux-form";
 import {AuthAPI} from "../api/api-auth";
-import {UserAPI} from "../api/api-user";
 import {getProfileData} from "./user-reducer";
+import {STATE_TYPES} from "../constants/constants";
 
 const SIGN_UP = 'auth-reducer/SIGH_UP';
-const LOGIN = 'auth-reducer/LOGIN';
-const LOGOUT = 'auth-reducer/LOGOUT';
-const ISAUTH = 'auth-reducer/ISAUTH';
+const IS_AUTH = 'auth-reducer/IS_AUTH';
 
 const initialState = {
     email: null as string | null,
@@ -20,10 +18,8 @@ const AuthReducer = (state = initialState, action: ActionType): AuthInitialState
     switch (action.type) {
         case SIGN_UP:
             return {...state, isSuccessReg: true, email: action.email};
-        case LOGIN:
-            return {...state, email: action.email};
-        case ISAUTH:
-            return {...state, isAuth: action.isAuth}
+        case IS_AUTH:
+            return {...state, isAuth: action.isAuth};
 
         default:
             return state;
@@ -35,31 +31,24 @@ const actions = {
         type: SIGN_UP,
         email,
     } as const),
-    loginSuccess: (email: string) => ({
-        type: LOGIN,
-        email,
-    } as const),
-    logout: () => ({
-        type: LOGOUT
-    } as const),
     setIsAuth: (isAuth: boolean) => ({
-        type: ISAUTH,
+        type: IS_AUTH,
         isAuth
     } as const)
 
 };
 
 export const getIsAuth = ():ThunkType => async (dispatch) => {
+    console.log(STATE_TYPES.AUTH.SIGN_UP);
     try {
         await AuthAPI.me();
         dispatch(await getProfileData());
         dispatch(actions.setIsAuth(true))
     }catch (err) {
-        dispatch(actions.setIsAuth(false))
+        dispatch(actions.setIsAuth(false));
         console.log(err.response);
     }
 };
-
 
 export const signUpThunk = (email: string, password: string): ThunkType => async (dispatch) => {
     try {
@@ -73,7 +62,6 @@ export const signUpThunk = (email: string, password: string): ThunkType => async
 export const loginThunk = (email: string, password: string):ThunkType => async (dispatch) => {
     try {
         await AuthAPI.login(email,password);
-        dispatch(actions.loginSuccess(email));
         dispatch(await getProfileData());
         dispatch(actions.setIsAuth(true))
     }catch (err) {
@@ -91,20 +79,14 @@ export const activateUser = (key: string):ThunkType => async (dispatch) => {
 
 export const logout = ():ThunkType => async (dispatch) => {
     try {
-        let res = await AuthAPI.logout();
-        console.log(res,'----logout');
-        dispatch(actions.logout());
+        await AuthAPI.logout();
         dispatch(actions.setIsAuth(false))
     }catch (err) {
         console.log(err.response)
     }
 };
 
-
-
-
 export default AuthReducer;
-
 
 export type AuthInitialStateType = typeof initialState;
 type ActionType = InferActionsTypes<typeof actions>
