@@ -151,7 +151,7 @@ module.exports.getAllUserInfo = async (req, res) => {
 
 module.exports.logout = async (req, res) => {
 	try {
-		res.clearCookie('refreshtoken');
+		res.clearCookie('refreshtoken', {path: '/api'});
 		return res.json({ message: 'Выход успешно выполнен' });
 	}	catch (err) {
 		return res.status(500).json({ error: err.message });
