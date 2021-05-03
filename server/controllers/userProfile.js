@@ -28,8 +28,8 @@ module.exports.updateProfile = async (req, res) => {
 	try {
 		const user = await User.findOneAndUpdate(
 			{_id: req.user.id},
-			{$set: req.body },
-			{new: true}
+			{ $set: req.body },
+			{ new: true }
 		).select('-password -_id -role -cart -avatar -__v -createdAt -updatedAt');
 
 		 res.json({user});
