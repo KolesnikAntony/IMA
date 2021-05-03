@@ -1,6 +1,8 @@
 import {FormAction} from "redux-form";
 import {BaseThunkType, InferActionsTypes} from "./store";
-import {ProfileDataType, UserAPI} from "../api/api-user";
+import {ProfileDataType, ProfileFormValueType} from "../types/types";
+import {UserAPI} from "../api/api-user";
+
 
 const SET_SELF_DATA = 'user-reducer/SET_SELF_DATA';
 const SET_PHOTO = 'user-reducer/SET_PHOTO';
@@ -56,20 +58,19 @@ const actions = {
 export const getNewName = (name: string | null): ThunkType => async (dispatch) => {
     dispatch(actions.setNewName(name));
 };
+
 export const getPhoto = (photoFile: any): ThunkType => async (dispatch) => {
     dispatch(actions.setPhoto(photoFile));
 };
-export const getProfileData = (): ThunkType => async (dispatch) => {
 
+export const getProfileData = (): ThunkType => async (dispatch) => {
     const data = await UserAPI.getUser();
-    console.log('thunk is work');
     dispatch(actions.setProfileData(data));
 };
-export const updateUserInfo = (userInfo: ProfileDataType):ThunkType => async (dispatch) =>{
-    const data = await UserAPI.uploadUser(userInfo);
-    console.log(data);
 
-    //dispatch(actions.setProfileData(data));
+export const updateUserInfo = (userInfo: ProfileFormValueType):ThunkType => async (dispatch) =>{
+    const data = await UserAPI.uploadUser(userInfo);
+    dispatch(actions.setProfileData(data));
 };
 
 export type UserInitialStateType = typeof initialState;

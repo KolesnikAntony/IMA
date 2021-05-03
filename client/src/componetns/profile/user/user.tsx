@@ -1,14 +1,12 @@
 import React, {useCallback, useState} from "react";
 import './user.scss'
-import UserSelf from "./user-self/user-self";
 import UserInfo from "./user-info/user-info";
 import {ContainerUserInfoForm} from "./user-info/user-info-form";
-import {ContainerUserSelfForm, UserSelfFormValueType} from "./user-self/user-self-form";
 import {useDispatch, useSelector} from "react-redux";
 import {AppDispatch, RootState} from "../../../redux/store";
-import {getNewName, getPhoto, updateUserInfo, UserInitialStateType} from "../../../redux/user-reducer";
+import {getPhoto, updateUserInfo, UserInitialStateType} from "../../../redux/user-reducer";
 import {logout} from "../../../redux/auth-reducer";
-import {ProfileDataType} from "../../../api/api-user";
+import {ProfileFormValueType} from "../../../types/types";
 
 
 const VIEW_CHANGE_PROFILE = {
@@ -28,21 +26,17 @@ const User = () => {
         setCurrentViewType(type);
     }, [currentViewType]);
 
+    //todo Will make disable button then response of updateUserInfo
+    //todo Change callback toggleCurrentChangeList
 
-    const changeProfileData = (formData: ProfileDataType) => {
-        dispatch(updateUserInfo(formData));
-        toggleCurrentChangeList('')
+    const changeProfileData = async (formData: ProfileFormValueType) => {
+        await dispatch(updateUserInfo(formData));
+        toggleCurrentChangeList('');
     };
 
-    // const changeName = (formData: UserSelfFormValueType) => {
-    //     let {name} = formData;
-    //     dispatch(getNewName(name))
-    //     toggleCurrentChangeList('')
-    // };
-
     const changePhoto = (e: React.ChangeEvent<HTMLInputElement>) => {
-       let photo =  e.target.files;
-        if(photo !== null) dispatch(getPhoto(photo))
+        let photo = e.target.files;
+        if (photo !== null) dispatch(getPhoto(photo))
     };
 
     const onLogout = () => {
@@ -51,15 +45,10 @@ const User = () => {
 
 
     return <div className='user'>
-        {/*{currentViewType === VIEW_CHANGE_PROFILE.SELF ?*/}
-        {/*    <ContainerUserSelfForm onSubmit={changeName} changePhoto={changePhoto} name={name} photo={''}/>*/}
-        {/*    : <UserSelf toggleList={() => toggleCurrentChangeList(VIEW_CHANGE_PROFILE.SELF)}*/}
-        {/*                name={name}*/}
-        {/*                photo={''}/>}*/}
         {currentViewType === VIEW_CHANGE_PROFILE.INFO ?
             <ContainerUserInfoForm onSubmit={changeProfileData}
                                    email={email}
-                                   street={"address"}
+                                   street={address.street}
                                    city={address.city}
                                    build={address.build}
                                    flat={address.flat}
@@ -70,7 +59,7 @@ const User = () => {
                                    photo={''}/>
             : <UserInfo toggleList={() => toggleCurrentChangeList(VIEW_CHANGE_PROFILE.INFO)}
                         email={email}
-                        street={"address"}
+                        street={address.street}
                         city={address.city}
                         build={address.build}
                         flat={address.flat}

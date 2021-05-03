@@ -1,30 +1,18 @@
 import React, {FC} from "react";
 import avatar from "../../../../assets/img/avatar.svg";
+import {ProfileFormValueType, ProfilePropsType} from "../../../../types/types";
 
-
-interface PropsType {
-    toggleList: () => void
-    email: string
-    phone: string
-    city: string
-    street: string
-    flat: string
-    build: string
-    kod: string
-    name: string
-    photo:string
-}
+type PropsType = ProfilePropsType<ProfileFormValueType & {toggleList: () => void}>
 
 const UserInfo: FC<PropsType> = ({toggleList, email, phone, kod, build, city, street, flat, name, photo }) => {
     return (
        <>
            <div className="user__self">
-               <button className="user__change--self user__change" onClick={toggleList}/>
                <div className="user__img">
-                   <img src={photo !== null ? photo : avatar} alt="" className="user__img--content"/>
+                   <img src={photo ? photo : avatar} alt="" className="user__img--content"/>
                </div>
                <h4 className="user__name user__name-state">
-                   {name}
+                   {name ? name: 'Name'}
                </h4>
            </div>
            <ul className="user__info">
