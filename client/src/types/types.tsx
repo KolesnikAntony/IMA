@@ -9,7 +9,7 @@ export type ProductType = {
     description?: string,
     shortDescr?: string,
     image: string,
-    salePrice?: number | null,
+    salePrice: number | null,
     sale: boolean,
     top: boolean,
     isNew: boolean
@@ -47,7 +47,11 @@ export type ProfileFormValueType = {email: string
 export type ProfilePropsType<P> = ProfileFormValueType & P;
 
 //PRODUCTS_TYPES
-export type formTypeData = object;
-export type formFilterData = {
-    nameForCategories: Array<string>
+export type FormFilterDataType = {
+    colors: {}
+    categories: {}
+};
+export type FormFilterPropsType = {
+    colors: Array<string>
+    categories: Array<string>
 }

@@ -1,14 +1,18 @@
-import React, {FC} from "react";
+import React, {FC, ReactHTMLElement} from "react";
 import './product-card.scss'
 import {Link} from "react-router-dom";
 import {ProductType} from "../../types/types";
+import {useDispatch} from "react-redux";
+import { updateCartItem } from "../../redux/products-reducer";
 
 
 const ProductCard: FC<ProductType> = ({title, image, price, salePrice, sale, top, isNew, id}) => {
 
-    const putToCart = (e: any) => {
+    const dispatch = useDispatch();
+
+    const putToCart = (e: React.MouseEvent<HTMLButtonElement>, id: number) => {
         e.preventDefault();
-        console.log('click')
+        dispatch(updateCartItem(id));
     };
 
     return <div className="product-card">
@@ -26,7 +30,7 @@ const ProductCard: FC<ProductType> = ({title, image, price, salePrice, sale, top
                 <p className="product-card__name">{title}</p>
                 <p className="product-card__price">{salePrice ? price + "/" + salePrice : price}zl</p>
             </div>
-            <button className="product-card__add" onClick={(e) => putToCart(e)}>add to cart</button>
+            <button className="product-card__add" onClick={(e) => putToCart(e, id)}>add to cart</button>
         </Link>
     </div>
 };

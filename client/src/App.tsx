@@ -10,6 +10,7 @@ import Home from './componetns/home/home';
 import {getIsAuth} from './redux/auth-reducer';
 import Footer from "./componetns/footer/footer";
 import Shop from './componetns/shop/shop';
+import {getCartItem} from "./redux/products-reducer";
 
 
 function AppMain() {

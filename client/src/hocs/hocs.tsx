@@ -1,7 +1,7 @@
 import {FC} from "react";
 import {InjectedFormProps, reduxForm} from "redux-form";
-import {formFilterData, formTypeData} from "../types/types";
+import {FormFilterPropsType, FormFilterDataType} from "../types/types";
 
-export const FormFilterHOC = (component: FC<InjectedFormProps<formTypeData, formFilterData>  & formFilterData>, name: string,) => {
-    return reduxForm<formTypeData, formFilterData>({form: name})(component);
+export const FormFilterHOC = (component: FC<InjectedFormProps<FormFilterDataType, FormFilterPropsType>  & FormFilterPropsType>, name: string,) => {
+    return reduxForm<FormFilterDataType, FormFilterPropsType>({form: name})(component);
 };

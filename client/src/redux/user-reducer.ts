@@ -3,8 +3,6 @@ import {BaseThunkType, InferActionsTypes} from "./store";
 import {ProfileDataType, ProfileFormValueType} from "../types/types";
 import {UserAPI} from "../api/api-user";
 
-
-const SET_SELF_DATA = 'user-reducer/SET_SELF_DATA';
 const SET_PHOTO = 'user-reducer/SET_PHOTO';
 const SET_INFO_DATA = 'user-reducer/SET_INFO_DATA';
 
@@ -25,8 +23,6 @@ const initialState = {
 
 const UserReducer = (state = initialState, action: ActionType): UserInitialStateType => {
     switch (action.type) {
-        case SET_SELF_DATA:
-            return state
         case SET_PHOTO:
             return state
         case SET_INFO_DATA:
@@ -38,10 +34,6 @@ const UserReducer = (state = initialState, action: ActionType): UserInitialState
 
 
 const actions = {
-    setNewName: (name: string | null,) => ({
-        type: SET_SELF_DATA,
-        name,
-    } as const),
     setPhoto: (photo: string) => ({
         type: SET_PHOTO,
         photo
@@ -55,28 +47,23 @@ const actions = {
     } as const)
 };
 
-export const getNewName = (name: string | null): ThunkType => async (dispatch) => {
-    dispatch(actions.setNewName(name));
-};
 
-export const getPhoto = (photoFile: any): ThunkType => async (dispatch) => {
+export const getPhoto = (photoFile: any): ThunkUserType => async (dispatch) => {
     dispatch(actions.setPhoto(photoFile));
 };
 
-export const getProfileData = (): ThunkType => async (dispatch) => {
+export const getProfileData = (): ThunkUserType => async (dispatch) => {
     const data = await UserAPI.getUser();
     dispatch(actions.setProfileData(data));
 };
 
-export const updateUserInfo = (userInfo: ProfileFormValueType):ThunkType => async (dispatch) =>{
+export const updateUserInfo = (userInfo: ProfileFormValueType):ThunkUserType => async (dispatch) =>{
     const data = await UserAPI.uploadUser(userInfo);
     dispatch(actions.setProfileData(data));
 };
 
 export type UserInitialStateType = typeof initialState;
 type ActionType = InferActionsTypes<typeof actions>
-type ThunkType = BaseThunkType<ActionType | FormAction>
-
-
+type ThunkUserType = BaseThunkType<ActionType | FormAction>
 
 export default UserReducer;
