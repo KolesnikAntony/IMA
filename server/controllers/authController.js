@@ -188,7 +188,7 @@ module.exports.deleteUser = async (req, res) => {
 	try {
 			const deleteUser = await User.findByIdAndDelete(req.params.id);
 
-		res.status(200).json({message: 'Пользователь удалён!'});
+		res.status(200).json({message: 'Пользователь удалён!', deleteUser});
 	}	catch (err) {
 		return res.status(500).json({ error: err.message });
 	}

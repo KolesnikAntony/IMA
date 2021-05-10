@@ -9,6 +9,9 @@ const { me } = require('./middleware/authVerify');
 //routes
 const authRouter = require('./routes/authRouter');
 const userProfile = require('./routes/userProfile');
+const categoryRouter = require('./routes/categoryRouter');
+
+const productRouter = require('./routes/productRouter');
 
 
 
@@ -30,6 +33,8 @@ app.get('/api', me, async (req, res) => {
 });
 app.use('/api', authRouter);
 app.use('/api/user', userProfile);
+app.use('/api', categoryRouter);
+app.use('/api', productRouter);
 
 
 const PORT = process.env.PORT || 5000;
