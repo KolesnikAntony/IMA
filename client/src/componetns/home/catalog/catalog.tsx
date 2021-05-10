@@ -18,7 +18,7 @@ const Catalog = () => {
         <section className='home-catalog'>
             <div className="container">
                 <h2 className='home-catalog__title'>Product catalog</h2>
-                {width > 504 ? <CatalogItemsDesk propducts = {products}/> : <CatalogItemsMob/> }
+                {width > 504 ? <CatalogItemsDesk products={products} /> : <CatalogItemsMob products={products} /> }
                 <Link to='/shop' className='home-catalog__button'>To show</Link>
             </div>
         </section>

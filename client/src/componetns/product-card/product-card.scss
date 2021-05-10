@@ -42,7 +42,7 @@
     color: $color-mocco;
   }
   &__name {
-    width: 200px;
+    width: content-box;
     text-align: left;
     white-space: nowrap;
     text-overflow: ellipsis;
@@ -76,10 +76,10 @@
 
 }
 
-@media (max-width: 1052px) {
-  .product-card {
-    &__name{
-      width: 180px;
-    }
-  }
-}
+//@media (max-width: 1052px) {
+//  .product-card {
+//    &__name{
+//      width: 180px;
+//    }
+//  }
+//}

@@ -5,9 +5,10 @@ import {Swiper, SwiperSlide} from "swiper/react";
 import SwiperCore, { Navigation } from 'swiper';
 import 'swiper/swiper.scss';
 import 'swiper/components/navigation/navigation.scss';
+import {ProductType} from "../../../types/types";
 
 
-const CatalogItemsMob:FC = () => {
+const CatalogItemsMob:FC<{products: Array<ProductType>}> = ({products}) => {
 
     SwiperCore.use([Navigation]);
 
@@ -17,14 +18,7 @@ const CatalogItemsMob:FC = () => {
                     navigation
                     onSlideChange={() => console.log('slide change')}
                     onSwiper={(swiper) => console.log(swiper)}>
-                {/*<SwiperSlide><ProductCard/></SwiperSlide>*/}
-                {/*<SwiperSlide><ProductCard/></SwiperSlide>*/}
-                {/*<SwiperSlide><ProductCard/></SwiperSlide>*/}
-                {/*<SwiperSlide><ProductCard/></SwiperSlide>*/}
-                {/*<SwiperSlide><ProductCard/></SwiperSlide>*/}
-                {/*<SwiperSlide><ProductCard/></SwiperSlide>*/}
-                {/*<SwiperSlide><ProductCard/></SwiperSlide>*/}
-                {/*<SwiperSlide><ProductCard/></SwiperSlide>*/}
+                {products.slice(0, 8).map(el =><SwiperSlide><ProductCard key={el.id} {...el}/></SwiperSlide>)}
             </Swiper>
         </div>
         )

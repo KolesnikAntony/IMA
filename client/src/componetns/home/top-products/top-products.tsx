@@ -6,10 +6,15 @@ import 'swiper/swiper.scss';
 import 'swiper/components/navigation/navigation.scss';
 import './top-products.scss';
 import {useViewSize} from "../../../hooks/hooks";
+import {useSelector} from "react-redux";
+import {AppStateType} from "../../../redux/store";
+import {ProductType} from "../../../types/types";
 
 
 
 const TopProducts = () => {
+    const products = useSelector<AppStateType, Array<ProductType>>(state => state.products.products);
+
     SwiperCore.use([Navigation]);
     let {width} = useViewSize();
 
@@ -34,14 +39,7 @@ const TopProducts = () => {
                             navigation
                             onSlideChange={() => console.log('slide change')}
                             onSwiper={(swiper) => console.log(swiper)}>
-                        <SwiperSlide><ProductCard/></SwiperSlide>
-                        <SwiperSlide><ProductCard/></SwiperSlide>
-                        <SwiperSlide><ProductCard/></SwiperSlide>
-                        <SwiperSlide><ProductCard/></SwiperSlide>
-                        <SwiperSlide><ProductCard/></SwiperSlide>
-                        <SwiperSlide><ProductCard/></SwiperSlide>
-                        <SwiperSlide><ProductCard/></SwiperSlide>
-                        <SwiperSlide><ProductCard/></SwiperSlide>
+                        {products.map(el=> <SwiperSlide><ProductCard {...el}/></SwiperSlide> )}
                     </Swiper>
 
                 {/*{dimensions.width > 504 ? <CatalogItemsDesk/> : <CatalogItemsMob/> }*/}

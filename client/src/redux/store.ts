@@ -8,7 +8,7 @@ import {composeWithDevTools} from 'redux-devtools-extension';
 import {reducer as formReducer} from 'redux-form'
 import UserReducer from "./user-reducer";
 import AuthReducer from "./auth-reducer";
-import ProductsReducer from "./products-reduser";
+import ProductsReducer from "./products-reducer";
 
 const middleware = [thunk];
 const reducers = combineReducers(

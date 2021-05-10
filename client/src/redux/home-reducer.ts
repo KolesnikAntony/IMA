@@ -1,16 +1,12 @@
 
-import {ProductInitialState} from "./selectors";
 
 
-
- const homeReducer = (state = ProductInitialState, action: any): InitialStateType => {
+ const homeReducer = (state = {}, action: any)=> {
     switch (action.type) {
         default:
             return state
     }
 };
-
-type InitialStateType = typeof  ProductInitialState;
 
 export default homeReducer;
 
