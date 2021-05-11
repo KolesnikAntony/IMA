@@ -11,13 +11,23 @@ module.exports.createProduct = async (req, res) => {
 };
 
 module.exports.getProducts = async (req, res) => {
-	let page = parseInt(req.query.page) || 1;
-	let limit = parseInt(req.query.limit) || 8;
+
 
 	try {
-		let query;
+		let query = {};
 
 		let reqQuery = { ...req.query };
+
+		const page = parseInt(req.query.page) || 1;
+		const pageSize = parseInt(req.query.limit) || 8;
+		const skip = (page - 1) * pageSize;
+		const total = await Product.countDocuments();
+
+		const pages = Math.ceil(total / pageSize);
+
+		if (page > pages) {
+			res.status(404).json({message: 'Страница не найдена.'})
+		}
 
 		let removeFields = ['sort', 'page', 'limit', 'skip'];
 		removeFields.forEach((val) => delete reqQuery[val]);
@@ -26,6 +36,8 @@ module.exports.getProducts = async (req, res) => {
 
 		queryStr = queryStr.replace( /\b(gt|gte|lt|lte|in)\b/g,
 			(match) => `$${match}`);
+
+		console.log('queryStr--->', queryStr);
 
 		query = Product.find(JSON.parse(queryStr));
 
@@ -39,9 +51,17 @@ module.exports.getProducts = async (req, res) => {
 			query = query.sort('-price');
 		}
 
-		const products = await query.populate('category', 'name');
+		const products = await query.populate('category', 'name')
+			.limit(pageSize)
+			.skip(skip)
+			.lean();
 
-		res.json({count: products.length, products});
+		res.status(200).json({
+			count: products.length,
+			page,
+			pages,
+			products
+		});
 	} catch (err) {
 		return res.status(500).json({message: err.message});
 	}
