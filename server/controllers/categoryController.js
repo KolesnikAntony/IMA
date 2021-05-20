@@ -19,7 +19,7 @@ module.exports.addCategory = async (req, res) => {
 
 		for (let names of categories) {
 			if (newCategory.name === names.name) {
-				return res.status(400).json({message: 'Категория занята, попробуйте другое имя'});
+				return res.status(400).json({message: `Категория ${req.body.name} занята, попробуйте другое имя`});
 			}
 		}
 
