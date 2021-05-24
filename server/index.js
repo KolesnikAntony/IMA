@@ -17,7 +17,7 @@ connectDB();
 
 app.use(morgan('dev'));
 //если не загружать изображения в локал сторедж, то строка ниже не нужна
-app.use('/public/uploads', express.static(__dirname + '/public/uploads'));
+// app.use('/public/uploads', express.static(__dirname + '/public/uploads'));
 app.use(express.json());
 app.use(cookieParser());
 app.use(cors());

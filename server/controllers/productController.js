@@ -34,7 +34,7 @@ module.exports.createProduct = async (req, res) => {
 		});
 
 		// отмена загрузки изображения в локальное хранилище
-		// fs.unlinkSync(req.file.path);
+		fs.unlinkSync(req.file.path);
 
 		await product.save();
 
@@ -112,38 +112,36 @@ module.exports.getNewProducts = async (req, res) => {
 
 module.exports.getColorAndCategory = async (req, res) => {
 	try {
-		const query = { ...req.query };
-		// Check if URL query has & char and split into multiple query strings
-		const multiQuery = async () => {
-			// Return array of any query param values containing '&'
-			const mQueryArr = Object.values(query).filter(i => i.indexOf('&') > -1);
-			if (mQueryArr.length) {
-				Object.keys(query).forEach((key) => {
-					if (query[key].indexOf('&') > -1) {
-						// Split strings containing '&' and set query to search multiple using
-						// mongooses '$in' operator
-						const queries = query[key].split('&');
-						query[key] = { $in: queries };
-					}
-				});
-			}
-		};
-		console.log(query)
 
-		// const query = {};
-		// // const { category, color } = req.query;
+		// let query = {...req.query};
 		//
 		// if (req.query.color !== '') {
 		// 	query.color = req.query.color.split(',');
+		// }
 		//
 		// 	if (req.query.category !== '') {
 		// 		query.category = req.query.category.split(',');
 		// 	}
 		// }
+		// const splitValues = Object.values(query).join('');
+		// const argsArr = splitValues.split(',');
+		// const getKeys = Object.keys(query).join('');
+		// console.log('getKeys', getKeys);
+		// console.log('argsArr', argsArr);
+		// const completeQuery = { req.query +':' + argsArr }
+		// query = completeQuery;
+		// console.log('query', completeQuery);
 
 		// if (req.query.category !== null) query.category = req.query.category.split(',') : query;
-		await multiQuery();
-		const newProducts = await Product.find(query)
+		// await multiQuery();
+		//{category:['609308afbe7adb4340ee8dde', '609308fe87772a1a00865c1a']} нужно сделать хотябы вот так
+
+		let query = {};
+		query = Product.find();
+		if (query.color && query.color.length > 0) query.color = {$in : query.color};
+		console.log('query', query.color);
+
+		const newProducts = await query
 			.populate('category', 'name')
 			.lean();
 

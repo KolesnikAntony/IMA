@@ -7,9 +7,9 @@ const router = require('express').Router();
 router.post('/products/create', me, upload.single('imageSrc'), productController.createProduct);
 
 // get
-router.get('/products', me, productController.getProducts);
+router.get('/products', productController.getProducts);
 
-router.get('/products/get_new', me, productController.getNewProducts);
+router.get('/products/get_new', productController.getNewProducts);
 
 router.get('/products/color_category', me, productController.getColorAndCategory);
 
