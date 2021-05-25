@@ -2,7 +2,6 @@ require('dotenv').config({path: './.env'});
 const connectDB = require('./config/db');
 const express = require('express');
 const cors = require ('cors');
-const fileUpload = require('express-fileupload');
 const cookieParser = require('cookie-parser');
 const morgan = require('morgan');
 const { me } = require('./middleware/authVerify');
@@ -10,21 +9,17 @@ const { me } = require('./middleware/authVerify');
 const authRouter = require('./routes/authRouter');
 const userProfile = require('./routes/userProfile');
 const categoryRouter = require('./routes/categoryRouter');
-
 const productRouter = require('./routes/productRouter');
-
-
 
 const app = express();
 
 connectDB();
 
 app.use(morgan('dev'));
+//если не загружать изображения в локал сторедж, то строка ниже не нужна
+// app.use('/public/uploads', express.static(__dirname + '/public/uploads'));
 app.use(express.json());
 app.use(cookieParser());
-app.use(fileUpload({
-	useTempFiles: true
-}));
 app.use(cors());
 
 //routes
