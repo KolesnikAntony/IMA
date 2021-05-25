@@ -1,47 +1,42 @@
 import React, {FC, useEffect, useState} from "react";
-import { updateQtyOfProduct } from "../../../redux/products-reducer";
+import {actionsProducts} from "../../../redux/products-reducer";
 import './cart-product.scss'
 import {useDispatch, useSelector} from "react-redux";
 import {AppStateType} from "../../../redux/store";
-import {ProductType} from "../../../types/types";
+import {CartType} from "../../../types/types";
 
 interface CartPropsType {
     title: string
     image: string
-    price: number
-    salePrice: number | null
-    setTestArray: (initArray: any) => void;
+    currentPrice: number
     id: number
 }
 
-const CartProduct:FC<CartPropsType> = ({title, salePrice, price, image, setTestArray, id}) => {
-    const currentPrice = salePrice ? salePrice : price;
+const CartProduct:FC<CartPropsType> = ({title, currentPrice, image, id }) => {
+
     const [totalProductPrice, setTotalProductPrice] = useState(currentPrice);
-
-
     const dispatch = useDispatch();
-    //const cart = useSelector<AppStateType, Array<ProductType & {qty?: number}>>(state => state.products.cart);
-    // setTestArray((initArray: any) => [...initArray, totalProductPrice ]);
-    //let qty  = cart.find(el => el.id === id && el.qty);
-    //console.log(qty)
+
     const [quantity, setQuantity] = useState(1);
 
     const addQnt = () => {
         if(quantity <= 100) {
             setQuantity(quantity + 1);
-            dispatch(updateQtyOfProduct(id,quantity + 1))
         }
     };
 
     const removeQnt = () => {
-        if(quantity >= 2) {
+        if(quantity > 1){
             setQuantity(quantity - 1);
-            dispatch(updateQtyOfProduct(id,quantity - 1))
+        }else{
+            dispatch(actionsProducts.removeFromCart(id))
         }
     };
 
     useEffect(() => {
-       dispatch(updateQtyOfProduct(id,quantity));
+        console.log('render')
+        setTotalProductPrice(quantity * currentPrice);
+        quantity >= 1 && dispatch(actionsProducts.updateQty(id,quantity));
     }, [quantity]);
 
     return (

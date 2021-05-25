@@ -28,9 +28,11 @@ export type CartType = {
     id: number
     imageSrc: string
     price: number
+    salePrice: number
     title: string
     qty: number
 }
+
 //PROFILE_TYPES
 
 export type ProfileAPIDataType = {

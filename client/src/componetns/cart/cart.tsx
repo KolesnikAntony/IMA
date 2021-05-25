@@ -1,32 +1,29 @@
-import React, {useEffect, useState} from "react";
+import React, {useCallback, useEffect, useState} from "react";
 import CartProduct from "./cart-product/cart-product";
 import './cart.scss'
 import {useDispatch, useSelector} from "react-redux";
 import {AppStateType} from "../../redux/store";
-import {ProductType} from "../../types/types";
-import {getCartItem} from "../../redux/products-reducer";
+import {CartType} from "../../types/types";
+import { actionsProducts } from "../../redux/products-reducer";
+
 
 const Cart = () => {
-    const dispatch = useDispatch();
-   // const cartProducts = useSelector<AppStateType, Array<ProductType>>(state => state.products.cart);
+    const cartProducts = useSelector<AppStateType, Array<CartType>>(state => state.products.cart);
     const [totalPrice, setTotalPrice] = useState(0);
-    const [testArray, setTestArray] = useState([]);
 
-    // useEffect(() => {
-    //     dispatch(getCartItem());
-    //
-    //     // const totalPrice = cartProducts.length ? cartProducts
-    //     //     .map((el) => el.salePrice ? el.salePrice : el.price)
-    //     //     .reduce((prev, current) => prev + current) : 0;
-    //     //
-    //     // setTotalPrice(totalPrice);
-    //
-    // }, [cartProducts]);
+    useEffect(() => {
+        //dispatch(getCartItem());
+        let total = 0;
+        cartProducts.forEach(item => total += item.qty * item.price);
+        setTotalPrice(total);
+
+    }, [cartProducts]);
 
     return (
         <section className='cart'>
             <h3 className="cart__title aside__title">Cart</h3>
             <div className="cart__products">
+                {cartProducts.map(el =>  <CartProduct  key={el.id} id={el.id} title={el.title} image={el.imageSrc} currentPrice={el.salePrice ? el.salePrice : el.price}/>)}
             </div>
             <div className="cart__actions">
                 <form className="cart__promo">

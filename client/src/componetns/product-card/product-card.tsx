@@ -1,10 +1,12 @@
-import React, {FC, useState} from "react";
+import React, {FC, useContext, useState} from "react";
 import './product-card.scss'
 import {Link} from "react-router-dom";
 import {ProductType} from "../../types/types";
 import {useDispatch} from "react-redux";
-import {addCartItem} from "../../redux/products-reducer";
+import {actionsProducts} from "../../redux/products-reducer";
 import cap from './../../assets/img/nail-polish.png'
+import {VIEW_TYPES} from "../../constants/constants";
+import {OpenCartContext} from "../../context/context";
 
 
 const ProductCard: FC<ProductType> = ({title, imageSrc, price, salePrice, sale, top, itsNew, id}) => {
@@ -15,11 +17,19 @@ const ProductCard: FC<ProductType> = ({title, imageSrc, price, salePrice, sale, 
 
     const putToCart = (e: React.MouseEvent<HTMLButtonElement>, id: number) => {
         e.preventDefault();
-        dispatch(addCartItem(id));
+        dispatch(actionsProducts.setAddToCart(id));
         setIsCart(true);
     };
 
+    const openCart = useContext(OpenCartContext);
+
+    const openCartHandler = (e: React.MouseEvent<HTMLButtonElement>)=> {
+        e.preventDefault();
+        openCart(VIEW_TYPES.CART);
+    };
+
     const addDefaultSrc = (e: any) => {e.target.src = cap};
+
 
     return <div className="product-card">
         <Link to={`/product/${id}`}>
@@ -41,7 +51,7 @@ const ProductCard: FC<ProductType> = ({title, imageSrc, price, salePrice, sale, 
 
             {!isCart ?
                 <button className="product-card__add" onClick={(e) => putToCart(e, id)}>add to cart</button>:
-                <button className="product-card__go" >go to cart</button>
+                <button className="product-card__go" onClick={(e)=> openCartHandler(e)} >go to cart</button>
             }
         </Link>
     </div>
