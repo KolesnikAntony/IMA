@@ -1,7 +1,4 @@
-import {createStore} from "redux";
-import {Action} from "redux";
-import {applyMiddleware} from "redux";
-import {combineReducers} from "redux"
+import {Action, applyMiddleware, combineReducers, createStore} from "redux";
 import thunk, {ThunkAction} from "redux-thunk";
 import homeReducer from "./home-reducer";
 import {composeWithDevTools} from 'redux-devtools-extension';
@@ -17,7 +14,7 @@ const reducers = combineReducers(
         form: formReducer,
         user: UserReducer,
         auth: AuthReducer,
-        products: ProductsReducer
+        products: ProductsReducer,
     }
 )
 
@@ -38,6 +35,6 @@ let store = createStore(reducers, composeWithDevTools(
     )
 );
 //@ts-ignore
-+ window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
++window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
 export default store;
 

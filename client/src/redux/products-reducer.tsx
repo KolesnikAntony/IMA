@@ -1,9 +1,16 @@
-import {FormFilterDataType, ProductType} from "../types/types";
+import {CartType, FormFilterDataType, ProductsAPIType, ProductType} from "../types/types";
 import {BaseThunkType, InferActionsTypes} from "./store";
 import {FormAction} from "redux-form";
+import {ProductsAPI} from "../api/api-products";
 
 const SET_FILTER = 'products-reducer/SET_FILTER';
+const SET_HOME_CATALOG = 'products-reducer/SET_HOME_CATALOG';
+const SET_HOME_TOP_PRODUCTS = 'products-reducer/SET_HOME_TOP_PRODUCTS';
+const SET_CURRENT_PRODUCTS_PRICE = 'products-reducer/SET_CURRENT_PRODUCTS_PRICE';
+const REMOVE_FROM_CART = 'products-reducer/REMOVE_FROM_CART';
 const ADD_TO_CART = 'products-reducer/ADD_TO_CART';
+const UPDATE_QTY ='products-reducer/UPDATE_QTY';
+
 
 const ProductInitialState = {
     products: [
@@ -12,143 +19,55 @@ const ProductInitialState = {
             title: 'laker',
             price: 30,
             color: 'red',
-            categories: 'lakery',
+            category: {
+                name: 'lala',
+                _id: 'faff'
+            },
             description: "ldld",
             shortDescr: 'dldldl',
-            image: "https://cdn.shortpixel.ai/client/q_glossy,ret_img,w_300/https://ima-professional.pl/wp-content/uploads/2021/01/Agate07-300x300.jpg",
+            imageSrc: "https://cdn.shortpixel.ai/client/q_glossy,ret_img,w_300/https://ima-professional.pl/wp-content/uploads/2021/01/Agate07-300x300.jpg",
             salePrice: null,
             sale: false,
             top: true,
-            isNew: true,
+            itsNew: true,
         },
-        {
-            id: 2,
-            title: 'laker',
-            price: 30,
-            color: 'green',
-            categories: 'lakery',
-            description: "ldld",
-            shortDescr: 'dldldl',
-            image: "https://cdn.shortpixel.ai/client/q_glossy,ret_img,w_300/https://ima-professional.pl/wp-content/uploads/2021/01/Agate07-300x300.jpg",
-            salePrice: 27,
-            sale: false,
-            top: true,
-            isNew: true,
-
-        },
-        {
-            id: 3,
-            title: 'laker',
-            price: 30,
-            color: 'blue',
-            categories: 'lakery',
-            description: "ldld",
-            shortDescr: 'dldldl',
-            image: "https://cdn.shortpixel.ai/client/q_glossy,ret_img,w_300/https://ima-professional.pl/wp-content/uploads/2021/01/Agate07-300x300.jpg",
-            salePrice: null,
-            sale: false,
-            top: false,
-            isNew: true,
-
-        },
-        {
-            id: 4,
-            title: 'laker',
-            price: 30,
-            color: 'green',
-            categories: 'lakery',
-            description: "ldld",
-            shortDescr: 'dldldl',
-            image: "https://cdn.shortpixel.ai/client/q_glossy,ret_img,w_300/https://ima-professional.pl/wp-content/uploads/2021/01/Agate07-300x300.jpg",
-            salePrice: null,
-            sale: false,
-            top: false,
-            isNew: true,
-
-        },
-        {
-            id: 5,
-            title: 'base',
-            price: 30,
-            color: 'red',
-            categories: 'base',
-            description: "ldld",
-            shortDescr: 'dldldl',
-            image: "https://cdn.shortpixel.ai/client/q_glossy,ret_img,w_300/https://ima-professional.pl/wp-content/uploads/2021/01/Agate07-300x300.jpg",
-            salePrice: null,
-            sale: false,
-            top: false,
-            isNew: true,
-
-        },
-        {
-            id: 6,
-            title: 'gel',
-            price: 30,
-            color: 'red',
-            categories: 'base',
-            description: "ldld",
-            shortDescr: 'dldldl',
-            image: "https://cdn.shortpixel.ai/client/q_glossy,ret_img,w_300/https://ima-professional.pl/wp-content/uploads/2021/01/Agate07-300x300.jpg",
-            salePrice: null,
-            sale: false,
-            top: false,
-            isNew: true,
-
-        },
-        {
-            id: 7,
-            title: 'base',
-            price: 30,
-            color: 'red',
-            categories: 'gel',
-            description: "ldld",
-            shortDescr: 'dldldl',
-            image: "https://cdn.shortpixel.ai/client/q_glossy,ret_img,w_300/https://ima-professional.pl/wp-content/uploads/2021/01/Agate07-300x300.jpg",
-            salePrice: null,
-            sale: false,
-            top: false,
-            isNew: true,
-
-        },
-        {
-            id: 8,
-            title: 'gel',
-            price: 30,
-            color: 'red',
-            categories: 'gel',
-            description: "ldld",
-            shortDescr: 'dldldl',
-            image: "https://cdn.shortpixel.ai/client/q_glossy,ret_img,w_300/https://ima-professional.pl/wp-content/uploads/2021/01/Agate07-300x300.jpg",
-            salePrice: null,
-            sale: true,
-            top: true,
-            isNew: true,
-        },
-        {
-            id: 9,
-            title: 'gel',
-            price: 30,
-            color: 'red',
-            categories: 'gel',
-            description: "ldld",
-            shortDescr: 'dldldl',
-            image: "https://cdn.shortpixel.ai/client/q_glossy,ret_img,w_300/https://ima-professional.pl/wp-content/uploads/2021/01/Agate07-300x300.jpg",
-            salePrice: null,
-            sale: false,
-            top: false,
-            isNew: true,
-        }
     ] as Array<ProductType>,
-    cart: []  as Array<ProductType> | []
+    topProducts: [] as Array<ProductType>,
+    cart: [] as Array<CartType>,
+    totalPrice: 0 as number,
+    currentProductsPrice: 0 as number
 };
 
-const ProductsReducer = (state = ProductInitialState, action: ActionType):ProductsInitialStateType => {
+const ProductsReducer = (state = ProductInitialState, action: ActionType): ProductsInitialStateType => {
     switch (action.type) {
         case SET_FILTER:
             return {...state, products: action.products};
+        case SET_HOME_CATALOG:
+            return {...state, products: action.products};
+        case SET_HOME_TOP_PRODUCTS:
+            return {...state, topProducts: action.products};
         case ADD_TO_CART:
-            return {...state, cart:[...state.cart, ...state.products.filter(el => el.id == action.id)]}
+            let foundProduct = state.products.find(el => el.id == action.id);
+            console.log(foundProduct);
+            let title = foundProduct.title;
+            // let newObj = {
+            //     qty: 1,
+            //     id: action.id,
+            //     title,
+            //     imageSrc,
+            //     price,
+            // };
+
+            return state;
+        case UPDATE_QTY:
+            // let cart = [...state.cart];
+            // let item = cart.find(item => item.id == action.id);
+            // let newCart = cart.filter(item => item.id != action.id);
+            // item.qty = action.qty;
+            // newCart.push(item);
+
+           // return  {...state, cart: [...state.cart.find(el => el.id == action.id)]}
+
         default:
             return state
     }
@@ -159,52 +78,62 @@ const actions = {
         type: SET_FILTER,
         products,
     } as const),
-    setCart: (id: number) => ({
+    setHomeCatalog: (products: Array<ProductType>) => ({
+        type: SET_HOME_CATALOG,
+        products
+    } as const),
+    setHomeTopProducts: (products: Array<ProductType>) => ({
+        type: SET_HOME_TOP_PRODUCTS,
+        products
+    } as const),
+    setAddToCart: (id: number) => ({
         type: ADD_TO_CART,
-        id
-    } as const)
+        id,
+        qty: 1,
+    } as const),
+    updateQty:(id:number, qty: number) => ({
+        type: UPDATE_QTY,
+        id,
+        qty
+    } as const),
+    removeFromCart: (id: number) => ({
+        type: REMOVE_FROM_CART,
+        id,
+    } as const),
 };
 
-
-export const getFilter = (formData: FormFilterDataType):ThunkProductType => async (dispatch) => {
-    let data = [{
-        id: 1,
-        title: 'laker',
-        price: 30,
-        color: 'red',
-        categories: 'lakery',
-        description: "ldld",
-        shortDescr: 'dldldl',
-        image: "https://cdn.shortpixel.ai/client/q_glossy,ret_img,w_300/https://ima-professional.pl/wp-content/uploads/2021/01/Agate07-300x300.jpg",
-        salePrice: null,
-        sale: false,
-        top: true,
-        isNew: true,
-    },];
-
-    dispatch(actions.setFilter(data));
+export const getProducts = (): ThunkProductType => async (dispatch) => {
+    const data = await ProductsAPI.getProducts();
+    console.log(data.products, '---all');
+    dispatch(actions.setHomeCatalog(data.products))
 };
+export const getTopProducts = (): ThunkProductType => async (dispatch) => {
+    const data = await ProductsAPI.getTopProducts();
+    console.log(data.products , '---top');
+    dispatch(actions.setHomeTopProducts(data.products))
+};
+export const getFilter = (formData: FormFilterDataType): ThunkProductType => async (dispatch) => {
 
-export const getProductsOrder = (value: string):ThunkProductType => async (dispatch) => {
+};
+export const getProductsOrder = (value: string): ThunkProductType => async (dispatch) => {
+    console.log(value)
+};
+export const getProductsType = (value: string): ThunkProductType => async (dispatch) => {
     console.log(value)
 };
 
-export const getProductsType = (value: string):ThunkProductType => async (dispatch) => {
-    console.log(value)
+export const addCartItem = (id: number): ThunkProductType => async (dispatch) => {
+    dispatch(actions.setAddToCart(id));
 };
 
-export const updateCartItem = (id: number):ThunkProductType => async (dispatch) => {
-    dispatch(actions.setCart(id));
-    let data = [];
-    data.push(localStorage.getItem('cartItems'));
-    data.push(id);
-    localStorage.setItem('cartItems', JSON.stringify(data));
+export const updateQtyOfProduct = (id: number, qty: number):ThunkProductType => async (dispatch) =>{
+    dispatch(actions.updateQty(id, qty));
 };
 
-export const getCartItem = ():ThunkProductType => async (dispatch) => {
-    let data = localStorage.getItem('cartItems');
-    console.log(data);
+export const getCartItem = (): ThunkProductType => async (dispatch) => {
+
 };
+
 
 export default ProductsReducer;
 

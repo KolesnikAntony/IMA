@@ -85,12 +85,12 @@
     position: absolute;
     right: 0;
     top: 0;
-    background: url('./../../../assets/img/pen.svg') center no-repeat;
+    background: url(./../../../assets/img/pen.svg) center no-repeat;
     cursor: pointer;
     opacity: 0.4;
     transition: 0.2s;
     &--done {
-      background: url('./../../../assets/img/done_outline_mocco.svg') center no-repeat;
+      background: url(./../../../assets/img/done_outline_mocco.svg) center no-repeat;
     }
     &:hover {
       opacity: 1;

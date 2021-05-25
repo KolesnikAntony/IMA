@@ -18,7 +18,7 @@ const Filter: FC<PropsType> = ({products, setFilter}) => {
     };
 
     const colors = getUniqueNameOfCategories(products.map(el => el.color));
-    const categories = getUniqueNameOfCategories(products.map(el => el.categories));
+    const categories = getUniqueNameOfCategories(products.map(el => el.category.name));
 
     return <FilterFormWrap colors={colors} categories={categories} onSubmit={setFilter}/>;
 };
