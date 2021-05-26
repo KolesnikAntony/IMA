@@ -19,10 +19,12 @@ const Shop = () => {
     useEffect(()=> {
         console.log('render shop from useEffect');
         dispatch(getProducts(currentPage, false, false, false, false));
+        window.scrollTo(0, 0);
     }, []);
 
     const showCurrentProducts = (currentPage: number) => {
         dispatch(getProducts(currentPage, sale, itsNew, top , sort));
+        window.scrollTo(0, 0);
     };
 
     //todo make custom Hook for function below

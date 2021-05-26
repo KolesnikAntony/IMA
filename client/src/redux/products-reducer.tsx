@@ -171,6 +171,7 @@ export const actionsProducts = {
 export const getProducts = (currentPage: number,  top: boolean, itsNew: boolean, sale: boolean, sort: boolean): ThunkProductType => async (dispatch) => {
     dispatch(actionsProducts.setCurrentPage(currentPage));
     const data = await ProductsAPI.getProducts(currentPage, top, itsNew, sale, sort);
+    console.log(data, '----products')
     dispatch(actionsProducts.setShopProducts(data.products));
     dispatch(actionsProducts.setTotalPage(data.pages));
     dispatch(actionsProducts.setSort(top, itsNew, sale, sort));

@@ -24,6 +24,8 @@
   &__info {
     @include column(flex-start);
     margin-bottom: 12px;
+    width: 100%;
+    max-width: 190px;
   }
 
   &__add {
