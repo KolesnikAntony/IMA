@@ -23,6 +23,9 @@ export type ProductType = {
 
 export type ProductsAPIType =  {
     products: Array<ProductType>
+    page: number
+    pages: number
+
 }
 
 export type CartType = {

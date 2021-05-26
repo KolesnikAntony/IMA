@@ -1,0 +1,54 @@
+@import '../../../src/assets/style/variables';
+@import '../../../src/assets/style/mixins';
+
+.paginator {
+  display: flex;
+  padding: 20px;
+  margin: 40px auto 0;
+  cursor: pointer;
+  &__wrap {
+    display: flex;
+    width: 110px;
+  }
+  &__number {
+    color: $color-mocco;
+    width: 20px;
+    height: 20px;
+    text-align: center;
+    border-radius: 50%;
+    border: 1px solid $color-mocco;
+    transition: .3s;
+    &:not(:last-of-type){
+      margin-right: 10px;
+    }
+    &.active {
+      background-color: $color-mocco;
+      color: white;
+    }
+    &:hover{
+      background-color: $color-nude;
+    }
+  }
+  &__btn {
+    width: 20px;
+    height: 20px;
+    border-top: 1px solid $color-mocco;
+    transition: border .3s;
+    cursor: pointer;
+
+    &--next {
+      transform: rotate( 45deg);
+      border-right: 1px solid $color-mocco;
+    }
+    &--prev {
+      transform: rotate( -45deg);
+      border-left: 1px solid $color-mocco;
+    }
+    &.hide {
+      display: none;
+    }
+    &:hover {
+      border-color: $color-nude;
+    }
+  }
+}

@@ -15,7 +15,7 @@ interface PropsType {
 
 const TopProducts:FC<PropsType> = ({getCountOfSlide}) => {
     const products = useSelector<AppStateType, Array<ProductType>>(state => state.products.products);
-    console.log(products, '---top');
+    console.log('render of TOP');
     return (
         <section className="top">
             <div className="container">
@@ -27,8 +27,6 @@ const TopProducts:FC<PropsType> = ({getCountOfSlide}) => {
                             onSwiper={(swiper) => console.log(swiper)}>
                         {products.map(el=> <SwiperSlide key={el.id}><ProductCard {...el}/></SwiperSlide> )}
                     </Swiper>
-
-                {/*{dimensions.width > 504 ? <CatalogItemsDesk/> : <CatalogItemsMob/> }*/}
             </div>
         </section>
     )

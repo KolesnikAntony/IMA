@@ -21,7 +21,6 @@ function AppMain() {
 
     useEffect(() => {
         dispatch(getIsAuth());
-        dispatch(getProducts());
         dispatch(getTopProducts());
     }, []);
 

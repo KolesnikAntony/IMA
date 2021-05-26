@@ -13,6 +13,7 @@ import SwiperCore, {Navigation} from "swiper";
 
 
 const Home:FC<PropsType> = ({isNewMember, match}) => {
+    console.log('render home');
     let key = match.params.key;
 
     SwiperCore.use([Navigation]);

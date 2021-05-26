@@ -12,6 +12,7 @@ import {OpenCartContext} from "../../context/context";
 const ProductCard: FC<ProductType> = ({title, imageSrc, price, salePrice, sale, top, itsNew, id, isCart}) => {
 
     const dispatch = useDispatch();
+
     const putToCart = (e: React.MouseEvent<HTMLButtonElement>, id: number) => {
         e.preventDefault();
         dispatch(actionsProducts.setAddToCart(id));

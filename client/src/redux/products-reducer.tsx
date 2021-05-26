@@ -4,7 +4,11 @@ import {FormAction} from "redux-form";
 import {ProductsAPI} from "../api/api-products";
 import index from "swiper";
 
-const SET_FILTER = 'products-reducer/SET_FILTER';
+const SET_SHOP_PRODUCTS = 'products-reducer/SET_SHOP_PRODUCTS';
+const SET_CURRENT_PAGE = 'products-reducer/SET_CURRENT_PAGE';
+const SET_TOTAL_PAGE = 'products-reducer/SET_TOTAL_PAGE';
+
+
 const SET_HOME_CATALOG = 'products-reducer/SET_HOME_CATALOG';
 const SET_HOME_TOP_PRODUCTS = 'products-reducer/SET_HOME_TOP_PRODUCTS';
 const REMOVE_FROM_CART = 'products-reducer/REMOVE_FROM_CART';
@@ -35,6 +39,10 @@ const ProductInitialState = {
             isCart: false
         },
     ] as Array<ProductType>,
+    totalPages: 10,
+    pageSize: 8,
+    portionSize: 4,
+    currentPage: 1,
     topProducts: [] as Array<ProductType>,
     cart: [] as Array<CartType> | any,
     totalPrice: 0 as number,
@@ -43,12 +51,27 @@ const ProductInitialState = {
 
 const ProductsReducer = (state = ProductInitialState, action: ActionType): ProductsInitialStateType => {
     switch (action.type) {
-        case SET_FILTER:
+        case SET_SHOP_PRODUCTS:
             return {...state, products: action.products};
+
+        case SET_CURRENT_PAGE:
+            return {
+                ...state,
+                currentPage: action.currentPage
+            };
+        case SET_TOTAL_PAGE:
+            return {
+                ...state,
+                totalPages: action.totalPages
+            };
+
         case SET_HOME_CATALOG:
             return {...state, products: action.products};
         case SET_HOME_TOP_PRODUCTS:
             return {...state, products: action.products};
+
+
+
         case ADD_TO_CART:
             //@ts-ignore
             let {title, salePrice, price, imageSrc} = state.products.find(el => el.id == action.id);
@@ -72,7 +95,6 @@ const ProductsReducer = (state = ProductInitialState, action: ActionType): Produ
         case REMOVE_FROM_CART:
             return {...state, cart: state.cart.filter((el: CartType) => el.id != action.id)};
 
-
         case CHECK_IS_IN_CART:
             return {...state};
 
@@ -89,10 +111,19 @@ const ProductsReducer = (state = ProductInitialState, action: ActionType): Produ
 };
 
 export const actionsProducts = {
-    setFilter: (products: Array<ProductType>) => ({
-        type: SET_FILTER,
-        products,
+    setShopProducts: (products: Array<ProductType>) => ({
+        type: SET_SHOP_PRODUCTS,
+        products
     } as const),
+    setTotalPage: (totalPages: number) => ({
+        type: SET_TOTAL_PAGE,
+        totalPages,
+    } as const),
+    setCurrentPage: (currentPage: number) => ({
+        type: SET_CURRENT_PAGE,
+        currentPage,
+    } as const),
+
     setHomeCatalog: (products: Array<ProductType>) => ({
         type: SET_HOME_CATALOG,
         products
@@ -125,19 +156,20 @@ export const actionsProducts = {
     } as const)
 };
 
-export const getProducts = (): ThunkProductType => async (dispatch) => {
-    const data = await ProductsAPI.getProducts();
-    console.log(data.products, '---all');
-    dispatch(actionsProducts.setHomeCatalog(data.products))
+export const getProducts = (currentPage: number): ThunkProductType => async (dispatch) => {
+    dispatch(actionsProducts.setCurrentPage(currentPage));
+    const data = await ProductsAPI.getProducts(currentPage);
+    dispatch(actionsProducts.setShopProducts(data.products));
+    dispatch(actionsProducts.setTotalPage(data.pages));
 };
+
+
 export const getTopProducts = (): ThunkProductType => async (dispatch) => {
     const data = await ProductsAPI.getTopProducts();
-    console.log(data.products, '---top');
-    dispatch(actionsProducts.setHomeTopProducts(data.products))
+    dispatch(actionsProducts.setHomeTopProducts(data.products));
+    dispatch(actionsProducts.setHomeCatalog(data.products));
 };
-export const getFilter = (formData: FormFilterDataType): ThunkProductType => async (dispatch) => {
 
-};
 export const getProductsOrder = (value: string): ThunkProductType => async (dispatch) => {
     console.log(value)
 };
@@ -149,6 +181,6 @@ export const getProductsType = (value: string): ThunkProductType => async (dispa
 
 export default ProductsReducer;
 
-type ProductsInitialStateType = typeof ProductInitialState;
+export type ProductsInitialStateType = typeof ProductInitialState;
 type ActionType = InferActionsTypes<typeof actionsProducts>;
 type ThunkProductType = BaseThunkType<ActionType | FormAction>

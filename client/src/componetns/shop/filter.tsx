@@ -11,16 +11,16 @@ interface PropsType {
 }
 
 const Filter: FC<PropsType> = ({products, setFilter}) => {
-
+    console.log('render filter')
     //todo make those functionality on backend
     const getUniqueNameOfCategories = (array: Array<string>) => {
         return array.filter((e, i, a) => a.indexOf(e) === i);
     };
 
-    const colors = getUniqueNameOfCategories(products.map(el => el.color));
-    const categories = getUniqueNameOfCategories(products.map(el => el.category.name));
+    // const colors = getUniqueNameOfCategories(products.map(el => el.color));
+    // const categories = getUniqueNameOfCategories(products.map(el => el.category.name));
 
-    return <FilterFormWrap colors={colors} categories={categories} onSubmit={setFilter}/>;
+     return <FilterFormWrap colors={[]} categories={[]} onSubmit={setFilter}/>;
 };
 
 const FilterForm:FC<InjectedFormProps<FormFilterDataType, FormFilterPropsType> & FormFilterPropsType> = ({handleSubmit, colors, categories}) => {
