@@ -151,3 +151,18 @@ module.exports.getColorAndCategory = async (req, res) => {
 	}
 };
 
+// module.exports.getNewProducts = async (req, res) => {
+// 	try {
+//
+// 		const
+//
+// 		const newProducts = await Product.find(req.query)
+// 			.populate('category', 'name')
+// 			.lean();
+//
+// 		res.status(200).json({message: 'show u al products from db',count: newProducts.length, newProducts});
+// 	} catch (err) {
+// 		return res.status(500).json({message: err.message});
+// 	}
+// };
+

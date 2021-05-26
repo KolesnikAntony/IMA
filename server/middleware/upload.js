@@ -5,9 +5,8 @@ const storage = multer.diskStorage({
 	destination: (req, file, cb) => {
   //проверка ключа файла для сохранения в нужную папку
 		if (file.fieldname === 'imageSrc') {
-			console.log('zaebis');
+			cb(null, 'public/uploads/');
 		} else {
-			console.log('ne nashlo')
 			cb(null, 'public/avatar/');
 		}
 	},
