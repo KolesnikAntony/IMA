@@ -5,12 +5,7 @@ import {useDispatch, useSelector} from "react-redux";
 import {AppStateType} from "../../redux/store";
 import {FormFilterDataType, ProductType} from "../../types/types";
 import ProductCard from "../product-card/product-card";
-import {
-    getProducts,
-    getProductsOrder,
-    getProductsType,
-    ProductsInitialStateType
-} from "../../redux/products-reducer";
+import {getProducts, ProductsInitialStateType} from "../../redux/products-reducer";
 import {useMediaQuery} from "react-responsive";
 import Paginator from '../../common/paginator/pagintaor';
 
@@ -18,16 +13,16 @@ const Shop = () => {
     console.log('render shop');
     const dispatch = useDispatch();
     const products = useSelector<AppStateType, Array<ProductType>>(state => state.products.products);
-    const {totalPages, currentPage, portionSize} = useSelector<AppStateType, ProductsInitialStateType>(state => state.products);
+    const {totalPages, currentPage, portionSize, sale, itsNew, top , sort} = useSelector<AppStateType, ProductsInitialStateType>(state => state.products);
     const isDesktop = useMediaQuery({minWidth: 943});
 
     useEffect(()=> {
         console.log('render shop from useEffect');
-        dispatch(getProducts(currentPage));
+        dispatch(getProducts(currentPage, false, false, false, false));
     }, []);
 
     const showCurrentProducts = (currentPage: number) => {
-        dispatch(getProducts(currentPage));
+        dispatch(getProducts(currentPage, sale, itsNew, top , sort));
     };
 
     //todo make custom Hook for function below
@@ -41,18 +36,29 @@ const Shop = () => {
 
     const handleOrderPrice = (e: React.FormEvent<HTMLSelectElement>) => {
         let value = e.currentTarget.value;
-        dispatch(getProductsOrder(value));
         setOrderOfPrice(value);
+        if(value === 'min'){
+            dispatch(getProducts(currentPage, top, itsNew, sale, true));
+        }else if(value === 'max') {
+            dispatch(getProducts(currentPage, top, itsNew, sale,  false));
+        }
     };
 
     const handleProductList = (e: React.FormEvent<HTMLSelectElement>) => {
         let value = e.currentTarget.value;
-        dispatch(getProductsType(value));
         setProductTypeList(value);
+        if( value === 'all') {
+            dispatch(getProducts(currentPage, false, false, false , sort));
+        }else if(value === 'new'){
+            dispatch(getProducts(currentPage, false, true, false , sort));
+        }else if(value === 'top'){
+            dispatch(getProducts(currentPage, true, false, false , sort));
+        }else if(value === 'sale'){
+            dispatch(getProducts(currentPage, false, false, true , sort));
+        }
     };
 
     const [showMobFilter, setShowMobFilter] = useState(false);
-
     const handleShowMobFilter = () => {
         setShowMobFilter(prev => !prev);
     };

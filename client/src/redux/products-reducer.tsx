@@ -16,6 +16,7 @@ const ADD_TO_CART = 'products-reducer/ADD_TO_CART';
 const UPDATE_QTY = 'products-reducer/UPDATE_QTY';
 const CHECK_IS_IN_CART = 'products-reducer/CHECK_IS_IN_CART';
 const SET_IS_IN_CART = 'products-reducer/SET_IS_IN_CART';
+const SET_SORT = 'products-reducer/SET_SORT'
 
 
 const ProductInitialState = {
@@ -43,6 +44,10 @@ const ProductInitialState = {
     pageSize: 8,
     portionSize: 4,
     currentPage: 1,
+    sale: true,
+    top: true,
+    itsNew: true,
+    sort: false,
     topProducts: [] as Array<ProductType>,
     cart: [] as Array<CartType> | any,
     totalPrice: 0 as number,
@@ -67,10 +72,9 @@ const ProductsReducer = (state = ProductInitialState, action: ActionType): Produ
 
         case SET_HOME_CATALOG:
             return {...state, products: action.products};
+
         case SET_HOME_TOP_PRODUCTS:
             return {...state, products: action.products};
-
-
 
         case ADD_TO_CART:
             //@ts-ignore
@@ -104,7 +108,8 @@ const ProductsReducer = (state = ProductInitialState, action: ActionType): Produ
                 isCart: el.isCart
             });
             return {...state, products: arrayIsCart};
-
+        case SET_SORT:
+            return {...state, sort: action.sort, top: action.top, itsNew: action.itsNew, sale: action.sale}
         default:
             return state
     }
@@ -153,14 +158,22 @@ export const actionsProducts = {
         type: SET_IS_IN_CART,
         id,
         isCart
-    } as const)
+    } as const),
+    setSort: (top: boolean, itsNew: boolean, sale: boolean, sort: boolean) => ({
+        type: SET_SORT,
+        top,
+        itsNew,
+        sale,
+        sort
+    } as const )
 };
 
-export const getProducts = (currentPage: number): ThunkProductType => async (dispatch) => {
+export const getProducts = (currentPage: number,  top: boolean, itsNew: boolean, sale: boolean, sort: boolean): ThunkProductType => async (dispatch) => {
     dispatch(actionsProducts.setCurrentPage(currentPage));
-    const data = await ProductsAPI.getProducts(currentPage);
+    const data = await ProductsAPI.getProducts(currentPage, top, itsNew, sale, sort);
     dispatch(actionsProducts.setShopProducts(data.products));
     dispatch(actionsProducts.setTotalPage(data.pages));
+    dispatch(actionsProducts.setSort(top, itsNew, sale, sort));
 };
 
 
@@ -169,15 +182,6 @@ export const getTopProducts = (): ThunkProductType => async (dispatch) => {
     dispatch(actionsProducts.setHomeTopProducts(data.products));
     dispatch(actionsProducts.setHomeCatalog(data.products));
 };
-
-export const getProductsOrder = (value: string): ThunkProductType => async (dispatch) => {
-    console.log(value)
-};
-export const getProductsType = (value: string): ThunkProductType => async (dispatch) => {
-    console.log(value)
-};
-
-
 
 export default ProductsReducer;
 

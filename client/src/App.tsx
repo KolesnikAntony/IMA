@@ -1,4 +1,4 @@
-import React, {useCallback, useContext, useEffect, useState} from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import './App.scss';
 import {BrowserRouter, Route, Switch} from "react-router-dom";
 import Header from "./componetns/header/header";
@@ -10,8 +10,8 @@ import Home from './componetns/home/home';
 import {getIsAuth} from './redux/auth-reducer';
 import Footer from "./componetns/footer/footer";
 import Shop from './componetns/shop/shop';
-import {getProducts, getTopProducts} from "./redux/products-reducer";
-import { OpenCartContext } from './context/context';
+import {getTopProducts} from "./redux/products-reducer";
+import {OpenCartContext} from './context/context';
 
 function AppMain() {
     const [open, setOpen] = useState(false);
