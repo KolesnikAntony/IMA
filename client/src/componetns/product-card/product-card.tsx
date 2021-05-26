@@ -1,4 +1,4 @@
-import React, {FC, useContext, useState} from "react";
+import React, {FC, useContext, useEffect, useState} from "react";
 import './product-card.scss'
 import {Link} from "react-router-dom";
 import {ProductType} from "../../types/types";
@@ -9,16 +9,13 @@ import {VIEW_TYPES} from "../../constants/constants";
 import {OpenCartContext} from "../../context/context";
 
 
-const ProductCard: FC<ProductType> = ({title, imageSrc, price, salePrice, sale, top, itsNew, id}) => {
-
-    const [isCart, setIsCart] = useState(false);
+const ProductCard: FC<ProductType> = ({title, imageSrc, price, salePrice, sale, top, itsNew, id, isCart}) => {
 
     const dispatch = useDispatch();
-
     const putToCart = (e: React.MouseEvent<HTMLButtonElement>, id: number) => {
         e.preventDefault();
         dispatch(actionsProducts.setAddToCart(id));
-        setIsCart(true);
+        dispatch(actionsProducts.setIsInCart(id, true));
     };
 
     const openCart = useContext(OpenCartContext);

@@ -18,6 +18,7 @@ export type ProductType = {
     updatedAt: string
     __v?: number
     _id?: string
+    isCart?: boolean
 }
 
 export type ProductsAPIType =  {

@@ -14,8 +14,8 @@ interface PropsType {
 }
 
 const TopProducts:FC<PropsType> = ({getCountOfSlide}) => {
-    const products = useSelector<AppStateType, Array<ProductType>>(state => state.products.topProducts);
-
+    const products = useSelector<AppStateType, Array<ProductType>>(state => state.products.products);
+    console.log(products, '---top');
     return (
         <section className="top">
             <div className="container">

@@ -7,10 +7,11 @@ import index from "swiper";
 const SET_FILTER = 'products-reducer/SET_FILTER';
 const SET_HOME_CATALOG = 'products-reducer/SET_HOME_CATALOG';
 const SET_HOME_TOP_PRODUCTS = 'products-reducer/SET_HOME_TOP_PRODUCTS';
-const SET_CURRENT_PRODUCTS_PRICE = 'products-reducer/SET_CURRENT_PRODUCTS_PRICE';
 const REMOVE_FROM_CART = 'products-reducer/REMOVE_FROM_CART';
 const ADD_TO_CART = 'products-reducer/ADD_TO_CART';
-const UPDATE_QTY ='products-reducer/UPDATE_QTY';
+const UPDATE_QTY = 'products-reducer/UPDATE_QTY';
+const CHECK_IS_IN_CART = 'products-reducer/CHECK_IS_IN_CART';
+const SET_IS_IN_CART = 'products-reducer/SET_IS_IN_CART';
 
 
 const ProductInitialState = {
@@ -31,8 +32,9 @@ const ProductInitialState = {
             sale: false,
             top: true,
             itsNew: true,
+            isCart: false
         },
-    ] as Array<ProductType> ,
+    ] as Array<ProductType>,
     topProducts: [] as Array<ProductType>,
     cart: [] as Array<CartType> | any,
     totalPrice: 0 as number,
@@ -46,7 +48,7 @@ const ProductsReducer = (state = ProductInitialState, action: ActionType): Produ
         case SET_HOME_CATALOG:
             return {...state, products: action.products};
         case SET_HOME_TOP_PRODUCTS:
-            return {...state, topProducts: action.products};
+            return {...state, products: action.products};
         case ADD_TO_CART:
             //@ts-ignore
             let {title, salePrice, price, imageSrc} = state.products.find(el => el.id == action.id);
@@ -61,11 +63,26 @@ const ProductsReducer = (state = ProductInitialState, action: ActionType): Produ
             return {...state, cart: [...state.cart, productInCart]};
 
         case UPDATE_QTY:
-            let newCart = state.cart.map((item: CartType) => item.id == action.id ? {...item, qty: action.qty} : {...item, qty: item.qty});
+            let newCart = state.cart.map((item: CartType) => item.id == action.id ? {
+                ...item,
+                qty: action.qty
+            } : {...item, qty: item.qty});
             return {...state, cart: newCart};
-        case REMOVE_FROM_CART:
 
-            return {...state, cart: state.cart.filter((el: CartType)=> el.id != action.id)}
+        case REMOVE_FROM_CART:
+            return {...state, cart: state.cart.filter((el: CartType) => el.id != action.id)};
+
+
+        case CHECK_IS_IN_CART:
+            return {...state};
+
+        case SET_IS_IN_CART:
+            let arrayIsCart = state.products.map(el => el.id === action.id ? {...el, isCart: action.isCart} : {
+                ...el,
+                isCart: el.isCart
+            });
+            return {...state, products: arrayIsCart};
+
         default:
             return state
     }
@@ -89,7 +106,7 @@ export const actionsProducts = {
         id,
         qty: 1,
     } as const),
-    updateQty:(id:number, qty: number) => ({
+    updateQty: (id: number, qty: number) => ({
         type: UPDATE_QTY,
         id,
         qty
@@ -98,6 +115,14 @@ export const actionsProducts = {
         type: REMOVE_FROM_CART,
         id,
     } as const),
+    checkIsInCart: () => ({
+        type: CHECK_IS_IN_CART,
+    } as const),
+    setIsInCart: (id: number, isCart: boolean) => ({
+        type: SET_IS_IN_CART,
+        id,
+        isCart
+    } as const)
 };
 
 export const getProducts = (): ThunkProductType => async (dispatch) => {
@@ -107,7 +132,7 @@ export const getProducts = (): ThunkProductType => async (dispatch) => {
 };
 export const getTopProducts = (): ThunkProductType => async (dispatch) => {
     const data = await ProductsAPI.getTopProducts();
-    console.log(data.products , '---top');
+    console.log(data.products, '---top');
     dispatch(actionsProducts.setHomeTopProducts(data.products))
 };
 export const getFilter = (formData: FormFilterDataType): ThunkProductType => async (dispatch) => {
@@ -119,6 +144,8 @@ export const getProductsOrder = (value: string): ThunkProductType => async (disp
 export const getProductsType = (value: string): ThunkProductType => async (dispatch) => {
     console.log(value)
 };
+
+
 
 export default ProductsReducer;
 
