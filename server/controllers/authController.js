@@ -198,6 +198,8 @@ module.exports.googleLogin = async (req, res) => {
 	try {
 		const { tokenId } = req.body;
 
+		console.log('tokenId', tokenId);
+
 		const verify = await client.verifyIdToken({ idToken: tokenId,  audience: process.env.EMAIL_SERVICE_CLIENT_ID });
 
 		console.log(verify);
@@ -216,10 +218,11 @@ module.exports.googleLogin = async (req, res) => {
 				const isMatch = await bcrypt.compare(password, user.password)
 				if (!isMatch) return res.status(400).json({message: 'Неправильный пароль'});
 
-				const refreshToken = createRefreshToken({id: user._id});
+				const refreshtoken = createRefreshToken({id: user._id});
 
-					res.cookie('refreshtoken', refreshToken, {
+					res.cookie('refreshtoken', refreshtoken, {
 						httpOnly: true,
+						path: '/api',
 						maxAge: 24*60*60*1000
 					});
 
@@ -228,10 +231,11 @@ module.exports.googleLogin = async (req, res) => {
 				const newUser = new User({ email, password: hashedPass });
 	
 				await newUser.save();
-				
-				const refreshToken = createRefreshToken({id: newUser._id});
-				res.cookie('refreshtoken', refreshToken, {
+
+				const refreshtoken = createRefreshToken({id: newUser._id});
+				res.cookie('refreshtoken', refreshtoken, {
 					httpOnly: true,
+					path: '/api',
 					maxAge: 24*60*60*1000
 				});
 	
@@ -241,6 +245,10 @@ module.exports.googleLogin = async (req, res) => {
 	}	catch (err) {
 		return res.status(500).json({ error: err.message });
 	}
+};
+
+module.exports.facebookLogin = async (req, res) => {
+
 };
 
 const validateEmail = (email) => {
