@@ -34,7 +34,7 @@ module.exports.createProduct = async (req, res) => {
 		});
 
 		// отмена загрузки изображения в локальное хранилище
-		fs.unlinkSync(req.file.path);
+		// fs.unlinkSync(req.file.path);
 
 		await product.save();
 

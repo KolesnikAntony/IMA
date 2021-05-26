@@ -53,7 +53,7 @@ module.exports.uploadAvatar = async (req, res) => {
 		).select('avatar');
 
 		// отмена загрузки изображения в локальное хранилище
-		fs.unlinkSync(req.file.path);
+		// fs.unlinkSync(req.file.path);
 		await user.save();
 		res.status(200).json({message: 'Аватар обновлён', user});
 	} catch (err) {
@@ -65,13 +65,13 @@ module.exports.uploadAvatar = async (req, res) => {
 module.exports.deleteAvatar = async (req, res) => {
 
 	try {
-		// const basePath = `${req.protocol}://${req.get('host')}/`;
+		const basePath = `${req.protocol}://${req.get('host')}/`;
 
 		const user = await User.findByIdAndUpdate({_id: req.user.id} ).select('avatar');
 
-		// const repUrl = (user.avatar).replace(basePath, '');
+		const repUrl = (user.avatar).replace(basePath, '');
 
-		// fs.unlinkSync(repUrl);
+		fs.unlinkSync(repUrl);
 
 		user.avatar = '';
 
