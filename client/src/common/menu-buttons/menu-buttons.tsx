@@ -13,10 +13,10 @@ const MenuButtons:FC<PropsType> =({onOpen}) => {
                 <button className="menu-btn--cart menu-btn"
                         onClick={() => onOpen(VIEW_TYPES.CART)}/>
             </li>
-            <li className="menu-item">
-                <button className="menu-btn--wish menu-btn"
-                        onClick={() => onOpen(VIEW_TYPES.WISH)}/>
-            </li>
+            {/*<li className="menu-item">*/}
+            {/*    <button className="menu-btn--wish menu-btn"*/}
+            {/*            onClick={() => onOpen(VIEW_TYPES.WISH)}/>*/}
+            {/*</li>*/}
             <li className="menu-item">
                 <button className="menu-btn--profile menu-btn"
                         onClick={() => onOpen(VIEW_TYPES.PROFILE)}/>

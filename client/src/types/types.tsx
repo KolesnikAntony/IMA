@@ -1,20 +1,36 @@
 import React from "react";
 
 export type ProductType = {
-    id: number,
-    title: string,
-    price: number,
-    color: string,
-    categories: string,
-    description?: string,
-    shortDescr?: string,
-    image: string,
-    salePrice: number | null,
-    sale: boolean,
-    top: boolean,
-    isNew: boolean
+    category: {name: string, _id: string}
+    color: string
+    createdAt: string
+    description: string
+    id: number
+    imageSrc:string
+    itsNew: boolean
+    price: number
+    sale: boolean
+    salePrice: number |null
+    shortDescr: string
+    title: string
+    top: boolean
+    totalCount?: 15
+    updatedAt: string
+    __v?: number
+    _id?: string
 }
 
+export type ProductsAPIType =  {
+    products: Array<ProductType>
+}
+
+export type CartType = {
+    id: number
+    imageSrc: string
+    price: number
+    title: string
+    qty: number
+}
 //PROFILE_TYPES
 
 export type ProfileAPIDataType = {

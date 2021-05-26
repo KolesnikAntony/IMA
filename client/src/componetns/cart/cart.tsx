@@ -8,28 +8,25 @@ import {getCartItem} from "../../redux/products-reducer";
 
 const Cart = () => {
     const dispatch = useDispatch();
-    const cartProducts = useSelector<AppStateType, Array<ProductType>>(state => state.products.cart);
+   // const cartProducts = useSelector<AppStateType, Array<ProductType>>(state => state.products.cart);
     const [totalPrice, setTotalPrice] = useState(0);
     const [testArray, setTestArray] = useState([]);
 
-    console.log(testArray);
-
-    useEffect(() => {
-        dispatch(getCartItem());
-
-        const totalPrice = cartProducts.length ? cartProducts
-            .map((el) => el.salePrice ? el.salePrice : el.price)
-            .reduce((prev, current) => prev + current) : 0;
-
-        setTotalPrice(totalPrice);
-
-    }, [cartProducts]);
+    // useEffect(() => {
+    //     dispatch(getCartItem());
+    //
+    //     // const totalPrice = cartProducts.length ? cartProducts
+    //     //     .map((el) => el.salePrice ? el.salePrice : el.price)
+    //     //     .reduce((prev, current) => prev + current) : 0;
+    //     //
+    //     // setTotalPrice(totalPrice);
+    //
+    // }, [cartProducts]);
 
     return (
         <section className='cart'>
             <h3 className="cart__title aside__title">Cart</h3>
             <div className="cart__products">
-                {cartProducts.map(el =>  <CartProduct setTestArray={setTestArray} key={el.id} title={el.title} image={el.image} price={el.price} salePrice={el.salePrice} />)}
             </div>
             <div className="cart__actions">
                 <form className="cart__promo">

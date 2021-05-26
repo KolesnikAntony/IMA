@@ -10,7 +10,7 @@ import Home from './componetns/home/home';
 import {getIsAuth} from './redux/auth-reducer';
 import Footer from "./componetns/footer/footer";
 import Shop from './componetns/shop/shop';
-import {getCartItem} from "./redux/products-reducer";
+import {getProducts, getTopProducts} from "./redux/products-reducer";
 
 
 function AppMain() {
@@ -21,6 +21,8 @@ function AppMain() {
 
     useEffect(() => {
         dispatch(getIsAuth());
+        dispatch(getProducts());
+        dispatch(getTopProducts());
     }, []);
 
     const handleOpen = useCallback((type) => {

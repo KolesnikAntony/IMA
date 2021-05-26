@@ -78,18 +78,18 @@
       }
       &--mail {
         &:before {
-          background-image: url("../../../src/assets/img/mail.svg");
+          background-image: url(../../../src/assets/img/mail.svg);
         }
         &:hover:before {
-          background-image: url("../../../src/assets/img/mail-mocco.jpg");
+          background-image: url(../../../src/assets/img/mail-mocco.jpg);
         }
       }
       &--phone {
         &:before {
-          background-image: url("../../../src/assets/img/phone-dark.svg");
+          background-image: url(../../../src/assets/img/phone-dark.svg);
         }
         &:hover:before {
-          background-image: url("../../../src/assets/img/phone-mocco.svg");
+          background-image: url(../../../src/assets/img/phone-mocco.svg);
         }
       }
     }

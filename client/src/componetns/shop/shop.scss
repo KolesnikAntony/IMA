@@ -9,12 +9,20 @@
     display: grid;
     grid-template-columns: 180px 1fr;
     grid-column-gap: 20px;
+
+    @media (max-width: 942px) {
+      grid-template-columns: 3fr;
+    }
+
   }
   &__content{
     display: flex;
     flex-direction: column;
     align-items: flex-end;
     position: relative;
+    @media (max-width: 492px) {
+      align-items: center;
+    }
   }
   &__properties {
     position: absolute;
@@ -30,7 +38,7 @@
     -webkit-appearance: none;
     -moz-appearance: none;
     appearance: none;       /* Remove default arrow */
-    background-image: url("./../../../src/assets/img/arrow-fill.svg");
+    background-image: url(./../../../src/assets/img/arrow-fill.svg);
     background-repeat: no-repeat;
     background-position:  48px center;
     background-size: 10px 10px;
@@ -45,9 +53,40 @@
 
   &__products {
     display: grid;
-    grid-template-columns: 3fr 3fr 3fr 3fr;
-    grid-column-gap: 20px;
+    grid-template-columns: repeat(4, 1fr);
     grid-gap: 20px;
+    @media (max-width: 1130px) {
+      grid-template-columns: repeat(3, 1fr);
+      grid-gap: 40px;
+    }
+    @media (max-width: 992px) {
+      grid-gap: 20px;
+    }
+    @media (max-width: 942px) {
+      padding: 0 40px;
+    }
+    @media (max-width: 826px) {
+      padding: 0 20px;
+    }
+    @media (max-width: 780px) {
+      padding: 0;
+    }
+    @media (max-width: 742px) {
+      grid-template-columns: repeat(2, 1fr);
+      padding: 0 60px;
+    }
+    @media (max-width: 628px) {
+      padding: 0 40px;
+    }
+    @media (max-width: 586px) {
+      padding: 0 20px;
+    }
+    @media (max-width: 544px) {
+      padding: 0;
+    }
+    @media (max-width: 492px) {
+      grid-template-columns: 1fr;
+    }
   }
 
   &__sidebar{
@@ -172,3 +211,10 @@
     }
   }
 }
+
+@media (max-width: 942px) {
+  .shop {
+
+  }
+}
+

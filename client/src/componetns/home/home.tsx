@@ -1,20 +1,34 @@
-import React, {FC, useCallback, useEffect, useState} from 'react';
+import React, {FC, useCallback, useEffect} from 'react';
 import './home.scss';
 import Intro from "./intro/intro";
-import Catalog from "./catalog/catalog";
+import NewProducts from "./new-products/new-products";
 import NewMemberPopup from '../../common/new-member-popup/new-member-popup';
 import {RouteComponentProps, withRouter} from "react-router-dom";
 import {useDispatch} from "react-redux";
 import {activateUser} from "../../redux/auth-reducer";
 import Banner from './banner/banner';
 import TopProducts from "./top-products/top-products";
-import {useDisableBodyScroll} from "../../hooks/hooks";
-import BackAside from "../../common/back-aside/back-aside";
-
+import {useViewSize} from "../../hooks/hooks";
+import SwiperCore, {Navigation} from "swiper";
 
 
 const Home:FC<PropsType> = ({isNewMember, match}) => {
     let key = match.params.key;
+
+    SwiperCore.use([Navigation]);
+    let {width} = useViewSize();
+
+    let getCountOfSlide = useCallback( (width: number) => {
+        if(width > 991) {
+            return 4
+        }else if(width > 814){
+            return 3
+        }else if(width > 504){
+            return 2
+        }else{
+            return 1
+        }
+    }, [width]);
 
     const dispatch = useDispatch();
     useEffect(()=> {
@@ -24,9 +38,9 @@ const Home:FC<PropsType> = ({isNewMember, match}) => {
     return <>
         {isNewMember && <NewMemberPopup />}
         <Intro/>
-        <TopProducts />
+        <TopProducts getCountOfSlide={() => getCountOfSlide(width)}/>
         <Banner/>
-        <Catalog/>
+        <NewProducts getCountOfSlide={() => getCountOfSlide(width)}/>
     </>
 
 };

@@ -1,36 +1,48 @@
-import React, {FC, ReactHTMLElement} from "react";
+import React, {FC, useState} from "react";
 import './product-card.scss'
 import {Link} from "react-router-dom";
 import {ProductType} from "../../types/types";
 import {useDispatch} from "react-redux";
-import { updateCartItem } from "../../redux/products-reducer";
+import {addCartItem} from "../../redux/products-reducer";
+import cap from './../../assets/img/nail-polish.png'
 
 
-const ProductCard: FC<ProductType> = ({title, image, price, salePrice, sale, top, isNew, id}) => {
+const ProductCard: FC<ProductType> = ({title, imageSrc, price, salePrice, sale, top, itsNew, id}) => {
+
+    const [isCart, setIsCart] = useState(false);
 
     const dispatch = useDispatch();
 
     const putToCart = (e: React.MouseEvent<HTMLButtonElement>, id: number) => {
         e.preventDefault();
-        dispatch(updateCartItem(id));
+        dispatch(addCartItem(id));
+        setIsCart(true);
     };
+
+    const addDefaultSrc = (e: any) => {e.target.src = cap};
 
     return <div className="product-card">
         <Link to={`/product/${id}`}>
             <div className="product-card__marks">
                 {sale && <span className="product-card__mark--sale product-card__mark">sale</span>}
-                {isNew && <span className="product-card__mark--new product-card__mark">new</span>}
+                {itsNew && <span className="product-card__mark--new product-card__mark">new</span>}
                 {top && <span className="product-card__mark--top product-card__mark">top</span>}
             </div>
             {/*<span className="product-card__wish">0</span>*/}
+
             <img className="product-card__image"
-                 src={image}
-                 alt={title}/>
+                 src={imageSrc ? imageSrc : cap}
+                 alt={title}
+                 onError={(e) => addDefaultSrc(e)}/>
             <div className="product-card__info">
                 <p className="product-card__name">{title}</p>
                 <p className="product-card__price">{salePrice ? price + "/" + salePrice : price}zl</p>
             </div>
-            <button className="product-card__add" onClick={(e) => putToCart(e, id)}>add to cart</button>
+
+            {!isCart ?
+                <button className="product-card__add" onClick={(e) => putToCart(e, id)}>add to cart</button>:
+                <button className="product-card__go" >go to cart</button>
+            }
         </Link>
     </div>
 };
