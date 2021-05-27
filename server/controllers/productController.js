@@ -52,11 +52,11 @@ module.exports.getProducts = async (req, res) => {
 		let reqQuery = { ...req.query };
 
 		const page = parseInt(req.query.page) || 1;
-		const pageSize = parseInt(req.query.limit) || 8;
+		const pageSize = parseInt(req.query.limit) || 12;
 		const skip = (page - 1) * pageSize;
 		const total = await Product.countDocuments();
 
-		const pages = Math.ceil(total / pageSize);
+		let pages = Math.ceil(total / pageSize);
 
 		if (page > pages) {
 			res.status(404).json({message: 'Страница не найдена.'})
@@ -87,12 +87,17 @@ module.exports.getProducts = async (req, res) => {
 			.skip(skip)
 			.lean();
 
+		// if (products.length > 8) {
+		// 	pages =
+		// }
+
 		res.status(200).json({
 			count: products.length,
 			page,
 			pages,
 			products
 		});
+		console.log('products.length', products.length);
 	} catch (err) {
 		return res.status(500).json({message: err.message});
 	}
@@ -100,11 +105,46 @@ module.exports.getProducts = async (req, res) => {
 
 module.exports.getNewProducts = async (req, res) => {
 	try {
-		const newProducts = await Product.find(req.query)
-			.populate('category', 'name')
-			.lean();
+		// let page = parseInt(req.query.page) || 1;
+		// const pageSize = parseInt(req.query.limit) || 8;
+		//
+		// let query = { ...req.query };
+		// await Product.find(query)
+		// 	.sort({ price: -1 })
+		// 	.skip((page - 1) * pageSize)
+		// 	.limit(pageSize)
+		// 	.exec((err, doc) => {
+		// 		if (err) {
+		// 			return res.json(err);
+		// 		}
+		// 		Product.estimatedDocumentCount(query).exec((count_error, count) => {
+		// 			if (err) {
+		// 				return res.json(count_error);
+		// 			}
+		// 			return res.json({
+		// 				total: count,
+		// 				page: page,
+		// 				pageSize: doc.length,
+		// 				pages: doc.length,
+		// 				products: doc
+		// 			});
+		// 		});
+		// 	});
 
-		res.status(200).json({message: 'show u al products from db',count: newProducts.length, newProducts});
+		// const page = parseInt(req.query.page) || 1;
+		// const pageSize = parseInt(req.query.limit) || 8;
+		// const skip = (page - 1) * pageSize;
+		// const total = await Product.countDocuments();
+		//
+		// const pages = Math.ceil(total / pageSize);
+		//
+		// const newProducts = await Product.find(req.query)
+		// 	.populate('category', 'name')
+		// 	.lean();
+		//
+		// const newProducts = await Product.find(req.query)
+		//
+		// res.status(200).json({message: 'show u al products from db',count: newProducts.length, pages, newProducts});
 	} catch (err) {
 		return res.status(500).json({message: err.message});
 	}
