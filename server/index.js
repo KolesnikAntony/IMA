@@ -26,7 +26,7 @@ app.use(cors());
 //routes
 app.get('/api', me, async (req, res) => {
 	res.json({message: 'work'});
-});
+}); 
 app.use('/api', authRouter);
 app.use('/api/user', userProfile);
 app.use('/api', categoryRouter);
