@@ -46,6 +46,7 @@ const Shop = () => {
     };
 
     const [showMobFilter, setShowMobFilter] = useState(false);
+
     const handleShowMobFilter = () => {
         setShowMobFilter(prev => !prev);
     };

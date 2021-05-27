@@ -3,7 +3,7 @@
 .shop {
   padding: 120px 0;
   &__title {
-    @include homeTitles('Shop')
+    @include homeTitles('')
   }
   &__row {
     display: grid;

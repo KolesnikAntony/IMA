@@ -8,6 +8,9 @@
     &:not(:last-of-type) {
       margin-right: 36px;
     }
+    &--active {
+      color: $color-mocco;
+    }
   }
 }
 @media (max-width: 912px) {
