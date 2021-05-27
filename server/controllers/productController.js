@@ -94,7 +94,7 @@ module.exports.getProducts = async (req, res) => {
 		res.status(200).json({
 			count: products.length,
 			page,
-			pages: Math.ceil(products.length / pageSize),
+			pages,
 			products
 		});
 		console.log('products.length', products.length);
