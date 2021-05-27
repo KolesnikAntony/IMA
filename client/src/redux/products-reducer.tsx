@@ -1,8 +1,9 @@
-import {CartType, FormFilterDataType, ProductsAPIType, ProductType} from "../types/types";
+import {CartType, ProductType} from "../types/types";
 import {BaseThunkType, InferActionsTypes} from "./store";
 import {FormAction} from "redux-form";
 import {ProductsAPI} from "../api/api-products";
-import index from "swiper";
+import {FILTER_TYPES} from "../constants/constants";
+
 
 const SET_SHOP_PRODUCTS = 'products-reducer/SET_SHOP_PRODUCTS';
 const SET_CURRENT_PAGE = 'products-reducer/SET_CURRENT_PAGE';
@@ -16,7 +17,9 @@ const ADD_TO_CART = 'products-reducer/ADD_TO_CART';
 const UPDATE_QTY = 'products-reducer/UPDATE_QTY';
 const CHECK_IS_IN_CART = 'products-reducer/CHECK_IS_IN_CART';
 const SET_IS_IN_CART = 'products-reducer/SET_IS_IN_CART';
-const SET_SORT = 'products-reducer/SET_SORT'
+const SET_SORT = 'products-reducer/SET_SORT';
+
+const IS_FETCHING = 'products-reducer/IS_FETCHING'
 
 
 const ProductInitialState = {
@@ -44,14 +47,11 @@ const ProductInitialState = {
     pageSize: 8,
     portionSize: 4,
     currentPage: 1,
-    sale: true,
-    top: true,
-    itsNew: true,
-    sort: false,
+    selectType: FILTER_TYPES.SELECT_TYPE.ALL,
+    sort: FILTER_TYPES.SORT_TYPE.MAX,
     topProducts: [] as Array<ProductType>,
     cart: [] as Array<CartType> | any,
-    totalPrice: 0 as number,
-    currentProductsPrice: 0 as number
+    isFetching: false,
 };
 
 const ProductsReducer = (state = ProductInitialState, action: ActionType): ProductsInitialStateType => {
@@ -108,8 +108,12 @@ const ProductsReducer = (state = ProductInitialState, action: ActionType): Produ
                 isCart: el.isCart
             });
             return {...state, products: arrayIsCart};
+
         case SET_SORT:
-            return {...state, sort: action.sort, top: action.top, itsNew: action.itsNew, sale: action.sale}
+            return {...state, sort: action.sort, selectType: action.selectType};
+        case IS_FETCHING:
+            return {...state, isFetching: action.isFetching}
+
         default:
             return state
     }
@@ -159,22 +163,26 @@ export const actionsProducts = {
         id,
         isCart
     } as const),
-    setSort: (top: boolean, itsNew: boolean, sale: boolean, sort: boolean) => ({
+    setSort: (selectType: string, sort: string) => ({
         type: SET_SORT,
-        top,
-        itsNew,
-        sale,
+        selectType,
         sort
-    } as const )
+    } as const),
+    setFetching: (isFetching: boolean) => ({
+        type: IS_FETCHING,
+        isFetching
+    } as const)
 };
 
-export const getProducts = (currentPage: number,  top: boolean, itsNew: boolean, sale: boolean, sort: boolean): ThunkProductType => async (dispatch) => {
+export const getProducts = (currentPage: number, selectType: string, sort: string): ThunkProductType => async (dispatch) => {
     dispatch(actionsProducts.setCurrentPage(currentPage));
-    const data = await ProductsAPI.getProducts(currentPage, top, itsNew, sale, sort);
-    console.log(data, '----products')
+    dispatch(actionsProducts.setFetching(true));
+    const data = await ProductsAPI.getProducts(currentPage, selectType, sort);
+    console.log(data, '----products');
     dispatch(actionsProducts.setShopProducts(data.products));
     dispatch(actionsProducts.setTotalPage(data.pages));
-    dispatch(actionsProducts.setSort(top, itsNew, sale, sort));
+    dispatch(actionsProducts.setSort(selectType, sort));
+    dispatch(actionsProducts.setFetching(false));
 };
 
 

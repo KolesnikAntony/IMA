@@ -16,5 +16,17 @@ export const STATE_TYPES = {
         SIGN_UP: 'auth-reducer/SIGH_UP',
         IS_AUTH: 'auth-reducer/IS_AUTH',
     },
+};
 
+export const FILTER_TYPES = {
+    SELECT_TYPE: {
+        ALL: 'all',
+        TOP: 'top',
+        NEW: 'itsNew',
+        SALE: 'sale',
+    },
+    SORT_TYPE: {
+        MAX: 'max',
+        MIN: 'min',
+    },
 };

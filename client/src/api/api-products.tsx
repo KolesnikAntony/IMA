@@ -1,16 +1,13 @@
-import {ProductsAPIType, ProfileAPIDataType, ProfileFormValueType} from '../types/types';
+import {ProductsAPIType} from '../types/types';
 import {instance} from './api';
+import {FILTER_TYPES} from "../constants/constants";
 
 export const ProductsAPI = {
-    getProducts(currentPage: number, top: boolean, itsNew: boolean, sale: boolean, sort: boolean) {
+    getProducts(currentPage: number, selectType: string,  sort: string) {
+        let price = sort === FILTER_TYPES.SORT_TYPE.MIN ? '&sort=price' : '';
+        let type = selectType !== FILTER_TYPES.SELECT_TYPE.ALL ? `&${selectType}=true`: '';
 
-        let price = sort ? '&sort=price' : '';
-        let topQuery = top ? '&top=true' : '';
-        let saleQuery = sale ? '&sale=true' : '';
-        let itsNewQuery = itsNew ? '&itsNew=true' : '';
-        console.log(`page=${currentPage + topQuery + saleQuery + itsNewQuery + price}`);
-        return instance.get<ProductsAPIType>(`/api/products?page=${currentPage + topQuery + saleQuery + itsNewQuery + price}`, {}).then(res => res.data);
-        //return instance.get<ProductsAPIType>(`/api/products?sort=${price}`, {}).then(res => res.data);
+        return instance.get<ProductsAPIType>(`/api/products?page=${currentPage + type + price}`, {}).then(res => res.data);
     },
     getTopProducts() {
         return instance.get<ProductsAPIType>('/api/products?top=false', {}).then(res => res.data);
