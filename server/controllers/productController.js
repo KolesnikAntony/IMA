@@ -89,8 +89,8 @@ module.exports.getProducts = async (req, res) => {
 		if (page > pages) {
 			res.status(404).json({message: 'Страница не найдена.'})
 		}
-	// .populate('category', 'name')
-		const products = await query
+
+		const products = await query.populate('category', 'name')
 			.limit(pageSize)
 			.skip(skip)
 			.lean();
@@ -114,7 +114,7 @@ module.exports.getProductById = async (req, res) => {
 	try {
 
 		const product = await Product.findById(req.params.id)
-			.select('title shortDescr description price salePrice subText')
+			.select('title shortDescr description price salePrice subText imageSrc')
 			.lean();
 
 		res.status(200).json({message: 'ok', product});

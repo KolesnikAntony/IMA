@@ -72,7 +72,7 @@ const productSchema = new Schema({
 
 // productSchema.plugin(mongoosePaginate);
 
-productSchema.virtual('id').get(function () {
+productSchema.virtual('id').get( () => {
 	return this._id.toHexString();
 });
 
