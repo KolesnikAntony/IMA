@@ -36,7 +36,7 @@ const User = () => {
 
     const changePhoto = (e: React.ChangeEvent<HTMLInputElement>) => {
         let photo = e.target.files;
-        if (photo !== null) dispatch(getPhoto(photo))
+        if (photo !== null) dispatch(getPhoto(photo));
     };
 
     const onLogout = () => {

@@ -6,17 +6,19 @@ import {reducer as formReducer} from 'redux-form'
 import UserReducer from "./user-reducer";
 import AuthReducer from "./auth-reducer";
 import ProductsReducer from "./products-reducer";
+import ProductReducer from "./product-reducer";
 
 const middleware = [thunk];
 const reducers = combineReducers(
     {
+        auth: AuthReducer,
+        products: ProductsReducer,
+        productPage: ProductReducer,
         home: homeReducer,
         form: formReducer,
         user: UserReducer,
-        auth: AuthReducer,
-        products: ProductsReducer,
     }
-)
+);
 
 
 export type RootState = ReturnType<typeof store.getState>

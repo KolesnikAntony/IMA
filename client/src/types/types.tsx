@@ -12,6 +12,7 @@ export type ProductType = {
     sale: boolean
     salePrice: number |null
     shortDescr: string
+    subText: string
     title: string
     top: boolean
     totalCount?: 15
@@ -25,7 +26,6 @@ export type ProductsAPIType =  {
     products: Array<ProductType>
     page: number
     pages: number
-
 }
 
 export type CartType = {
