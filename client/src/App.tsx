@@ -10,7 +10,6 @@ import Home from './componetns/home/home';
 import {getIsAuth} from './redux/auth-reducer';
 import Footer from "./componetns/footer/footer";
 import Shop from './componetns/shop/shop';
-import {getTopProducts} from "./redux/products-reducer";
 import {OpenCartContext} from './context/context';
 
 function AppMain() {
@@ -18,11 +17,6 @@ function AppMain() {
     const [currentView, setCurrentView] = useState(null);
     const isAuth = useSelector<RootState>(state => state.auth.isAuth);
     const dispatch = useDispatch();
-
-    useEffect(() => {
-        dispatch(getIsAuth());
-        dispatch(getTopProducts());
-    }, []);
 
     const handleOpen = useCallback((type) => {
         setCurrentView(type);
@@ -61,3 +55,7 @@ const App = () => {
     </BrowserRouter>
 };
 export default App;
+function getNewProducts(): any {
+    throw new Error('Function not implemented.');
+}
+

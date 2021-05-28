@@ -1,12 +1,13 @@
-import React, {FC} from "react";
+import React, {FC, useEffect} from "react";
 import ProductCard from "../../product-card/product-card";
 import {Swiper, SwiperSlide} from "swiper/react";
 import 'swiper/swiper.scss';
 import 'swiper/components/navigation/navigation.scss';
 import './top-products.scss';
-import {useSelector} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {AppStateType} from "../../../redux/store";
 import {ProductType} from "../../../types/types";
+import {getTopProducts} from "../../../redux/home-reducer";
 
 
 interface PropsType {
@@ -14,7 +15,13 @@ interface PropsType {
 }
 
 const TopProducts:FC<PropsType> = ({getCountOfSlide}) => {
-    const products = useSelector<AppStateType, Array<ProductType>>(state => state.products.products);
+    const products = useSelector<AppStateType, Array<ProductType>>(state => state.home.topProducts);
+    const dispatch = useDispatch();
+
+    useEffect(()=> {
+        dispatch(getTopProducts());
+    }, []);
+
     console.log('render of TOP');
     return (
         <section className="top">

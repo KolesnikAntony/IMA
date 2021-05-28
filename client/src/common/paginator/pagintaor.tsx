@@ -43,7 +43,7 @@ const Paginator:FC<PropsType> = ({totalPages, portionSize, currentPage, showCurr
     return <div className='paginator'>
         <button onClick={() => prevPortion(portionNumber,portionSize)} className={portionNumber <= 1 ? 'paginator__btn  paginator__btn--prev hide' : 'paginator__btn paginator__btn--prev'}/>
         <div className="paginator__wrap">
-            {pages.filter(p => p >= leftPortionPageNumber && p <= rightPortionPageNumber)
+            {pages.length > 1 && pages.filter(p => p >= leftPortionPageNumber && p <= rightPortionPageNumber)
                 .map(el=> <span key={el} className={el == currentPage ? 'paginator__number active' : 'paginator__number'}
                                 onClick={()=> showCurrentProducts(el)}>{el}</span>)}
         </div>

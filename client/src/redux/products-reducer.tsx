@@ -10,8 +10,6 @@ const SET_CURRENT_PAGE = 'products-reducer/SET_CURRENT_PAGE';
 const SET_TOTAL_PAGE = 'products-reducer/SET_TOTAL_PAGE';
 
 
-const SET_HOME_CATALOG = 'products-reducer/SET_HOME_CATALOG';
-const SET_HOME_TOP_PRODUCTS = 'products-reducer/SET_HOME_TOP_PRODUCTS';
 const REMOVE_FROM_CART = 'products-reducer/REMOVE_FROM_CART';
 const ADD_TO_CART = 'products-reducer/ADD_TO_CART';
 const UPDATE_QTY = 'products-reducer/UPDATE_QTY';
@@ -49,7 +47,6 @@ const ProductInitialState = {
     currentPage: 1,
     selectType: FILTER_TYPES.SELECT_TYPE.ALL,
     sort: FILTER_TYPES.SORT_TYPE.MAX,
-    topProducts: [] as Array<ProductType>,
     cart: [] as Array<CartType> | any,
     isFetching: false,
 };
@@ -69,12 +66,6 @@ const ProductsReducer = (state = ProductInitialState, action: ActionType): Produ
                 ...state,
                 totalPages: action.totalPages
             };
-
-        case SET_HOME_CATALOG:
-            return {...state, products: action.products};
-
-        case SET_HOME_TOP_PRODUCTS:
-            return {...state, products: action.products};
 
         case ADD_TO_CART:
             //@ts-ignore
@@ -111,8 +102,9 @@ const ProductsReducer = (state = ProductInitialState, action: ActionType): Produ
 
         case SET_SORT:
             return {...state, sort: action.sort, selectType: action.selectType};
+
         case IS_FETCHING:
-            return {...state, isFetching: action.isFetching}
+            return {...state, isFetching: action.isFetching};
 
         default:
             return state
@@ -131,15 +123,6 @@ export const actionsProducts = {
     setCurrentPage: (currentPage: number) => ({
         type: SET_CURRENT_PAGE,
         currentPage,
-    } as const),
-
-    setHomeCatalog: (products: Array<ProductType>) => ({
-        type: SET_HOME_CATALOG,
-        products
-    } as const),
-    setHomeTopProducts: (products: Array<ProductType>) => ({
-        type: SET_HOME_TOP_PRODUCTS,
-        products
     } as const),
     setAddToCart: (id: number) => ({
         type: ADD_TO_CART,
@@ -183,13 +166,6 @@ export const getProducts = (currentPage: number, selectType: string, sort: strin
     dispatch(actionsProducts.setTotalPage(data.pages));
     dispatch(actionsProducts.setSort(selectType, sort));
     dispatch(actionsProducts.setFetching(false));
-};
-
-
-export const getTopProducts = (): ThunkProductType => async (dispatch) => {
-    const data = await ProductsAPI.getTopProducts();
-    dispatch(actionsProducts.setHomeTopProducts(data.products));
-    dispatch(actionsProducts.setHomeCatalog(data.products));
 };
 
 export default ProductsReducer;
