@@ -18,7 +18,7 @@ module.exports.createProduct = async (req, res) => {
 		const basePath = `${req.protocol}://${req.get('host')}/`;
 
 		const product = new Product({
-			id: req.body.id,
+			productIndex: req.body.productIndex,
 			title: req.body.title,
 			price: req.body.price,
 			salePrice: req.body.salePrice,
@@ -55,13 +55,6 @@ module.exports.getProducts = async (req, res) => {
 		const page = parseInt(req.query.page) || 1;
 		const pageSize = parseInt(req.query.limit) || 12;
 		const skip = (page - 1) * pageSize;
-		const total = await Product.countDocuments();
-
-		let pages = Math.ceil(total / pageSize);
-
-		if (page > pages) {
-			res.status(404).json({message: 'Страница не найдена.'})
-		}
 
 		let removeFields = ['sort', 'page', 'limit', 'skip'];
 		removeFields.forEach((val) => delete reqQuery[val]);
@@ -91,18 +84,22 @@ module.exports.getProducts = async (req, res) => {
 
 		const productsCount = await query2.countDocuments();
 
-		console.log('productsCount', productsCount)
+		const pages = Math.ceil(productsCount / pageSize);
 
-		const products = await query.populate('category', 'name')
+		if (page > pages) {
+			res.status(404).json({message: 'Страница не найдена.'})
+		}
+	// .populate('category', 'name')
+		const products = await query
 			.limit(pageSize)
 			.skip(skip)
 			.lean();
 
 
 		res.status(200).json({
-			count: products.length,
+			count: productsCount,
 			page,
-			pages: Math.ceil(productsCount / pageSize),
+			pages,
 			skip,
 			pageSize,
 			products
@@ -116,9 +113,7 @@ module.exports.getProducts = async (req, res) => {
 module.exports.getProductById = async (req, res) => {
 	try {
 
-		const { id } = req.params;
-
-		const product = await Product.findById(id)
+		const product = await Product.findById(req.params.id)
 			.select('title shortDescr description price salePrice subText')
 			.lean();
 
@@ -169,11 +164,10 @@ module.exports.getColorAndCategory = async (req, res) => {
 	}
 };
 
-
 module.exports.updateCollection = async (req, res) => {
 	try {
-
-		const newProducts = await Product.updateMany({'sale': 'false'}, {$set: {'subText': 'lorem ipsumlorem ipsum lorem ipsum lorem ipsum'}});
+    //here we change the values of the collection, if necessary
+		const newProducts = await Product.updateMany( {}, {$rename:{"aaaaa": "productIndex"}});
 
 		res.status(200).json({message: 'show you all products from db', newProducts});
 	} catch (err) {

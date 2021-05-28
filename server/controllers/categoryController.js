@@ -1,9 +1,25 @@
 const Category = require('../models/Caterogry');
+const Product = require('../models/Product');
+
 
 module.exports.getCategories = async (req, res) => {
 	try {
 		const categories = await Category.find().select('name _id');
 		res.status(200).json({categories});
+	} catch (err) {
+		return res.status(500).json({message: err.message});
+	}
+};
+
+module.exports.getCategoriesAndColors = async (req, res) => {
+	try {
+		const categories = await Category.find().select('name _id');
+
+		const colors = await Product.find();
+
+		console.log({colors})
+
+		res.status(200).json({categories, colors});
 	} catch (err) {
 		return res.status(500).json({message: err.message});
 	}

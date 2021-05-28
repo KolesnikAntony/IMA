@@ -2,7 +2,7 @@ const { Schema, model } = require('mongoose');
 const mongoosePaginate = require('mongoose-paginate');
 
 const productSchema = new Schema({
-	id: {
+	productIndex: {
 		type: Number,
 		default: null
 	},
@@ -71,5 +71,13 @@ const productSchema = new Schema({
 });
 
 // productSchema.plugin(mongoosePaginate);
+
+productSchema.virtual('id').get(function () {
+	return this._id.toHexString();
+});
+
+productSchema.set('toJSON', {
+	virtuals: true,
+});
 
 module.exports = model('Product', productSchema);
