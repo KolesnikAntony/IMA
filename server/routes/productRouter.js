@@ -9,8 +9,10 @@ router.post('/products/create', me, upload.single('imageSrc'), productController
 // get
 router.get('/products', productController.getProducts);
 
-router.get('/products/get_new', productController.getNewProducts);
+router.get('/products/:id', productController.getProductById);
 
 router.get('/products/color_category',productController.getColorAndCategory);
+
+router.patch('/products/update_prod',productController.updateCollection);
 
 module.exports = router;

@@ -113,48 +113,16 @@ module.exports.getProducts = async (req, res) => {
 	}
 };
 
-module.exports.getNewProducts = async (req, res) => {
+module.exports.getProductById = async (req, res) => {
 	try {
-		// let page = parseInt(req.query.page) || 1;
-		// const pageSize = parseInt(req.query.limit) || 8;
-		//
-		// let query = { ...req.query };
-		// await Product.find(query)
-		// 	.sort({ price: -1 })
-		// 	.skip((page - 1) * pageSize)
-		// 	.limit(pageSize)
-		// 	.exec((err, doc) => {
-		// 		if (err) {
-		// 			return res.json(err);
-		// 		}
-		// 		Product.estimatedDocumentCount(query).exec((count_error, count) => {
-		// 			if (err) {
-		// 				return res.json(count_error);
-		// 			}
-		// 			return res.json({
-		// 				total: count,
-		// 				page: page,
-		// 				pageSize: doc.length,
-		// 				pages: doc.length,
-		// 				products: doc
-		// 			});
-		// 		});
-		// 	});
 
-		// const page = parseInt(req.query.page) || 1;
-		// const pageSize = parseInt(req.query.limit) || 8;
-		// const skip = (page - 1) * pageSize;
-		// const total = await Product.countDocuments();
-		//
-		// const pages = Math.ceil(total / pageSize);
-		//
-		// const newProducts = await Product.find(req.query)
-		// 	.populate('category', 'name')
-		// 	.lean();
-		//
-		// const newProducts = await Product.find(req.query)
-		//
-		// res.status(200).json({message: 'show u al products from db',count: newProducts.length, pages, newProducts});
+		const { id } = req.params;
+
+		const product = await Product.findById(id)
+			.select('title shortDescr description price salePrice subText')
+			.lean();
+
+		res.status(200).json({message: 'ok', product});
 	} catch (err) {
 		return res.status(500).json({message: err.message});
 	}
@@ -201,18 +169,14 @@ module.exports.getColorAndCategory = async (req, res) => {
 	}
 };
 
-// module.exports.getNewProducts = async (req, res) => {
-// 	try {
-//
-// 		const
-//
-// 		const newProducts = await Product.find(req.query)
-// 			.populate('category', 'name')
-// 			.lean();
-//
-// 		res.status(200).json({message: 'show u al products from db',count: newProducts.length, newProducts});
-// 	} catch (err) {
-// 		return res.status(500).json({message: err.message});
-// 	}
-// };
 
+module.exports.updateCollection = async (req, res) => {
+	try {
+
+		const newProducts = await Product.updateMany({'sale': 'false'}, {$set: {'subText': 'lorem ipsumlorem ipsum lorem ipsum lorem ipsum'}});
+
+		res.status(200).json({message: 'show you all products from db', newProducts});
+	} catch (err) {
+		return res.status(500).json({message: err.message});
+	}
+};
