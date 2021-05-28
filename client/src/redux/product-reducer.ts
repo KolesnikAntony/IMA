@@ -38,7 +38,7 @@ const actionsProduct = {
 
 export const getProduct = (id:string):ThunkProductType => async (dispatch) =>  {
     let payload = await ProductsAPI.getProduct(id);
-    console.log(payload);
+    dispatch(actionsProduct.setProduct(payload));
 };
 
 

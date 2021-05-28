@@ -1,4 +1,4 @@
-import {ProductsAPIType} from '../types/types';
+import {ProductsAPIType, ProductType} from '../types/types';
 import {instance} from './api';
 import {FILTER_TYPES} from "../constants/constants";
 
@@ -17,6 +17,6 @@ export const ProductsAPI = {
     },
 
     getProduct(id:string){
-        return instance.get<ProductsAPIType>(`/api/products/${id}`, {}).then(res => res.data);
+        return instance.get<{product: ProductType}>(`/api/products/${id}`, {}).then(res => res.data.product);
     }
 };
