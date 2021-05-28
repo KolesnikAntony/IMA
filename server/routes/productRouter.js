@@ -11,6 +11,6 @@ router.get('/products', productController.getProducts);
 
 router.get('/products/get_new', productController.getNewProducts);
 
-router.get('/products/color_category', me, productController.getColorAndCategory);
+router.get('/products/color_category',productController.getColorAndCategory);
 
 module.exports = router;

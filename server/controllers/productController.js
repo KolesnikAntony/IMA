@@ -48,6 +48,7 @@ module.exports.getProducts = async (req, res) => {
 
 	try {
 		let query;
+		let query2;
 
 		let reqQuery = { ...req.query };
 
@@ -72,29 +73,38 @@ module.exports.getProducts = async (req, res) => {
 
 		query = Product.find(JSON.parse(queryStr));
 
+		query2 = Product.find(JSON.parse(queryStr));
+
 		if (req.query.sort) {
 			const sortByArr = req.query.sort.split(',');
 
 			const sortByStr = sortByArr.join(' ');
 
 			query = query.sort(sortByStr);
+
+			query2 = query2.sort(sortByStr);
 		} else {
 			query = query.sort('-price');
+
+			query2 = query2.sort('-price');
 		}
+
+		const productsCount = await query2.countDocuments();
+
+		console.log('productsCount', productsCount)
 
 		const products = await query.populate('category', 'name')
 			.limit(pageSize)
 			.skip(skip)
 			.lean();
 
-		// if (products.length > 8) {
-		// 	pages =
-		// }
 
 		res.status(200).json({
 			count: products.length,
 			page,
-			pages,
+			pages: Math.ceil(productsCount / pageSize),
+			skip,
+			pageSize,
 			products
 		});
 		console.log('products.length', products.length);

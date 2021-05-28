@@ -1,4 +1,5 @@
 const { Schema, model } = require('mongoose');
+const mongoosePaginate = require('mongoose-paginate');
 
 const productSchema = new Schema({
 	id: {
@@ -64,5 +65,7 @@ const productSchema = new Schema({
 }, {
 	timestamps: true
 });
+
+// productSchema.plugin(mongoosePaginate);
 
 module.exports = model('Product', productSchema);
