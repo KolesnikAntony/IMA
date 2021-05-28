@@ -1,8 +1,7 @@
 import {ProductType} from "../types/types";
 import {BaseThunkType, InferActionsTypes} from "./store";
-import {FormAction} from "redux-form";
 import {ProductsAPI} from "../api/api-products";
-import {actionsProducts} from "./products-reducer";
+import {FormAction} from "redux-form";
 
 
 const SET_HOME_NEW_PRODUCTS = 'home-reducer/SET_HOME_NEW_PRODUCTS';
@@ -14,7 +13,7 @@ const HomeInitialState = {
     newProducts: [] as Array<ProductType>,
 };
 
-const homeReducer = (state = HomeInitialState, action: ActionType): ProductsInitialStateType=> {
+const homeReducer = (state = HomeInitialState, action: ActionType): HomeInitialStateType=> {
     switch (action.type) {
         case SET_HOME_NEW_PRODUCTS:
             return {...state, newProducts: action.newProducts};
@@ -38,20 +37,19 @@ const actionsHome =  {
 };
 
 
-export const getTopProducts = (): ThunkProductType => async (dispatch) => {
+export const getTopProducts = (): ThunkHomeType => async (dispatch) => {
     const data = await ProductsAPI.getTopProducts();
     dispatch(actionsHome.setHomeTopProducts(data.products));
 };
 
-export const getNewProducts = (): ThunkProductType => async (dispatch) => {
+export const getNewProducts = (): ThunkHomeType => async (dispatch) => {
     const data = await ProductsAPI.getNewProducts();
     dispatch(actionsHome.setHomeNewProducts(data.products));
 };
 
-
-export type ProductsInitialStateType = typeof HomeInitialState;
+type HomeInitialStateType = typeof HomeInitialState;
 type ActionType = InferActionsTypes<typeof actionsHome>;
-type ThunkProductType = BaseThunkType<ActionType | FormAction>
+type ThunkHomeType = BaseThunkType<ActionType  | FormAction>
 
 
 export default homeReducer;

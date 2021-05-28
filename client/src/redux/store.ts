@@ -10,13 +10,13 @@ import ProductsReducer from "./products-reducer";
 const middleware = [thunk];
 const reducers = combineReducers(
     {
+        auth: AuthReducer,
+        products: ProductsReducer,
         home: homeReducer,
         form: formReducer,
         user: UserReducer,
-        auth: AuthReducer,
-        products: ProductsReducer,
     }
-)
+);
 
 
 export type RootState = ReturnType<typeof store.getState>

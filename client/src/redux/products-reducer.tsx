@@ -17,7 +17,7 @@ const CHECK_IS_IN_CART = 'products-reducer/CHECK_IS_IN_CART';
 const SET_IS_IN_CART = 'products-reducer/SET_IS_IN_CART';
 const SET_SORT = 'products-reducer/SET_SORT';
 
-const IS_FETCHING = 'products-reducer/IS_FETCHING'
+const IS_FETCHING = 'products-reducer/IS_FETCHING';
 
 
 const ProductInitialState = {
