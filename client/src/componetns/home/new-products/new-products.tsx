@@ -1,11 +1,12 @@
-import React, {FC} from "react";
+import React, {FC, useEffect} from "react";
 import './new-products.scss';
 import {Link} from "react-router-dom";
-import {useSelector} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {AppStateType} from "../../../redux/store";
 import {ProductType} from "../../../types/types";
 import {Swiper, SwiperSlide} from "swiper/react";
 import ProductCard from "../../product-card/product-card";
+import {getNewProducts} from "../../../redux/home-reducer";
 
 
 interface PropsType {
@@ -14,7 +15,13 @@ interface PropsType {
 
 const NewProducts:FC<PropsType> = ({getCountOfSlide}) => {
 
-    const products = useSelector<AppStateType, Array<ProductType>>(state=> state.products.products);
+    const products = useSelector<AppStateType, Array<ProductType>>(state=> state.home.newProducts);
+    const dispatch = useDispatch();
+
+    useEffect(()=> {
+        dispatch(getNewProducts());
+    }, []);
+
     console.log('render of NEW');
     return (
         <section className='new-products'>

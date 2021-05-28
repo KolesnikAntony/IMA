@@ -10,6 +10,9 @@ export const ProductsAPI = {
         return instance.get<ProductsAPIType>(`/api/products?page=${currentPage + type + price}`, {}).then(res => res.data);
     },
     getTopProducts() {
-        return instance.get<ProductsAPIType>('/api/products?top=false', {}).then(res => res.data);
-    }
+        return instance.get<ProductsAPIType>('/api/products?top=true', {}).then(res => res.data);
+    },
+    getNewProducts() {
+        return instance.get<ProductsAPIType>('/api/products?itsNew=true', {}).then(res => res.data);
+    },
 };
