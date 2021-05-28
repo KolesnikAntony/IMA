@@ -22,7 +22,7 @@ const productInitialState = {
 const ProductReducer = (state = productInitialState, action: ActionType):ProductInitialStateType => {
     switch (action.type) {
         case SET_PRODUCT:
-            return {...state, product: {...action.payload}}
+            return {...state, product: {...action.payload}};
 
         default:
             return state
@@ -36,7 +36,7 @@ const actionsProduct = {
     }) as const,
 };
 
-export const getProduct = (id:number):ThunkProductType => async (dispatch) =>  {
+export const getProduct = (id:string):ThunkProductType => async (dispatch) =>  {
     let payload = await ProductsAPI.getProduct(id);
     console.log(payload);
 };

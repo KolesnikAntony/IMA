@@ -24,6 +24,7 @@ const ProductsInitialState = {
     products: [
         {
             id: 1,
+            _id: '',
             title: '',
             price: 1,
             color: '',
@@ -71,9 +72,9 @@ const ProductsReducer = (state = ProductsInitialState, action: ActionType): Prod
 
         case ADD_TO_CART:
             //@ts-ignore
-            let {title, salePrice, price, imageSrc} = state.products.find(el => el.id == action.id);
+            let {title, salePrice, price, imageSrc} = state.products.find(el => el._id == action.id);
             let productInCart = {
-                id: action.id,
+                _id: action.id,
                 qty: 1,
                 title,
                 imageSrc,
@@ -83,20 +84,20 @@ const ProductsReducer = (state = ProductsInitialState, action: ActionType): Prod
             return {...state, cart: [...state.cart, productInCart]};
 
         case UPDATE_QTY:
-            let newCart = state.cart.map((item: CartType) => item.id == action.id ? {
+            let newCart = state.cart.map((item: CartType) => item._id == action.id ? {
                 ...item,
                 qty: action.qty
             } : {...item, qty: item.qty});
             return {...state, cart: newCart};
 
         case REMOVE_FROM_CART:
-            return {...state, cart: state.cart.filter((el: CartType) => el.id != action.id)};
+            return {...state, cart: state.cart.filter((el: CartType) => el._id != action.id)};
 
         case CHECK_IS_IN_CART:
             return {...state};
 
         case SET_IS_IN_CART:
-            let arrayIsCart = state.products.map(el => el.id === action.id ? {...el, isCart: action.isCart} : {
+            let arrayIsCart = state.products.map(el => el._id === action.id ? {...el, isCart: action.isCart} : {
                 ...el,
                 isCart: el.isCart
             });
@@ -126,24 +127,24 @@ export const actionsProducts = {
         type: SET_CURRENT_PAGE,
         currentPage,
     } as const),
-    setAddToCart: (id: number) => ({
+    setAddToCart: (id: string) => ({
         type: ADD_TO_CART,
         id,
         qty: 1,
     } as const),
-    updateQty: (id: number, qty: number) => ({
+    updateQty: (id: string, qty: number) => ({
         type: UPDATE_QTY,
         id,
         qty
     } as const),
-    removeFromCart: (id: number) => ({
+    removeFromCart: (id: string) => ({
         type: REMOVE_FROM_CART,
         id,
     } as const),
     checkIsInCart: () => ({
         type: CHECK_IS_IN_CART,
     } as const),
-    setIsInCart: (id: number, isCart: boolean) => ({
+    setIsInCart: (id: string, isCart: boolean) => ({
         type: SET_IS_IN_CART,
         id,
         isCart

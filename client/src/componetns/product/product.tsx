@@ -14,7 +14,7 @@ type PropsType = RouteComponentProps<PathParamsType>
 
 const Product: FC<PropsType> = ({match}) => {
     const dispatch = useDispatch();
-    let productId = +match.params.id;
+    let productId = match.params.id;
 
     useEffect(()=> {
         dispatch(getProduct(productId));
