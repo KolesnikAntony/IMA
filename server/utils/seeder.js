@@ -1,7 +1,8 @@
+require('dotenv').config({path: './.env'});
+
 const Product = require('../models/Product');
 const products = require('../data/product.json');
 const connectDB = require('../config/db');
-require('dotenv').config({path: './.env'});
 
 
 connectDB();
