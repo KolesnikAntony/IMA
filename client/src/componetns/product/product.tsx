@@ -1,21 +1,27 @@
-import React, {FC} from "react";
+import React, {FC, useEffect} from "react";
 import './product.scss'
 import {RouteComponentProps, withRouter} from "react-router-dom";
 import TopProducts from "../home/top-products/top-products";
+import {useDispatch} from "react-redux";
+import {getProduct} from "../../redux/product-reducer";
 
 
 type PathParamsType = {
-    key: string
+    id: string
 }
 
 type PropsType = RouteComponentProps<PathParamsType>
 
 const Product: FC<PropsType> = ({match}) => {
+    const dispatch = useDispatch();
+    let productId = +match.params.id;
 
-    let key = +match.params.key;
+    useEffect(()=> {
+        dispatch(getProduct(productId));
+    });
+
 
     let isCart = false;
-
 
     return (
         <section className='product'>

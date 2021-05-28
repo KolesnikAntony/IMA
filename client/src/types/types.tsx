@@ -12,6 +12,7 @@ export type ProductType = {
     sale: boolean
     salePrice: number |null
     shortDescr: string
+    subText: string
     title: string
     top: boolean
     totalCount?: 15

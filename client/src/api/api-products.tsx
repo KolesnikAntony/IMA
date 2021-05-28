@@ -15,4 +15,8 @@ export const ProductsAPI = {
     getNewProducts() {
         return instance.get<ProductsAPIType>('/api/products?itsNew=true', {}).then(res => res.data);
     },
+
+    getProduct(id:number){
+        return instance.get<ProductsAPIType>(`/api/products/:${id}`, {}).then(res => res.data);
+    }
 };

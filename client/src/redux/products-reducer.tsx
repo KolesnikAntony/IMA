@@ -20,27 +20,29 @@ const SET_SORT = 'products-reducer/SET_SORT';
 const IS_FETCHING = 'products-reducer/IS_FETCHING';
 
 
-const ProductInitialState = {
+const ProductsInitialState = {
     products: [
         {
             id: 1,
-            title: 'laker',
-            price: 30,
-            color: 'red',
+            title: '',
+            price: 1,
+            color: '',
             category: {
-                name: 'lala',
-                _id: 'faff'
+                name: '',
+                _id: ''
             },
-            description: "ldld",
-            shortDescr: 'dldldl',
-            imageSrc: "https://cdn.shortpixel.ai/client/q_glossy,ret_img,w_300/https://ima-professional.pl/wp-content/uploads/2021/01/Agate07-300x300.jpg",
+            description: '',
+            shortDescr: '',
+            subText: '',
+            imageSrc: '',
             salePrice: null,
             sale: false,
-            top: true,
-            itsNew: true,
+            top: false,
+            itsNew: false,
             isCart: false
         },
     ] as Array<ProductType>,
+
     totalPages: 10,
     pageSize: 8,
     portionSize: 4,
@@ -51,7 +53,7 @@ const ProductInitialState = {
     isFetching: false,
 };
 
-const ProductsReducer = (state = ProductInitialState, action: ActionType): ProductsInitialStateType => {
+const ProductsReducer = (state = ProductsInitialState, action: ActionType): ProductsInitialStateType => {
     switch (action.type) {
         case SET_SHOP_PRODUCTS:
             return {...state, products: action.products};
@@ -170,6 +172,6 @@ export const getProducts = (currentPage: number, selectType: string, sort: strin
 
 export default ProductsReducer;
 
-export type ProductsInitialStateType = typeof ProductInitialState;
+export type ProductsInitialStateType = typeof ProductsInitialState;
 type ActionType = InferActionsTypes<typeof actionsProducts>;
 type ThunkProductType = BaseThunkType<ActionType | FormAction>
