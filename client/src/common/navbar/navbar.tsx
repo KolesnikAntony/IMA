@@ -1,5 +1,5 @@
-import React, {FC, useMemo} from "react";
-import {Link} from "react-router-dom";
+import React, {FC} from "react";
+import {NavLink} from "react-router-dom";
 import './navbar.scss'
 
 interface PropsType {
@@ -9,8 +9,8 @@ interface PropsType {
 const NavBar:FC<PropsType> = ({outclass}) => {
     return (
         <nav className={outclass ? outclass + " " + "nav" : "nav"}>
-            <Link to={'/'} className={outclass ? outclass+"__items nav__items" : "nav__items"}>Home</Link>
-            <Link to={'/shop'} className={outclass ? outclass+"__items nav__items" : "nav__items"}>Shop</Link>
+            <NavLink to={'/'} className={outclass ? outclass+"__items nav__items" : "nav__items"}>Home</NavLink>
+            <NavLink to={'/shop'} activeClassName='nav__items--active' className={outclass ? outclass+"__items nav__items" : "nav__items"}>Shop</NavLink>
             <a href="" className={outclass ? outclass+"__items nav__items" : "nav__items"}>Contacts</a>
             <a href="" className={outclass ? outclass+"__items nav__items" : "nav__items"}>About us</a>
         </nav>

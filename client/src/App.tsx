@@ -4,7 +4,7 @@ import {BrowserRouter, Route, Switch} from "react-router-dom";
 import Header from "./componetns/header/header";
 import {Provider, useDispatch, useSelector} from "react-redux";
 import store, {RootState} from "./redux/store";
-import ProductScreen from "./componetns/product-screen/product-screen";
+import ProductScreen from "./componetns/product/product";
 import Aside from "./componetns/aside/aside";
 import Home from './componetns/home/home';
 import {getIsAuth} from './redux/auth-reducer';

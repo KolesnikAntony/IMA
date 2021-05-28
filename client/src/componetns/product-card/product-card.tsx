@@ -1,4 +1,4 @@
-import React, {FC, useContext, useEffect, useState} from "react";
+import React, {FC, useContext} from "react";
 import './product-card.scss'
 import {Link} from "react-router-dom";
 import {ProductType} from "../../types/types";
@@ -37,7 +37,6 @@ const ProductCard: FC<ProductType> = ({title, imageSrc, price, salePrice, sale, 
                 {top && <span className="product-card__mark--top product-card__mark">top</span>}
             </div>
             {/*<span className="product-card__wish">0</span>*/}
-
             <img className="product-card__image"
                  src={imageSrc ? imageSrc : cap}
                  alt={title}
