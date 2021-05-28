@@ -42,7 +42,7 @@ const Shop = () => {
 
     const handleProductList = (e: React.FormEvent<HTMLSelectElement>) => {
         let value = e.currentTarget.value;
-        dispatch(getProducts(currentPage, value, sort));
+        dispatch(getProducts(1, value, sort));
     };
 
     const [showMobFilter, setShowMobFilter] = useState(false);
