@@ -5,7 +5,7 @@ const { me } = require('../middleware/authVerify');
 //get
 router.get('/category', me, categoryController.getCategories);
 
-router.get('/category/ctgs_clrs', me, categoryController.getCategoriesAndColors);
+router.get('/category/ctgs_clrs', categoryController.getCategoriesAndColors);
 
 // post
 router.post('/category/add', me, categoryController.addCategory);
