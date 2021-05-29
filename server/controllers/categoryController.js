@@ -12,14 +12,22 @@ module.exports.getCategories = async (req, res) => {
 };
 
 module.exports.getCategoriesAndColors = async (req, res) => {
+
+	const getUniqueNames = (array) => {
+		return array.filter((e, i, a) => a.indexOf(e) === i);
+	};
+
 	try {
-		const categories = await Category.find().select('name _id');
 
-		const colors = await Product.find();
+		const categories = await Category.find().select('name -_id');
 
-		console.log({colors})
+		const color = await Product.find().select('color');
 
-		res.status(200).json({categories, colors});
+		const colors = getUniqueNames(color.map(item => item.color));
+
+		const category = getUniqueNames(categories.map(item => item.name));
+
+		res.status(200).json({message: 'OK', category, colors});
 	} catch (err) {
 		return res.status(500).json({message: err.message});
 	}
