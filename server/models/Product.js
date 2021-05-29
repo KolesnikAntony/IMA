@@ -72,12 +72,13 @@ const productSchema = new Schema({
 
 // productSchema.plugin(mongoosePaginate);
 
-productSchema.virtual('id').get( () => {
-	return this._id.toHexString();
-});
+productSchema.method('toClient', function() {
+	const product = this.toObject();
 
-productSchema.set('toJSON', {
-	virtuals: true,
+	product.id = product._id;
+	delete product._id;
+
+	return product;
 });
 
 module.exports = model('Product', productSchema);
