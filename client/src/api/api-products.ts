@@ -18,5 +18,8 @@ export const ProductsAPI = {
 
     getProduct(id:string){
         return instance.get<{product: ProductType}>(`/api/products/${id}`, {}).then(res => res.data.product);
+    },
+    getFilterData(){
+        return instance.get(`/api/category/ctgs_clrs`, {}).then(res => res.data);
     }
 };

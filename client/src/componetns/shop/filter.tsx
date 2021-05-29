@@ -1,18 +1,21 @@
-import React, {FC} from 'react';
+import React, {FC, useEffect} from 'react';
 import './shop.scss';
 import {Field, FormSection, InjectedFormProps} from "redux-form";
 import {FormFilterHOC} from '../../hocs/hocs';
-import {FormFilterDataType, FormFilterPropsType, ProductType} from "../../types/types";
+import {FormFilterDataType, FormFilterPropsType} from "../../types/types";
+import {useDispatch} from "react-redux";
+import {AppDispatch} from "../../redux/store";
 
 
 interface PropsType {
-    products: Array<ProductType>,
     setFilter: (data: FormFilterDataType) => void
 }
 
-const Filter: FC<PropsType> = ({products, setFilter}) => {
-    console.log('render filter')
-    //todo make those functionality on backend
+const Filter: FC<PropsType> = ({setFilter}) => {
+    const dispatch = useDispatch<AppDispatch>();
+
+    // useEffect(() => dispatch(getFilter()), []);
+
     const getUniqueNameOfCategories = (array: Array<string>) => {
         return array.filter((e, i, a) => a.indexOf(e) === i);
     };

@@ -37,6 +37,11 @@ export type CartType = {
     qty: number
 }
 
+export type FilterType = {
+    categories: Array<string>
+    colors: Array<string>
+}
+
 //PROFILE_TYPES
 
 export type ProfileAPIDataType = {

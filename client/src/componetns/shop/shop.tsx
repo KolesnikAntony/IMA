@@ -57,7 +57,7 @@ const Shop = () => {
                 <h2 className="shop__title">Shop</h2>
                 <div className="shop__row">
                     {isDesktop &&
-                    <div className="shop__sidebar"><Filter products={products} setFilter={setFilter}/></div>}
+                    <div className="shop__sidebar"><Filter setFilter={setFilter}/></div>}
                     <div className="shop__content">
                         <div className="shop__properties">
                             {isDesktop || <button className="shop__select" onClick={handleShowMobFilter}>
@@ -74,7 +74,7 @@ const Shop = () => {
                                 <option value={FILTER_TYPES.SELECT_TYPE.TOP} className="shop__select-item">top</option>
                                 <option value={FILTER_TYPES.SELECT_TYPE.SALE} className="shop__select-item">sale</option>
                             </select>
-                            {showMobFilter && !isDesktop && <Filter products={products} setFilter={setFilter}/>}
+                            {showMobFilter && !isDesktop && <Filter  setFilter={setFilter}/>}
                         </div>
                         {isFetching ? <Preloader type='products-list'/> :
                         <>
