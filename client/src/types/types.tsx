@@ -18,7 +18,7 @@ export type ProductType = {
     totalCount?: 15
     updatedAt: string
     __v?: number
-    _id?: string
+    _id: string
     isCart?: boolean
 }
 
@@ -29,7 +29,7 @@ export type ProductsAPIType =  {
 }
 
 export type CartType = {
-    id: number
+    _id: string
     imageSrc: string
     price: number
     salePrice: number

@@ -9,11 +9,11 @@ import {VIEW_TYPES} from "../../constants/constants";
 import {OpenCartContext} from "../../context/context";
 
 
-const ProductCard: FC<ProductType> = ({title, imageSrc, price, salePrice, sale, top, itsNew, id, isCart}) => {
+const ProductCard: FC<ProductType> = ({title, imageSrc, price, salePrice, sale, top, itsNew, _id, isCart}) => {
 
     const dispatch = useDispatch();
 
-    const putToCart = (e: React.MouseEvent<HTMLButtonElement>, id: number) => {
+    const putToCart = (e: React.MouseEvent<HTMLButtonElement>, id: string) => {
         e.preventDefault();
         dispatch(actionsProducts.setAddToCart(id));
         dispatch(actionsProducts.setIsInCart(id, true));
@@ -30,7 +30,7 @@ const ProductCard: FC<ProductType> = ({title, imageSrc, price, salePrice, sale, 
 
 
     return <div className="product-card">
-        <Link to={`/product/${id}`}>
+        <Link to={`/product/${_id}`}>
             <div className="product-card__marks">
                 {sale && <span className="product-card__mark--sale product-card__mark">sale</span>}
                 {itsNew && <span className="product-card__mark--new product-card__mark">new</span>}
@@ -47,7 +47,7 @@ const ProductCard: FC<ProductType> = ({title, imageSrc, price, salePrice, sale, 
             </div>
 
             {!isCart ?
-                <button className="product-card__add" onClick={(e) => putToCart(e, id)}>add to cart</button>:
+                <button className="product-card__add" onClick={(e) => putToCart(e, _id)}>add to cart</button>:
                 <button className="product-card__go" onClick={(e)=> openCartHandler(e)} >go to cart</button>
             }
         </Link>

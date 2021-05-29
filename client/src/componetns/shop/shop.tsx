@@ -79,7 +79,7 @@ const Shop = () => {
                         {isFetching ? <Preloader type='products-list'/> :
                         <>
                             <div className="shop__products">
-                                {products.length !== 0 ? products.map(el => <ProductCard key={el.id} {...el}/>): <span className='shop__empty'>List is empty...</span> }
+                                {products.length !== 0 ? products.map(el => <ProductCard key={el._id} {...el}/>): <span className='shop__empty'>List is empty...</span> }
                             </div>
                             <Paginator currentPage={currentPage} totalPages={totalPages}  portionSize={portionSize} showCurrentProducts={showCurrentProducts}/>
                         </>}

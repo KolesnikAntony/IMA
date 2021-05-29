@@ -23,7 +23,7 @@ const Cart = () => {
         <section className='cart'>
             <h3 className="cart__title aside__title">Cart</h3>
             <div className="cart__products">
-                {cartProducts.map(el =>  <CartProduct  key={el.id} id={el.id} title={el.title} image={el.imageSrc} currentPrice={el.salePrice ? el.salePrice : el.price}/>)}
+                {cartProducts.map(el =>  <CartProduct  key={el._id} id={el._id} title={el.title} image={el.imageSrc} currentPrice={el.salePrice ? el.salePrice : el.price}/>)}
             </div>
             <div className="cart__actions">
                 <form className="cart__promo">

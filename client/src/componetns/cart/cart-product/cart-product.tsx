@@ -7,7 +7,7 @@ interface CartPropsType {
     title: string
     image: string
     currentPrice: number
-    id: number
+    id: string
 }
 
 const CartProduct:FC<CartPropsType> = ({title, currentPrice, image, id }) => {
