@@ -126,39 +126,18 @@ module.exports.getProductById = async (req, res) => {
 module.exports.getColorAndCategory = async (req, res) => {
 	try {
 
-		// let query = {...req.query};
-		//
-		// if (req.query.color !== '') {
-		// 	query.color = req.query.color.split(',');
-		// }
-		//
-		// 	if (req.query.category !== '') {
-		// 		query.category = req.query.category.split(',');
-		// 	}
-		// }
-		// const splitValues = Object.values(query).join('');
-		// const argsArr = splitValues.split(',');
-		// const getKeys = Object.keys(query).join('');
-		// console.log('getKeys', getKeys);
-		// console.log('argsArr', argsArr);
-		// const completeQuery = { req.query +':' + argsArr }
-		// query = completeQuery;
-		// console.log('query', completeQuery);
-
-		// if (req.query.category !== null) query.category = req.query.category.split(',') : query;
-		// await multiQuery();
 		//{category:['609308afbe7adb4340ee8dde', '609308fe87772a1a00865c1a']} нужно сделать хотябы вот так
 
 		let query = {};
-		query = Product.find();
-		if (query.color && query.color.length > 0) query.color = {$in : query.color};
-		console.log('query', query.color);
 
-		const newProducts = await query
-			.populate('category', 'name')
-			.lean();
 
-		res.status(200).json({message: 'show you all products from db', count: newProducts.length, newProducts});
+		const products = await Product.find();
+
+		const product = products.map(item => item.size);
+
+		console.log({product})
+
+		res.status(200).json({message: 'show you all products from db', count: products.length, products});
 	} catch (err) {
 		return res.status(500).json({message: err.message});
 	}
