@@ -33,7 +33,7 @@ const Home:FC<PropsType> = ({isNewMember, match}) => {
 
     const dispatch = useDispatch();
     useEffect(()=> {
-        isNewMember && dispatch(activateUser(key))
+        isNewMember && dispatch(activateUser(key));
     });
 
     return <>

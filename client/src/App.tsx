@@ -11,6 +11,7 @@ import {getIsAuth} from './redux/auth-reducer';
 import Footer from "./componetns/footer/footer";
 import Shop from './componetns/shop/shop';
 import {OpenCartContext} from './context/context';
+import {checkCartItems} from "./redux/cart-reducer";
 
 function AppMain() {
     const [open, setOpen] = useState(false);
@@ -24,6 +25,10 @@ function AppMain() {
     }, []);
 
     const handleClose = useCallback(() => setOpen(false), []);
+
+    useEffect(() => {
+        dispatch(checkCartItems());
+    }, []);
 
     return (<>
             <OpenCartContext.Provider value={handleOpen}>
@@ -55,6 +60,7 @@ const App = () => {
     </BrowserRouter>
 };
 export default App;
+
 function getNewProducts(): any {
     throw new Error('Function not implemented.');
 }

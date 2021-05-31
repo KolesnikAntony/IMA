@@ -22,7 +22,7 @@ const Aside:FC<PropsType> = ({open, view, onClose}) => {
         if(view === VIEW_TYPES.CART) return <Cart/>;
         if(view === VIEW_TYPES.WISH) return <WishList/>;
         if(view === VIEW_TYPES.PROFILE) return <Profile/>;
-        if(view === VIEW_TYPES.BURGER) return <Burger/>;
+        if(view === VIEW_TYPES.BURGER) return <Burger onClose={onClose}/>;
     };
     const classes = useMemo(() => `aside ${open ? 'show': null}`, [open]);
 

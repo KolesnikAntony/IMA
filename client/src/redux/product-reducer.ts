@@ -3,7 +3,7 @@ import {FormAction} from "redux-form";
 import {ProductType} from "../types/types";
 import {ProductsAPI} from "../api/api-products";
 
-const SET_PRODUCT = 'product-reducer/SET_PRODUCT'
+const SET_PRODUCT = 'product-reducer/SET_PRODUCT';
 
 const productInitialState = {
     product: {
@@ -22,7 +22,7 @@ const productInitialState = {
 const ProductReducer = (state = productInitialState, action: ActionType):ProductInitialStateType => {
     switch (action.type) {
         case SET_PRODUCT:
-            return {...state, product: {...action.payload}};
+            return {...state, product: {...action.product}};
 
         default:
             return state
@@ -30,9 +30,9 @@ const ProductReducer = (state = productInitialState, action: ActionType):Product
 };
 
 const actionsProduct = {
-    setProduct: (payload: ProductType) => ({
+    setProduct: (product: ProductType) => ({
         type: SET_PRODUCT,
-        payload
+        product
     }) as const,
 };
 

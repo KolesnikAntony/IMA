@@ -1,22 +1,19 @@
-import React, {useCallback, useEffect, useState} from "react";
+import React, {useEffect, useState} from "react";
 import CartProduct from "./cart-product/cart-product";
 import './cart.scss'
 import {useDispatch, useSelector} from "react-redux";
-import {AppStateType} from "../../redux/store";
-import {CartType} from "../../types/types";
-import { actionsProducts } from "../../redux/products-reducer";
+import {RootState} from "../../redux/store";
+import {checkCartItems} from "../../redux/cart-reducer";
 
 
 const Cart = () => {
-    const cartProducts = useSelector<AppStateType, Array<CartType>>(state => state.products.cart);
+    let cartProducts = useSelector((state: RootState) => state.cart.cart);
     const [totalPrice, setTotalPrice] = useState(0);
 
     useEffect(() => {
-        //dispatch(getCartItem());
         let total = 0;
         cartProducts.forEach(item => total += item.qty * item.price);
         setTotalPrice(total);
-
     }, [cartProducts]);
 
     return (

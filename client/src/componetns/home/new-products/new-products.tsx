@@ -30,7 +30,7 @@ const NewProducts:FC<PropsType> = ({getCountOfSlide}) => {
                 <Swiper spaceBetween={20}
                         slidesPerView={getCountOfSlide()}
                         navigation>
-                    {products.map(el=> <SwiperSlide key={el.id}><ProductCard {...el}/></SwiperSlide> )}
+                    {products.map(el=> <SwiperSlide key={el._id}><ProductCard {...el}/></SwiperSlide> )}
                 </Swiper>
                 <Link to='/shop' className='new-products__button'>To show</Link>
             </div>

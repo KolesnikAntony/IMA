@@ -3,8 +3,9 @@ import './shop.scss';
 import {Field, FormSection, InjectedFormProps} from "redux-form";
 import {FormFilterHOC} from '../../hocs/hocs';
 import {FormFilterDataType, FormFilterPropsType} from "../../types/types";
-import {useDispatch} from "react-redux";
-import {AppDispatch} from "../../redux/store";
+import {useDispatch, useSelector} from "react-redux";
+import {RootState} from "../../redux/store";
+import {getFilter} from '../../redux/products-reducer';
 
 
 interface PropsType {
@@ -12,49 +13,45 @@ interface PropsType {
 }
 
 const Filter: FC<PropsType> = ({setFilter}) => {
-    const dispatch = useDispatch<AppDispatch>();
+    const dispatch = useDispatch();
 
-    // useEffect(() => dispatch(getFilter()), []);
+    useEffect(() => {
+        dispatch(getFilter());
+    }, []);
 
-    const getUniqueNameOfCategories = (array: Array<string>) => {
-        return array.filter((e, i, a) => a.indexOf(e) === i);
-    };
-
-    // const colors = getUniqueNameOfCategories(products.map(el => el.color));
-    // const categories = getUniqueNameOfCategories(products.map(el => el.category.name));
-
-     return <FilterFormWrap colors={[]} categories={[]} onSubmit={setFilter}/>;
+    const {colors, category} = useSelector((state: RootState) => state.products.filter);
+    return <FilterFormWrap colors={colors} categories={category} onSubmit={setFilter}/>;
 };
 
-const FilterForm:FC<InjectedFormProps<FormFilterDataType, FormFilterPropsType> & FormFilterPropsType> = ({handleSubmit, colors, categories}) => {
+const FilterForm: FC<InjectedFormProps<FormFilterDataType, FormFilterPropsType> & FormFilterPropsType> = ({handleSubmit, colors, categories}) => {
     return (
         <form className="shop__form" onSubmit={handleSubmit}>
             <FormSection name="categories">
-            <div className="shop__form--wrap"><h4 className="shop__form--title">Categories</h4>
-                <div className="shop__categories">
-                    {categories.map(el =>
-                        <div className="shop__categories--item">
-                            <label htmlFor={"check--" + el} className="shop__categories--label">{el}</label>
-                            <Field type='checkbox' name={el} component='input' id={"check--" + el}/>
-                            <span className="shop__categories--item-checkmark"/>
-                        </div>
-                    )}
+                <div className="shop__form--wrap"><h4 className="shop__form--title">Categories</h4>
+                    <div className="shop__categories">
+                        {categories.map(el =>
+                            <div className="shop__categories--item" key={el}>
+                                <label htmlFor={"check--" + el} className="shop__categories--label">{el}</label>
+                                <Field type='checkbox' name={el} component='input' id={"check--" + el}/>
+                                <span className="shop__categories--item-checkmark"/>
+                            </div>
+                        )}
+                    </div>
                 </div>
-            </div>
             </FormSection>
             <FormSection name="color">
-            <div className="shop__form--wrap">
-                <h4 className="shop__form--title">Colors</h4>
-                <div className="shop__categories">
-                    {colors.map(el =>
-                        <div className="shop__categories--item">
-                            <label htmlFor={"check--"+ el} className="shop__categories--label">{el}</label>
-                            <Field type='checkbox' name={el} component='input' id={"check--"+ el}/>
-                            <span className="shop__categories--item-checkmark"/>
-                        </div>
-                    )}
+                <div className="shop__form--wrap">
+                    <h4 className="shop__form--title">Colors</h4>
+                    <div className="shop__categories">
+                        {colors.map(el =>
+                            <div className="shop__categories--item" key={el}>
+                                <label htmlFor={"check--" + el} className="shop__categories--label">{el}</label>
+                                <Field type='checkbox' name={el} component='input' id={"check--" + el}/>
+                                <span className="shop__categories--item-checkmark"/>
+                            </div>
+                        )}
+                    </div>
                 </div>
-            </div>
             </FormSection>
             <button className="shop__form--submit">show</button>
         </form>
@@ -64,27 +61,3 @@ const FilterForm:FC<InjectedFormProps<FormFilterDataType, FormFilterPropsType> &
 const FilterFormWrap = FormFilterHOC(FilterForm, 'filter');
 
 export default Filter;
-
-
-// const FilterForm2: FC<InjectedFormProps<formTypeData, formFilterData> & formFilterData> = ({handleSubmit, nameForCategories,title}) => {
-//     return (
-//         <form className="shop__form" onSubmit={handleSubmit}>
-//             <h4 className="shop__form--title">{title}</h4>
-//             <div className="shop__categories">
-//                 {nameForCategories.map(el =>
-//                     <div className="shop__categories--item">
-//                         <label htmlFor={"check--"+ el} className="shop__categories--label">{el}</label>
-//                         <Field type='checkbox' name={el} component='input' id={"check--"+ el}/>
-//                         <span className="shop__categories--item-checkmark"/>
-//                     </div>
-//                 )}
-//             </div>
-//             <button className="shop__form--submit">show</button>
-//         </form>
-//     )
-// };
-// const Categories = FormFilterHOC(FilterForm, 'categories');
-// const Colors = FormFilterHOC(FilterForm, 'colors');
-
-{/*<Categories onSubmit={setCategories} nameForCategories={categories} title={"categories"}/>*/}
-{/*<Colors onSubmit={setColors} nameForCategories={colors} title={"colors"}/>*/}

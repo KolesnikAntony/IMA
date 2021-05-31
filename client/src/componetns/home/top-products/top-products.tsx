@@ -32,7 +32,7 @@ const TopProducts:FC<PropsType> = ({getCountOfSlide}) => {
                             navigation
                             onSlideChange={() => console.log('slide change')}
                             onSwiper={(swiper) => console.log(swiper)}>
-                        {products.map(el=> <SwiperSlide key={el.id}><ProductCard {...el}/></SwiperSlide> )}
+                        {products.map(el=> <SwiperSlide key={el._id}><ProductCard {...el}/></SwiperSlide> )}
                     </Swiper>
             </div>
         </section>

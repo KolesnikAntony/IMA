@@ -1,4 +1,4 @@
-import {ProductsAPIType, ProductType} from '../types/types';
+import {CartType, ProductsAPIType, ProductType} from '../types/types';
 import {instance} from './api';
 import {FILTER_TYPES} from "../constants/constants";
 
@@ -12,6 +12,7 @@ export const ProductsAPI = {
     getTopProducts() {
         return instance.get<ProductsAPIType>('/api/products?top=true', {}).then(res => res.data);
     },
+
     getNewProducts() {
         return instance.get<ProductsAPIType>('/api/products?itsNew=true', {}).then(res => res.data);
     },
@@ -21,5 +22,12 @@ export const ProductsAPI = {
     },
     getFilterData(){
         return instance.get(`/api/category/ctgs_clrs`, {}).then(res => res.data);
+    },
+    getCartProducts(ids: string | null){
+       if(ids != ""){
+           return instance.get<{cartItems: Array<CartType>}>(`/api/cart?id=${ids}`, {}).then(res => res.data.cartItems);
+       }else{
+           return instance.get<{cartItems: Array<CartType>}>(`/api/cart?id=false`, {}).then(res => res.data.cartItems);
+       }
     }
 };

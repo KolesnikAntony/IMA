@@ -38,7 +38,7 @@ export type CartType = {
 }
 
 export type FilterType = {
-    categories: Array<string>
+    category: Array<string>
     colors: Array<string>
 }
 

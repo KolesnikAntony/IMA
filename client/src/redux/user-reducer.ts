@@ -21,7 +21,7 @@ const userInitialState = {
 };
 
 
-const UserReducer = (state = userInitialState, action: any): UserInitialStateType => {
+const UserReducer = (state = userInitialState, action: ActionType): UserInitialStateType => {
     switch (action.type) {
         case SET_PHOTO:
             return state;
