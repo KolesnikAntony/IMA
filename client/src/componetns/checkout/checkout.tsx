@@ -1,4 +1,4 @@
-import React, {FC, useMemo, useState} from "react";
+import React, {FC, useEffect, useMemo, useState} from "react";
 import './checkout.scss'
 import {Field, InjectedFormProps, reduxForm} from "redux-form";
 import {connect} from "react-redux";
@@ -13,13 +13,19 @@ interface PropsType {
 }
 
 const Checkout: FC<InjectedFormProps<ProfileFormValueType, ProfilePropsType<PropsType>> & ProfilePropsType<PropsType>> = ({cartProducts}) => {
-    const products = [1,2];
+    const products = cartProducts;
     const productsClasses = useMemo(() => products.length <= 3 ? 'checkout__products' : 'checkout__products scroll', [products] );
+
     const [delivery, setDelivery] = useState('paczkomat');
     const [checkPolicy, setCheckPolicy] = useState(false);
 
-
-    const qty = 2;
+    const [totalPrice, setTotalPrice] = useState(0);
+    useEffect(() => {
+        let total = 0;
+        let delPrice = delivery === 'paczkomat' ? 10.99 :  12.99;
+        cartProducts.forEach(item => total += item.qty * item.price);
+        setTotalPrice(total !== 0 ? total + delPrice : 0);
+    }, [products, delivery]);
 
     return <section className="checkout">
         <div className="container">
@@ -108,34 +114,16 @@ const Checkout: FC<InjectedFormProps<ProfileFormValueType, ProfilePropsType<Prop
                             </li>
                             <li className="checkout__payments-item">
                                 <ul className={productsClasses}>
-                                    <li className="checkout__products-item">
-                                        <div className="checkout__products-name">
+                                    {products.map(item =>
+                                        <li className="checkout__products-item">
+                                            <div className="checkout__products-name">
                                             <span className="checkout__products-title">
-                                                Agate 07
+                                                {item.title}
                                             </span>
-                                            {qty > 1 && <span className="checkout__products-qry"> × {qty}</span>}
-                                        </div>
-                                        <span className="checkout__products-price">zł40</span>
-                                    </li>
-                                    <li className="checkout__products-item">
-                                        <div className="checkout__products-name">
-                                            <span className="checkout__products-title">
-                                                Agate 07
-                                            </span>
-                                            {qty > 1 && <span className="checkout__products-qry"> × {qty}</span>}
-                                        </div>
-                                        <span className="checkout__products-price">zł40</span>
-                                    </li>
-
-                                    <li className="checkout__products-item">
-                                        <div className="checkout__products-name">
-                                            <span className="checkout__products-title">
-                                                Agate 07
-                                            </span>
-                                            <span className="checkout__products-qry"> × {qty}</span>
-                                        </div>
-                                        <span className="checkout__products-price">zł40</span>
-                                    </li>
+                                                <span className="checkout__products-qry"> × {item.qty}</span>
+                                            </div>
+                                            <span className="checkout__products-price">zł{item.qty * item.price}</span>
+                                        </li>)}
                                 </ul>
                             </li>
                             <li className="checkout__payments-item column">
@@ -171,7 +159,7 @@ const Checkout: FC<InjectedFormProps<ProfileFormValueType, ProfilePropsType<Prop
                                     SUMA
                                 </h5>
                                 <span className="checkout__total-price">
-                                    zł50,99
+                                    zł{totalPrice}
                                 </span>
                             </li>
                         </ul>
