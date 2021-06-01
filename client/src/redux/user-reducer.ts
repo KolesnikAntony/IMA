@@ -15,7 +15,7 @@ const userInitialState = {
         street: '',
     },
     email: '',
-    name: 'Name',
+    name: '',
     phone: '',
     photo: '',
 };

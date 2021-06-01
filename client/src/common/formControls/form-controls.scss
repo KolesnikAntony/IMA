@@ -3,14 +3,14 @@
 }
 .form-controls.error input,
 .form-controls.error textarea {
-  border: red solid 1px;
+  border-bottom: crimson solid 1px;
 }
 
 .form-controls.error span {
   position: absolute;
-  bottom: -16px;
-  left: 0;
+  bottom: -14px;
+  left: 8px;
   font-weight: 400;
   font-size: 10px;
-  color: red;
+  color: crimson;
 }

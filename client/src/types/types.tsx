@@ -69,6 +69,10 @@ export type ProfileFormValueType = {email: string
     build: string
     kod: string
     name: string
+    surname?: string
+    company?: string
+    country?: string
+    post_box?: string
 };
 
 export type ProfilePropsType<P> = ProfileFormValueType & P;

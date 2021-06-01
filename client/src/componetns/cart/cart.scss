@@ -79,6 +79,11 @@
       cursor: pointer;
       transition: 0.2s;
       transform: scale(1);
+      &--disable {
+        color: gray;
+        pointer-events: none;
+        border-color: gray;
+      }
       &:hover {
         //border-color: $color-nude;
         //color: $color-nude;

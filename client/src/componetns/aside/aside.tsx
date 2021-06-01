@@ -19,7 +19,7 @@ const Aside:FC<PropsType> = ({open, view, onClose}) => {
     useDisableBodyScroll(open);
 
     const currentView = () => {
-        if(view === VIEW_TYPES.CART) return <Cart/>;
+        if(view === VIEW_TYPES.CART) return <Cart onClose={onClose}/>;
         if(view === VIEW_TYPES.WISH) return <WishList/>;
         if(view === VIEW_TYPES.PROFILE) return <Profile/>;
         if(view === VIEW_TYPES.BURGER) return <Burger onClose={onClose}/>;

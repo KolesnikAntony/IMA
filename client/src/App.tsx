@@ -7,11 +7,11 @@ import store, {RootState} from "./redux/store";
 import ProductScreen from "./componetns/product/product";
 import Aside from "./componetns/aside/aside";
 import Home from './componetns/home/home';
-import {getIsAuth} from './redux/auth-reducer';
 import Footer from "./componetns/footer/footer";
 import Shop from './componetns/shop/shop';
 import {OpenCartContext} from './context/context';
 import {checkCartItems} from "./redux/cart-reducer";
+import {ContainerCheckout} from "./componetns/checkout/checkout";
 
 function AppMain() {
     const [open, setOpen] = useState(false);
@@ -43,7 +43,8 @@ function AppMain() {
                     {/*ProfileEdit*/}
                     {/*About Us*/}
                     {/*Contacts*/}
-                    {/*CheckOut*/}
+                    {/*@ts-ignore*/}
+                    <Route path='/checkout' render={() => <ContainerCheckout/>}/>
                 </Switch>
             </main>
             <Footer onOpen={handleOpen}/>
