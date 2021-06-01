@@ -12,6 +12,7 @@ import Shop from './componetns/shop/shop';
 import {OpenCartContext} from './context/context';
 import {checkCartItems} from "./redux/cart-reducer";
 import {ContainerCheckout} from "./componetns/checkout/checkout";
+import { getIsAuth } from './redux/auth-reducer';
 
 function AppMain() {
     const [open, setOpen] = useState(false);
@@ -28,6 +29,7 @@ function AppMain() {
 
     useEffect(() => {
         dispatch(checkCartItems());
+        dispatch(getIsAuth());
     }, []);
 
     return (<>
