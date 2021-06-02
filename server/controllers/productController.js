@@ -124,25 +124,21 @@ module.exports.getProductById = async (req, res) => {
 };
 
 module.exports.getColorAndCategory = async (req, res) => {
+
 	try {
+		const formattedParams = {};
 
-		//{category:['609308afbe7adb4340ee8dde', '609308fe87772a1a00865c1a']} нужно сделать хотябы вот так
+		let queryArr = { ...req.query }
 
-		let query = {};
+		for (const [key, value] of Object.entries(queryArr)) {
+			formattedParams[key] = value.split(',');
+		}
 
-		let queryStr = { ...req.query }
+		console.log({formattedParams});
 
-		const allProducts = await Product.find();
+		const products = await Product.find(formattedParams);
 
-		const filteredProducts = allProducts.map((a1) => {
-			console.log({a1})
-		})
-
-		// const filteredProducts = allProducts.reduce( (acc, item ) => (queryStr.includes(item.color) && acc.push(item), acc), []);
-
-		// console.log({filteredProducts})
-
-		// res.status(200).json({filteredProducts});
+		res.status(200).json({count: products.length, products});
 	} catch (err) {
 		return res.status(500).json({message: err.message});
 	}
