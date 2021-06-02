@@ -9,7 +9,7 @@ router.post('/products/create', me, upload.single('imageSrc'), productController
 // get
 router.get('/products', productController.getProducts);
 
-router.get('/products/color_category',productController.getColorAndCategory);
+router.get('/products/color_category', productController.getColorAndCategory);
 
 router.get('/products/:id', productController.getProductById);
 
