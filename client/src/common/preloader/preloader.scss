@@ -2,10 +2,11 @@
 
 
 .preloader {
-  position: relative;
+
 }
 .preloader.product {
   min-height: calc(100vh - 372px);
+  position: relative;
 }
 
 .gooey {

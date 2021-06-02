@@ -3,14 +3,13 @@ import './product.scss'
 import {RouteComponentProps, withRouter} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
 import {getProduct} from "../../redux/product-reducer";
-import {AppStateType, RootState} from "../../redux/store";
-import {CartType, ProductType} from "../../types/types";
+import {RootState} from "../../redux/store";
+import {CartType} from "../../types/types";
 import cap from "../../assets/img/nail-polish.png";
 import Preloader from "../../common/preloader/preloader";
 import {getAddToCart} from "../../redux/cart-reducer";
 import {OpenCartContext} from "../../context/context";
 import {VIEW_TYPES} from "../../constants/constants";
-import {ProductsActionType} from "../../redux/products-reducer";
 
 
 type PathParamsType = {
