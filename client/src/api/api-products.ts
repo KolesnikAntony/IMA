@@ -27,7 +27,7 @@ export const ProductsAPI = {
        if(ids != ""){
            return instance.get<{cartItems: Array<CartType>}>(`/api/cart?id=${ids}`, {}).then(res => res.data.cartItems);
        }else{
-           return instance.get<{cartItems: Array<CartType>}>(`/api/cart?id=false`, {}).then(res => res.data.cartItems);
+           return instance.get<{cartItems: Array<CartType>}>(`/api/cart?id=[]`, {}).then(res => res.data.cartItems);
        }
     }
 };

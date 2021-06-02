@@ -1,11 +1,16 @@
-import React, {FC, useEffect} from "react";
+import React, {FC, useContext, useEffect, useMemo} from "react";
 import './product.scss'
 import {RouteComponentProps, withRouter} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
 import {getProduct} from "../../redux/product-reducer";
-import {AppStateType} from "../../redux/store";
-import {ProductType} from "../../types/types";
+import {AppStateType, RootState} from "../../redux/store";
+import {CartType, ProductType} from "../../types/types";
 import cap from "../../assets/img/nail-polish.png";
+import Preloader from "../../common/preloader/preloader";
+import {getAddToCart} from "../../redux/cart-reducer";
+import {OpenCartContext} from "../../context/context";
+import {VIEW_TYPES} from "../../constants/constants";
+import {ProductsActionType} from "../../redux/products-reducer";
 
 
 type PathParamsType = {
@@ -23,13 +28,29 @@ const Product: FC<PropsType> = ({match}) => {
         dispatch(getProduct(productId));
     }, []);
 
-    const {title, description, imageSrc, price, salePrice, shortDescr, subText} = useSelector<AppStateType, ProductType>(state => state.productPage.product);
+
+    const {product ,isFetching } = useSelector((state:RootState)  => state.productPage);
+    const {title, description, imageSrc, price, salePrice, shortDescr, subText} = product;
+
+    const cart = useSelector<RootState, Array<CartType>>((state) => state.cart.cart);
+    const isCart = useMemo(()=> cart.some(el => el._id == productId), [cart]);
 
     const addDefaultSrc = (e: any) => {e.target.src = cap};
 
-    let isCart = false;
+    const putToCart = (e: React.MouseEvent<HTMLButtonElement>, id: string) => {
+        e.preventDefault();
+        dispatch(getAddToCart(id));
+    };
 
-    return (
+    const openCart = useContext(OpenCartContext);
+
+    const openCartHandler = (e: React.MouseEvent<HTMLButtonElement>)=> {
+        e.preventDefault();
+        openCart(VIEW_TYPES.CART);
+    };
+    console.log(isCart);
+    return (<>
+        {isFetching ? <Preloader type={'product'}/> :
         <section className='product'>
             <div className="container">
                 <div className="product__row">
@@ -45,8 +66,9 @@ const Product: FC<PropsType> = ({match}) => {
                         <p className="product__description">{description}</p>
                         <div className="product__action">
                             <span className="product__price">{salePrice ? price + "/" + salePrice : price}zl</span>
-                            {!isCart ? <button className="product__btn product__btn--atc">add to cart</button>
-                                : <button className="product__btn product__btn--go">go to cart</button>
+                            {!isCart
+                                ? <button className="product__btn product__btn--atc" onClick={(e) => putToCart(e, productId)}>add to cart</button>
+                                : <button className="product__btn product__btn--go" onClick={(e)=> openCartHandler(e)}>go to cart</button>
                             }
                         </div>
 
@@ -54,7 +76,8 @@ const Product: FC<PropsType> = ({match}) => {
                 </div>
                 <p className="product__sub-info">{subText}</p>
             </div>
-        </section>
+        </section>}
+        </>
     )
 };
 

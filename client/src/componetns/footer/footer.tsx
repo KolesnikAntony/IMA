@@ -4,6 +4,7 @@ import NavBar from "../navbar/navbar";
 import MenuButtons from "../menu-buttons/menu-buttons";
 import SocialLinks from "../social-links/social-links";
 import {Link} from "react-router-dom";
+import logo from "../../assets/img/logo-for-IMA.png";
 
 interface PropsType {
     onOpen: ({}) => void
@@ -17,7 +18,10 @@ const Footer:FC<PropsType> = ({onOpen}) => {
                 <div className="footer__wrapper">
                     <div className="footer__navigation">
                         <NavBar outclass={'footer-nav'} onOpen={onOpen}/>
-                        <MenuButtons onOpen={onOpen}/>
+                        {/*<MenuButtons onOpen={onOpen}/>*/}
+                        <Link to="/">
+                            <img src={logo} alt="Ima" className="header__logo"/>
+                        </Link>
                     </div>
                     <div className="footer__row">
                         <div className="footer__col">

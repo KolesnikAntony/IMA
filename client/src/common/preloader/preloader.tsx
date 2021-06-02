@@ -7,12 +7,14 @@ interface PropsType {
 
 const Preloader: FC<PropsType> = ({type}) => {
 
-    return <div className="gooey">
-        <span className="dot"/>
-        <div className="dots">
-            <span/>
-            <span/>
-            <span/>
+    return <div className={`preloader ${type}`}>
+        <div className="gooey">
+            <span className="dot"/>
+            <div className="dots">
+                <span/>
+                <span/>
+                <span/>
+            </div>
         </div>
     </div>
 };

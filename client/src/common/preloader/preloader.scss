@@ -1,6 +1,12 @@
 @import '../../../src/assets/style/variables';
 
 
+.preloader {
+  position: relative;
+}
+.preloader.product {
+  min-height: calc(100vh - 372px);
+}
 
 .gooey {
   position: absolute;

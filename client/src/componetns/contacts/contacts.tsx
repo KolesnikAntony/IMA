@@ -12,7 +12,7 @@ const Contacts = () => {
                 <b>Email:</b> <a href="mailto:ima.professionalzone@gmail.com">ima.professionalzone@gmail.com</a>
             </li>
             <li className="contacts__item">
-                <b> Instagram:</b> <a href="https://www.instagram.com/ima_professionalzone/">ima_professionalzone</a>
+                <b> Instagram:</b> <a href="https://www.instagram.com/ima_professionalzone/" target="_blank">ima_professionalzone</a>
             </li>
             <li className="contacts__item">
                <b> Adress:</b> Gęsia Wólka 52, 08-550 Kłoczew

@@ -5,11 +5,12 @@
 
   &-link {
     display: block;
-    width: 20px;
-    height: 20px;
+    width: 22px;
+    height: 22px;
     background-repeat: no-repeat;
     background-position: center center;
     background-size: cover;
+    transition: 0.3s;
 
     &--inst {
       background-image: url("../../assets/img/inst.svg");
@@ -21,6 +22,18 @@
 
     &--mail {
       background-image: url("../../assets/img/mail.svg");
+    }
+
+    @media (hover: hover) and (pointer: fine) {
+      &--inst:hover {
+        background-image: url("../../assets/img/inst-hover.svg");
+      }
+      &--wu:hover {
+        background-image: url("../../assets/img/wu-hover.svg");
+      }
+      &--mail:hover {
+        background-image: url("../../assets/img/mail-hover.svg");
+      }
     }
   }
 }

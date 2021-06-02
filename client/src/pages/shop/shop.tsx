@@ -21,7 +21,6 @@ const Shop = () => {
     useEffect(()=> {
         console.log('render shop from useEffect');
         dispatch(getProducts(currentPage, FILTER_TYPES.SELECT_TYPE.ALL, FILTER_TYPES.SORT_TYPE.MAX));
-        window.scrollTo(0, 0);
     }, []);
 
     const showCurrentProducts = (currentPage: number) => {

@@ -13,13 +13,13 @@ const SocialLinks: FC<PropsType> = ({outclass}) => {
     return (
         <ul className={listClass}>
             <li className={itemClass}>
-                <a href="" className="intro__social-link social-link social-link--inst"></a>
+                <a href="https://www.instagram.com/ima_professionalzone" className="intro__social-link social-link social-link--inst" target="_blank"/>
             </li>
             <li className={itemClass}>
-                <a href="" className="intro__social-link social-link social-link--wu"></a>
+                <a href="https://api.whatsapp.com/send?phone=48792424240" className="intro__social-link social-link social-link--wu" target="_blank"/>
             </li>
             <li className={itemClass}>
-                <a href="" className="intro__social-link social-link social-link--mail"></a>
+                <a href="mailto:ima.professionalzone@gmail.com" className="intro__social-link social-link social-link--mail" />
             </li>
         </ul>
     )
