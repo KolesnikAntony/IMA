@@ -5,13 +5,15 @@ module.exports.cartFilter = async ( req, res ) => {
 		let query = {};
 
 		if (req.query.id) {
-			query = {_id: req.query.id.split(',')}
+			query = {_id: req.query.id.split(',')};
+		} else {
+			query = {_id: req.query.id = []};
 		}
 
 		const cartItems = await Product.find(query)
 			.select('title price salePrice imageSrc');
 
-		res.status(200).json({message: 'Ok',count: cartItems.length,  cartItems});
+		res.status(200).json({message: 'Ok', qty: 1,  cartItems});
 
 	} catch (err) {
 		return res.status(500).json({message: err.message});

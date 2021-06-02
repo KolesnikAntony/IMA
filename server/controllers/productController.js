@@ -130,14 +130,19 @@ module.exports.getColorAndCategory = async (req, res) => {
 
 		let query = {};
 
+		let queryStr = { ...req.query }
 
-		const products = await Product.find();
+		const allProducts = await Product.find();
 
-		const product = products.map(item => item.size);
+		const filteredProducts = allProducts.map((a1) => {
+			console.log({a1})
+		})
 
-		console.log({product})
+		// const filteredProducts = allProducts.reduce( (acc, item ) => (queryStr.includes(item.color) && acc.push(item), acc), []);
 
-		res.status(200).json({message: 'show you all products from db', count: products.length, products});
+		// console.log({filteredProducts})
+
+		// res.status(200).json({filteredProducts});
 	} catch (err) {
 		return res.status(500).json({message: err.message});
 	}
