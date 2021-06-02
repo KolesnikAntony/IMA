@@ -5,8 +5,9 @@ import {useDispatch, useSelector} from "react-redux";
 import {AppStateType} from "../../../redux/store";
 import {ProductType} from "../../../types/types";
 import {Swiper, SwiperSlide} from "swiper/react";
-import ProductCard from "../../product-card/product-card";
+
 import {getNewProducts} from "../../../redux/home-reducer";
+import ProductCard from "../../../componetns/product-card/product-card";
 
 
 interface PropsType {

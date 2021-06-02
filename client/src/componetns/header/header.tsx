@@ -2,8 +2,8 @@ import React, {FC, useEffect, useState} from "react";
 import './header.scss';
 import {Link} from "react-router-dom";
 import logo from '../../assets/img/logo-for-IMA.png'
-import NavBar from "../../common/navbar/navbar";
-import MenuButtons from "../../common/menu-buttons/menu-buttons";
+import NavBar from "../navbar/navbar";
+import MenuButtons from "../menu-buttons/menu-buttons";
 
 
 interface PropsType {

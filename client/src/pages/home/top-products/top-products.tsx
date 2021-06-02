@@ -1,5 +1,5 @@
 import React, {FC, useEffect} from "react";
-import ProductCard from "../../product-card/product-card";
+import ProductCard from "../../../componetns/product-card/product-card";
 import {Swiper, SwiperSlide} from "swiper/react";
 import 'swiper/swiper.scss';
 import 'swiper/components/navigation/navigation.scss';

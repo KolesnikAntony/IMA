@@ -1,9 +1,9 @@
-@import '../../../../src/assets/style/variables';
-@import '../../../../src/assets/style/mixins';
+@import '../../../assets/style/variables';
+@import '../../../assets/style/mixins';
 
 .banner {
   height: 560px;
-  background-image:url(./../../../assets/img/bg-img-2.png) ,url(./../../../assets/img/main-bg-2.svg), $gradient-baner;
+  background-image:url(../../../assets/img/bg-img-2.png) ,url(../../../assets/img/main-bg-2.svg), $gradient-baner;
   background-repeat: no-repeat;
   background-position: 90% bottom, left bottom, center;
   background-size: 297px 535px, contain, contain;
@@ -39,7 +39,7 @@
 }
 @media (max-width: 852px) {
   .banner {
-    background-image: url(./../../../assets/img/main-bg-2.svg), $gradient-baner;
+    background-image: url(../../../assets/img/main-bg-2.svg), $gradient-baner;
     background-size: cover;
     height: 400px;
     .container{

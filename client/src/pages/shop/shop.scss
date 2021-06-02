@@ -1,5 +1,5 @@
-@import '../../../src/assets/style/variables';
-@import '../../../src/assets/style/mixins';
+@import '../../assets/style/variables';
+@import '../../assets/style/mixins';
 .shop {
   padding: 120px 0;
   &__title {
@@ -38,7 +38,7 @@
     -webkit-appearance: none;
     -moz-appearance: none;
     appearance: none;       /* Remove default arrow */
-    background-image: url(./../../../src/assets/img/arrow-fill.svg);
+    background-image: url(../../assets/img/arrow-fill.svg);
     background-repeat: no-repeat;
     background-position:  48px center;
     background-size: 10px 10px;

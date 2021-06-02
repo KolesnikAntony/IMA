@@ -4,12 +4,12 @@ import Filter from "./filter";
 import {useDispatch, useSelector} from "react-redux";
 import {AppStateType} from "../../redux/store";
 import {FormFilterDataType, ProductType} from "../../types/types";
-import ProductCard from "../product-card/product-card";
 import {getProducts, ProductsInitialStateType} from "../../redux/products-reducer";
 import {useMediaQuery} from "react-responsive";
 import Paginator from '../../common/paginator/pagintaor';
 import {FILTER_TYPES} from "../../constants/constants";
 import Preloader from "../../common/preloader/preloader";
+import ProductCard from "../../componetns/product-card/product-card";
 
 const Shop = () => {
     console.log('render shop');

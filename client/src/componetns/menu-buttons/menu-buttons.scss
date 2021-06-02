@@ -1,5 +1,5 @@
-@import '../../../src/assets/style/variables';
-@import '../../../src/assets/style/mixins';
+@import '../../assets/style/variables';
+@import '../../assets/style/mixins';
 
 .menu {
   display: flex;
@@ -26,29 +26,29 @@
     }
 
     &--cart {
-      background-image: url("./../../assets/img/cart_outline.svg");
+      background-image: url("../../assets/img/cart_outline.svg");
 
       &:hover,
       &.active {
-        background-image: url("./../../assets/img/cart.svg");
+        background-image: url("../../assets/img/cart.svg");
       }
     }
 
     &--wish {
-      background-image: url("./../../assets/img/heart_outline.svg");
+      background-image: url("../../assets/img/heart_outline.svg");
 
       &:hover,
       &.active {
-        background-image: url("./../../assets/img/heart.svg");
+        background-image: url("../../assets/img/heart.svg");
       }
     }
 
     &--profile {
-      background-image: url("./../../assets/img/profile_outline.svg");
+      background-image: url("../../assets/img/profile_outline.svg");
 
       &:hover,
       &.active {
-        background-image: url("./../../assets/img/profile.svg");
+        background-image: url("../../assets/img/profile.svg");
       }
     }
 

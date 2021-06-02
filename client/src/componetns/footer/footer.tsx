@@ -1,8 +1,8 @@
 import React, {FC} from "react";
 import './footer.scss'
-import NavBar from "../../common/navbar/navbar";
-import MenuButtons from "../../common/menu-buttons/menu-buttons";
-import SocialLinks from "../../common/social-links/social-links";
+import NavBar from "../navbar/navbar";
+import MenuButtons from "../menu-buttons/menu-buttons";
+import SocialLinks from "../social-links/social-links";
 import {Link} from "react-router-dom";
 
 interface PropsType {
@@ -24,7 +24,7 @@ const Footer:FC<PropsType> = ({onOpen}) => {
                                 <Link to="/faq" className="footer__link">FAQ</Link>
                                 <Link to="/shopping-and-payment" className="footer__link">swysyłka i płatność</Link>
                                 <Link to="/refund-policy" className="footer__link">zwrot</Link>
-                                <Link to="/terms-and-conditions" className="footer__link">regulamin</Link>
+                                <Link to="/regulamin" className="footer__link">regulamin</Link>
                                 <Link to="/rodo" className="footer__link">rodo</Link>
                         </div>
                         <div className="footer__col">

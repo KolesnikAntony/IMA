@@ -1,6 +1,6 @@
 import React from "react";
 import './intro.scss';
-import SocialLinks from "../../../common/social-links/social-links";
+import SocialLinks from "../../../componetns/social-links/social-links";
 import {Link} from "react-router-dom";
 
 

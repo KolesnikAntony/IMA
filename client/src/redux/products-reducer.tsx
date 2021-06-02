@@ -2,7 +2,7 @@ import {FilterType, ProductType} from "../types/types";
 import {BaseThunkType, InferActionsTypes} from "./store";
 import {ProductsAPI} from "../api/api-products";
 import {FILTER_TYPES} from "../constants/constants";
-import product from "../componetns/product/product";
+import product from "../pages/product/product";
 
 
 const SET_SHOP_PRODUCTS = 'products-reducer/SET_SHOP_PRODUCTS';
