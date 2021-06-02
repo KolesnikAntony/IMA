@@ -14,6 +14,11 @@ import {checkCartItems} from "./redux/cart-reducer";
 import {ContainerCheckout} from "./pages/checkout/checkout";
 import { getIsAuth } from './redux/auth-reducer';
 import Regulamin from './pages/regulamin/regulamin';
+import Refund from './pages/refund/refund';
+import Payment from "./pages/payment/payment";
+import Rodo from "./pages/rodo/rodo";
+import Faq from "./pages/faq/faq";
+import AboutUs from "./pages/aboutus/aboutus";
 
 function AppMain() {
     const [open, setOpen] = useState(false);
@@ -43,10 +48,12 @@ function AppMain() {
                     <Route path='/activate/:key?' render={() => <Home isNewMember={true} onClose={handleClose}/>}/>
                     <Route exact path='/product/:id' component={ProductScreen}/>
                     <Route path='/shop' render={() => <Shop/>}/>
-                    {/*ProfileEdit*/}
-                    {/*About Us*/}
-                    {/*Contacts*/}
-                    <Route path='/regulamin' render={() => <Regulamin/>}/>
+                    <Route path='/about-us' render={() => <AboutUs/>}/>
+                    <Route path='/terms-and-conditions' render={() => <Regulamin/>}/>
+                    <Route path='/rodo' render={() => <Rodo/>}/>
+                    <Route path='/faq' render={() => <Faq/>}/>
+                    <Route path='/shopping-and-payment' render={() => <Payment/>}/>
+                    <Route path='/refund-policy' render={() => <Refund/>}/>
                     {/*@ts-ignore*/}
                     <Route path='/checkout' render={() => <ContainerCheckout/>}/>
                 </Switch>

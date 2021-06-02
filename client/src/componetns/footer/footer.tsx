@@ -16,7 +16,7 @@ const Footer:FC<PropsType> = ({onOpen}) => {
             <div className="container">
                 <div className="footer__wrapper">
                     <div className="footer__navigation">
-                        <NavBar outclass={'footer-nav'}/>
+                        <NavBar outclass={'footer-nav'} onOpen={onOpen}/>
                         <MenuButtons onOpen={onOpen}/>
                     </div>
                     <div className="footer__row">
@@ -24,7 +24,7 @@ const Footer:FC<PropsType> = ({onOpen}) => {
                                 <Link to="/faq" className="footer__link">FAQ</Link>
                                 <Link to="/shopping-and-payment" className="footer__link">swysyłka i płatność</Link>
                                 <Link to="/refund-policy" className="footer__link">zwrot</Link>
-                                <Link to="/regulamin" className="footer__link">regulamin</Link>
+                                <Link to="/terms-and-conditions" className="footer__link">regulamin</Link>
                                 <Link to="/rodo" className="footer__link">rodo</Link>
                         </div>
                         <div className="footer__col">

@@ -107,7 +107,6 @@ const Regulamin = () => {
                     <p className="regulamin__item-subtitle">Klient może skorzystać z następujących metod płatności:</p>
                     <ol className="regulamin__item-list">
                         <li className="regulamin__item-text">Płatność za pobraniem</li>
-                        <li className="regulamin__item-text">Płatność przelewem na konto Sprzedawcy</li>
                         <li className="regulamin__item-text">Płatności elektroniczne PayU</li>
                     </ol>
                     <p className="regulamin__item-subtitle">Szczegółowe informacje na temat metod dostawy oraz akceptowalnych metod płatności znajdują się za stronach Sklepu.</p>

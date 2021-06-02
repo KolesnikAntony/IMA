@@ -1,0 +1,22 @@
+@import './../../../src/assets/style/variables';
+@import './../../../src/assets/style/mixins';
+.refund {
+  padding: 120px 0;
+  height: calc(100vh - 372px);
+  @media (max-width: 912px) {
+    padding: 80px 0;
+  }
+  @media (max-width: 668px) {
+    height: unset;
+  }
+  &__title {
+    font-size: 32px;
+    margin-bottom: 32px;
+  }
+  &__text {
+    margin-bottom: 20px;
+  }
+  a {
+    color: $color-mocco;
+  }
+}

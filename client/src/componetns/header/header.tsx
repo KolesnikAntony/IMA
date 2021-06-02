@@ -46,7 +46,7 @@ const Header: FC<PropsType> = ({onOpen}) => {
                     <Link to="/">
                         <img src={logo} alt="Ima" className="header__logo"/>
                     </Link>
-                    <NavBar outclass={'header-nav'}/>
+                    <NavBar outclass={'header-nav'} onOpen={onOpen}/>
                    <MenuButtons onOpen={onOpen}/>
                 </div>
             </div>

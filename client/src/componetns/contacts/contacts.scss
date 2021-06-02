@@ -1,0 +1,21 @@
+@import './../../../src/assets/style/variables';
+@import './../../../src/assets/style/mixins';
+
+.contacts {
+  &__list {
+    padding: 40px 0;
+  }
+  &__item {
+    &:not(:last-of-type){
+      margin-bottom: 20px;
+    }
+  }
+  a {
+    transition: 0.3s;
+  }
+  @media (hover: hover) and (pointer: fine) {
+      a:hover {
+        color: $color-mocco;
+      }
+  }
+}
