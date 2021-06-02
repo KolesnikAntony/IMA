@@ -7,6 +7,8 @@ import UserReducer from "./user-reducer";
 import AuthReducer from "./auth-reducer";
 import ProductsReducer from "./products-reducer";
 import ProductReducer from "./product-reducer";
+import СartReducer from "./cart-reducer";
+import CartReducer from "./cart-reducer";
 
 const middleware = [thunk];
 const reducers = combineReducers(
@@ -17,6 +19,7 @@ const reducers = combineReducers(
         home: homeReducer,
         form: formReducer,
         user: UserReducer,
+        cart: CartReducer,
     }
 );
 

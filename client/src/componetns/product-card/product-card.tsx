@@ -3,10 +3,10 @@ import './product-card.scss'
 import {Link} from "react-router-dom";
 import {ProductType} from "../../types/types";
 import {useDispatch} from "react-redux";
-import {actionsProducts} from "../../redux/products-reducer";
 import cap from './../../assets/img/nail-polish.png'
 import {VIEW_TYPES} from "../../constants/constants";
 import {OpenCartContext} from "../../context/context";
+import {getAddToCart} from "../../redux/cart-reducer";
 
 
 const ProductCard: FC<ProductType> = ({title, imageSrc, price, salePrice, sale, top, itsNew, _id, isCart}) => {
@@ -15,8 +15,7 @@ const ProductCard: FC<ProductType> = ({title, imageSrc, price, salePrice, sale, 
 
     const putToCart = (e: React.MouseEvent<HTMLButtonElement>, id: string) => {
         e.preventDefault();
-        dispatch(actionsProducts.setAddToCart(id));
-        dispatch(actionsProducts.setIsInCart(id, true));
+        dispatch(getAddToCart(id));
     };
 
     const openCart = useContext(OpenCartContext);

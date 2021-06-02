@@ -4,7 +4,7 @@ import UserInfo from "./user-info/user-info";
 import {ContainerUserInfoForm} from "./user-info/user-info-form";
 import {useDispatch, useSelector} from "react-redux";
 import {AppDispatch, RootState} from "../../../redux/store";
-import {getPhoto, updateUserInfo, UserInitialStateType} from "../../../redux/user-reducer";
+import {getPhoto, updateUserInfo} from "../../../redux/user-reducer";
 import {logout} from "../../../redux/auth-reducer";
 import {ProfileFormValueType} from "../../../types/types";
 
@@ -17,10 +17,9 @@ const VIEW_CHANGE_PROFILE = {
 
 const User = () => {
     const [currentViewType, setCurrentViewType] = useState('');
-    const dispatch = useDispatch<AppDispatch>();
+    const dispatch = useDispatch();
 
-    const user = useSelector<RootState, UserInitialStateType>((state) => state.user);
-    const {name, email, address, phone} = user;
+    const {name, email, address, phone} = useSelector((state: RootState) => state.user);
 
     const toggleCurrentChangeList = useCallback((type) => {
         setCurrentViewType(type);

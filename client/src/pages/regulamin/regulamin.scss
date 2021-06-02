@@ -1,0 +1,29 @@
+@import './../../../src/assets/style/variables';
+@import './../../../src/assets/style/mixins';
+
+.regulamin {
+  padding: 120px 0;
+  @media (max-width: 912px) {
+    padding: 80px 0;
+  }
+  &__title{
+    margin-bottom: 28px;
+  }
+  &__item {
+    margin-bottom: 36px;
+    &-number {
+      margin-bottom: 12px;
+      display: block;
+    }
+    &-title {
+      margin-bottom: 12px;
+    }
+    &-text {
+      line-height: 20px;
+      margin-bottom: 10px;
+    }
+  }
+  a {
+    color: $color-mocco;
+  }
+}

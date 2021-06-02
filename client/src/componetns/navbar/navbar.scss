@@ -1,0 +1,20 @@
+@import '../../assets/style/variables';
+@import '../../assets/style/mixins';
+.nav{
+  &__items{
+    font-family: Libre Baskerville;
+    font-size: 18px;
+    line-height: 26px;
+    &:not(:last-of-type) {
+      margin-right: 36px;
+    }
+    &--active {
+      color: $color-mocco;
+    }
+  }
+}
+@media (max-width: 912px) {
+  .nav {
+      display: none;
+    }
+}

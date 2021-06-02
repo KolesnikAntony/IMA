@@ -1,7 +1,8 @@
 import React, {FC, useEffect, useState} from "react";
-import {actionsProducts} from "../../../redux/products-reducer";
 import './cart-product.scss'
 import {useDispatch} from "react-redux";
+import {actionsCart, removeFromCart} from "../../../redux/cart-reducer";
+import {actionsProducts} from "../../../redux/products-reducer";
 
 interface CartPropsType {
     title: string
@@ -27,15 +28,14 @@ const CartProduct:FC<CartPropsType> = ({title, currentPrice, image, id }) => {
         if(quantity > 1){
             setQuantity(quantity - 1);
         }else{
-            dispatch(actionsProducts.removeFromCart(id));
-            dispatch(actionsProducts.setIsInCart(id, false));
+            dispatch(removeFromCart(id));
         }
     };
 
     useEffect(() => {
-        console.log('render')
+        console.log('render cart component');
         setTotalProductPrice(quantity * currentPrice);
-        quantity >= 1 && dispatch(actionsProducts.updateQty(id,quantity));
+        quantity >= 1 && dispatch(actionsCart.updateQty(id,quantity));
     }, [quantity]);
 
     return (

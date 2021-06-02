@@ -2,8 +2,8 @@ import React, {FC, useEffect, useState} from "react";
 import './header.scss';
 import {Link} from "react-router-dom";
 import logo from '../../assets/img/logo-for-IMA.png'
-import NavBar from "../../common/navbar/navbar";
-import MenuButtons from "../../common/menu-buttons/menu-buttons";
+import NavBar from "../navbar/navbar";
+import MenuButtons from "../menu-buttons/menu-buttons";
 
 
 interface PropsType {
@@ -46,7 +46,7 @@ const Header: FC<PropsType> = ({onOpen}) => {
                     <Link to="/">
                         <img src={logo} alt="Ima" className="header__logo"/>
                     </Link>
-                    <NavBar outclass={'header-nav'}/>
+                    <NavBar outclass={'header-nav'} onOpen={onOpen}/>
                    <MenuButtons onOpen={onOpen}/>
                 </div>
             </div>

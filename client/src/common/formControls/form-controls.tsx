@@ -15,7 +15,13 @@ export const Input: FC<WrappedFieldProps> = props => {
     let {input, meta, ...restProps} = props;
 
     return <FormControls {...props}><input {...input} {...restProps} /></FormControls>
-}
+};
+
+export const TextAria: FC<WrappedFieldProps> = props => {
+    let {input, meta, ...restProps} = props;
+
+    return <FormControls {...props}><textarea {...input} {...restProps} /></FormControls>
+};
 
 
 export function createField<KeyOfName extends string>(component: FC<WrappedFieldProps>,

@@ -1,22 +1,24 @@
-import React, {useCallback, useEffect, useState} from "react";
+import React, {FC, useEffect, useMemo, useState} from "react";
 import CartProduct from "./cart-product/cart-product";
 import './cart.scss'
-import {useDispatch, useSelector} from "react-redux";
-import {AppStateType} from "../../redux/store";
-import {CartType} from "../../types/types";
-import { actionsProducts } from "../../redux/products-reducer";
+import {useSelector} from "react-redux";
+import {RootState} from "../../redux/store";
+import {Link} from "react-router-dom";
 
+interface PropsType {
+    onClose: ()=> void
+}
 
-const Cart = () => {
-    const cartProducts = useSelector<AppStateType, Array<CartType>>(state => state.products.cart);
+const Cart:FC<PropsType> = ({onClose}) => {
+    let cartProducts = useSelector((state: RootState) => state.cart.cart);
     const [totalPrice, setTotalPrice] = useState(0);
 
+    const checkoutClasses = useMemo(() => !!cartProducts.length ? 'cart__buttons-checkout': 'cart__buttons-checkout cart__buttons-checkout--disable', [cartProducts] )
+
     useEffect(() => {
-        //dispatch(getCartItem());
         let total = 0;
         cartProducts.forEach(item => total += item.qty * item.price);
         setTotalPrice(total);
-
     }, [cartProducts]);
 
     return (
@@ -37,7 +39,7 @@ const Cart = () => {
                 </form>
                 <div className="cart__buttons">
                     <a href="" className='cart__buttons-back'>Back to shopping</a>
-                    <button className='cart__buttons-checkout'>checkout</button>
+                    <Link to="/checkout" onClick={onClose} className={checkoutClasses}>checkout</Link>
                 </div>
             </div>
         </section>

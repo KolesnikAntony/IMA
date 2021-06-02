@@ -1,0 +1,104 @@
+@import '../../assets/style/variables';
+@import '../../assets/style/mixins';
+
+.product {
+  padding: 120px 0;
+  &__row{
+    display: flex;
+    align-items: center;
+  }
+  &__col {
+    flex: 0 0 50%;
+    padding: 20px;
+  }
+  &__img{
+    width: 100%;
+  }
+  &__information{
+    display: flex;
+    flex-direction: column;
+  }
+  &__title {
+    font-size: 28px;
+    line-height: 36px;
+    margin-bottom: 28px;
+  }
+  &__short-descr {
+    margin-bottom: 28px;
+    line-height: 20px;
+  }
+  &__description {
+    margin-top: auto;
+    margin-bottom: auto;
+    line-height: 20px;
+  }
+  &__action {
+    display: flex;
+    align-items: center;
+    padding-top: 40px;
+    padding-bottom: 40px;
+  }
+  &__price {
+    font-size: 40px;
+    margin-right: 20px;
+    color: $color-mocco;
+  }
+  &__btn {
+    font-size: 20px;
+    padding: 10px 20px;
+    width: 100%;
+    max-width: 240px;
+    border-radius: 4px;
+    color: white;
+    cursor: pointer;
+    transition: 0.3s;
+    &--atc {
+      background-color: $color-mocco;
+    }
+    &--go {
+      background-color: $color-red;
+    }
+    @media (hover: hover) and (pointer: fine) {
+      &:hover {
+        background-color: $color-nude;
+      }
+    }
+  }
+  &__sub-info {
+    width: 100%;
+    padding: 20px;
+    line-height: 20px;
+  }
+}
+
+@media (max-width: 912px) {
+  .product {
+    padding-bottom: 40px;
+    &__row{
+      flex-direction: column;
+    }
+    &__col{
+      padding: 0;
+    }
+    &__information {
+      margin-top: 24px;
+    }
+    &__title {
+      order: -1;
+      margin: 0 auto;
+    }
+    &__action{
+      order: 0;
+      margin: 0 auto;
+    }
+    &__btn {
+      min-width: 200px;
+    }
+    &__short-descr{
+      order: 1;
+    }
+    &__description{
+      order: 2;
+    }
+  }
+}

@@ -2,7 +2,8 @@ export const VIEW_TYPES = {
     PROFILE: "PROFILE",
     WISH: "WISH",
     CART: "CART",
-    BURGER: "BURGER"
+    BURGER: "BURGER",
+    CONTACTS: "CONTACTS"
 };
 
 export const LOGIN_TYPES = {
