@@ -23,23 +23,24 @@ const Cart:FC<PropsType> = ({onClose}) => {
 
     return (
         <section className='cart'>
-            <h3 className="cart__title aside__title">Cart</h3>
+            <h3 className="cart__title aside__title">Koszyk</h3>
             <div className="cart__products">
-                {cartProducts.map(el =>  <CartProduct  key={el._id} id={el._id} title={el.title} image={el.imageSrc} currentPrice={el.salePrice ? el.salePrice : el.price}/>)}
+                {cartProducts.length === 0 ? <h4>Koszyk jest pusty...</h4>:
+                    cartProducts.map(el =>  <CartProduct  key={el._id} id={el._id} title={el.title} image={el.imageSrc} currentPrice={el.salePrice ? el.salePrice : el.price}/>)}
             </div>
             <div className="cart__actions">
                 <form className="cart__promo">
-                    <div className="cart__promo-form">
-                        <input type="text" className='cart__promo-input' placeholder='Have a promo?'/>
-                        <button className='cart__promo-btn'/>
-                    </div>
+                    {/*<div className="cart__promo-form">*/}
+                    {/*    <input type="text" className='cart__promo-input' placeholder='Have a promo?'/>*/}
+                    {/*    <button className='cart__promo-btn'/>*/}
+                    {/*</div>*/}
                     <p className="cart__actions-sum">
-                        Subtotal {totalPrice} zl
+                        Suma {totalPrice} zł
                     </p>
                 </form>
                 <div className="cart__buttons">
-                    <a href="" className='cart__buttons-back'>Back to shopping</a>
-                    <Link to="/checkout" onClick={onClose} className={checkoutClasses}>checkout</Link>
+                    <Link to="/shop" className='cart__buttons-back' onClick={onClose}>Powrót do sklepu</Link>
+                    <Link to="/checkout" onClick={onClose} className={checkoutClasses}>sprawdzić</Link>
                 </div>
             </div>
         </section>

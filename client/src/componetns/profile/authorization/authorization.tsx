@@ -22,9 +22,9 @@ const Authorization = () => {
     return <>
         <div className="auth__buttons">
             <button className={`auth__button ${showForm === LOGIN_TYPES.LOGIN ? 'active' : null}`}
-                    onClick={()=>handleShowForm(LOGIN_TYPES.LOGIN)}>LogIn</button>
+                    onClick={()=>handleShowForm(LOGIN_TYPES.LOGIN)}>Zaloguj się</button>
             <button className={`auth__button ${showForm === LOGIN_TYPES.SIGNUP ? 'active' : null}`}
-                    onClick={()=>handleShowForm(LOGIN_TYPES.SIGNUP)}>SignUp</button>
+                    onClick={()=>handleShowForm(LOGIN_TYPES.SIGNUP)}>Zalóż konto</button>
         </div>
         {renderForm()}
         </>

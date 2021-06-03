@@ -5,6 +5,7 @@ import MenuButtons from "../menu-buttons/menu-buttons";
 import SocialLinks from "../social-links/social-links";
 import {Link} from "react-router-dom";
 import logo from "../../assets/img/logo-for-IMA.png";
+import {useMediaQuery} from "react-responsive";
 
 interface PropsType {
     onOpen: ({}) => void
@@ -12,6 +13,8 @@ interface PropsType {
 
 
 const Footer:FC<PropsType> = ({onOpen}) => {
+
+    const isDesktop = useMediaQuery({minWidth: 912});
     return (
         <footer className="footer">
             <div className="container">
@@ -19,9 +22,9 @@ const Footer:FC<PropsType> = ({onOpen}) => {
                     <div className="footer__navigation">
                         <NavBar outclass={'footer-nav'} onOpen={onOpen}/>
                         {/*<MenuButtons onOpen={onOpen}/>*/}
-                        <Link to="/">
+                        {isDesktop && <Link to="/">
                             <img src={logo} alt="Ima" className="header__logo"/>
-                        </Link>
+                        </Link>}
                     </div>
                     <div className="footer__row">
                         <div className="footer__col">
@@ -43,8 +46,7 @@ const Footer:FC<PropsType> = ({onOpen}) => {
                         </div>
                         <div className="footer__col">
                             <p className="footer__social-title">
-                                Online nail polish shop
-                                with free shipping
+                                Internetowy sklep z lakierami do paznokci
                             </p>
                             <SocialLinks outclass={"footer"}/>
                         </div>

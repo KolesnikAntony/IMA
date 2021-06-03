@@ -10,6 +10,7 @@
   cursor: pointer;
   background-color: $color-smoke;
   max-width: 290px;
+  margin: 0 auto;
   @media (hover: hover) and (pointer: fine) {
     &:hover {
       box-shadow: 0 0 4px 0 $color-mocco;

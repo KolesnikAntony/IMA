@@ -10,16 +10,16 @@ interface PropsType {
 
 const NavBar:FC<PropsType> = ({outclass, onOpen}) => {
 
-    const contactClickHandler = (e:any) => {
+    const contactClickHandler = (e: React.MouseEvent<HTMLAnchorElement>) => {
         e.preventDefault();
         onOpen(VIEW_TYPES.CONTACTS)
     };
     return (
         <nav className={outclass ? outclass + " " + "nav" : "nav"}>
-            <NavLink to={'/'} className={outclass ? outclass+"__items nav__items" : "nav__items"}>Home</NavLink>
-            <NavLink to={'/shop'} activeClassName='nav__items--active' className={outclass ? outclass+"__items nav__items" : "nav__items"}>Shop</NavLink>
-            <a href="#" onClick={contactClickHandler} className={outclass ? outclass+"__items nav__items" : "nav__items"}>Contacts</a>
-            <NavLink to={'/about-us'} className={outclass ? outclass+"__items nav__items" : "nav__items"}>About us</NavLink>
+            <NavLink to={'/'} className={outclass ? outclass+"__items nav__items" : "nav__items"}>Dom</NavLink>
+            <NavLink to={'/shop'} activeClassName='nav__items--active' className={outclass ? outclass+"__items nav__items" : "nav__items"}>Sklep</NavLink>
+            <a href="#" onClick={contactClickHandler} className={outclass ? outclass+"__items nav__items" : "nav__items"}>Kontakty</a>
+            <NavLink to={'/about-us'} activeClassName='nav__items--active' className={outclass ? outclass+"__items nav__items" : "nav__items"}>O nas</NavLink>
         </nav>
     )
 };

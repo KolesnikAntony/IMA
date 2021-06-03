@@ -20,7 +20,7 @@ const Registration = () => {
         <div className='auth__content'>
             <RegistrationReduxForm onSubmit={onSubmit}/>
         </div>
-        <SocialAuth title="Sign Up"/>
+        <SocialAuth title="Zalóż konto"/>
     </>
 
 };

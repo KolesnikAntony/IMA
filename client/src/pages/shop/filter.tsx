@@ -27,7 +27,7 @@ const FilterForm: FC<InjectedFormProps<FormFilterDataType, FormFilterPropsType> 
     return (
         <form className="shop__form" onSubmit={handleSubmit}>
             <FormSection name="categories">
-                <div className="shop__form--wrap"><h4 className="shop__form--title">Categories</h4>
+                <div className="shop__form--wrap"><h4 className="shop__form--title">Kategory</h4>
                     <div className="shop__categories">
                         {categories.map(el =>
                             <div className="shop__categories--item" key={el}>
@@ -41,7 +41,7 @@ const FilterForm: FC<InjectedFormProps<FormFilterDataType, FormFilterPropsType> 
             </FormSection>
             <FormSection name="color">
                 <div className="shop__form--wrap">
-                    <h4 className="shop__form--title">Colors</h4>
+                    <h4 className="shop__form--title">Kolory</h4>
                     <div className="shop__categories">
                         {colors.map(el =>
                             <div className="shop__categories--item" key={el}>
@@ -53,7 +53,7 @@ const FilterForm: FC<InjectedFormProps<FormFilterDataType, FormFilterPropsType> 
                     </div>
                 </div>
             </FormSection>
-            <button className="shop__form--submit">show</button>
+            <button className="shop__form--submit">sprawdzić</button>
         </form>
     )
 }

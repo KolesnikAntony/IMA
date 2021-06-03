@@ -17,9 +17,9 @@ const Login = () => {
     return <>
         <div className='auth__content'>
             <LoginReduxForm onSubmit={onSubmit}/>
-            <button className='auth__content-btn auth__content-btn--forgot'>Forgot password?</button>
+            <button className='auth__content-btn auth__content-btn--forgot'>Zapomniałeś hasła?</button>
         </div>
-        <SocialAuth title="Login"/>
+        <SocialAuth title="Zaloguj się"/>
     </>
 
 };

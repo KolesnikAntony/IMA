@@ -3,7 +3,12 @@
 .shop {
   padding: 120px 0;
   &__title {
-    @include homeTitles('')
+    @include homeTitles('');
+    margin-bottom: 0;
+    @media (max-width: 520px) {
+      margin: 0 auto 20px;
+
+    }
   }
   &__row {
     display: grid;
@@ -25,12 +30,14 @@
     }
   }
   &__properties {
-    position: absolute;
-    top: -40px;
-    right: 0;
+    position: relative;
+    @media (max-width: 520px) {
+      margin: 0 auto;
+    }
   }
   &__select {
-    width: 64px;
+    width: 90px;
+    text-align: left;
     border-radius: 4px;
     border: 1px solid $color-mocco-opasy;
     font-size: 12px;
@@ -40,24 +47,40 @@
     appearance: none;       /* Remove default arrow */
     background-image: url(../../assets/img/arrow-fill.svg);
     background-repeat: no-repeat;
-    background-position:  48px center;
+    background-position:  72px center;
     background-size: 10px 10px;
     cursor: pointer;
-    &:first-child {
+    @media (max-width: 326px) {
+      width: 80px;
+      background-position:  62px center;
+    }
+    &:not(:last-child) {
       margin-right: 12px;
     }
     &:focus {
       outline: none;
     }
   }
-
+  &__prop-wrap {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    align-items: flex-end;
+    margin-bottom: 28px;
+    position: relative;
+    @media (max-width: 520px) {
+      flex-direction: column;
+      justify-content: flex-start;
+      align-items: flex-start;
+    }
+  }
   &__products {
     display: grid;
     grid-template-columns: repeat(4, 1fr);;
     grid-gap: 1rem;
     position: relative;
     width: 100%;
-    @media (max-width: 1130px) {
+    @media (max-width: 1177px) {
       grid-template-columns: repeat(3, 1fr);
       grid-gap: 40px;
     }
@@ -109,9 +132,16 @@
         box-shadow: 0 0 4px 0 $color-mocco;
       }
     }
+    @media (max-width: 942px) {
+      position: absolute;
+      top: 40px;
+      z-index: 10;
+    }
+
     &--wrap {
       width: 100%;
     }
+
     &:not(:last-of-type){
       margin-bottom: 20px;
     }
@@ -124,6 +154,7 @@
       padding: 4px 8px;
       background-color: $color-mocco;
       color: $color-smoke;
+      font-weight: 600;
       transition: 0.3s;
       cursor: pointer;
       border-radius: 2px;

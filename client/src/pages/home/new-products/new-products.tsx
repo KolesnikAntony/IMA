@@ -27,13 +27,13 @@ const NewProducts:FC<PropsType> = ({getCountOfSlide}) => {
     return (
         <section className='new-products'>
             <div className="container">
-                <h2 className='new-products__title'>New products</h2>
+                <h2 className='new-products__title'>Nowości</h2>
                 <Swiper spaceBetween={20}
                         slidesPerView={getCountOfSlide()}
                         navigation>
                     {products.map(el=> <SwiperSlide key={el._id}><ProductCard {...el}/></SwiperSlide> )}
                 </Swiper>
-                <Link to='/shop' className='new-products__button'>To show</Link>
+                <Link to='/shop' className='new-products__button'>DO SKLEPU</Link>
             </div>
         </section>
     )

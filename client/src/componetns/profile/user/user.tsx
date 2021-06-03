@@ -70,7 +70,7 @@ const User = () => {
 
         {<div className="user__buttons">
             {/*<button className="user__button reset">Change password</button>*/}
-            <button className="user__button logout" onClick={() => onLogout()}>Log out</button>
+            <button className="user__button logout" onClick={() => onLogout()}>Wyjść</button>
         </div>}
     </div>
 };

@@ -13,9 +13,10 @@ interface PropsType {
     open: boolean,
     view: string | null
     onClose: () => void;
+    onOpen: ({}) => void
 }
 
-const Aside:FC<PropsType> = ({open, view, onClose}) => {
+const Aside:FC<PropsType> = ({open, view, onClose, onOpen}) => {
 
     useDisableBodyScroll(open);
 
@@ -23,7 +24,7 @@ const Aside:FC<PropsType> = ({open, view, onClose}) => {
         if(view === VIEW_TYPES.CART) return <Cart onClose={onClose}/>;
         if(view === VIEW_TYPES.WISH) return <WishList/>;
         if(view === VIEW_TYPES.PROFILE) return <Profile/>;
-        if(view === VIEW_TYPES.BURGER) return <Burger onClose={onClose}/>;
+        if(view === VIEW_TYPES.BURGER) return <Burger onClose={onClose} onOpen={onOpen}/>;
         if(view === VIEW_TYPES.CONTACTS) return <Contacts/>;
     };
     const classes = useMemo(() => `aside ${open ? 'show': null}`, [open]);

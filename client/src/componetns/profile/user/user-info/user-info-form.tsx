@@ -20,12 +20,12 @@ const UserInfoForm: FC<InjectedFormProps<ProfileFormValueType,
                 <div className="user__img">
                     <img src={photo ? photo : avatar} alt="" className="user__img--content"/>
                     <label htmlFor="change-photo">
-                        Change Photo
+                        Zmień zdjęcie
                         <input className="user__change-photo" id="change-photo" type="file" onChange={changePhoto}/>
                     </label>
                 </div>
                 <h4 className="user__name">
-                    <Field component={'input'} name='name' placeholder='Name' type='text' validate={[required]}
+                    <Field component={'input'} name='name' placeholder='Imię' type='text' validate={[required]}
                            autoFocus/>
                     {/*{createField<UserFormValueTypeKeys>(Input, 'name', "Email", 'text',[required], autoFocus )}*/}
                 </h4>
@@ -37,28 +37,28 @@ const UserInfoForm: FC<InjectedFormProps<ProfileFormValueType,
                     {createField<ProfileFormValueTypeKeys>(Input, 'email', 'Email', 'text', [])}
                 </li>
                 <li className="user__info-item--field user__info-item">
-                    <span className="user__info-caption">Phone: </span>
-                    {createField<ProfileFormValueTypeKeys>(Input, 'phone', 'Phone', 'text', [])}
+                    <span className="user__info-caption">Telefon: </span>
+                    {createField<ProfileFormValueTypeKeys>(Input, 'phone', 'Telefon', 'text', [])}
                 </li>
                 <li className="user__info-item--field user__info-item">
-                    <span className="user__info-caption">City: </span>
-                    {createField<ProfileFormValueTypeKeys>(Input, 'city', 'City', 'text', [])}
+                    <span className="user__info-caption">Miasto: </span>
+                    {createField<ProfileFormValueTypeKeys>(Input, 'city', 'Miasto', 'text', [])}
                 </li>
                 <li className="user__info-item--field user__info-item">
-                    <span className="user__info-caption">Address: </span>
-                    {createField<ProfileFormValueTypeKeys>(Input, 'street', 'Address', 'text', [])}
+                    <span className="user__info-caption">Ulica: </span>
+                    {createField<ProfileFormValueTypeKeys>(Input, 'street', 'Ulica', 'text', [])}
                 </li>
                 <li className="user__info-item--field user__info-item">
-                    <span className="user__info-caption">Build: </span>
-                    {createField<ProfileFormValueTypeKeys>(Input, 'build', 'Build', 'text', [])}
+                    <span className="user__info-caption">Dom: </span>
+                    {createField<ProfileFormValueTypeKeys>(Input, 'build', 'Dom', 'text', [])}
                 </li>
                 <li className="user__info-item--field user__info-item">
-                    <span className="user__info-caption">Flat: </span>
-                    {createField<ProfileFormValueTypeKeys>(Input, 'flat', 'Flat', 'text', [])}
+                    <span className="user__info-caption">Mieszkanie: </span>
+                    {createField<ProfileFormValueTypeKeys>(Input, 'flat', 'Mieszkanie', 'text', [])}
                 </li>
                 <li className="user__info-item--field user__info-item">
                     <span className="user__info-caption">Kod: </span>
-                    {createField<ProfileFormValueTypeKeys>(Input, 'kod', 'Index', 'text', [])}
+                    {createField<ProfileFormValueTypeKeys>(Input, 'kod', 'Kod pocztowy', 'text', [])}
                 </li>
             </ul>
         </form>

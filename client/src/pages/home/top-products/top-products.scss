@@ -4,7 +4,7 @@
 .top {
   margin-bottom: 80px;
   &__title {
-    @include homeTitles('Top products')
+    @include homeTitles('Topy na dziś')
   }
   .swiper-container {
     overflow: unset;

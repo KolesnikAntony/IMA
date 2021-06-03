@@ -44,7 +44,7 @@ function AppMain() {
             <Header onOpen={handleOpen}/>
             <ScrollToTop>
             <main className={'app'}>
-                <Aside open={open} view={currentView} onClose={handleClose}/>
+                <Aside open={open} view={currentView} onClose={handleClose} onOpen={handleOpen}/>
 
                     <Switch>
                         <Route exact path='/' component={Home}/>

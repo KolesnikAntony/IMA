@@ -26,7 +26,7 @@ const TopProducts:FC<PropsType> = ({getCountOfSlide}) => {
     return (
         <section className="top">
             <div className="container">
-                <h2 className='top__title'>Top products</h2>
+                <h2 className='top__title'>Topy na dziś</h2>
                     <Swiper spaceBetween={20}
                             slidesPerView={getCountOfSlide()}
                             navigation

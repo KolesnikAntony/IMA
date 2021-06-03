@@ -3,7 +3,7 @@ import './contacts.scss'
 
 const Contacts = () => {
     return <section className="contacts">
-        <h3 className="aside__title">Contacts</h3>
+        <h3 className="aside__title">Kontakty</h3>
         <ul className="contacts__list">
             <li className="contacts__item">
                 <b> Telefon:</b> <a href="tel: +48792424240 ">+48 792 424 240</a>

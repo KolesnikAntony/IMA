@@ -42,12 +42,12 @@ const ProductCard: FC<ProductType> = ({title, imageSrc, price, salePrice, sale, 
                  onError={(e) => addDefaultSrc(e)}/>
             <div className="product-card__info">
                 <p className="product-card__name">{title}</p>
-                <p className="product-card__price">{salePrice ? price + "/" + salePrice : price}zl</p>
+                <p className="product-card__price">{salePrice ? price + "/" + salePrice : price}zł</p>
             </div>
 
             {!isCart ?
-                <button className="product-card__add" onClick={(e) => putToCart(e, _id)}>add to cart</button>:
-                <button className="product-card__go" onClick={(e)=> openCartHandler(e)} >go to cart</button>
+                <button className="product-card__add" onClick={(e) => putToCart(e, _id)}>dodaj do koszyka</button>:
+                <button className="product-card__go" onClick={(e)=> openCartHandler(e)} >sprawdź koszyk</button>
             }
         </Link>
     </div>

@@ -11,7 +11,7 @@ interface CartPropsType {
     id: string
 }
 
-const CartProduct:FC<CartPropsType> = ({title, currentPrice, image, id }) => {
+const CartProduct: FC<CartPropsType> = ({title, currentPrice, image, id}) => {
 
     const [totalProductPrice, setTotalProductPrice] = useState(currentPrice);
     const dispatch = useDispatch();
@@ -19,15 +19,15 @@ const CartProduct:FC<CartPropsType> = ({title, currentPrice, image, id }) => {
     const [quantity, setQuantity] = useState(1);
 
     const addQnt = () => {
-        if(quantity <= 100) {
+        if (quantity <= 100) {
             setQuantity(quantity + 1);
         }
     };
 
     const removeQnt = () => {
-        if(quantity > 1){
+        if (quantity > 1) {
             setQuantity(quantity - 1);
-        }else{
+        } else {
             dispatch(removeFromCart(id));
         }
     };
@@ -35,17 +35,17 @@ const CartProduct:FC<CartPropsType> = ({title, currentPrice, image, id }) => {
     useEffect(() => {
         console.log('render cart component');
         setTotalProductPrice(quantity * currentPrice);
-        quantity >= 1 && dispatch(actionsCart.updateQty(id,quantity));
+        quantity >= 1 && dispatch(actionsCart.updateQty(id, quantity));
     }, [quantity]);
 
     return (
         <div className="cart-product">
-            <img className="cart-product__img" src={image} alt="product" />
+            <img className="cart-product__img" src={image} alt="product"/>
             <p className="cart-product__name">{title}</p>
             <div className="cart-product__price">
                 <div className="cart-product__price-qty">
                     <h3 className="cart-product__price-qty-title">
-                        Quantity
+                        Ilość
                     </h3>
                     <div className="cart-product__price-qty-buttons">
                         <button className="cart-product__price-btn cart-product__price-btn--min" onClick={removeQnt}/>
@@ -53,7 +53,7 @@ const CartProduct:FC<CartPropsType> = ({title, currentPrice, image, id }) => {
                         <button className="cart-product__price-btn cart-product__price-btn--plus" onClick={addQnt}/>
                     </div>
                 </div>
-                <p className="cart-product__price-total">{totalProductPrice}zl</p>
+                <p className="cart-product__price-total">{totalProductPrice}zł</p>
             </div>
         </div>
     )

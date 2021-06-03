@@ -10,7 +10,7 @@ const SocialAuth:FC<PropsType> = ({title}) => {
     return (
         <div className="auth__social">
             <h3 className="auth__social-title">
-                {title} with social
+                {title} z...
             </h3>
             <div className="auth__social-links">
                 <Link to='' className="auth__social-link">Google</Link>

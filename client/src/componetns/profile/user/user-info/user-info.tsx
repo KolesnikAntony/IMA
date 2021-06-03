@@ -25,15 +25,15 @@ const UserInfo: FC<ProfilePropsType<PropsType>> = ({toggleList, email, phone, ko
                    <span className="user__info-data">{email}</span>
                </li>
                <li className="user__info-item">
-                   <span className="user__info-caption">Phone: </span>
+                   <span className="user__info-caption">Telefon: </span>
                    <span className="user__info-data">{phone}</span>
                </li>
                <li className="user__info-item">
-                   <span className="user__info-caption">City: </span>
+                   <span className="user__info-caption">Miasto: </span>
                    <span className="user__info-data">{city}</span>
                </li>
                <li className="user__info-item">
-                   <span className="user__info-caption">Address: </span>
+                   <span className="user__info-caption">Adres: </span>
                    <span className="user__info-data"><span>{street}</span> <span>{build}</span>{flat ? '/' : undefined}<span>{flat}</span></span>
                </li>
                <li className="user__info-item">

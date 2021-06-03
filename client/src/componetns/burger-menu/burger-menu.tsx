@@ -1,19 +1,28 @@
-import React, { FC } from "react";
+import React, {FC, ReactEventHandler} from "react";
 import './burger-menu.scss'
 import {Link} from "react-router-dom";
+import {VIEW_TYPES} from "../../constants/constants";
 
 interface PropsType {
     onClose: ()=> void
+    onOpen: ({}) => void;
 }
 
-const Burger:FC<PropsType> = ({onClose}) => {
+const Burger:FC<PropsType> = ({onClose, onOpen}) => {
+
+    const contactsClickHandler = (e: React.MouseEvent<HTMLAnchorElement>) => {
+        e.preventDefault();
+        onClose();
+        onOpen(VIEW_TYPES.CONTACTS);
+    };
+
     return (
         <div className="burger">
             <nav className="burger__nav">
-                <Link to={'/'} className="burger__nav-item nav-items" onClick={onClose}>Home</Link>
-                <Link to={'/shop'} className="burger__nav-item nav-items" onClick={onClose}>Shop</Link>
-                <a href="" className="burger__nav-item nav-items" onClick={onClose}>Contacts</a>
-                <a href="" className="burger__nav-item nav-items" onClick={onClose}>About us</a>
+                <Link to={'/'} className="burger__nav-item nav-items" onClick={onClose}>Dom</Link>
+                <Link to={'/shop'} className="burger__nav-item nav-items" onClick={onClose}>Sklep</Link>
+                <a href='#' className="burger__nav-item nav-items" onClick={contactsClickHandler}>Kontakty</a>
+                <a href="/about-us" className="burger__nav-item nav-items" onClick={onClose}>O nas</a>
             </nav>
             <ul className='burger__social'>
                 <li className='burger__social-item'>

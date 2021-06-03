@@ -10,7 +10,7 @@ const AuthAccept: FC<PropsType> = ({email}) => {
     return <div className="auth__accept">
         <img src={logo} alt="IMA" className="auth__accept-logo"/>
         <p className="auth__accept-text">
-            An email was sent to <a href={`mailto:"${email}"`} className='auth__accept-email'>{email}</a> with a link to confirm registration...
+            Na adres  <a href={`mailto:"${email}"`} className='auth__accept-email'>{email}</a> został wysłany e-mail z linkiem do potwierdzenia rejestracji...
         </p>
     </div>
 };

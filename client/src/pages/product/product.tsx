@@ -64,10 +64,10 @@ const Product: FC<PropsType> = ({match}) => {
                         <p className="product__short-descr">{shortDescr}</p>
                         <p className="product__description">{description}</p>
                         <div className="product__action">
-                            <span className="product__price">{salePrice ? price + "/" + salePrice : price}zl</span>
+                            <span className="product__price">{salePrice ? price + "/" + salePrice : price}zł</span>
                             {!isCart
-                                ? <button className="product__btn product__btn--atc" onClick={(e) => putToCart(e, productId)}>add to cart</button>
-                                : <button className="product__btn product__btn--go" onClick={(e)=> openCartHandler(e)}>go to cart</button>
+                                ? <button className="product__btn product__btn--atc" onClick={(e) => putToCart(e, productId)}>dodaj do koszyka</button>
+                                : <button className="product__btn product__btn--go" onClick={(e)=> openCartHandler(e)}>sprawdź koszyk</button>
                             }
                         </div>
 

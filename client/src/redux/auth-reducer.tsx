@@ -34,7 +34,8 @@ const actions = {
     setIsAuth: (isAuth: boolean) => ({
         type: IS_AUTH,
         isAuth
-    } as const)
+    } as const),
+
 
 };
 
