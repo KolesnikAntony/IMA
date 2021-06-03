@@ -23,7 +23,8 @@ const ProductsInitialState = {
     selectType: FILTER_TYPES.SELECT_TYPE.ALL,
     sort: FILTER_TYPES.SORT_TYPE.MAX,
     filter: {
-        category: [] as Array<string>,
+        category: [] as  Array<{name: string
+            _id: string}>,
         colors: [] as Array<string>,
     },
     isFetching: false,
@@ -118,6 +119,11 @@ export const getFilter = ():ThunkProductsType => async (dispatch) => {
   const filter = await ProductsAPI.getFilterData();
     dispatch(actionsProducts.setFilter(filter));
 };
+
+export const filterOfCategories = (categories: Array<string>, colors: Array<string>):ThunkProductsType => async (dispatch) => {
+    const filter = await ProductsAPI.getCategoriesData(categories, colors);
+    console.log(filter)
+}
 
 export default ProductsReducer;
 

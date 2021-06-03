@@ -38,7 +38,8 @@ export type CartType = {
 }
 
 export type FilterType = {
-    category: Array<string>
+    category: Array<{name: string
+    _id: string}>
     colors: Array<string>
 }
 
@@ -84,5 +85,6 @@ export type FormFilterDataType = {
 };
 export type FormFilterPropsType = {
     colors: Array<string>
-    categories: Array<string>
+    categories: Array<{name: string
+        _id: string}>
 }

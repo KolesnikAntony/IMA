@@ -1,4 +1,4 @@
-import {CartType, ProductsAPIType, ProductType} from '../types/types';
+import {CartType, FilterType, ProductsAPIType, ProductType} from '../types/types';
 import {instance} from './api';
 import {FILTER_TYPES} from "../constants/constants";
 
@@ -21,7 +21,7 @@ export const ProductsAPI = {
         return instance.get<{product: ProductType}>(`/api/products/${id}`, {}).then(res => res.data.product);
     },
     getFilterData(){
-        return instance.get(`/api/category/ctgs_clrs`, {}).then(res => res.data);
+        return instance.get<FilterType>(`/api/category/ctgs_clrs`, {}).then(res => res.data);
     },
     getCartProducts(ids: string | null){
        if(ids != ""){
@@ -29,5 +29,21 @@ export const ProductsAPI = {
        }else{
            return instance.get<{cartItems: Array<CartType>}>(`/api/cart`, {}).then(res => res.data.cartItems);
        }
+    },
+    getCategoriesData(categories: Array<string>, colors: Array<string>){
+        let categoriesLength = categories.length;
+        let colorLength = colors.length;
+        let properties;
+        if(categoriesLength && colorLength){
+            properties =  `?category=${categories}&colors=${colors}`;
+        }else if (categoriesLength || colorLength) {
+            properties =  `?colors=${colors}`;
+        }else if (colorLength || categoriesLength) {
+            properties = `?category=${categories}`;
+        }else {
+            return false
+        }
+        console.log(`/api/products/color_category${properties}`);
+        return instance.get<ProductsAPIType>(`/api/products/color_category${properties}`, {}).then(res => res.data);
     }
 };

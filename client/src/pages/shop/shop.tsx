@@ -4,7 +4,7 @@ import Filter from "./filter";
 import {useDispatch, useSelector} from "react-redux";
 import {AppStateType} from "../../redux/store";
 import {FormFilterDataType, ProductType} from "../../types/types";
-import {getProducts, ProductsInitialStateType} from "../../redux/products-reducer";
+import {filterOfCategories, getProducts, ProductsInitialStateType} from "../../redux/products-reducer";
 import {useMediaQuery} from "react-responsive";
 import Paginator from '../../common/paginator/pagintaor';
 import {FILTER_TYPES} from "../../constants/constants";
@@ -30,8 +30,20 @@ const Shop = () => {
 
     //todo make custom Hook for function below
 
+
+    const getTrueObjectKeys = (obj: {}) => {
+        let objectKeys = !obj ? [] :  Object.keys(obj) as Array<keyof typeof obj>;
+        return objectKeys.filter(key => obj[key]);
+    };
+
+
     const setFilter = (data: FormFilterDataType) => {
+        const categories = getTrueObjectKeys(data.categories);
+        const colors = getTrueObjectKeys(data.colors);
+
+        dispatch(filterOfCategories(categories,colors))
         console.log(data);
+        console.log(categories, colors);
     };
 
     const handleOrderPrice = (e: React.FormEvent<HTMLSelectElement>) => {
