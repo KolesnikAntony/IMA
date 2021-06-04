@@ -35,9 +35,9 @@ export const ProductsAPI = {
         let colorLength = colors.length;
         let properties;
         if(categoriesLength && colorLength){
-            properties =  `?category=${categories}&colors=${colors}`;
+            properties =  `?category=${categories}&color=${colors}`;
         }else if (categoriesLength || colorLength) {
-            properties =  `?colors=${colors}`;
+            properties =  `?color=${colors}`;
         }else if (colorLength || categoriesLength) {
             properties = `?category=${categories}`;
         }else {
