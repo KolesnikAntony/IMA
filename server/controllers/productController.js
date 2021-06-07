@@ -50,6 +50,8 @@ module.exports.getProducts = async (req, res) => {
 		let query;
 		let query2;
 
+		const formattedParams = {};
+
 		let reqQuery = { ...req.query };
 
 		const page = parseInt(req.query.page) || 1;
@@ -59,14 +61,18 @@ module.exports.getProducts = async (req, res) => {
 		let removeFields = ['sort', 'page', 'limit', 'skip'];
 		removeFields.forEach((val) => delete reqQuery[val]);
 
-		let queryStr = JSON.stringify(reqQuery);
+		for (const [key, value] of Object.entries(reqQuery)) {
+			formattedParams[key] = value.split(',');
+		}
 
-		queryStr = queryStr.replace( /\b(gt|gte|lt|lte|in)\b/g,
-			(match) => `$${match}`);
+		// let queryStr = JSON.stringify(reqQuery);
 
-		query = Product.find(JSON.parse(queryStr));
+		// queryStr = queryStr.replace( /\b(gt|gte|lt|lte|in)\b/g,
+		// 	(match) => `$${match}`);
 
-		query2 = Product.find(JSON.parse(queryStr));
+		query = Product.find(formattedParams);
+
+		query2 = Product.find(formattedParams);
 
 		if (req.query.sort) {
 			const sortByArr = req.query.sort.split(',');
