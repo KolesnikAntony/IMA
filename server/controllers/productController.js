@@ -1,6 +1,6 @@
 const Product = require('../models/Product');
 const Category = require('../models/Caterogry');
-const fs = require('fs');
+// const fs = require('fs');
 
 module.exports.createProduct = async (req, res) => {
 
@@ -123,6 +123,9 @@ module.exports.getProductById = async (req, res) => {
 			.select('title shortDescr description price salePrice subText imageSrc')
 			.lean();
 
+		if (!product)
+			return res.status(400).json({message: 'Товар не найден!'});
+
 		res.status(200).json({message: 'ok', product});
 	} catch (err) {
 		return res.status(500).json({message: err.message});
@@ -156,6 +159,38 @@ module.exports.updateCollection = async (req, res) => {
 		const newProducts = await Product.updateMany( {}, {$rename:{"aaaaa": "productIndex"}});
 
 		res.status(200).json({message: 'show you all products from db', newProducts});
+	} catch (err) {
+		return res.status(500).json({message: err.message});
+	}
+};
+
+module.exports.editProduct = async (req, res) => {
+	try {
+		const editedProduct = await Product.findOneAndUpdate(
+			{_id: req.params.id},
+			{ $set: req.body },
+			{ new: true }
+		);
+
+		if (!editedProduct)
+			return res.status(400).json({message: 'Товар не найден!'});
+
+		res.status(200).json({message: 'Товар успешно изменен!', editedProduct});
+	} catch (err) {
+		return res.status(500).json({message: err.message});
+	}
+};
+
+module.exports.removeProduct = async (req, res) => {
+	try {
+		const id = req.params.id;
+
+		const product = await Product.findByIdAndRemove(id);
+
+		if (!product)
+			return res.status(400).json({message: 'Товар не найден!'});
+
+		res.json({message: 'Товар успешно удалён!', product});
 	} catch (err) {
 		return res.status(500).json({message: err.message});
 	}

@@ -97,10 +97,11 @@ module.exports.forgotPassword = async (req, res) => {
 		const { email } = req.body;
 
 		const user = await User.findOne({ email });
+
 		if (!user)
 			return res.status(400).json({ message: 'Емейл не найден' });
 
-		const accessToken = createAccessToken({ id: user.id });
+		const accessToken = createActivationToken({ id: user.id });
 		const url = ` ${process.env.CLIENT_URL}/login/reset/${accessToken} `;
 
 		sendMail(email, url, 'Сбросить пароль');
