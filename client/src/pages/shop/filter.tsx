@@ -13,6 +13,7 @@ interface PropsType {
 }
 
 const Filter: FC<PropsType> = ({setFilter}) => {
+
     const dispatch = useDispatch();
 
     useEffect(() => {
@@ -21,7 +22,7 @@ const Filter: FC<PropsType> = ({setFilter}) => {
 
     const {colors, category} = useSelector<RootState, FilterType>((state) => state.products.filter);
 
-    return <FilterFormWrap colors={colors} categories={category} onSubmit={setFilter}/>;
+    return <FilterFormWrap colors={colors} categories={category} onSubmit={setFilter} />;
 };
 
 const FilterForm: FC<InjectedFormProps<FormFilterDataType, FormFilterPropsType> & FormFilterPropsType> = ({handleSubmit, colors, categories}) => {

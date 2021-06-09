@@ -9,6 +9,7 @@ const SET_SHOP_PRODUCTS = 'products-reducer/SET_SHOP_PRODUCTS';
 const SET_CURRENT_PAGE = 'products-reducer/SET_CURRENT_PAGE';
 const SET_TOTAL_PAGE = 'products-reducer/SET_TOTAL_PAGE';
 const SET_FILTER = 'products-reducer/SET_FILTER';
+const SET_FILTER_STATE = 'products-reducer/SET_FILTER_STATE';
 const IS_FETCHING = 'products-reducer/IS_FETCHING';
 const SET_SORT = 'products-reducer/SET_SORT';
 const SET_IS_CART = 'products-reducer/SET_IS_CART';
@@ -22,9 +23,18 @@ const ProductsInitialState = {
     currentPage: 1,
     selectType: FILTER_TYPES.SELECT_TYPE.ALL,
     sort: FILTER_TYPES.SORT_TYPE.MAX,
+    filterState: {
+        category: [] as Array<{
+            name: string
+            _id: string
+        }>,
+        colors: [] as Array<string>,
+    },
     filter: {
-        category: [] as  Array<{name: string
-            _id: string}>,
+        category: [] as Array<{
+            name: string
+            _id: string
+        }>,
         colors: [] as Array<string>,
     },
     isFetching: false,
@@ -37,7 +47,9 @@ const ProductsReducer = (state = ProductsInitialState, action: ProductsActionTyp
 
         case SET_FILTER:
             return {...state, filter: action.filter};
+        case SET_FILTER_STATE:
 
+            return {...state, filterState: action.filterState};
         case SET_CURRENT_PAGE:
             return {
                 ...state,
@@ -56,7 +68,10 @@ const ProductsReducer = (state = ProductsInitialState, action: ProductsActionTyp
             return {...state, isFetching: action.isFetching};
 
         case SET_IS_CART:
-            let isCartProducts = state.products.map(el => action.ids.includes(el._id) ? {...el, isCart:true}: {...el, isCart:false});
+            let isCartProducts = state.products.map(el => action.ids.includes(el._id) ? {...el, isCart: true} : {
+                ...el,
+                isCart: false
+            });
 
             return {...state, products: isCartProducts};
 
@@ -89,7 +104,11 @@ export const actionsProducts = {
     } as const),
     setFilter: (filter: FilterType) => ({
         type: SET_FILTER,
-            filter
+        filter
+    } as const),
+    setFilterState: (filterState: FilterType) => ({
+        type: SET_FILTER_STATE,
+        filterState
     } as const),
     setIsCart: (ids: Array<string>) => ({
         type: SET_IS_CART,
@@ -97,15 +116,19 @@ export const actionsProducts = {
     } as const)
 };
 
-export const getProducts = (currentPage: number, selectType: string, sort: string): ThunkProductsType => async (dispatch) => {
+export const getProducts = (currentPage: number, selectType: string, sort: string): ThunkProductsType => async (dispatch, getState) => {
+    let category = getState().products.filterState.category;
+    let colors = getState().products.filterState.colors;
+
     dispatch(actionsProducts.setCurrentPage(currentPage));
     dispatch(actionsProducts.setFetching(true));
-    const data = await ProductsAPI.getProducts(currentPage, selectType, sort);
+    const data = await ProductsAPI.getProducts(currentPage, selectType, sort, category, colors);
     dispatch(actionsProducts.setShopProducts(data.products));
     dispatch(actionsProducts.setTotalPage(data.pages));
     dispatch(actionsProducts.setSort(selectType, sort));
 
-    if(localStorage.getItem('cartItem') != null){
+
+    if (localStorage.getItem('cartItem') != null) {
         let cartIds = localStorage.getItem('cartItem');
         let cartIdsArray = cartIds != null ? cartIds.split(',') : [];
         dispatch(actionsProducts.setIsCart(cartIdsArray));
@@ -115,15 +138,29 @@ export const getProducts = (currentPage: number, selectType: string, sort: strin
 };
 
 
-export const getFilter = ():ThunkProductsType => async (dispatch) => {
-  const filter = await ProductsAPI.getFilterData();
+export const getFilter = (): ThunkProductsType => async (dispatch) => {
+
+    const filter = await ProductsAPI.getFilterData();
     dispatch(actionsProducts.setFilter(filter));
+
+
 };
 
-export const filterOfCategories = (categories: Array<string>, colors: Array<string>):ThunkProductsType => async (dispatch) => {
-    const filter = await ProductsAPI.getCategoriesData(categories, colors);
-    console.log(filter)
-}
+export const filterOfCategories = (category: Array<{ name: string, _id: string }>, colors: Array<string>): ThunkProductsType => async (dispatch, getState) => {
+    let selectType = getState().products.selectType;
+    let sort = getState().products.sort;
+
+    let filterState = {
+        category,
+        colors
+    };
+
+    dispatch(actionsProducts.setFilterState(filterState));
+    const data = await ProductsAPI.getProducts(1, selectType, sort, category, colors);
+
+    dispatch(actionsProducts.setShopProducts(data.products));
+    dispatch(actionsProducts.setTotalPage(data.pages));
+};
 
 export default ProductsReducer;
 

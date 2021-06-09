@@ -22,7 +22,7 @@ const Burger:FC<PropsType> = ({onClose, onOpen}) => {
                 <Link to={'/'} className="burger__nav-item nav-items" onClick={onClose}>Dom</Link>
                 <Link to={'/shop'} className="burger__nav-item nav-items" onClick={onClose}>Sklep</Link>
                 <a href='#' className="burger__nav-item nav-items" onClick={contactsClickHandler}>Kontakty</a>
-                <a href="/about-us" className="burger__nav-item nav-items" onClick={onClose}>O nas</a>
+                <Link to="/about-us" className="burger__nav-item nav-items" onClick={onClose}>O nas</Link>
             </nav>
             <ul className='burger__social'>
                 <li className='burger__social-item'>

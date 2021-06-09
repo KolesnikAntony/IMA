@@ -20,6 +20,7 @@ export type ProductType = {
     __v?: number
     _id: string
     isCart?: boolean
+    filter: FilterType
 }
 
 export type ProductsAPIType =  {
@@ -84,6 +85,7 @@ export type FormFilterDataType = {
     categories: {}
 };
 export type FormFilterPropsType = {
+
     colors: Array<string>
     categories: Array<{name: string
         _id: string}>
