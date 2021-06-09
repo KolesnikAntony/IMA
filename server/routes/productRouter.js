@@ -4,7 +4,7 @@ const upload = require('../middleware/upload');
 const router = require('express').Router();
 
 // post
-router.post('/products/create', me, upload.single('imageSrc'), productController.createProduct);
+router.post('/products', me, upload.single('imageSrc'), productController.createProduct);
 
 // get
 router.get('/products', productController.getProducts);
