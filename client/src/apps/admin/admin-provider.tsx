@@ -8,18 +8,17 @@ const httpClient = fetchUtils.fetchJson;
 export default {
     getList: (resource:any, params:any) => {
         const { page, perPage } = params.pagination;
-        const { field, order } = params.sort;
+        // const { field, order } = params.sort;
         const query = {
             //sort: JSON.stringify([field, order]),
            // range: JSON.stringify([(page - 1) * perPage, page * perPage - 1]),
             // filter: JSON.stringify(params.filter),
+            limit: perPage,
             page
         };
         const url = `${apiUrl}/${resource}?${stringify(query)}`;
 
         return httpClient(url).then(({ headers, json }) => {
-            console.log(headers, '---headers')
-            console.log(json, '---json')
             return {
                 data: json.products,
                 //@ts-ignore
