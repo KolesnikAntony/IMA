@@ -1,4 +1,4 @@
-import React, {useEffect, useRef, useState} from 'react'
+import React, {useEffect, useState} from 'react'
 import './shop.scss'
 import Filter from "./filter";
 import {useDispatch, useSelector} from "react-redux";
@@ -12,7 +12,6 @@ import Preloader from "../../common/preloader/preloader";
 import ProductCard from "../../componetns/product-card/product-card";
 
 const Shop = () => {
-    console.log('render shop');
     const dispatch = useDispatch();
     const products = useSelector<AppStateType, Array<ProductType>>(state => state.products.products);
     const {totalPages, currentPage, portionSize, selectType , sort, isFetching} = useSelector<AppStateType, ProductsInitialStateType>(state => state.products);
@@ -20,7 +19,8 @@ const Shop = () => {
 
     useEffect(()=> {
         console.log('render shop from useEffect');
-        dispatch(getProducts(currentPage, FILTER_TYPES.SELECT_TYPE.ALL, FILTER_TYPES.SORT_TYPE.MAX));
+        dispatch(getProducts(1, FILTER_TYPES.SELECT_TYPE.ALL, FILTER_TYPES.SORT_TYPE.MAX));
+        dispatch(filterOfCategories([],[]))
     }, []);
 
     const showCurrentProducts = (currentPage: number) => {
@@ -41,9 +41,7 @@ const Shop = () => {
         const categories = getTrueObjectKeys(data.categories);
         const colors = getTrueObjectKeys(data.colors);
 
-        dispatch(filterOfCategories(categories,colors))
-        console.log(data);
-        console.log(categories, colors);
+         dispatch(filterOfCategories(categories,colors))
     };
 
     const handleOrderPrice = (e: React.FormEvent<HTMLSelectElement>) => {
