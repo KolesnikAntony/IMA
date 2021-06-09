@@ -74,6 +74,10 @@ module.exports.getProducts = async (req, res) => {
 
 		query2 = Product.find(formattedParams);
 
+		if (req.query.category) {
+
+		}
+
 		if (req.query.sort) {
 			const sortByArr = req.query.sort.split(',');
 
@@ -98,9 +102,7 @@ module.exports.getProducts = async (req, res) => {
 
 		const products = await query.populate('category', 'name')
 			.limit(pageSize)
-			.skip(skip)
-			.lean();
-
+			.skip(skip);
 
 		res.status(200).json({
 			count: productsCount,
@@ -120,8 +122,7 @@ module.exports.getProductById = async (req, res) => {
 	try {
 
 		const product = await Product.findById(req.params.id)
-			.select('title shortDescr description price salePrice subText imageSrc')
-			.lean();
+			.select('title shortDescr description price salePrice subText imageSrc');
 
 		if (!product)
 			return res.status(400).json({message: 'Товар не найден!'});
@@ -166,8 +167,9 @@ module.exports.updateCollection = async (req, res) => {
 
 module.exports.editProduct = async (req, res) => {
 	try {
-		const editedProduct = await Product.findOneAndUpdate(
-			{_id: req.params.id},
+		const { id } = req.params;
+		const editedProduct = await Product.findByIdAndUpdate(
+			{ _id: id },
 			{ $set: req.body },
 			{ new: true }
 		);
@@ -183,7 +185,7 @@ module.exports.editProduct = async (req, res) => {
 
 module.exports.removeProduct = async (req, res) => {
 	try {
-		const id = req.params.id;
+		const { id } = req.params;
 
 		const product = await Product.findByIdAndRemove(id);
 

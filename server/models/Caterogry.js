@@ -12,4 +12,13 @@ const categorySchema = new Schema({
 	timestamps: true
 });
 
+categorySchema.virtual('id').get(function(){
+	return this._id.toHexString();
+});
+
+categorySchema.set('toJSON', {
+	virtuals: true,
+	versionKey:false
+});
+
 module.exports = model('Category', categorySchema);

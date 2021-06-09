@@ -57,4 +57,13 @@ const userSchema = new Schema({
 	timestamps: true
 });
 
+userSchema.virtual('id').get(function(){
+	return this._id.toHexString();
+});
+
+userSchema.set('toJSON', {
+	virtuals: true,
+	versionKey:false
+});
+
 module.exports = model('User', userSchema);
