@@ -33,13 +33,15 @@ export const ProductsAPI = {
     getCategoriesData(categories: Array<string>, colors: Array<string>){
         let categoriesLength = categories.length;
         let colorLength = colors.length;
+        console.log(colorLength)
+        console.log(categoriesLength)
         let properties;
         if(categoriesLength && colorLength){
             properties =  `?category=${categories}&color=${colors}`;
-        }else if (categoriesLength || colorLength) {
-            properties =  `?color=${colors}`;
-        }else if (colorLength || categoriesLength) {
+        }else if (categoriesLength && !colorLength) {
             properties = `?category=${categories}`;
+        }else if (!categoriesLength && colorLength ) {
+            properties =  `?color=${colors}`;
         }else {
             return false
         }

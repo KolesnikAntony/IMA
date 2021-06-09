@@ -35,7 +35,7 @@ export type InferActionsTypes<T extends { [key: string]: (...args: any[]) => any
 
 export type BaseThunkType<A extends Action, R = Promise<void>> = ThunkAction<R, AppStateType, unknown, A>
 
-let store = createStore(reducers, composeWithDevTools(
+const store = createStore(reducers, composeWithDevTools(
     applyMiddleware(...middleware)
     )
 );
