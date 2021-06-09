@@ -29,9 +29,9 @@ module.exports.updateProfile = async (req, res) => {
 			{_id: req.user.id},
 			{ $set: req.body },
 			{ new: true }
-		).select('name email address phone -_id');
+		).select('name email address phone');
 
-		 res.status(200).json({user});
+		 res.status(200).json({message: 'Профиль успешно обновлён!', user});
 	} catch (err) {
 		return res.status(500).json({message: err.message});
 	}
