@@ -13,6 +13,10 @@ router.get('/products/color_category', productController.getColorAndCategory);
 
 router.get('/products/:id', productController.getProductById);
 
-router.patch('/products/update_prod',productController.updateCollection);
+router.patch('/products/update_prod', productController.updateCollection);
+
+router.patch('/products/edit/:id', me, productController.editProduct);
+
+router.delete('/products/remove/:id', me, productController.removeProduct);
 
 module.exports = router;
