@@ -11,7 +11,7 @@ router.get('/category/ctgs_clrs', categoryController.getCategoriesAndColors);
 router.post('/category', me, categoryController.addCategory);
 
 //delete
-router.delete('/category', me, categoryController.removeCategory);
+router.delete('/category/:id', me, categoryController.removeCategory);
 
 module.exports = router;
 
