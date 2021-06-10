@@ -3,13 +3,13 @@ import {List, Datagrid, TextField, DateField, EditButton, DeleteButton } from 'r
 
 
 
-const ProductList = (props: any) => {
+const ProductList = (props) => {
     return <List  {...props}>
         <Datagrid>
             <TextField source='title'/>
             <TextField source='price'/>
-            <EditButton basePath='/products'/>
-            <DeleteButton basePath='/products'/>
+            <EditButton basePath={'/products'}/>
+            <DeleteButton basePath={'/products'}/>
         </Datagrid>
     </List>
 }

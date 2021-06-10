@@ -9,8 +9,6 @@ export const ProductsAPI = {
 
         let categoriesLength = categories.length;
         let colorLength = colors.length;
-        console.log(colorLength)
-        console.log(categoriesLength)
         let properties;
         if(categoriesLength && colorLength){
             properties =  `&category=${categories}&color=${colors}`;
