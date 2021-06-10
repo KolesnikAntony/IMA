@@ -61,7 +61,7 @@ module.exports.getCategories = async (req, res) => {
 			res.status(404).json({message: 'Страница не найдена.'})
 		}
 
-		const products = await query
+		const categories = await query
 			.limit(pageSize)
 			.skip(skip);
 
@@ -71,7 +71,7 @@ module.exports.getCategories = async (req, res) => {
 			pages,
 			skip,
 			pageSize,
-			products
+			categories
 		});
 	} catch (err) {
 		return res.status(500).json({message: err.message});
@@ -123,7 +123,10 @@ module.exports.addCategory = async (req, res) => {
 
 module.exports.removeCategory = async (req, res) => {
 	try {
-		const deleteCategory = await Category.findOneAndRemove(req.body);
+
+		const { id } = req.params;
+
+		const deleteCategory = await Category.findOneAndRemove(id);
 
 		if (!deleteCategory)
 			return res.status(400).json({message: 'Категория не найдена'});
