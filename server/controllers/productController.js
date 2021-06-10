@@ -74,23 +74,19 @@ module.exports.getProducts = async (req, res) => {
 
 		query2 = Product.find(formattedParams);
 
-		if (req.query.category) {
-
-		}
-
-		if (req.query.sort) {
-			const sortByArr = req.query.sort.split(',');
-
-			const sortByStr = sortByArr.join(' ');
-
-			query = query.sort(sortByStr);
-
-			query2 = query2.sort(sortByStr);
-		} else {
-			query = query.sort('-price');
-
-			query2 = query2.sort('-price');
-		}
+		// if (req.query.sort) {
+		// 	const sortByArr = req.query.sort.split(',');
+		//
+		// 	const sortByStr = sortByArr.join(' ');
+		//
+		// 	query = query.sort(sortByStr);
+		//
+		// 	query2 = query2.sort(sortByStr);
+		// } else {
+		// 	query = query.sort('-price');
+		//
+		// 	query2 = query2.sort('-price');
+		// }
 
 		const productsCount = await query2.countDocuments();
 
