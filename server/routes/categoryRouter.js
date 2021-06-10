@@ -8,10 +8,10 @@ router.get('/category', me, categoryController.getCategories);
 router.get('/category/ctgs_clrs', categoryController.getCategoriesAndColors);
 
 // post
-router.post('/category/add', me, categoryController.addCategory);
+router.post('/category', me, categoryController.addCategory);
 
 //delete
-router.delete('/category/delete', me, categoryController.removeCategory);
+router.delete('/category', me, categoryController.removeCategory);
 
 module.exports = router;
 
