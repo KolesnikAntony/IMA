@@ -3,9 +3,76 @@ const Product = require('../models/Product');
 
 
 module.exports.getCategories = async (req, res) => {
+	// try {
+	// 	const categories = await Category.find().select('name _id');
+	// 	res.status(200).json({categories});
+	// } catch (err) {
+	// 	return res.status(500).json({message: err.message});
+	// }
+
+
 	try {
-		const categories = await Category.find().select('name _id');
-		res.status(200).json({categories});
+		let query;
+		let query2;
+
+		const formattedParams = {};
+
+		let reqQuery = { ...req.query };
+
+		const page = parseInt(req.query.page) || 1;
+		const pageSize = parseInt(req.query.limit) || 12;
+		const skip = (page - 1) * pageSize;
+
+		let removeFields = ['sort', 'page', 'limit', 'skip'];
+		removeFields.forEach((val) => delete reqQuery[val]);
+
+		for (const [key, value] of Object.entries(reqQuery)) {
+			formattedParams[key] = value.split(',');
+		}
+
+		// let queryStr = JSON.stringify(reqQuery);
+
+		// queryStr = queryStr.replace( /\b(gt|gte|lt|lte|in)\b/g,
+		// 	(match) => `$${match}`);
+
+		query = Category.find(formattedParams);
+
+		query2 = Category.find(formattedParams);
+
+		if (req.query.sort) {
+			const sortByArr = req.query.sort.split(',');
+
+			const sortByStr = sortByArr.join(' ');
+
+			query = query.sort(sortByStr);
+
+			query2 = query2.sort(sortByStr);
+		} else {
+			query = query.sort('-price');
+
+			query2 = query2.sort('-price');
+		}
+
+		const categoryCount = await query2.countDocuments();
+
+		const pages = Math.ceil(categoryCount / pageSize);
+
+		if (page > pages) {
+			res.status(404).json({message: 'Страница не найдена.'})
+		}
+
+		const products = await query
+			.limit(pageSize)
+			.skip(skip);
+
+		res.status(200).json({
+			count: categoryCount,
+			page,
+			pages,
+			skip,
+			pageSize,
+			products
+		});
 	} catch (err) {
 		return res.status(500).json({message: err.message});
 	}
