@@ -441,7 +441,8 @@ a {
   background: #555;
 }
 
-input[type=text] {
+input[type=text]:not(.MuiFilledInput-inputMarginDense),
+input[type=text]:not(.MuiInputBase-input){
   border: none;
   background: none;
   color: $color-dark;
