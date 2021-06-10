@@ -136,3 +136,17 @@ module.exports.removeCategory = async (req, res) => {
 		return res.status(500).json({message: err.message});
 	}
 };
+
+module.exports.getCategoryById = async (req, res) => {
+	try {
+
+		const category = await Category.findById(req.params.id);
+
+		if (!category)
+			return res.status(400).json({message: 'Товар не найден!'});
+
+		res.status(200).json({message: 'ok', category});
+	} catch (err) {
+		return res.status(500).json({message: err.message});
+	}
+};

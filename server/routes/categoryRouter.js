@@ -7,6 +7,8 @@ router.get('/category', me, categoryController.getCategories);
 
 router.get('/category/ctgs_clrs', categoryController.getCategoriesAndColors);
 
+router.get('/category/:id', me, categoryController.getCategoryById);
+
 // post
 router.post('/category', me, categoryController.addCategory);
 
