@@ -41,9 +41,7 @@ const ProductCreate = (props) => {
             </MyTextInput>
             <MyTextInput>
                 <TextInput source='color' className={classes.widthFull}/>
-                <ReferenceInput label="Category" source="category" reference="category" validate={[required()]}>
-                    <SelectInput optionText="name"  className={classes.widthFull}/>
-                </ReferenceInput>
+                <SelectInput optionText="name" optionValue="id" className={classes.widthFull} resettable />
             </MyTextInput>
         </SimpleForm>
     </Create>

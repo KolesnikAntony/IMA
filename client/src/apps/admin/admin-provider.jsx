@@ -32,10 +32,11 @@ export default {
         })),
 
     getMany: (resource, params) => {
-        const query = {
-            filter: JSON.stringify({id: params.ids}),
-        };
-        const url = `${apiUrl}/${resource}?${stringify(query)}`;
+        // const query = {
+        //     filter: JSON.stringify({id: params.ids}),
+        // };
+        console.log(params);
+        const url = `${apiUrl}/${resource}/${params.id}`;
         return httpClient(url).then(({json}) => ({data: json}));
     },
 
@@ -70,7 +71,7 @@ export default {
         const query = {
             filter: JSON.stringify({id: params.ids}),
         };
-        return httpClient(`${apiUrl}/${resource}?${stringify(query)}`, {
+        return httpClient(`${apiUrl}/${resource}/}`, {
             method: 'PUT',
             body: JSON.stringify(params.data),
 

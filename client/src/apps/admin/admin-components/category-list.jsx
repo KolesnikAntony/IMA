@@ -7,7 +7,7 @@ const CategoryList = (props) => {
     return <List  {...props}>
         <Datagrid>
             <TextField source='name'/>
-            <TextField source='_id'/>
+            <TextField source='id'/>
             <DeleteButton basePath={'/category'}/>
         </Datagrid>
     </List>
