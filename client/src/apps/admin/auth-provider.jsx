@@ -7,7 +7,7 @@ import {getProfileData} from "../../redux/user-reducer";
 
 import {AUTH_LOGIN} from 'react-admin';
 
-export default async (type: any, params: any) => {
+export default async (type, params) => {
     if (type === AUTH_LOGIN) {
 
         const {username, password} = params;
