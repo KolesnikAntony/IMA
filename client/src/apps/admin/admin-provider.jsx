@@ -11,18 +11,17 @@ export default {
         const {page, perPage} = params.pagination;
         return instance.get(`/api/${resource}?page=${page}&limit=${perPage}`, {}).then(res => {
             let data;
-            let total;
+            console.log(res);
             if (res.data.products) {
+                console.log(res.data.count);
                 data = res.data.products;
-                total = res.data.count;
             } else if (res.data.categories) {
+                console.log(res);
                 data = res.data.categories;
-                total = 10;
             }
-            console.log(data);
             return {
                 data,
-                total
+                total: res.data.count
             }
         })
     },

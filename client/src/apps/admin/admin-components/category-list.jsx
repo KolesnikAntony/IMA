@@ -8,7 +8,6 @@ const CategoryList = (props) => {
         <Datagrid>
             <TextField source='name'/>
             <TextField source='_id'/>
-            <EditButton basePath={'/category'}/>
             <DeleteButton basePath={'/category'}/>
         </Datagrid>
     </List>

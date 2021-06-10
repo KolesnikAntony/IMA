@@ -1,5 +1,5 @@
 import React from 'react';
-import {Create, FormTab, SimpleForm, TextInput} from 'react-admin';
+import {Create, FormTab, SimpleForm, TextInput, required, ReferenceInput, SelectInput} from 'react-admin';
 import './products-list.scss';
 import {makeStyles} from '@material-ui/core/styles';
 
@@ -41,7 +41,9 @@ const ProductCreate = (props) => {
             </MyTextInput>
             <MyTextInput>
                 <TextInput source='color' className={classes.widthFull}/>
-                <TextInput source='category' className={classes.widthFull}/>
+                <ReferenceInput label="Category" source="category" reference="category" validate={[required()]}>
+                    <SelectInput optionText="name"  className={classes.widthFull}/>
+                </ReferenceInput>
             </MyTextInput>
         </SimpleForm>
     </Create>
