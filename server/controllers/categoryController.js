@@ -42,7 +42,7 @@ module.exports.addCategory = async (req, res) => {
 		const categories = await Category.find();
 
 		for (let names of categories) {
-			if (newCategory.name === names.name) {
+			if (newCategory.name.toLowerCase() === names.name.toLowerCase()) {
 				return res.status(400).json({message: `Категория ${req.body.name} занята, попробуйте другое имя`});
 			}
 		}
