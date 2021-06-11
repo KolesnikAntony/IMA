@@ -15,7 +15,7 @@ module.exports.createProduct = async (req, res) => {
 		if (!file)
 			return res.status(400).json({message: 'Изображение не выбрано'});
 
-		const basePath = `${req.protocol}://${req.get('host')}/`;
+		// const basePath = `${req.protocol}://${req.get('host')}/`;
 
 		const product = new Product({
 			productIndex: req.body.productIndex,
@@ -26,7 +26,7 @@ module.exports.createProduct = async (req, res) => {
 			description: req.body.description,
 			shortDescr: req.body.shortDescr,
 			color: req.body.color,
-			imageSrc: req.file ? `${basePath}${req.file.path}` : '',
+			imageSrc: req.file ? req.file.path : '',
 			sale: req.body.sale,
 			top: req.body.top,
 			itsNew: req.body.itsNew,
@@ -182,6 +182,10 @@ module.exports.editProduct = async (req, res) => {
 module.exports.removeProduct = async (req, res) => {
 	try {
 		const { id } = req.params;
+
+		if (req.params.id) {
+			req.params.id.split(',')
+		}
 
 		const product = await Product.findByIdAndRemove(id);
 
