@@ -11,7 +11,6 @@ export default {
         const {page, perPage} = params.pagination;
         return instance.get(`/api/${resource}?page=${page}&limit=${perPage}`, {}).then(res => {
             let data;
-            console.log(res);
             if (res.data.products) {
                 console.log(res.data.count);
                 data = res.data.products;
@@ -31,13 +30,15 @@ export default {
             data: json,
         })),
 
-    getMany: (resource, params) => {
+    getMany: async (resource, params) => {
         // const query = {
         //     filter: JSON.stringify({id: params.ids}),
         // };
-        console.log(params);
-        const url = `${apiUrl}/${resource}/${params.id}`;
-        return httpClient(url).then(({json}) => ({data: json}));
+        // const url = `${apiUrl}/${resource}?${stringify(query)}`;
+        // return httpClient(url).then(({json}) => ({data: json}));
+        let res = await instance.get(`/api/${resource}/${params.ids}`);
+        console.log(res.data.category)
+        return {data:  [res.data.category] }
     },
 
     getManyReference: (resource, params) => {
@@ -55,7 +56,6 @@ export default {
 
         return httpClient(url).then(({headers, json}) => ({
             data: json,
-            //@ts-ignore
             total: parseInt(headers.get('content-range').split('/').pop(), 10),
         }));
     },
@@ -71,7 +71,7 @@ export default {
         const query = {
             filter: JSON.stringify({id: params.ids}),
         };
-        return httpClient(`${apiUrl}/${resource}/}`, {
+        return httpClient(`${apiUrl}/${resource}?${stringify(query)}`, {
             method: 'PUT',
             body: JSON.stringify(params.data),
 
@@ -79,8 +79,8 @@ export default {
     },
 
     create: async (resource, params) => {
-        console.log(params);
         let obj = JSON.stringify(params.data);
+        console.log(obj);
         let res = await instance.post(`/api/${resource}`, obj)
         console.log(res);
         let data;
@@ -91,6 +91,8 @@ export default {
                 name,
                 id
             }
+        }else if (res.config.url === "/api/products"){
+
         }
         return {...params.data, data };
     },
