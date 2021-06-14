@@ -122,16 +122,35 @@ module.exports.addCategory = async (req, res) => {
 };
 
 module.exports.removeCategory = async (req, res) => {
+	// try {
+	//
+	// 	const { id } = req.params;
+	//
+	// 	const deleteCategory = await Category.findOneAndRemove(id);
+	//
+	// 	if (!deleteCategory)
+	// 		return res.status(400).json({message: 'Категория не найдена'});
+	//
+	// 	res.json({message: 'Категория успешно удалена', deleteCategory});
+	// } catch (err) {
+	// 	return res.status(500).json({message: err.message});
+	// }
+
 	try {
+		let query = {};
 
-		const { id } = req.params;
+		for (const [key, value] of Object.entries(req.params)) {
+			query = { _id: value.split(',')};
+		}
 
-		const deleteCategory = await Category.findOneAndRemove(id);
+		const findCategory = await Category.find(query);
 
-		if (!deleteCategory)
-			return res.status(400).json({message: 'Категория не найдена'});
+		if (findCategory.length == [])
+			return res.status(400).json({message: 'Категория не найдена!'});
 
-		res.json({message: 'Категория успешно удалена', deleteCategory});
+		await Category.deleteMany(query);
+
+		res.json({message: `Категория ${findCategory.name} успешно удалён!`});
 	} catch (err) {
 		return res.status(500).json({message: err.message});
 	}

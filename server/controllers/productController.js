@@ -36,6 +36,8 @@ module.exports.createProduct = async (req, res) => {
 		// отмена загрузки изображения в локальное хранилище
 		// fs.unlinkSync(req.file.path);
 
+
+		console.log({product})
 		await product.save();
 
 		res.status(201).json({message: 'Продукт успешно создан', product});
@@ -181,18 +183,20 @@ module.exports.editProduct = async (req, res) => {
 
 module.exports.removeProduct = async (req, res) => {
 	try {
-		const { id } = req.params;
+		let query = {};
 
-		if (req.params.id) {
-			req.params.id.split(',')
+		for (const [key, value] of Object.entries(req.params)) {
+			query = { _id: value.split(',')};
 		}
 
-		const product = await Product.findByIdAndRemove(id);
+		const findProduct = await Product.find(query);
 
-		if (!product)
+		if (findProduct.length == [])
 			return res.status(400).json({message: 'Товар не найден!'});
 
-		res.json({message: 'Товар успешно удалён!', product});
+		await Product.deleteMany(query);
+
+		res.json({message: 'Товар успешно удалён!'});
 	} catch (err) {
 		return res.status(500).json({message: err.message});
 	}
