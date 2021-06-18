@@ -80,10 +80,10 @@ export default {
 
     create: async (resource, params) => {
 
-        let datafd = {...params.data, imageSrc: {...params.data.imageSrc.rawFile}}
+        let datafd = {...params.data, imageSrc: {...params.data.imageSrc}}
         let obj = datafd;
 
-
+        console.log(obj);
         let res = await instance.post(`/api/${resource}`, obj);
         console.log(res);
         let data;
