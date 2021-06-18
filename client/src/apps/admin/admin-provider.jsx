@@ -81,7 +81,7 @@ export default {
     create: async (resource, params) => {
 
         console.log(params.data.imageSrc.rawFile);
-        let datafd = {...params.data, imageSrc: params.data.imageSrc.rawFile.path}
+        let datafd = {...params.data, imageSrc: params.data.imageSrc.rawFile}
         console.log(datafd);
         let obj = datafd;
 
