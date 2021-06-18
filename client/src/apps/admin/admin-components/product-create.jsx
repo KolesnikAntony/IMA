@@ -98,9 +98,9 @@ const ProductCreate = (props) => {
                     <SelectInput optionText="name" optionValue="id" className={classes.widthFull}/>
                 </ReferenceInput>
             </MyTextInput>
-            <FileInput source="imageSrc" label="Related pictures" accept=".jpg,.png">
-                <ImageField source='src'/>
-            </FileInput>
+            <ImageInput source="imageSrc" label="Related pictures" accept=".jpg,.png" >
+                <ImageField source='imageSrc'/>
+            </ImageInput>
         </SimpleForm>
     </Create>
 }

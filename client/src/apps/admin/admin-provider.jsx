@@ -38,7 +38,7 @@ export default {
         // return httpClient(url).then(({json}) => ({data: json}));
         let res = await instance.get(`/api/${resource}/${params.ids}`);
         console.log(res.data.category)
-        return {data:  [res.data.category] }
+        return {data: [res.data.category]}
     },
 
     getManyReference: (resource, params) => {
@@ -79,9 +79,14 @@ export default {
     },
 
     create: async (resource, params) => {
-        let obj = JSON.stringify(params.data);
-        console.log(obj);
-        let res = await instance.post(`/api/${resource}`, obj)
+
+        console.log(params.data.imageSrc.rawFile);
+        let datafd = {...params.data, imageSrc: params.data.imageSrc.rawFile}
+        console.log(datafd);
+        let obj = stringify(datafd);
+
+
+        let res = await instance.post(`/api/${resource}`, obj);
         console.log(res);
         let data;
         if (res.config.url === "/api/category") {
@@ -92,9 +97,9 @@ export default {
                 id
             }
         }else if (res.config.url === "/api/products"){
-
         }
         return {...params.data, data };
+
     },
 
     delete: (resource, params) => instance.delete(`/api/${resource}/${params.id}`).then(res => {
