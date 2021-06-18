@@ -83,7 +83,7 @@ export default {
         console.log(params.data.imageSrc.rawFile);
         let datafd = {...params.data, imageSrc: params.data.imageSrc.rawFile}
         console.log(datafd);
-        let obj = stringify(datafd);
+        let obj = datafd;
 
 
         let res = await instance.post(`/api/${resource}`, obj);
