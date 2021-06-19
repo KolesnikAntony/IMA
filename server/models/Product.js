@@ -1,11 +1,10 @@
 const { Schema, model } = require('mongoose');
-const mongoosePaginate = require('mongoose-paginate');
 
 const productSchema = new Schema({
-	productIndex: {
-		type: Number,
-		default: null
-	},
+	// productIndex: {
+	// 	type: Number,
+	// 	default: null
+	// },
 	title: {
 		type: String,
 		required: true,
@@ -20,7 +19,7 @@ const productSchema = new Schema({
 	},
 	salePrice: {
 		type: Number,
-		default: null
+		default: ''
 	},
 	category: {
 		type: Schema.Types.ObjectId,
@@ -30,8 +29,7 @@ const productSchema = new Schema({
 	},
 	description: {
 		type: String,
-		required: true,
-		default: ''
+		default: undefined
 	},
 	shortDescr: {
 		type: String,
@@ -51,15 +49,15 @@ const productSchema = new Schema({
 		default: ''
 	},
 	sale: {
-		type: Boolean,
+		type: Boolean || undefined,
 		default: false
 	},
 	top: {
-		type: Boolean,
+		type: Boolean || undefined,
 		default: false
 	},
 	itsNew: {
-		type: Boolean,
+		type: Boolean || undefined,
 		default: false
 	},
 	totalCount: {
@@ -69,8 +67,6 @@ const productSchema = new Schema({
 }, {
 	timestamps: true
 });
-
-// productSchema.plugin(mongoosePaginate);
 
 productSchema.virtual('id').get(function(){
 	return this._id.toHexString();

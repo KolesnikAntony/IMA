@@ -87,14 +87,14 @@ export default {
         formData.append('category', params.data.category);
         formData.append('color', params.data.color);
         formData.append('description', params.data.description);
-        formData.append('itsNew', params.data.itsNew);
+        formData.append('itsNew', params.data.itsNew === undefined ? false : params.data.itsNew);
         formData.append('price', params.data.price);
-        formData.append('sale', params.data.sale);
-        formData.append('salePrice', params.data.salePrice);
+        formData.append('sale', params.data.sale === undefined ? false : params.data.sale);
+        formData.append('salePrice', params.data.salePrice === undefined ? '' : params.data.salePrice);
         formData.append('shortDescr', params.data.shortDescr);
         formData.append('subText', params.data.subText);
         formData.append('title', params.data.title);
-        formData.append('top', params.data.top);
+        formData.append('top', params.data.top === undefined ? false : params.data.top);
 
         console.log(formData);
         let res = await instance.post(`/api/${resource}`, formData, {
@@ -112,6 +112,7 @@ export default {
                 id
             }
         }else if (res.config.url === "/api/products"){
+            data = res.data.product
         }
         return {...params.data, data };
 

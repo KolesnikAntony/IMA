@@ -3,13 +3,13 @@ const moment = require('moment');
 
 const storage = multer.diskStorage({
 	destination: (req, file, cb) => {
-  //проверка ключа файла для сохранения в нужную папку
-		if (file.fieldname === 'imageSrc') {
-			cb(null, 'public/uploads/');
-		} else {
-			cb(null, 'public/avatar/');
-		}
-	},
+		//проверка ключа файла для сохранения в нужную папку
+			if (file.fieldname === 'imageSrc') {
+				cb(null, 'public/uploads');
+			} else {
+				cb(null, 'public/avatar/');
+			}
+		 },
 	filename: (req, file, cb) => {
 		const date = moment().format('DDMMYYYY-HHmmss_SSS');
 		cb(null, `${date}-${file.originalname}`);

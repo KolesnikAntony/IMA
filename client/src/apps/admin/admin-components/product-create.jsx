@@ -76,7 +76,7 @@ const ProductCreate = (props) => {
     const [sale, setSale] = useState(false);
 
     return <Create title='Create a product' {...props}>
-        <SimpleForm encType="multipart/form-data">
+        <SimpleForm enctype="multipart/form-data">
             <MyTextInput>
                 <TextInput source='title' className={classes.widthFull}/>
                 <TextInput source='shortDescr' className={classes.widthFull}/>

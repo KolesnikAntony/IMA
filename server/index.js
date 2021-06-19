@@ -12,6 +12,11 @@ const categoryRouter = require('./routes/categoryRouter');
 const productRouter = require('./routes/productRouter');
 const cartRouter = require('./routes/Cart');
 
+
+const multer = require("multer");
+const upload = multer({dest: 'public/'});
+
+
 const app = express();
 
 connectDB();
@@ -19,8 +24,10 @@ connectDB();
 app.use(morgan('dev'));
 //если не загружать изображения в локал сторедж, то строка ниже не нужна
 app.use('/public/uploads', express.static(__dirname + '/public/uploads'));
-// app.use('/', express.static(__dirname + '/test/'));
+// app.use('/public', express.static(__dirname + '/public'));
 app.use(express.json());
+app.use(express.raw());
+app.use(express.urlencoded({extended: true}));
 app.use(cookieParser());
 app.use(cors());
 
@@ -33,7 +40,6 @@ app.use('/api/user', userProfile);
 app.use('/api', categoryRouter);
 app.use('/api', productRouter);
 app.use('/api', cartRouter);
-
 
 const PORT = process.env.PORT || 5000;
 

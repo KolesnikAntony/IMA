@@ -15,10 +15,9 @@ module.exports.createProduct = async (req, res) => {
 		if (!file)
 			return res.status(400).json({message: 'Изображение не выбрано'});
 
-		// const basePath = `${req.protocol}://${req.get('host')}/`;
+		const basePath = `${req.protocol}://${req.get('host')}/`;
 
 		const product = new Product({
-			productIndex: req.body.productIndex,
 			title: req.body.title,
 			price: req.body.price,
 			salePrice: req.body.salePrice,
@@ -26,18 +25,17 @@ module.exports.createProduct = async (req, res) => {
 			description: req.body.description,
 			shortDescr: req.body.shortDescr,
 			color: req.body.color,
-			imageSrc: req.file ? req.file.path : '',
+			imageSrc: req.file ? `${basePath}${req.file.path}`: '',
 			sale: req.body.sale,
 			top: req.body.top,
 			itsNew: req.body.itsNew,
 			totalCount: req.body.totalCount
 		});
 
+
 		// отмена загрузки изображения в локальное хранилище
 		// fs.unlinkSync(req.file.path);
 
-
-		console.log({product})
 		await product.save();
 
 		res.status(201).json({message: 'Продукт успешно создан', product});
