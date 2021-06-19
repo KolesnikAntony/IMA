@@ -1,6 +1,7 @@
 import {fetchUtils} from 'react-admin';
 import {stringify} from "querystring";
 import {instance} from "../../api/api";
+import {Form} from "redux-form";
 
 
 const apiUrl = 'http://localhost:3000/api';
@@ -80,11 +81,12 @@ export default {
 
     create: async (resource, params) => {
 
-        let datafd = {...params.data, imageSrc: {...params.data.imageSrc}}
-        let obj = datafd;
+        let photo = {...params.data, imageSrc: {...params.data.imageSrc.rawFile}}
+        let formData  = new FormData();
+        formData.append('imageSrc', photo);
 
-        console.log(obj);
-        let res = await instance.post(`/api/${resource}`, obj);
+        console.log(formData);
+        let res = await instance.post(`/api/${resource}`, formData);
         console.log(res);
         let data;
         if (res.config.url === "/api/category") {

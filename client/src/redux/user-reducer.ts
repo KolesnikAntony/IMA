@@ -49,7 +49,8 @@ const actionsUser = {
 
 
 export const getPhoto = (photoFile: any): ThunkUserType => async (dispatch) => {
-    dispatch(actionsUser.setPhoto(photoFile));
+    await UserAPI.uploadAvatar(photoFile);
+    //dispatch(actionsUser.setPhoto(photoFile));
 };
 
 export const getProfileData = (): ThunkUserType => async (dispatch) => {

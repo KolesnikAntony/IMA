@@ -24,6 +24,16 @@ export const UserAPI = {
             console.log(res, '----data from server')
             return res.data.user
         });
+    },
+    uploadAvatar(avatar: File){
+        let formData = new FormData();
+        formData.append("avatar", avatar);
+
+        return instance.patch('/api/user/profile/avatar', formData, {
+            headers: {
+                'Content-Type': 'multipart/form-data'
+            }
+        }).then(res => console.log(res))
     }
 };
 
