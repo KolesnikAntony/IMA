@@ -81,12 +81,27 @@ export default {
 
     create: async (resource, params) => {
 
-        let photo = {...params.data, imageSrc: {...params.data.imageSrc.rawFile}}
         let formData  = new FormData();
-        formData.append('imageSrc', photo);
+        console.log(params.data);
+        formData.append('imageSrc', params.data.imageSrc.rawFile);
+        formData.append('category', params.data.category);
+        formData.append('color', params.data.color);
+        formData.append('description', params.data.description);
+        formData.append('itsNew', params.data.itsNew);
+        formData.append('price', params.data.price);
+        formData.append('sale', params.data.sale);
+        formData.append('salePrice', params.data.salePrice);
+        formData.append('shortDescr', params.data.shortDescr);
+        formData.append('subText', params.data.subText);
+        formData.append('title', params.data.title);
+        formData.append('top', params.data.top);
 
         console.log(formData);
-        let res = await instance.post(`/api/${resource}`, formData);
+        let res = await instance.post(`/api/${resource}`, formData, {
+            headers: {
+                'Content-Type': 'multipart/form-data'
+            }
+        });
         console.log(res);
         let data;
         if (res.config.url === "/api/category") {
