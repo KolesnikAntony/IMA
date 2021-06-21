@@ -118,7 +118,7 @@ module.exports.getProductById = async (req, res) => {
 	try {
 
 		const product = await Product.findById(req.params.id)
-			.select('title shortDescr description price salePrice subText imageSrc');
+			.select('title shortDescr description price salePrice subText imageSrc color category');
 
 		if (!product)
 			return res.status(400).json({message: 'Товар не найден!'});
