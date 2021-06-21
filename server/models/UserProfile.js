@@ -16,13 +16,4 @@ const userProfileSchema = new Schema({
 	},
 });
 
-// userProfileSchema.virtual('id').get(function(){
-// 	return this._id.toHexString();
-// });
-//
-// userProfileSchema.set('toJSON', {
-// 	virtuals: true,
-// 	versionKey:false
-// });
-
 module.exports = model('UserProfile', userProfileSchema);

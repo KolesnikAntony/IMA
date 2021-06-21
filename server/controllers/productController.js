@@ -118,7 +118,7 @@ module.exports.getProductById = async (req, res) => {
 	try {
 
 		const product = await Product.findById(req.params.id)
-			.select('title shortDescr description price salePrice subText imageSrc');
+			.select('title shortDescr description price salePrice subText imageSrc color category');
 
 		if (!product)
 			return res.status(400).json({message: 'Товар не найден!'});
@@ -164,14 +164,20 @@ module.exports.updateCollection = async (req, res) => {
 module.exports.editProduct = async (req, res) => {
 	try {
 		const { id } = req.params;
+
+		const basePath = `${req.protocol}://${req.get('host')}/`;
+
+		const edited = { ...req.body };
+
+		if (req.file) {
+			edited.imageSrc = basePath + req.file.path;
+		}
+
 		const editedProduct = await Product.findByIdAndUpdate(
 			{ _id: id },
-			{ $set: req.body },
+			{ $set: edited },
 			{ new: true }
 		);
-
-		if (!editedProduct)
-			return res.status(400).json({message: 'Товар не найден!'});
 
 		res.status(200).json({message: 'Товар успешно изменен!', editedProduct});
 	} catch (err) {
