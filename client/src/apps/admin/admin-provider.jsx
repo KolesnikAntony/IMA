@@ -27,24 +27,27 @@ export default {
 
     getOne: async (resource, params) => {
         console.log(resource, params);
-        if(resource === 'products') {
-           let res = await instance.get(`/api/products/${params.id}`);
+        if (resource === 'products') {
+            let res = await instance.get(`/api/products/${params.id}`);
             console.log(res)
             let path = res.data.product;
-           return {data: {id: path.id,
-                   description: path.description,
-                   imageSrc: path.imageSrc,
-                   price: path.price,
-                   salePrice: path.salePrice,
-                   shortDescr: path.shortDescr,
-                   subText: path.subText,
-                   title: path.title,
-               }}
+            return {
+                data: {
+                    id: path.id,
+                    description: path.description,
+                    imageSrc: path.imageSrc,
+                    price: path.price,
+                    salePrice: path.salePrice,
+                    shortDescr: path.shortDescr,
+                    subText: path.subText,
+                    title: path.title,
+                }
+            }
         }
     },
 
     getMany: async (resource, params) => {
-        if(resource === 'category'){
+        if (resource === 'category') {
             let res = await instance.get(`/api/${resource}/${params.ids}`);
             return {data: [res.data.category]}
         }
@@ -70,12 +73,21 @@ export default {
     },
 
     update: async (resource, params) => {
+        // console.log(params.data.imageSrc, '----updata data');
+        // let path = params.data.imageSrc.split('/').slice(3).join('');
+        // let name = params.data.imageSrc.split('/').slice(5).join('');
+        // console.log(path,'=====path');
+        // let alo = createFile(window.location.host +'//' , path);
+        // console.log(alo, '----after');
+
+
+
         let formData;
         let data;
         let res;
-        if(resource === 'products') {
+        if (resource === 'products') {
             errorHandlers(params.data);
-            formData  = getFormData(params.data);
+            formData = getFormData(params.data);
 
             res = await instance.post(`/api/${resource}`, formData, {
                 headers: {
@@ -84,7 +96,7 @@ export default {
             });
             data = res.data.product
         }
-        return {...params.data, data };
+        return {...params.data, data};
     },
 
     updateMany: (resource, params) => {
@@ -103,9 +115,9 @@ export default {
         let formData;
         let data;
         let res;
-        if(resource === 'products') {
+        if (resource === 'products') {
             errorHandlers(params.data);
-            formData  = getFormData(params.data);
+            formData = getFormData(params.data);
 
             res = await instance.post(`/api/${resource}`, formData, {
                 headers: {
@@ -114,7 +126,7 @@ export default {
             });
             data = res.data.product
 
-        }else if(resource === 'category') {
+        } else if (resource === 'category') {
             formData = {
                 name: params.data.name,
             };
@@ -126,14 +138,14 @@ export default {
                     name,
                     id
                 };
-            }catch (err) {
-                if(err.response.data.message === "Категория Test занята, попробуйте другое имя"){
+            } catch (err) {
+                if (err.response.data.message === "Категория Test занята, попробуйте другое имя") {
                     throw new Error('This category already exists')
                 }
             }
         }
 
-        return {...params.data, data };
+        return {...params.data, data};
 
     },
 
@@ -155,8 +167,9 @@ export default {
 
 
 const getFormData = (data) => {
-    let formData  = new FormData();
-    formData.append('imageSrc', data.imageSrc.rawFile);
+    let formData = new FormData();
+    console.log( data.imageSrc);
+    data.imageSrc !== undefined && formData.append('imageSrc', data.imageSrc.rawFile);
     formData.append('category', data.category);
     formData.append('color', data.color);
     formData.append('description', data.description);
@@ -173,11 +186,24 @@ const getFormData = (data) => {
 };
 
 const errorHandlers = (data) => {
-    if(data.imageSrc === undefined){
+    if (data.imageSrc === undefined) {
         throw new Error('Image is required!')
-    }else if(data.price === undefined) {
+    } else if (data.price === undefined) {
         throw new Error('Price is required!')
-    }else if(data.category === undefined) {
+    } else if (data.category === undefined) {
         throw new Error('Category is required!')
     }
 };
+
+// async function createFile(url, name, path){
+//     let response = await instance.get(url, path);
+//     let data = await response.blob();
+//     console.log(data)
+//     let metadata = {
+//         type: 'image/jpeg'
+//     };
+//     return new File([data], name, metadata);
+//     // ... do something with the file or return it
+// }
+
+
