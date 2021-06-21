@@ -1,6 +1,7 @@
 import React, {useState} from 'react';
 import {
     Create,
+    Edit,
     FormTab,
     SimpleForm,
     TextInput,
@@ -69,14 +70,14 @@ const Column3 = ({children}) => {
     </div>
 };
 
-const ProductCreate = (props) => {
+const ProductEdit = (props) => {
 
     const classes = useStyles();
 
     const [sale, setSale] = useState(false);
 
-    return <Create title='Create a product' {...props}>
-        <SimpleForm encType="multipart/form-data">
+    return <Edit title='Edit a product' {...props}>
+        <SimpleForm encType="multipart/form-data" >
             <MyTextInput>
                 <TextInput source='title' className={classes.widthFull}/>
                 <TextInput source='shortDescr' className={classes.widthFull}/>
@@ -95,14 +96,14 @@ const ProductCreate = (props) => {
             <MyTextInput>
                 <TextInput source='color' className={classes.widthFull}/>
                 <ReferenceInput label="Category" source="category" reference="category">
-                    <SelectInput optionText="name" optionValue="id" className={classes.widthFull}/>
+                    <SelectInput optionText="name" optionValue="id"  className={classes.widthFull}/>
                 </ReferenceInput>
             </MyTextInput>
             <FileInput source="imageSrc" label="Related pictures" accept=".jpg,.png" >
                 <ImageField source='imageSrc'/>
             </FileInput>
         </SimpleForm>
-    </Create>
+    </Edit>
 }
 
-export default ProductCreate;
+export default ProductEdit;
