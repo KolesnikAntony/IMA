@@ -26,10 +26,9 @@ export default {
     },
 
     getOne: async (resource, params) => {
-        console.log(resource, params);
         if (resource === 'products') {
             let res = await instance.get(`/api/products/${params.id}`);
-            console.log(res)
+            console.log(res, '=====get one')
             let path = res.data.product;
             return {
                 data: {
@@ -41,6 +40,8 @@ export default {
                     shortDescr: path.shortDescr,
                     subText: path.subText,
                     title: path.title,
+                    category: path.category,
+                    color: path.color
                 }
             }
         }
@@ -95,6 +96,7 @@ export default {
                 }
             });
             data = res.data.product
+
         }
         return {...params.data, data};
     },
