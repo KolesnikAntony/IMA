@@ -75,9 +75,9 @@ const ProductEdit = (props) => {
     const classes = useStyles();
 
     const [sale, setSale] = useState(false);
-
     return <Edit title='Edit a product' {...props}>
         <SimpleForm encType="multipart/form-data" >
+
             <MyTextInput>
                 <TextInput source='title' className={classes.widthFull}/>
                 <TextInput source='shortDescr' className={classes.widthFull}/>
@@ -100,10 +100,23 @@ const ProductEdit = (props) => {
                 </ReferenceInput>
             </MyTextInput>
             <FileInput source="imageSrc" label="Related pictures" accept=".jpg,.png" >
-                <ImageField source='imageSrc'/>
+                <PreviewImage/>
             </FileInput>
         </SimpleForm>
     </Edit>
 }
+
+const PreviewImage = ({ record, source }) => {
+
+    console.log(record)
+    if (typeof (record) == "string") {
+        record = {
+            [source]: record
+        };
+        return <ImageField record={record} source={source} />
+    }
+    return <ImageField source={source}/>
+}
+
 
 export default ProductEdit;
