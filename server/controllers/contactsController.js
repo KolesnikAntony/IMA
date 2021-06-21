@@ -30,8 +30,24 @@ module.exports.getContacts = async (req, res) => {
 	try {
 		const contacts = await Contacts.find();
 
-		await contacts.save();
 		res.json({contacts});
+	} catch (err) {
+		return res.status(500).json({message: err.message});
+	}
+};
+
+module.exports.editContacts = async (req, res) => {
+	try {
+		const { id } = req.params;
+		const editContacts = { ...req.body };
+
+		const contacts = await Contacts.findByIdAndUpdate(
+			{ _id: id },
+			{ $set: editContacts },
+			{ new: true }
+		);
+
+		res.json({message: 'Контакты успешно обновлёны', contacts});
 	} catch (err) {
 		return res.status(500).json({message: err.message});
 	}
