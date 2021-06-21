@@ -7,11 +7,12 @@ import newProvider  from './admin-provider'
 import ProductCreate from "./admin-components/product-create";
 import authProvider from './auth-provider';
 import CategoryCreate from "./admin-components/category-create";
+import ProductEdit from "./admin-components/product-edit";
 
 const AdminApp = () => {
 
     return <Admin authProvider={authProvider} dataProvider={newProvider} >
-        <Resource name='products' list={ProductList} create={ProductCreate} />
+        <Resource name='products' list={ProductList} create={ProductCreate} edit={ProductEdit}/>
         <Resource name='category' list={CategoryList} create={CategoryCreate} />
     </Admin>
 };
