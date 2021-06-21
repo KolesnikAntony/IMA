@@ -13,10 +13,8 @@ export default {
         return instance.get(`/api/${resource}?page=${page}&limit=${perPage}`, {}).then(res => {
             let data;
             if (res.data.products) {
-                console.log(res.data.count);
                 data = res.data.products;
             } else if (res.data.categories) {
-                console.log(res);
                 data = res.data.categories;
             }
             return {
@@ -81,39 +79,58 @@ export default {
 
     create: async (resource, params) => {
 
-        let formData  = new FormData();
-        console.log(params.data);
-        formData.append('imageSrc', params.data.imageSrc.rawFile);
-        formData.append('category', params.data.category);
-        formData.append('color', params.data.color);
-        formData.append('description', params.data.description);
-        formData.append('itsNew', params.data.itsNew === undefined ? false : params.data.itsNew);
-        formData.append('price', params.data.price);
-        formData.append('sale', params.data.sale === undefined ? false : params.data.sale);
-        formData.append('salePrice', params.data.salePrice === undefined ? '' : params.data.salePrice);
-        formData.append('shortDescr', params.data.shortDescr);
-        formData.append('subText', params.data.subText);
-        formData.append('title', params.data.title);
-        formData.append('top', params.data.top === undefined ? false : params.data.top);
 
-        console.log(formData);
-        let res = await instance.post(`/api/${resource}`, formData, {
-            headers: {
-                'Content-Type': 'multipart/form-data'
-            }
-        });
-        console.log(res);
+
+        console.log(resource, params);
+        let formData;
         let data;
-        if (res.config.url === "/api/category") {
-            let name = res.data.newCategory.name;
-            let id = res.data.newCategory.id;
-            data = {
-                name,
-                id
+        let res;
+        if(resource === 'products') {
+            if(params.data.imageSrc === undefined){
+                throw new Error('Image is required!')
+            }else if(params.data.price === undefined) {
+                throw new Error('Price is required!')
+            }else if(params.data.category === undefined) {
+                throw new Error('Category is required!')
             }
-        }else if (res.config.url === "/api/products"){
+
+            formData  = new FormData();
+            formData.append('imageSrc', params.data.imageSrc.rawFile);
+            formData.append('category', params.data.category);
+            formData.append('color', params.data.color);
+            formData.append('description', params.data.description);
+            formData.append('itsNew', params.data.itsNew === undefined ? false : params.data.itsNew);
+            formData.append('price', params.data.price);
+            formData.append('sale', params.data.sale === undefined ? false : params.data.sale);
+            formData.append('salePrice', params.data.salePrice === undefined ? '' : params.data.salePrice);
+            formData.append('shortDescr', params.data.shortDescr);
+            formData.append('subText', params.data.subText);
+            formData.append('title', params.data.title);
+            formData.append('top', params.data.top === undefined ? false : params.data.top);
+
+            res = await instance.post(`/api/${resource}`, formData, {
+                headers: {
+                    'Content-Type': 'multipart/form-data'
+                }
+            });
             data = res.data.product
+        }else if(resource === 'category') {
+            formData = {
+                name: params.data.name,
+            };
+            try {
+                res = await instance.post(`/api/${resource}`, formData);
+                let name = res.data.newCategory.name;
+                let id = res.data.newCategory.id;
+                data = {
+                    name,
+                    id
+                };
+            }catch (err) {
+                console.log(err);
+            }
         }
+
         return {...params.data, data };
 
     },
