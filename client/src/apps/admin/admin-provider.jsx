@@ -16,7 +16,12 @@ export default {
             if (res.data.products) {
                 data = res.data.products;
             } else if (res.data.categories) {
-                data = res.data.categories;
+                data = res.data.categories.map(el => {
+                    return {
+                        id: el._id,
+                        name: el.name,
+                    }
+                });
             }
             return {
                 data,
@@ -29,6 +34,7 @@ export default {
         if (resource === 'products') {
             let res = await instance.get(`/api/products/${params.id}`);
             let path = res.data.product;
+
             return {
                 data: {
                     id: path.id,
@@ -49,7 +55,14 @@ export default {
     getMany: async (resource, params) => {
         if (resource === 'category') {
             let res = await instance.get(`/api/${resource}`);
-            return {data: [res.data.category]}
+
+            let newData = res.data.categories.map(el => {
+                return {
+                    id: el._id,
+                    name: el.name,
+                }
+            });
+            return {data: newData}
         }
     },
 
@@ -85,7 +98,7 @@ export default {
                     'Content-Type': 'multipart/form-data'
                 }
             });
-            data = res.data.product
+            data = res.data.editedProduct
 
         }
         return {...params.data, data};
@@ -159,6 +172,8 @@ export default {
 
 const getFormData = (data, method) => {
     let formData = new FormData();
+    console.log(data.imageSrc)
+    console.log(typeof data.imageSrc === "string")
     if(method === 'create') {
         formData.append('imageSrc', data.imageSrc.rawFile);
         formData.append('category', data.category);
@@ -173,7 +188,7 @@ const getFormData = (data, method) => {
         formData.append('title', data.title);
         formData.append('top', !data.top  ? false : data.top);
     }else{
-        data.imageSrc  && formData.append('imageSrc', data.imageSrc.rawFile);
+        typeof data.imageSrc !== "string" && formData.append('imageSrc', data.imageSrc.rawFile);
         data.category && formData.append('category', data.category);
         data.color && formData.append('color', data.color);
         data.description && formData.append('description', data.description);

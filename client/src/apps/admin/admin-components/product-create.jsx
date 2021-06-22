@@ -14,6 +14,8 @@ import {
 } from 'react-admin';
 import './products-list.scss';
 import {makeStyles} from '@material-ui/core/styles';
+import ProductList from "./products-list";
+import {logout} from "../../../redux/auth-reducer";
 
 
 const useStyles = makeStyles({
@@ -70,13 +72,14 @@ const Column3 = ({children}) => {
 };
 
 const ProductCreate = (props) => {
+    const redirect = (basePath, id, data) => basePath;
 
     const classes = useStyles();
 
     const [sale, setSale] = useState(false);
 
     return <Create title='Create a product' {...props}>
-        <SimpleForm encType="multipart/form-data">
+        <SimpleForm encType="multipart/form-data" redirect={redirect}>
             <MyTextInput>
                 <TextInput source='title' className={classes.widthFull}/>
                 <TextInput source='shortDescr' className={classes.widthFull}/>
@@ -104,5 +107,7 @@ const ProductCreate = (props) => {
         </SimpleForm>
     </Create>
 }
+
+
 
 export default ProductCreate;

@@ -119,6 +119,8 @@ const PreviewImage = ({ record, source }) => {
             [source]: record
         };
         return <ImageField record={record} source={source} />
+    }else{
+        return <ImageField  source={source} />
     }
 }
 
