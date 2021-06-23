@@ -153,9 +153,9 @@ module.exports.getColorAndCategory = async (req, res) => {
 module.exports.updateCollection = async (req, res) => {
 	try {
     //here we change the values of the collection, if necessary
-		const newProducts = await Product.updateMany( {}, {$rename:{"aaaaa": "productIndex"}});
-
-		res.status(200).json({message: 'show you all products from db', newProducts});
+		// const newProducts = await Product.updateMany( {}, {$rename:{"aaaaa": "productIndex"}});
+		await Product.deleteMany();
+		res.status(200).json({message: 'udalil'});
 	} catch (err) {
 		return res.status(500).json({message: err.message});
 	}
