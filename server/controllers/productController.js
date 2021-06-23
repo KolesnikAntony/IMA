@@ -100,6 +100,10 @@ module.exports.getProducts = async (req, res) => {
 			.limit(pageSize)
 			.skip(skip);
 
+		if (page > pages) {
+			return res.status(404).json({message: 'Страница не найдена.', products})
+		}
+
 		res.status(200).json({
 			count: productsCount,
 			page,

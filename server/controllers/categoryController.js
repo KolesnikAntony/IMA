@@ -57,13 +57,13 @@ module.exports.getCategories = async (req, res) => {
 
 		const pages = Math.ceil(categoryCount / pageSize);
 
-		if (page > pages) {
-			return res.status(404).json({message: 'Категории не найдены'})
-		}
-
 		const categories = await query
 			.limit(pageSize)
 			.skip(skip);
+
+		if (page > pages) {
+			return res.status(404).json({message: 'Категории не найдены', categories})
+		}
 
 		res.status(200).json({
 			count: categoryCount,
