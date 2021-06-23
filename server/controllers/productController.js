@@ -93,7 +93,7 @@ module.exports.getProducts = async (req, res) => {
 		const pages = Math.ceil(productsCount / pageSize);
 
 		if (page > pages) {
-			res.status(404).json({message: 'Страница не найдена.'})
+			return res.status(404).json({message: 'Страница не найдена.'})
 		}
 
 		const products = await query.populate('category', 'name')
@@ -108,7 +108,6 @@ module.exports.getProducts = async (req, res) => {
 			pageSize,
 			products
 		});
-		console.log('products.length', products.length);
 	} catch (err) {
 		return res.status(500).json({message: err.message});
 	}
@@ -154,7 +153,7 @@ module.exports.updateCollection = async (req, res) => {
 	try {
     //here we change the values of the collection, if necessary
 		// const newProducts = await Product.updateMany( {}, {$rename:{"aaaaa": "productIndex"}});
-		await Product.deleteMany();
+		await Category.deleteMany();
 		res.status(200).json({message: 'udalil'});
 	} catch (err) {
 		return res.status(500).json({message: err.message});
