@@ -95,8 +95,9 @@ const ProductEdit = (props) => {
             </Column3>
             <MyTextInput>
                 <TextInput source='color' className={classes.widthFull}/>
-                <ReferenceInput label="Category" source="category" reference="category">
-                    <SelectInput optionText="name" optionValue="id"  className={classes.widthFull}/>
+                <ReferenceInput label="Category" source="category" reference="category" >
+                    <SelectInputDefaultValue optionText='name' optionValue="id"/>
+                    {/*<SelectInput optionText="name" optionValue="id"  className={classes.widthFull}/>*/}
                 </ReferenceInput>
             </MyTextInput>
             <FileInput source="imageSrc" label="Related pictures" accept=".jpg,.png" >
@@ -106,16 +107,21 @@ const ProductEdit = (props) => {
     </Edit>
 }
 
-const PreviewImage = ({ record, source }) => {
+const SelectInputDefaultValue = ({ optionText,optionValue, ...rest }) => {
+    return (
+        <SelectInput optionText={optionText} optionValue={optionValue} {...rest}/>
+    )
+};
 
-    console.log(record)
+const PreviewImage = ({ record, source }) => {
     if (typeof (record) == "string") {
         record = {
             [source]: record
         };
         return <ImageField record={record} source={source} />
+    }else{
+        return <ImageField  source={source} />
     }
-    return <ImageField source={source}/>
 }
 
 

@@ -16,7 +16,12 @@ export default {
             if (res.data.products) {
                 data = res.data.products;
             } else if (res.data.categories) {
-                data = res.data.categories;
+                data = res.data.categories.map(el => {
+                    return {
+                        id: el._id,
+                        name: el.name,
+                    }
+                });
             }
             return {
                 data,
@@ -26,11 +31,10 @@ export default {
     },
 
     getOne: async (resource, params) => {
-        console.log(resource, params);
         if (resource === 'products') {
             let res = await instance.get(`/api/products/${params.id}`);
-            console.log(res)
             let path = res.data.product;
+
             return {
                 data: {
                     id: path.id,
@@ -41,6 +45,8 @@ export default {
                     shortDescr: path.shortDescr,
                     subText: path.subText,
                     title: path.title,
+                    category: path.category._id,
+                    color: path.color
                 }
             }
         }
@@ -48,8 +54,15 @@ export default {
 
     getMany: async (resource, params) => {
         if (resource === 'category') {
-            let res = await instance.get(`/api/${resource}/${params.ids}`);
-            return {data: [res.data.category]}
+            let res = await instance.get(`/api/${resource}`);
+
+            let newData = res.data.categories.map(el => {
+                return {
+                    id: el._id,
+                    name: el.name,
+                }
+            });
+            return {data: newData}
         }
     },
 
@@ -73,28 +86,20 @@ export default {
     },
 
     update: async (resource, params) => {
-        // console.log(params.data.imageSrc, '----updata data');
-        // let path = params.data.imageSrc.split('/').slice(3).join('');
-        // let name = params.data.imageSrc.split('/').slice(5).join('');
-        // console.log(path,'=====path');
-        // let alo = createFile(window.location.host +'//' , path);
-        // console.log(alo, '----after');
-
-
 
         let formData;
         let data;
         let res;
         if (resource === 'products') {
             errorHandlers(params.data);
-            formData = getFormData(params.data);
-
-            res = await instance.post(`/api/${resource}`, formData, {
+            formData = getFormData(params.data, 'update');
+            res = await instance.put(`/api/${resource}/${params.id}`, formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data'
                 }
             });
-            data = res.data.product
+            data = res.data.editedProduct
+
         }
         return {...params.data, data};
     },
@@ -110,14 +115,14 @@ export default {
         }).then(({json}) => ({data: json}));
     },
 
-    create: async (resource, params) => {
+    create: async (resource, params, ) => {
 
         let formData;
         let data;
         let res;
         if (resource === 'products') {
             errorHandlers(params.data);
-            formData = getFormData(params.data);
+            formData = getFormData(params.data, 'create');
 
             res = await instance.post(`/api/${resource}`, formData, {
                 headers: {
@@ -150,7 +155,6 @@ export default {
     },
 
     delete: (resource, params) => instance.delete(`/api/${resource}/${params.id}`).then(res => {
-        console.log(res);
         return {data: res.data}
     }),
 
@@ -166,24 +170,43 @@ export default {
 };
 
 
-const getFormData = (data) => {
+const getFormData = (data, method) => {
     let formData = new FormData();
-    console.log( data.imageSrc);
-    data.imageSrc !== undefined && formData.append('imageSrc', data.imageSrc.rawFile);
-    formData.append('category', data.category);
-    formData.append('color', data.color);
-    formData.append('description', data.description);
-    formData.append('itsNew', data.itsNew === undefined ? false : data.itsNew);
-    formData.append('price', data.price);
-    formData.append('sale', data.sale === undefined ? false : data.sale);
-    formData.append('salePrice', data.salePrice === undefined ? '' : data.salePrice);
-    formData.append('shortDescr', data.shortDescr);
-    formData.append('subText', data.subText);
-    formData.append('title', data.title);
-    formData.append('top', data.top === undefined ? false : data.top);
+    console.log(data.imageSrc)
+    console.log(typeof data.imageSrc === "string")
+    if(method === 'create') {
+        formData.append('imageSrc', data.imageSrc.rawFile);
+        formData.append('category', data.category);
+        formData.append('color', data.color);
+        formData.append('description', data.description);
+        formData.append('itsNew', !data.itsNew ? false : data.itsNew);
+        formData.append('price', data.price);
+        formData.append('sale', !data.sale ? false : data.sale);
+        formData.append('salePrice', !data.salePrice  ? '' : data.salePrice);
+        formData.append('shortDescr', data.shortDescr);
+        formData.append('subText', data.subText);
+        formData.append('title', data.title);
+        formData.append('top', !data.top  ? false : data.top);
+    }else{
+        typeof data.imageSrc !== "string" && formData.append('imageSrc', data.imageSrc.rawFile);
+        data.category && formData.append('category', data.category);
+        data.color && formData.append('color', data.color);
+        data.description && formData.append('description', data.description);
+        data.itsNew && formData.append('itsNew', data.itsNew ? false : data.itsNew);
+        data.price && formData.append('price', data.price);
+        data.sale && formData.append('sale', data.sale ? false : data.sale);
+        data.salePrice && formData.append('salePrice', data.salePrice  ? '' : data.salePrice);
+        data.shortDescr && formData.append('shortDescr', data.shortDescr);
+        data.subText && formData.append('subText', data.subText);
+        data.title && formData.append('title', data.title);
+        data.top && formData.append('top', data.top  ? false : data.top);
+    }
+
+
 
     return formData
 };
+
 
 const errorHandlers = (data) => {
     if (data.imageSrc === undefined) {
