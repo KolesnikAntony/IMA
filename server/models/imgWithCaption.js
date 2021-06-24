@@ -22,4 +22,4 @@ imgWithCaptionSchema.set('toJSON', {
 	versionKey:false,
 });
 
-module.exports = model('imgWithCaption', imgWithCaptionSchema);
+module.exports = model('ImgWithCaption', imgWithCaptionSchema);
