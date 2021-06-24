@@ -6,6 +6,8 @@ const storage = multer.diskStorage({
 		//проверка ключа файла для сохранения в нужную папку
 			if (file.fieldname === 'imageSrc') {
 				cb(null, 'public/uploads');
+			} else if (file.fieldname === 'image'){
+				cb(null, 'public/images');
 			} else {
 				cb(null, 'public/avatar/');
 			}

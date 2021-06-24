@@ -14,7 +14,8 @@ module.exports.createImgWithCaption = async (req, res) => {
 			caption: req.body.caption
 		});
 
-		console.log('imageWithCaption==>', imageWithCaption)
+		await imageWithCaption.save();
+		res.status(201).json({message: 'Картинка с описанием создана!', imageWithCaption})
 	} catch (err) {
 		return res.status(500).json({message: err.message});
 	}
