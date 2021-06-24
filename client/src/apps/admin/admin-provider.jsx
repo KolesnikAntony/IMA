@@ -10,11 +10,21 @@ const httpClient = fetchUtils.fetchJson;
 
 export default {
     getList: (resource, params) => {
+
         const {page, perPage} = params.pagination;
+        // if(resource === 'contacts') {
+        //     return instance.get(`/api/${resource}`).then(res => {
+        //         console.log(res.data);
+        //         return res.data
+        //     })
+        // }
         return instance.get(`/api/${resource}?page=${page}&limit=${perPage}`, {}).then(res => {
+            console.log(res)
             let data;
+            let total;
             if (res.data.products) {
                 data = res.data.products;
+                total = res.data.count;
             } else if (res.data.categories) {
                 data = res.data.categories.map(el => {
                     return {
@@ -22,10 +32,15 @@ export default {
                         name: el.name,
                     }
                 });
+                total = res.data.count;
+            }else if(res.data.contacts){
+                data = res.data.contacts;
+                console.log(data)
+                total = 10
             }
             return {
                 data,
-                total: res.data.count
+                total
             }
         })
     },
@@ -53,17 +68,17 @@ export default {
     },
 
     getMany: async (resource, params) => {
-        if (resource === 'category') {
-            let res = await instance.get(`/api/${resource}`);
-
-            let newData = res.data.categories.map(el => {
-                return {
-                    id: el._id,
-                    name: el.name,
-                }
-            });
-            return {data: newData}
-        }
+        // if (resource === 'category') {
+        //     let res = await instance.get(`/api/${resource}`);
+        //
+        //     let newData = res.data.categories.map(el => {
+        //         return {
+        //             id: el._id,
+        //             name: el.name,
+        //         }
+        //     });
+        //     return {data: newData}
+        // }
     },
 
     getManyReference: (resource, params) => {
