@@ -132,7 +132,7 @@ const ProductEdit: FC<PropsType> = ({match}) => {
                 <Grid item xs={2}>
                     <TextField id="Sale Price" placeholder="Sale Price"
                                type='number'
-                               value={!sale ? inputsData.salePrice : ''}
+                               value={sale && inputsData.salePrice !== null ? inputsData.salePrice : ''}
                                onChange={(e: React.ChangeEvent<HTMLInputElement>) => handleChangeText('sale', e.target.value)}
                                variant='outlined' disabled={sale}/>
                 </Grid>
