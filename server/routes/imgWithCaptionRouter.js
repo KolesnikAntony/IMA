@@ -1,8 +1,8 @@
 const router = require('express').Router();
-const contactsController = require('../controllers/contactsController');
+const imgWithCaption = require('../controllers/imgWithCaptionController');
 const { me } = require('../middleware/authVerify');
 
-router.post('/imgWithCaption', me, contactsController.createContacts);
+router.post('/imgWithCaption', me, imgWithCaption.createImgWithCaption);
 
 
 module.exports = router;

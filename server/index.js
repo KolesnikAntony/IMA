@@ -11,6 +11,7 @@ const userProfile = require('./routes/userProfile');
 const categoryRouter = require('./routes/categoryRouter');
 const productRouter = require('./routes/productRouter');
 const contactsRouter = require('./routes/contactsRouter');
+const cartRouter = require('./routes/cartRouter');
 const imgWithCaptionRouter = require('./routes/imgWithCaptionRouter');
 
 
@@ -40,6 +41,7 @@ app.use('/api/user', userProfile);
 app.use('/api', categoryRouter);
 app.use('/api', productRouter);
 app.use('/api', contactsRouter);
+app.use('/api', cartRouter);
 app.use('/api', imgWithCaptionRouter);
 
 const PORT = process.env.PORT || 5000;
