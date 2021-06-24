@@ -1,4 +1,36 @@
 @import '../../assets/style/variables';
 @import '../../assets/style/mixins';
 
+.admin {
+  padding: 60px 0;
+  .container {
+    display: flex;
+    flex-direction: row;
+  }
+  &__content {
+    width: 100%;
+  }
+  &__sidebar {
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    margin-right: 40px;
+  }
+  &-product{
+    &__edit{
+      display: flex;
+      flex-direction: column;
+      padding: 40px;
+      border-radius: 4px;
+      border: 1px solid gray;
+    }
+    &__row {
+      display: flex;
+    }
+    &__image {
+      width: 40px;
+      height: 40px;
+    }
+  }
+}
 
