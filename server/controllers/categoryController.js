@@ -122,19 +122,6 @@ module.exports.addCategory = async (req, res) => {
 };
 
 module.exports.removeCategory = async (req, res) => {
-	// try {
-	//
-	// 	const { id } = req.params;
-	//
-	// 	const deleteCategory = await Category.findOneAndRemove(id);
-	//
-	// 	if (!deleteCategory)
-	// 		return res.status(400).json({message: 'Категория не найдена'});
-	//
-	// 	res.json({message: 'Категория успешно удалена', deleteCategory});
-	// } catch (err) {
-	// 	return res.status(500).json({message: err.message});
-	// }
 
 	try {
 		let query = {};
