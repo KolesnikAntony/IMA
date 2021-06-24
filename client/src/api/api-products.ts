@@ -52,7 +52,7 @@ export const ProductsAPI = {
         let formData = new FormData();
         let {category, color, img, salePrice, sale, top, itsNew, description, shortDescr, subText, title, price} = data;
         let newData = {
-            category,
+            category: category._id,
             color,
             salePrice,
             sale,
@@ -64,7 +64,18 @@ export const ProductsAPI = {
         };
 
         img && formData.append('imageSrc', img as File);
-        formData.append('data', JSON.stringify(newData));
+       // formData.append('data', JSON.stringify(newData));
+        formData.append('category', category._id);
+        formData.append('color', color);
+        formData.append('sale', JSON.stringify(sale));
+        formData.append('top', JSON.stringify(top));
+        formData.append('itsNew', JSON.stringify(itsNew));
+        formData.append('description',description);
+        formData.append('shortDescr', shortDescr);
+        formData.append('subText',subText);
+        formData.append('title', title);
+        formData.append('price', JSON.stringify(price));
+        formData.append('salePrice', JSON.stringify(salePrice == null ? undefined: salePrice));
 
         return instance.put(`/api/products/${id}`, formData, {
             headers: {
