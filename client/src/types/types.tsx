@@ -6,6 +6,7 @@ export type ProductType = {
     createdAt: string
     description: string
     id: number
+    img?: File
     imageSrc:string
     itsNew: boolean
     price: number

@@ -72,9 +72,10 @@ export const getAdminProduct = (id: string):ThunkProductsType => async (disptatc
     disptatch(actionsProducts.setIsFetching(true));
 };
 
-export const changeAdminProduct = (id: string):ThunkProductsType => async (disptatch) => {
-    const res = await ProductsAPI.getProduct(id);
-    disptatch(actionsProducts.setProduct(res));
+export const changeAdminProduct = (id: string, formData: ProductType):ThunkProductsType => async (disptatch) => {
+    const res = await ProductsAPI.changeProduct(id,formData);
+    console.log(res)
+    //disptatch(actionsProducts.setProduct(res));
 };
 
 

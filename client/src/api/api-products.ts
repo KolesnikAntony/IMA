@@ -45,6 +45,32 @@ export const ProductsAPI = {
     },
     getAllCategory(){
         return instance.get(`/api/category?limit=100`).then(res => res.data.categories);
+    },
+    changeProduct(id: string, data: ProductType){
+        console.log(data);
+
+        let formData = new FormData();
+        let {category, color, img, salePrice, sale, top, itsNew, description, shortDescr, subText, title, price} = data;
+        let newData = {
+            category,
+            color,
+            salePrice,
+            sale,
+            top,
+            itsNew,
+            description,
+            shortDescr,
+            subText, title, price
+        };
+
+        img && formData.append('imageSrc', img as File);
+        formData.append('data', JSON.stringify(newData));
+
+        return instance.put(`/api/products/${id}`, formData, {
+            headers: {
+                'Content-Type': 'multipart/form-data'
+            }
+        }).then(res => res.data);
     }
     // getCategoriesData(categories: Array<string>, colors: Array<string>){
     //     let categoriesLength = categories.length;

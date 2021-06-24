@@ -3,9 +3,10 @@ import './products-list.scss';
 import {RouteComponentProps, withRouter} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
 import {Button, FormControlLabel, FormGroup, Grid, MenuItem, Switch, TextField} from "@material-ui/core";
-import {getAdminProduct} from "../../../redux/admin-reduser";
+import {changeAdminProduct, getAdminProduct} from "../../../redux/admin-reduser";
 import {RootState} from "../../../redux/store";
 import {ProductType} from "../../../types/types";
+import {log} from "util";
 
 type PathParamsType = {
     id: string
@@ -13,6 +14,7 @@ type PathParamsType = {
 type PropsType = RouteComponentProps<PathParamsType>
 
 const ProductEdit: FC<PropsType> = ({match}) => {
+        const productId = match.params.id;
         const dispatch = useDispatch();
         const product = useSelector((state: RootState) => state.admin.product);
         const categories = useSelector((state: RootState) => state.admin.categories);
@@ -20,18 +22,19 @@ const ProductEdit: FC<PropsType> = ({match}) => {
         const [sale, setSale] = useState(false);
         const [top, setTop] = useState(false);
         const [newProduct, setNewProduct] = useState(false);
-        const [inputsData, setInputsData] = useState({} as ProductType);
+        const [inputsData, setInputsData] = useState({
+            sale: false,
+            itsNew: false,
+            top: false,
+        } as ProductType);
         const [categoryDefault, setCategoryDefault] = useState('');
 
-        console.log(product)
-        console.log(inputsData)
-
         useEffect(() => {
-            dispatch(getAdminProduct(match.params.id))
+            dispatch(getAdminProduct(productId))
         }, []);
 
 
-    useEffect(
+        useEffect(
             () => {
                 isFetching && setInputsData(product);
                 isFetching && setCategoryDefault(product.category._id)
@@ -41,7 +44,7 @@ const ProductEdit: FC<PropsType> = ({match}) => {
 
 
         const handleChangeFile = (e: any) => {
-            setInputsData((prevState: ProductType) => ({...prevState, imageSrc: URL.createObjectURL(e.target.files[0])}))
+            setInputsData((prevState: ProductType) => ({...prevState, imageSrc: URL.createObjectURL(e.target.files[0]), img: e.target.files[0]}))
         };
 
         const handleChangeText = (type: string, value: string) => {
@@ -68,15 +71,16 @@ const ProductEdit: FC<PropsType> = ({match}) => {
             }
         };
 
-        const handleSwitch = (type: string) => {
+        const handleSwitch = (type: string, value: boolean) => {
             if (type === 'sale') {
-                setSale(!sale)
+                setInputsData((prevState: ProductType) => ({...prevState, sale: value}));
+                !value && setInputsData((prevState: ProductType) => ({...prevState, salePrice: null}));
             }
             if (type === 'top') {
-                setTop(!top)
+                setInputsData((prevState: ProductType) => ({...prevState, top: value}));
             }
             if (type === 'new') {
-                setNewProduct(!newProduct)
+                setInputsData((prevState: ProductType) => ({...prevState, itsNew: value}));
             }
         };
 
@@ -91,7 +95,7 @@ const ProductEdit: FC<PropsType> = ({match}) => {
 
         const handleSubmit = (e: React.SyntheticEvent, product: ProductType) => {
             e.preventDefault();
-            console.log(product)
+            dispatch(changeAdminProduct(productId, product));
         };
 
         return <form className='admin-product__edit' onSubmit={(e: React.SyntheticEvent) => handleSubmit(e, inputsData)}>
@@ -120,11 +124,13 @@ const ProductEdit: FC<PropsType> = ({match}) => {
                 <Grid item xs={2}>
                     <TextField id="Price" placeholder="Price" value={inputsData.price} type='number'
                                onChange={(e: React.ChangeEvent<HTMLInputElement>) => handleChangeText('price', e.target.value)}
-                               variant='outlined'/>
+                               variant='outlined'
+                               required={true}/>
                 </Grid>
                 <Grid item xs={2}>
                     <FormControlLabel
-                        control={<Switch size="small" checked={!sale} onChange={() => handleSwitch('sale')}/>}
+                        control={<Switch size="small" checked={inputsData.sale}
+                                         onChange={() => handleSwitch('sale', !inputsData.sale)}/>}
                         label="Sale Price"
                         labelPlacement="bottom"
                     />
@@ -132,9 +138,10 @@ const ProductEdit: FC<PropsType> = ({match}) => {
                 <Grid item xs={2}>
                     <TextField id="Sale Price" placeholder="Sale Price"
                                type='number'
-                               value={sale && inputsData.salePrice !== null ? inputsData.salePrice : ''}
+                               value={inputsData.sale && inputsData.salePrice !== null ? inputsData.salePrice : ''}
                                onChange={(e: React.ChangeEvent<HTMLInputElement>) => handleChangeText('sale', e.target.value)}
-                               variant='outlined' disabled={sale}/>
+                               variant='outlined' disabled={!inputsData.sale}
+                               required={inputsData.sale}/>
                 </Grid>
                 <Grid item xs={3}>
                     <TextField id="Color" placeholder="Color"
@@ -150,16 +157,16 @@ const ProductEdit: FC<PropsType> = ({match}) => {
                 </Grid>
                 <Grid item xs={2}>
                     <FormControlLabel
-                        control={<Switch size="small" checked={top}/>}
+                        control={<Switch size="small" checked={inputsData.top}/>}
                         label="Top product"
                         labelPlacement="bottom"
-                        onChange={() => handleSwitch('top')}
+                        onChange={() => handleSwitch('top', !inputsData.top)}
                     />
                 </Grid>
                 <Grid item xs={2}>
                     <FormControlLabel
-                        control={<Switch size="small" checked={newProduct}/>}
-                        onChange={() => handleSwitch('new')}
+                        control={<Switch size="small" checked={inputsData.itsNew}/>}
+                        onChange={() => handleSwitch('new', !inputsData.itsNew)}
                         label="New product"
                         labelPlacement="bottom"
                     />
