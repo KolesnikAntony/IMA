@@ -121,7 +121,7 @@ module.exports.getProductById = async (req, res) => {
 	try {
 
 		const product = await Product.findById(req.params.id).populate('category','name')
-			.select('title shortDescr description price salePrice subText imageSrc color');
+			.select('-createdAt -updatedAt');
 
 		if (!product)
 			return res.status(400).json({message: 'Товар не найден!'});

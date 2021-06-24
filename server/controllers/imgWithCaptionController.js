@@ -20,3 +20,28 @@ module.exports.createImgWithCaption = async (req, res) => {
 		return res.status(500).json({message: err.message});
 	}
 };
+
+module.exports.getImgWithCaption = async (req, res) => {
+	try {
+
+		const getImgWithCap = await imgWithCaption.find();
+
+		res.status(200).json({getImgWithCap})
+
+	}	catch (err) {
+		return res.status(500).json({message: err.message});
+	}
+};
+
+module.exports.editImgWithCaption = async (req, res) => {
+	try {
+		const { id } = req.params;
+		const getImgWithCap = await imgWithCaption.find();
+
+		res.status(200).json({getImgWithCap})
+
+	}	catch (err) {
+		return res.status(500).json({message: err.message});
+	}
+};
+
