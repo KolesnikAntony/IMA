@@ -71,43 +71,104 @@ const Column3 = ({children}) => {
     </div>
 };
 
-const ProductCreate = (props) => {
-    const redirect = (basePath, id, data) => basePath;
+import React, {FC, useEffect, useState} from 'react';
+import './products-list.scss';
+import {RouteComponentProps, withRouter} from "react-router-dom";
+import {useDispatch, useSelector} from "react-redux";
+import {Button, FormControlLabel, FormGroup, Grid, Switch, TextField} from "@material-ui/core";
+import {getAdminProduct} from "../../../redux/admin-reduser";
+import {RootState} from "../../../redux/store";
 
-    const classes = useStyles();
 
-    const [sale, setSale] = useState(false);
-
-    return <Create title='Create a product' {...props}>
-        <SimpleForm encType="multipart/form-data" redirect={redirect}>
-            <MyTextInput>
-                <TextInput source='title' className={classes.widthFull}/>
-                <TextInput source='shortDescr' className={classes.widthFull}/>
-            </MyTextInput>
-            <TextInput multiline source='description' className={classes.widthFull}/>
-            <TextInput multiline source='subText' className={classes.widthFull}/>
-            <Column3>
-                <TextInput source='price' className={classes.widthFull}/>
-                <BooleanInput label="Sale" source="sale" onChange={(e) => setSale(e)}/>
-                <TextInput source='salePrice' className={classes.widthFull} disabled={!sale}/>
-                <FlexWrap>
-                    <BooleanInput label="New" source="itsNew"/>
-                    <BooleanInput label="Top" source="top"/>
-                </FlexWrap>
-            </Column3>
-            <MyTextInput>
-                <TextInput source='color' className={classes.widthFull}/>
-                <ReferenceInput label="Category" source="category" reference="category">
-                    <SelectInput optionText="name" optionValue="id" className={classes.widthFull}/>
-                </ReferenceInput>
-            </MyTextInput>
-            <FileInput source="imageSrc" label="Related pictures" accept=".jpg,.png" >
-                <ImageField source='imageSrc'/>
-            </FileInput>
-        </SimpleForm>
-    </Create>
-}
+const ProductCreate = ({match}) => {
+    const dispatch = useDispatch();
+    const [photo, setPhoto] = useState('');
+    const product = useSelector((state) =>state.admin.product);
+    useEffect(() => {
+        dispatch(getAdminProduct(match.params.id))
+    }, []);
 
 
 
-export default ProductCreate;
+    const handleChangeFile = (e) => {
+        setPhoto(URL.createObjectURL(e.target.files[0]));
+    };
+
+    return <form className='admin-product__edit'>
+        <Grid container spacing={4}>
+            <Grid item xs={6}>
+                <TextField id="Title" label="Title" fullWidth={true} required={true} variant='outlined'/>
+            </Grid>
+            <Grid item xs={6}>
+                <TextField id="Short-Description" label="Short Description" fullWidth={true} variant='outlined'/>
+            </Grid>
+            <Grid item xs={12}>
+                <TextField id="Description" label="Description" fullWidth={true} multiline={true} variant='outlined'/>
+            </Grid>
+            <Grid item xs={12}>
+                <TextField id="Sub-Text" label="Sub-Text" fullWidth={true} multiline={true} variant='outlined'/>
+            </Grid>
+            <Grid item xs={3}>
+                <TextField id="Price" label="Price" variant='outlined'/>
+            </Grid>
+            <Grid item xs={2}>
+                <FormControlLabel
+                    control={<Switch size="small" checked={false}/>}
+                    label="Sale Price"
+                    labelPlacement="bottom"
+                />
+            </Grid>
+            <Grid item xs={3}>
+                <TextField id="Sale Price" label="Sale Price" variant='outlined' disabled={true}/>
+            </Grid>
+            <Grid item xs={2}>
+                <FormControlLabel
+                    control={<Switch size="small" checked={false}/>}
+                    label="Top product"
+                    labelPlacement="bottom"
+                />
+            </Grid>
+            <Grid item xs={2}>
+                <FormControlLabel
+                    control={<Switch size="small" checked={false}/>}
+                    label="New product"
+                    labelPlacement="bottom"
+                />
+            </Grid>
+            <Grid item xs={3}>
+                <Button
+                    variant="contained"
+                    component="label"
+                    fullWidth={true}
+                >
+                    Add Photo
+                    <input
+                        type="file"
+                        hidden
+                        onChange={handleChangeFile}
+                    />
+                </Button>
+            </Grid>
+            <Grid item xs={6}>
+                <img src={photo} alt="" className="admin-product__image"/>
+            </Grid>
+            <Grid item xs={3}>
+                <Button
+                    fullWidth={true}
+                    color='primary'
+                    variant="outlined"
+                    component="label"
+                >
+                    Edit
+                    <input
+                        type="submit"
+                        hidden
+                    />
+                </Button>
+            </Grid>
+        </Grid>
+    </form>
+};
+
+
+export default withRouter(ProductCreate);

@@ -43,6 +43,9 @@ export const ProductsAPI = {
            return instance.get<{cartItems: Array<CartType>}>(`/api/cart`, {}).then(res => res.data.cartItems);
        }
     },
+    getAllCategory(){
+        return instance.get(`/api/category?limit=100`).then(res => res.data.categories);
+    }
     // getCategoriesData(categories: Array<string>, colors: Array<string>){
     //     let categoriesLength = categories.length;
     //     let colorLength = colors.length;
