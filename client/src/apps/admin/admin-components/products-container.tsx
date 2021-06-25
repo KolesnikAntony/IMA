@@ -6,9 +6,9 @@ import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import Box from '@material-ui/core/Box';
 import ProductList from "./products-list";
-import {Route} from "react-router-dom";
 import ProductCreate from "./product-create";
 import ProductEdit from "./product-edit";
+import CategoryList from "./category-list";
 
 function TabPanel(props: any) {
     const {children, value, index, ...other} = props;
@@ -101,7 +101,7 @@ export default function ProductsContainer() {
                 {handleMode(mode)}
             </TabPanel>
             <TabPanel value={value} index={1}>
-                Page Two
+                <CategoryList/>
             </TabPanel>
         </div>
     );

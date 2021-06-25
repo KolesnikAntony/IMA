@@ -123,9 +123,19 @@ export const deleteAdmitProduct = (id: string): ThunkProductsType => async (disp
     } catch (e) {
         console.log(e);
     }
-
 }
 
+export const deleteCategory = (id: string): ThunkProductsType => async (dispatch, getState) => {
+    let categories = getState().admin.categories;
+    try {
+        await ProductsAPI.deleteCategory(id);
+        let newCategories = categories.filter(item => item.id + '' !== id);
+        dispatch(actionsAdmin.setCategories(newCategories));
+        dispatch(actionsAdmin.setPagination(newCategories.length));
+    } catch (e) {
+        console.log(e);
+    }
+}
 
 export default adminReducer;
 

@@ -68,6 +68,9 @@ export const ProductsAPI = {
     },
     deleteProduct(id: string){
         return instance.delete(`/api/products/${id}`).then(res => res.data);
+    },
+    deleteCategory(id: string){
+        return instance.delete(`/api/category/${id}`).then(res => res.data);
     }
 };
 

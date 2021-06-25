@@ -1,10 +1,6 @@
 import React, {FC} from 'react';
 import './admin.scss'
-import {NavLink, Route, RouteComponentProps, Switch, Redirect} from "react-router-dom";
-import ProductList from "./admin-components/products-list";
-import ProductEdit from "./admin-components/product-edit";
-import {ContainerCheckout} from "../../pages/checkout/checkout";
-import ProductCreate from "./admin-components/product-create";
+import {NavLink, Route, RouteComponentProps, Switch} from "react-router-dom";
 import ProductsContainer from "./admin-components/products-container";
 
 type PathParamsType = {

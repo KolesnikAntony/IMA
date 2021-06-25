@@ -66,7 +66,7 @@ const ProductList:FC<PropsType> = ({setMode,setProductId}) => {
         },
 
     ];
-    return <div>
+    return <>
         <Button variant="contained" color="primary" onClick={() => setMode('create')} >
             Create
         </Button>
@@ -83,7 +83,7 @@ const ProductList:FC<PropsType> = ({setMode,setProductId}) => {
                       }
         }/>
         </div>
-    </div>
+    </>
 }
 
 export default ProductList;
