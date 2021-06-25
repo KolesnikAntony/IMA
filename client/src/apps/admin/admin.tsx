@@ -5,6 +5,7 @@ import ProductList from "./admin-components/products-list";
 import ProductEdit from "./admin-components/product-edit";
 import {ContainerCheckout} from "../../pages/checkout/checkout";
 import ProductCreate from "./admin-components/product-create";
+import ProductsContainer from "./admin-components/products-container";
 
 type PathParamsType = {
     path: string
@@ -25,9 +26,7 @@ export const AdminApp: FC<PropsType> = ({match}) => {
 
                 {/*{match.path === '/admin' && <Redirect to='/admin/products'/>}*/}
                 <Switch>
-                    <Route exact path='/admin/products' component={ProductList}/>
-                    <Route exact path='/admin/product/create' component={ProductCreate}/>
-                    <Route exact path='/admin/product/:id' component={ProductEdit}/>
+                    <Route path='/admin/products' component={ProductsContainer}/>
                 </Switch>
             </div>
         </div>

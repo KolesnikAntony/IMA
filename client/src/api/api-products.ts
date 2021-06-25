@@ -31,7 +31,7 @@ export const ProductsAPI = {
         return instance.get<ProductsAPIType>('/api/products?itsNew=true', {}).then(res => res.data);
     },
 
-    getProduct(id:string){
+    getProduct(id?:string){
         return instance.get<{product: ProductType}>(`/api/products/${id}`, {}).then(res => res.data.product);
     },
     getFilterData(){

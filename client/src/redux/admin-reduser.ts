@@ -84,7 +84,7 @@ export const getAdminProducts = (currentPage: number, selectType: string, sort: 
 };
 
 
-export const getAdminProduct = (id: string): ThunkProductsType => async (disptatch) => {
+export const getAdminProduct = (id?: string): ThunkProductsType => async (disptatch) => {
     const res = await ProductsAPI.getProduct(id);
     const category = await ProductsAPI.getAllCategory();
     disptatch(actionsAdmin.setProduct(res));
