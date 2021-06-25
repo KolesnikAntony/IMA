@@ -1,9 +1,9 @@
 import React, {FC, useCallback, useEffect, useMemo, useState} from 'react';
 import './products-list.scss';
-import {RouteComponentProps, withRouter} from "react-router-dom";
+import {RouteComponentProps, useHistory, withRouter} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
 import {Button, FormControlLabel, FormGroup, Grid, MenuItem, Switch, TextField} from "@material-ui/core";
-import {changeAdminProduct, getAdminProduct} from "../../../redux/admin-reduser";
+import {actionsAdmin, changeAdminProduct, getAdminProduct} from "../../../redux/admin-reduser";
 import {RootState} from "../../../redux/store";
 import {ProductType} from "../../../types/types";
 import {log} from "util";
@@ -16,16 +16,26 @@ type PropsType = RouteComponentProps<PathParamsType>
 const ProductEdit: FC<PropsType> = ({match}) => {
         const productId = match.params.id;
         const dispatch = useDispatch();
+        const history = useHistory();
         const product = useSelector((state: RootState) => state.admin.product);
         const categories = useSelector((state: RootState) => state.admin.categories);
-        const isFetching = useSelector((state: RootState) => state.admin.isFetching);
-        const [sale, setSale] = useState(false);
-        const [top, setTop] = useState(false);
-        const [newProduct, setNewProduct] = useState(false);
+        const isCreated = useSelector((state: RootState) => state.admin.isCreated);
         const [inputsData, setInputsData] = useState({
-            sale: false,
-            itsNew: false,
             top: false,
+            itsNew: false,
+            sale: false,
+            title: '',
+            description: '',
+            shortDescr: '',
+            subText: '',
+            price: 0,
+            salePrice: null,
+            color: '',
+            category: {
+                name: '',
+                _id: ''
+            },
+            imageSrc: ''
         } as ProductType);
         const [categoryDefault, setCategoryDefault] = useState('');
 
@@ -33,18 +43,30 @@ const ProductEdit: FC<PropsType> = ({match}) => {
             dispatch(getAdminProduct(productId))
         }, []);
 
+        useEffect(() => {
+            let isGot = Object.entries(product).length;
+            if (!!isGot) {
+                console.log(!!isGot,'----is got')
+                console.log(product,'----productt')
+                console.log(product.category,'----iproduct.category')
+                setInputsData(product);
+                setCategoryDefault(product.category._id);
+            }
+        }, [product]);
 
-        useEffect(
-            () => {
-                isFetching && setInputsData(product);
-                isFetching && setCategoryDefault(product.category._id)
-            },
-            [isFetching],
-        );
-
+        useEffect(() => {
+            if (isCreated) {
+                dispatch(actionsAdmin.setIsCreated(false));
+                history.push('/admin/products');
+            }
+        }, [isCreated]);
 
         const handleChangeFile = (e: any) => {
-            setInputsData((prevState: ProductType) => ({...prevState, imageSrc: URL.createObjectURL(e.target.files[0]), img: e.target.files[0]}))
+            setInputsData((prevState: ProductType) => ({
+                ...prevState,
+                imageSrc: URL.createObjectURL(e.target.files[0]),
+                img: e.target.files[0]
+            }))
         };
 
         const handleChangeText = (type: string, value: string) => {
@@ -84,12 +106,11 @@ const ProductEdit: FC<PropsType> = ({match}) => {
             }
         };
 
-
         const handleCategory = (e: React.ChangeEvent<HTMLInputElement>) => {
             setCategoryDefault(e.target.value);
             setInputsData((prevState: ProductType) => ({
                 ...prevState,
-                category: {...prevState.category, id: e.target.value}
+                category: {...prevState.category, _id: e.target.value}
             }));
         };
 
@@ -98,7 +119,8 @@ const ProductEdit: FC<PropsType> = ({match}) => {
             dispatch(changeAdminProduct(productId, product));
         };
 
-        return <form className='admin-product__edit' onSubmit={(e: React.SyntheticEvent) => handleSubmit(e, inputsData)}>
+        return <form className='admin-product__edit'
+                     onSubmit={(e: React.SyntheticEvent) => handleSubmit(e, inputsData)}>
             <Grid container spacing={4}>
                 <Grid item xs={6}>
                     <TextField id="Title" placeholder="Title" value={inputsData.title}
@@ -106,7 +128,8 @@ const ProductEdit: FC<PropsType> = ({match}) => {
                                fullWidth={true} required={true} variant='outlined'/>
                 </Grid>
                 <Grid item xs={6}>
-                    <TextField id="Short-Description" placeholder="Short Description" defaultValue={inputsData.shortDescr}
+                    <TextField id="Short-Description" placeholder="Short Description"
+                               defaultValue={inputsData.shortDescr}
                                onChange={(e: React.ChangeEvent<HTMLInputElement>) => handleChangeText('short', e.target.value)}
                                fullWidth={true} variant='outlined'/>
                 </Grid>
@@ -130,6 +153,7 @@ const ProductEdit: FC<PropsType> = ({match}) => {
                 <Grid item xs={2}>
                     <FormControlLabel
                         control={<Switch size="small" checked={inputsData.sale}
+                                         value={inputsData.sale}
                                          onChange={() => handleSwitch('sale', !inputsData.sale)}/>}
                         label="Sale Price"
                         labelPlacement="bottom"
@@ -160,12 +184,14 @@ const ProductEdit: FC<PropsType> = ({match}) => {
                         control={<Switch size="small" checked={inputsData.top}/>}
                         label="Top product"
                         labelPlacement="bottom"
+                        value={inputsData.top}
                         onChange={() => handleSwitch('top', !inputsData.top)}
                     />
                 </Grid>
                 <Grid item xs={2}>
                     <FormControlLabel
                         control={<Switch size="small" checked={inputsData.itsNew}/>}
+                        value={inputsData.itsNew}
                         onChange={() => handleSwitch('new', !inputsData.itsNew)}
                         label="New product"
                         labelPlacement="bottom"

@@ -1,4 +1,4 @@
-import {CartType, FilterType, ProductsAPIType, ProductType} from '../types/types';
+import {CartType, CreateProductType, FilterType, ProductsAPIType, ProductType} from '../types/types';
 import {instance} from './api';
 import {FILTER_TYPES} from "../constants/constants";
 
@@ -47,58 +47,47 @@ export const ProductsAPI = {
         return instance.get(`/api/category?limit=100`).then(res => res.data.categories);
     },
     changeProduct(id: string, data: ProductType){
-        console.log(data);
 
-        let formData = new FormData();
-        let {category, color, img, salePrice, sale, top, itsNew, description, shortDescr, subText, title, price} = data;
-        let newData = {
-            category: category._id,
-            color,
-            salePrice,
-            sale,
-            top,
-            itsNew,
-            description,
-            shortDescr,
-            subText, title, price
-        };
-
-        img && formData.append('imageSrc', img as File);
-       // formData.append('data', JSON.stringify(newData));
-        formData.append('category', category._id);
-        formData.append('color', color);
-        formData.append('sale', JSON.stringify(sale));
-        formData.append('top', JSON.stringify(top));
-        formData.append('itsNew', JSON.stringify(itsNew));
-        formData.append('description',description);
-        formData.append('shortDescr', shortDescr);
-        formData.append('subText',subText);
-        formData.append('title', title);
-        formData.append('price', JSON.stringify(price));
-        formData.append('salePrice', JSON.stringify(salePrice == null ? undefined: salePrice));
+        const formData = createFormData(data);
 
         return instance.put(`/api/products/${id}`, formData, {
             headers: {
                 'Content-Type': 'multipart/form-data'
             }
+        }).then(res => res.data.editedProduct);
+    },
+    createProduct(data: CreateProductType){
+        const formData = createFormData(data);
+
+        return instance.post(`/api/products`, formData, {
+            headers: {
+                'Content-Type': 'multipart/form-data'
+            }
         }).then(res => res.data);
+    },
+    deleteProduct(id: string){
+        return instance.delete(`/api/products/${id}`).then(res => res.data);
     }
-    // getCategoriesData(categories: Array<string>, colors: Array<string>){
-    //     let categoriesLength = categories.length;
-    //     let colorLength = colors.length;
-    //     console.log(colorLength)
-    //     console.log(categoriesLength)
-    //     let properties;
-    //     if(categoriesLength && colorLength){
-    //         properties =  `?category=${categories}&color=${colors}`;
-    //     }else if (categoriesLength && !colorLength) {
-    //         properties = `?category=${categories}`;
-    //     }else if (!categoriesLength && colorLength ) {
-    //         properties =  `?color=${colors}`;
-    //     }else {
-    //         return false
-    //     }
-    //     console.log(`/api/products/color_category${properties}`);
-    //     return instance.get<ProductsAPIType>(`/api/products/color_category${properties}`, {}).then(res => res.data);
-    // }
 };
+
+
+const createFormData = (data:ProductType | CreateProductType) => {
+    let formData = new FormData();
+    let {category, color, img, salePrice, sale, top, itsNew, description, shortDescr, subText, title, price} = data;
+    console.log(top,itsNew,  sale);
+
+    img && formData.append('imageSrc', img as File);
+    // formData.append('data', JSON.stringify(newData));
+    formData.append('category', category._id);
+    formData.append('color', color);
+    formData.append('sale', JSON.stringify(sale));
+    formData.append('top', JSON.stringify(top));
+    formData.append('itsNew', JSON.stringify(itsNew));
+    formData.append('description',description);
+    formData.append('shortDescr', shortDescr);
+    formData.append('subText',subText);
+    formData.append('title', title);
+    formData.append('price', JSON.stringify(price));
+    formData.append('salePrice', salePrice == null ? '' : JSON.stringify(salePrice));
+    return formData;
+}

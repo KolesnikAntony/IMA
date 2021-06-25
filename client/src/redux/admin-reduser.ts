@@ -1,13 +1,15 @@
 import {BaseThunkType, InferActionsTypes} from "./store";
 import {FormAction} from "redux-form";
-import {ProductType} from "../types/types";
+import {CreateProductType, ProductType} from "../types/types";
 import {FILTER_TYPES} from "../constants/constants";
 import {ProductsAPI} from "../api/api-products";
+import { push } from "connected-react-router";
 
 const SET_ADMIN_PRODUCTS = 'admin-reducer/SET_PRODUCTS';
 const SET_ADMIN_PRODUCT = 'admin-reducer/SET_PRODUCT';
 const SET_CATEGORY = 'admin-reducer/SET_CATEGORY';
 const IS_FETCHING = 'admin-reducer/IS_FETCHING';
+const IS_CREATED = 'admin-reducer/IS_CREATED';
 
 
 const ProductsInitialState = {
@@ -20,7 +22,8 @@ const ProductsInitialState = {
     currentPage: 1,
     selectType: FILTER_TYPES.SELECT_TYPE.ALL,
     sort: FILTER_TYPES.SORT_TYPE.MAX,
-    isFetching: false
+    isFetching: false,
+    isCreated: false
 };
 
 const adminReducer = (state = ProductsInitialState, action: ActionType):ProductsInitialStateType => {
@@ -33,12 +36,14 @@ const adminReducer = (state = ProductsInitialState, action: ActionType):Products
             return {...state, categories: [...action.categories]};
         case IS_FETCHING:
             return {...state, isFetching: action.isFetching};
+            case IS_CREATED:
+            return {...state, isCreated: action.isCreated};
         default:
             return state
     }
 };
 
-const actionsProducts = {
+export const actionsAdmin = {
     setProducts: (products: Array<ProductType>) => ({
         type: SET_ADMIN_PRODUCTS,
         products
@@ -54,33 +59,64 @@ const actionsProducts = {
     setIsFetching: (isFetching: boolean) => ({
         type: IS_FETCHING,
         isFetching
+    } as const),
+    setIsCreated: (isCreated: boolean) => ({
+        type: IS_CREATED,
+        isCreated
     } as const)
 };
 
 
 export const getAdminProducts = (currentPage: number, selectType: string, sort: string, category: Array<{ name: string, _id: string }>, colors: Array<string>):ThunkProductsType => async (disptatch) => {
     const res = await ProductsAPI.getProducts(currentPage, selectType, sort, category, colors);
-    disptatch(actionsProducts.setProducts(res.products))
+    disptatch(actionsAdmin.setProducts(res.products))
 };
 
 
 export const getAdminProduct = (id: string):ThunkProductsType => async (disptatch) => {
     const res = await ProductsAPI.getProduct(id);
     const category = await ProductsAPI.getAllCategory();
-    disptatch(actionsProducts.setProduct(res));
-    disptatch(actionsProducts.setCategories(category));
-    disptatch(actionsProducts.setIsFetching(true));
+    disptatch(actionsAdmin.setProduct(res));
+    disptatch(actionsAdmin.setCategories(category));
 };
 
-export const changeAdminProduct = (id: string, formData: ProductType):ThunkProductsType => async (disptatch) => {
-    const res = await ProductsAPI.changeProduct(id,formData);
-    console.log(res)
-    //disptatch(actionsProducts.setProduct(res));
+export const getAdminCategories = ():ThunkProductsType => async (dispatch) => {
+    const category = await ProductsAPI.getAllCategory();
+    dispatch(actionsAdmin.setCategories(category));
 };
+
+export const changeAdminProduct = (id: string, formData: ProductType):ThunkProductsType => async (dispatch) => {
+    const res = await ProductsAPI.changeProduct(id,formData);
+    console.log(res, '---reducer');
+    dispatch(actionsAdmin.setProduct(res));
+    dispatch(actionsAdmin.setIsCreated(true));
+};
+
+export const createAdminProduct = (formData: CreateProductType):ThunkProductsType => async (dispatch) => {
+    try {
+        await ProductsAPI.createProduct(formData);
+        dispatch(actionsAdmin.setIsCreated(true));
+    }catch(err){
+        alert(err.response.data.message);
+    }
+
+};
+
+export const deleteAdmitProduct = (id: string):ThunkProductsType => async  (dispatch, getState) => {
+    let products = getState().admin.products;
+    try {
+        await ProductsAPI.deleteProduct(id);
+        let newProductList = products.filter(item => item.id +'' !== id);
+        dispatch(actionsAdmin.setProducts(newProductList));
+    }catch (e) {
+        console.log(e);
+    }
+
+}
 
 
 export default adminReducer;
 
 type ProductsInitialStateType = typeof ProductsInitialState;
-type ActionType = InferActionsTypes<typeof actionsProducts>;
+type ActionType = InferActionsTypes<typeof actionsAdmin>;
 type ThunkProductsType = BaseThunkType<ActionType  | FormAction>
