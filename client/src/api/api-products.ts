@@ -3,9 +3,10 @@ import {instance} from './api';
 import {FILTER_TYPES} from "../constants/constants";
 
 export const ProductsAPI = {
-    getProducts(currentPage: number, selectType: string,  sort: string, categories: Array<{name: string, _id: string}>, colors: Array<string>) {
+    getProducts(currentPage: number, selectType: string,  sort: string, categories: Array<{name: string, _id: string}>, colors: Array<string>, limit?: number) {
         let price = sort === FILTER_TYPES.SORT_TYPE.MIN ? '&sort=price' : '';
         let type = selectType !== FILTER_TYPES.SELECT_TYPE.ALL ? `&${selectType}=true`: '';
+        let limitSet = limit ? `&limit=${limit}` : '';
 
         let categoriesLength = categories.length;
         let colorLength = colors.length;
@@ -20,7 +21,7 @@ export const ProductsAPI = {
             properties = '';
         }
 
-        return instance.get<ProductsAPIType>(`/api/products?page=${currentPage + type + price+properties}`, {}).then(res => res.data);
+        return instance.get<ProductsAPIType>(`/api/products?page=${currentPage + type + price+properties+limitSet}`, {}).then(res => res.data);
     },
     getTopProducts() {
         return instance.get<ProductsAPIType>('/api/products?top=true', {}).then(res => res.data);

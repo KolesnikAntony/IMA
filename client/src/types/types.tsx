@@ -45,6 +45,8 @@ export type ProductsAPIType =  {
     products: Array<ProductType>
     page: number
     pages: number
+    count: number
+    limit?: number
 }
 
 export type CartType = {
