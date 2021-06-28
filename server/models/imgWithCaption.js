@@ -1,7 +1,7 @@
 const { Schema, model } = require('mongoose');
 
 const imgWithCaptionSchema = new Schema({
-	imgFor: {
+	image: {
 		type: String,
 		default: ''
 	},
