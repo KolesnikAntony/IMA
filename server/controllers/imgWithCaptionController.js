@@ -1,4 +1,5 @@
 const imgWithCaption = require('../models/imgWithCaption');
+const fs = require('fs');
 
 module.exports.createImgWithCaption = async (req, res) => {
 	try {
@@ -10,7 +11,7 @@ module.exports.createImgWithCaption = async (req, res) => {
 		const basePath = `${req.protocol}://${req.get('host')}/`;
 
 		const imageWithCaption = new imgWithCaption({
-			imgFor: req.file ? `${basePath}${req.file.path}`: '',
+			image: req.file ? `${basePath}${req.file.path}`: '',
 			caption: req.body.caption
 		});
 
@@ -24,7 +25,17 @@ module.exports.createImgWithCaption = async (req, res) => {
 module.exports.getImgWithCaption = async (req, res) => {
 	try {
 
-		const getImgWithCap = await imgWithCaption.find();
+		const { id } = req.params;
+
+		const basePath = `${req.protocol}://${req.get('host')}/`;
+
+		const getImgWithCap = await imgWithCaption.findById(id);
+
+		let hz = getImgWithCap.image.replace(basePath, '')
+
+		console.log('getImgWithCap', hz)
+
+		// fs.unlinkSync(req.file.path)
 
 		res.status(200).json({getImgWithCap})
 
@@ -36,9 +47,54 @@ module.exports.getImgWithCaption = async (req, res) => {
 module.exports.editImgWithCaption = async (req, res) => {
 	try {
 		const { id } = req.params;
-		const getImgWithCap = await imgWithCaption.find();
 
-		res.status(200).json({getImgWithCap})
+		const basePath = `${req.protocol}://${req.get('host')}/`;
+
+		const findImg = await imgWithCaption.find(req.params.id)
+		fs.unlinkSync(`${basePath} - ${req.file.path}`)
+
+		console.log({findImg})
+
+		const edited = {
+			caption: req.body.caption,
+		};
+
+		if (req.file) {
+			edited.image = basePath + req.file.path;
+		}
+
+		const editImgWithCap = await imgWithCaption.findByIdAndUpdate(
+			{ _id: id },
+			{ $set: edited },
+			{ new: true }
+		);
+
+		res.status(200).json({message: 'Данные успешно обновлены', editImgWithCap});
+
+	}	catch (err) {
+		return res.status(500).json({message: err.message});
+	}
+};
+
+module.exports.deleteImgWithCaption = async (req, res) => {
+	try {
+
+		const basePath = `${req.protocol}://${req.get('host')}/`;
+
+		let query = {};
+
+		for (const [key, value] of Object.entries(req.params)) {
+			query = { _id: value.split(',')};
+		}
+
+		const findImgWithCap = await imgWithCaption.find(query);
+
+		if (findImgWithCap.length === [])
+			return res.status(400).json({message: 'Картинка не найдена!'});
+
+		await findImgWithCap.deleteMany(query);
+
+		res.json({message: 'Товар успешно удалён!', findImgWithCap});
 
 	}	catch (err) {
 		return res.status(500).json({message: err.message});
