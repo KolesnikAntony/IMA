@@ -35,4 +35,5 @@ export default Authorization;
 export interface LoginValueType {
     email: string
     password: string
+    rememberMe?: boolean
 }

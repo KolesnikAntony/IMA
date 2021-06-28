@@ -31,7 +31,6 @@ type PropsType = RouteComponentProps<PathParamsType>
 const ClientApp: FC<PropsType> = ({match}) => {
     const [open, setOpen] = useState(false);
     const [currentView, setCurrentView] = useState(null);
-    // const isAuth = useSelector<RootState>(state => state.auth.isAuth);
     const dispatch = useDispatch();
 
     const handleOpen = useCallback((type) => {

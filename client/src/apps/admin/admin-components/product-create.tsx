@@ -6,12 +6,13 @@ import {RootState} from "../../../redux/store";
 import {CreateProductType, FilterType, ProductType} from "../../../types/types";
 import {actionsAdmin, createAdminProduct, getAdminCategories} from "../../../redux/admin-reduser";
 import { useHistory } from 'react-router-dom';
+import {PropsTypeAdminProducts} from "./product-container";
 
 interface PropsType {
     setMode: (mode: string) => void
 }
 
-const ProductCreate:FC<PropsType> = ({setMode}) => {
+const ProductCreate:FC<PropsType & PropsTypeAdminProducts> = ({setMode, setTitle}) => {
     const dispatch = useDispatch();
     const categories = useSelector((state: RootState) => state.admin.categories);
     const isCreated = useSelector((state: RootState) => state.admin.isCreated);
@@ -32,7 +33,8 @@ const ProductCreate:FC<PropsType> = ({setMode}) => {
     } as CreateProductType);
 
     useEffect(() => {
-        dispatch(getAdminCategories())
+        dispatch(getAdminCategories());
+        setTitle('Create product')
     }, []);
 
     useEffect(() => {

@@ -6,6 +6,7 @@ import {Button, FormControlLabel, Grid, MenuItem, Switch, TextField} from "@mate
 import {actionsAdmin, changeAdminProduct, getAdminProduct} from "../../../redux/admin-reduser";
 import {RootState} from "../../../redux/store";
 import {ProductType} from "../../../types/types";
+import {PropsTypeAdminProducts} from "./product-container";
 
 type PathParamsType = {
     id: string
@@ -16,7 +17,7 @@ interface PropsModeType  {
 }
 type PropsType = RouteComponentProps<PathParamsType> & PropsModeType;
 
-const ProductEdit: FC<PropsType> = ({setMode,productId}) => {
+const ProductEdit: FC<PropsType & PropsTypeAdminProducts> = ({setMode,productId, setTitle}) => {
         //const productId = match.params.id;
         const dispatch = useDispatch();
         const history = useHistory();
@@ -43,7 +44,8 @@ const ProductEdit: FC<PropsType> = ({setMode,productId}) => {
         const [categoryDefault, setCategoryDefault] = useState('');
 
         useEffect(() => {
-            dispatch(getAdminProduct(productId))
+            dispatch(getAdminProduct(productId));
+            setTitle('Edit product');
         }, []);
 
         useEffect(() => {
