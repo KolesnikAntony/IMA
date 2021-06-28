@@ -7,6 +7,7 @@ import {RootState} from "../../../redux/store";
 import Button from "@material-ui/core/Button";
 import {NavLink, useHistory} from "react-router-dom";
 import {PropsTypeAdminProducts} from "./product-container";
+import {LinearProgress} from "@material-ui/core";
 
 interface PropsType {
     setMode: (mode: string) => void
@@ -86,7 +87,7 @@ const ProductList:FC<PropsType & PropsTypeAdminProducts> = ({setMode,setProductI
                     />
                 </div>
             </div> :
-            <div>Loading...</div>
+            <LinearProgress />
         }
     </>
 }

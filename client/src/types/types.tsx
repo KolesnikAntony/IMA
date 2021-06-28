@@ -118,5 +118,5 @@ export type ContactsType = {
     inst: string
     nip: string
     phone: string
-    region: number
+    region: string
 }

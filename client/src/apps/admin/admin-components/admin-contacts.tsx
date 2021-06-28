@@ -1,9 +1,9 @@
-import React, {useCallback, useEffect, useMemo, useState} from 'react';
-import {Button, Grid, TextField} from "@material-ui/core";
+import React, {useEffect, useState} from 'react';
+import {Button, Grid, LinearProgress, Snackbar, TextField} from "@material-ui/core";
 import {useDispatch, useSelector} from "react-redux";
 
 import {RootState} from "../../../redux/store";
-import {getContacts} from "../../../redux/admin-reduser";
+import {changeContacts, getContacts} from "../../../redux/admin-reduser";
 import {ContactsType} from "../../../types/types";
 
 const AdminContacts = () => {
@@ -15,8 +15,10 @@ const AdminContacts = () => {
         inst: "",
         nip: "",
         phone: "",
-        region: 0,
+        region: "",
     } as ContactsType);
+
+    const [showAlert, setShowAlert] = useState(false);
 
     useEffect(() => {
         dispatch(getContacts())
@@ -34,7 +36,8 @@ const AdminContacts = () => {
 
     const handleSubmit = (e: React.SyntheticEvent, formData: any) => {
         e.preventDefault();
-        console.log(formData)
+        dispatch(changeContacts(formData));
+        setShowAlert(true);
     };
 
     const handleChangeText = (type: string, value: string) => {
@@ -49,11 +52,19 @@ const AdminContacts = () => {
             setInputsData(prevState => ({...prevState, nip: value}));
         }
         else if (type === 'region') {
-            setInputsData(prevState => ({...prevState, region: +value}));
+            setInputsData(prevState => ({...prevState, region: value}));
         }
         else if (type === 'address') {
             setInputsData(prevState => ({...prevState, address: value}));
         }
+    };
+
+    const handleCloseAlert = (event?: React.SyntheticEvent, reason?: string) => {
+        if (reason === 'clickaway') {
+            return;
+        }
+
+        setShowAlert(false);
     };
 
     return <>
@@ -84,19 +95,25 @@ const AdminContacts = () => {
                     <Grid item xs={6}>
                         <TextField label='Region' placeholder="Region" value={inputsData.region}
                                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => handleChangeText('region', e.target.value)}
-                                   fullWidth={true} required={true} variant='outlined'
-                        type='number'/>
+                                   fullWidth={true} required={true} variant='outlined'/>
                     </Grid>
                     <Grid item xs={6}>
                         <TextField label='NIP' placeholder="NIP" value={inputsData.nip}
                                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => handleChangeText('nip', e.target.value)}
                                    fullWidth={true} required={true} variant='outlined'/>
                     </Grid>
+                    <Grid item xs={3}>
+                        <Button type='submit' variant="contained" color="primary">Edit</Button>
+                    </Grid>
                 </Grid>
             </form> :
-            <div>Loading...</div>
+            <LinearProgress />
         }
+        <Snackbar open={showAlert} autoHideDuration={6000} onClose={handleCloseAlert}>
+           <p>Contacts was edited.</p>
+        </Snackbar>
     </>
 };
+
 
 export default AdminContacts;

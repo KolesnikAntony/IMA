@@ -46,7 +46,7 @@ const adminReducer = (state = ProductsInitialState, action: ActionType): Product
         case SET_PAGINATION:
             return {...state, totalProduct: action.totalProduct};
         case SET_CONTACTS :
-            return  {...state, contacts: action.contacts}
+            return {...state, contacts: action.contacts}
         default:
             return state
     }
@@ -155,11 +155,21 @@ export const createCategory = (name: string): ThunkProductsType => async (dispat
     }
 };
 
+const setContacts = (dispatch: any, data: ContactsType) => {
+    let {address, email, id, inst, nip, phone, region} = data;
+    let contacts = {address, email, id, inst, nip, phone, region};
+    dispatch(actionsAdmin.setContacts(contacts));
+};
+
+
 export const getContacts = (): ThunkProductsType => async (dispatch) => {
     let res = await InfoAPI.getContacts();
-    let {address,email, id, inst, nip, phone, region} = res;
-    let contacts = {address,email, id, inst, nip, phone, region};
-    dispatch(actionsAdmin.setContacts(contacts));
+    setContacts(dispatch, res);
+};
+
+export const changeContacts = (data: ContactsType): ThunkProductsType => async (dispatch) => {
+    let res = await InfoAPI.changeContacts(data);
+    setContacts(dispatch, res);
 };
 
 export default adminReducer;
