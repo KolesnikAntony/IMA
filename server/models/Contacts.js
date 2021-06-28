@@ -27,7 +27,7 @@ const contactsSchema = new Schema({
 		default: ''
 	},
 	region: {
-		type: Number,
+		type: String,
 		trim: true,
 		default: ''
 	},
