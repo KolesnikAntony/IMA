@@ -1,9 +1,11 @@
-import React, {FC} from 'react';
+import React, {FC, useEffect} from 'react';
 import './admin.scss'
-import {NavLink, Route, RouteComponentProps, Switch} from "react-router-dom";
-import ProductList from "./admin-components/products-list";
-import ProductEdit from "./admin-components/product-edit";
-import {ContainerCheckout} from "../../pages/checkout/checkout";
+import {RouteComponentProps} from "react-router-dom";
+import AdminPanel from "./admin-components/admin-sidebar";
+import SignIn from "./admin-components/admin-login";
+import {useDispatch, useSelector} from "react-redux";
+import {RootState} from "../../redux/store";
+import {getIsAuth} from "../../redux/auth-reducer";
 
 type PathParamsType = {
     path: string
@@ -11,22 +13,16 @@ type PathParamsType = {
 type PropsType = RouteComponentProps<PathParamsType>
 
 export const AdminApp: FC<PropsType> = ({match}) => {
+    const isAuth = useSelector<RootState>(state => state.auth.isAuth);
+    const dispatch = useDispatch();
+
+    useEffect( () => {
+        dispatch(getIsAuth());
+    });
 
 
     return <div className='admin'>
-        <div className="container">
-            <nav className="admin__sidebar">
-                <NavLink to='/products'>Products</NavLink>
-                <NavLink to='/Category'>Categories</NavLink>
-                <NavLink to='/Contacts'>Contacts</NavLink>
-            </nav>
-            <div className={'admin__content'}>
-                <Switch>
-                    <Route exact path={match.path} component={ProductList}/>
-                    <Route exact path='/admin/product/:id' component={ProductEdit}/>
-                </Switch>
-            </div>
-        </div>
+        {isAuth ? <AdminPanel/> : <SignIn/>}
     </div>
 };
 

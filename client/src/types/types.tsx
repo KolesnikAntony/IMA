@@ -1,11 +1,12 @@
 import React from "react";
 
 export type ProductType = {
-    category: {name: string, _id: string}
+    category: {name: string, _id: string, id?: string}
     color: string
     createdAt: string
     description: string
     id: number
+    img?: File
     imageSrc:string
     itsNew: boolean
     price: number
@@ -23,10 +24,29 @@ export type ProductType = {
     filter: FilterType
 }
 
+export type CreateProductType = {
+    category: {name: string, _id: string, id?: string}
+    color: string
+    description: string
+    img?: File | null
+    imageSrc:string
+    itsNew: boolean
+    price: number
+    sale: boolean
+    salePrice: number |null
+    shortDescr: string
+    subText: string
+    title: string
+    top: boolean
+}
+
+
 export type ProductsAPIType =  {
     products: Array<ProductType>
     page: number
     pages: number
+    count: number
+    limit?: number
 }
 
 export type CartType = {
