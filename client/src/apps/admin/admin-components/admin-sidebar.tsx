@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import clsx from 'clsx';
-import {createStyles, makeStyles, useTheme, Theme} from '@material-ui/core/styles';
+import {createStyles, makeStyles, Theme, useTheme} from '@material-ui/core/styles';
 import Drawer from '@material-ui/core/Drawer';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -16,16 +16,18 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import InboxIcon from '@material-ui/icons/MoveToInbox';
-import MailIcon from '@material-ui/icons/Mail';
 import ProductContainer from "./product-container";
 import {NavLink, Route, Switch} from "react-router-dom";
 import CategoryContainer from "./category-container";
 import LibraryAddIcon from '@material-ui/icons/LibraryAdd';
 import PetsIcon from '@material-ui/icons/Pets';
-import {Button} from "@material-ui/core";
+import {Button, Collapse} from "@material-ui/core";
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import {logout} from "../../../redux/auth-reducer";
 import {useDispatch} from "react-redux";
+import ExpandLess from '@material-ui/icons/ExpandLess';
+import ExpandMore from '@material-ui/icons/ExpandMore';
+import AdminContacts from "./admin-contacts";
 
 const drawerWidth = 240;
 
@@ -107,6 +109,7 @@ export default function SidebarAdmin() {
     const dispatch = useDispatch()
     const theme = useTheme();
     const [open, setOpen] = React.useState(false);
+    const [openColl, setOpenColl] = React.useState(false);
     const [title, setTitle] = useState('Admin panel')
 
     const handleDrawerOpen = () => {
@@ -185,19 +188,29 @@ export default function SidebarAdmin() {
                     </ListItem>
                 </List>
                 <Divider/>
-                <List>
-                    {['All mail', 'Trash', 'Spam'].map((text, index) => (
-                        <ListItem button key={text}>
-                            <ListItemIcon>{index % 2 === 0 ? <InboxIcon/> : <MailIcon/>}</ListItemIcon>
-                            <ListItemText primary={text}/>
+                <ListItem button onClick={() => setOpenColl(!openColl)}>
+                    <ListItemIcon>
+                        <InboxIcon />
+                    </ListItemIcon>
+                    <ListItemText primary="Inbox" />
+                    {openColl ? <ExpandLess /> : <ExpandMore />}
+                </ListItem>
+                <Collapse in={openColl} timeout="auto" unmountOnExit>
+                    <List component="div" disablePadding>
+                        <ListItem component={NavLink} to='/admin/contacts'>
+                            <ListItemIcon>
+                                <PetsIcon/>
+                            </ListItemIcon>
+                            <ListItemText primary="Contacts" />
                         </ListItem>
-                    ))}
-                </List>
+                    </List>
+                </Collapse>
             </Drawer>
             <main className={classes.content}>
                 <Switch>
-                    <Route path='/admin/products' render={() => <ProductContainer setTitle={setTitle}/>}/>
-                    <Route path='/admin/categories' component={CategoryContainer}/>
+                    <Route exact path='/admin/products' render={() => <ProductContainer setTitle={setTitle}/>}/>
+                    <Route exact path='/admin/categories' component={CategoryContainer}/>
+                    <Route exact path='/admin/contacts' component={AdminContacts}/>
                 </Switch>
             </main>
         </div>

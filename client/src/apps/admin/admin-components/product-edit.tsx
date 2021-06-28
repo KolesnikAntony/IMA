@@ -71,7 +71,7 @@ const ProductEdit: FC<PropsType & PropsTypeAdminProducts> = ({setMode,productId,
             }))
         };
 
-        const handleChangeText = (type: string, value: string) => {
+        const handleChangeText = (type: any, value: string) => {
             if (type === 'title') {
                 setInputsData((prevState: ProductType) => ({...prevState, title: value}))
             }

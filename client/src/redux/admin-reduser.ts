@@ -4,6 +4,7 @@ import {CreateProductType, ProductType} from "../types/types";
 import {FILTER_TYPES} from "../constants/constants";
 import {ProductsAPI} from "../api/api-products";
 import {push} from "connected-react-router";
+import {InfoAPI} from "../api/api-info";
 
 const SET_ADMIN_PRODUCTS = 'admin-reducer/SET_PRODUCTS';
 const SET_ADMIN_PRODUCT = 'admin-reducer/SET_PRODUCT';
@@ -144,6 +145,11 @@ export const createCategory = (name: string): ThunkProductsType => async (dispat
     } catch (err) {
         alert(err.response.data.message);
     }
+};
+
+export const getContacts = ():ThunkProductsType => async (dispatch) => {
+    let res = await InfoAPI.getContacts();
+    console.log(res)
 };
 
 export default adminReducer;
