@@ -1,15 +1,15 @@
-import React, {useEffect} from 'react';
-import {List, Datagrid, TextField, DateField, EditButton, DeleteButton } from 'react-admin'
+import React, {FC, useEffect} from 'react';
 import Button from "@material-ui/core/Button";
 import {DataGrid, GridColDef} from "@material-ui/data-grid";
-import {deleteAdmitProduct, deleteCategory, getAdminCategories, getAdminProducts} from "../../../redux/admin-reduser";
-import {FILTER_TYPES} from "../../../constants/constants";
+import {deleteCategory, getAdminCategories} from "../../../redux/admin-reduser";
 import {useDispatch, useSelector} from "react-redux";
 import {RootState} from "../../../redux/store";
 
+interface PropsType {
+    setMode: (mode: string) => void
+}
 
-
-const CategoryList = () => {
+const CategoryList: FC<PropsType> = ({setMode}) => {
     const dispatch = useDispatch();
     const categories = useSelector((state: RootState) => state.admin.categories);
 
@@ -18,12 +18,13 @@ const CategoryList = () => {
     }, []);
 
     const handleDeleteClick = (id: string) => {
-       dispatch(deleteCategory(id))
+        dispatch(deleteCategory(id))
     };
 
     const columns: GridColDef[] = [
-        {field: 'name',  headerName: 'Category', flex: 0.4},
-        {   field: "delete",
+        {field: 'name', headerName: 'Category', flex: 0.4},
+        {
+            field: "delete",
             headerName: "Delete",
             sortable: false,
             filterable: false,
@@ -40,30 +41,30 @@ const CategoryList = () => {
     ];
 
 
-
-
-
     return <>
-        <Button variant="contained" color="primary"  >
-            Create
-        </Button>
-        <div style={{width: '100%', marginTop: 20}}>
-            <DataGrid
-                // pageSize={pageSize}
-                      autoHeight
-                      rows={categories}
-                      pagination
-                      columns={columns}
-                      // paginationMode="client"
-                      rowCount={categories.length}
-                      // onPageChange={(params) => {
-                      //     setPage(params.page);
-                      // }
-                      //}
-            />
-        </div>
-    </>
+        {categories.length ?
+            <div>
+                <Button variant="contained" color="primary" onClick={() => setMode('create')}>
+                    Create
+                </Button>
+                <div style={{width: '100%', marginTop: 20}}>
+                    <DataGrid
+                        // pageSize={pageSize}
+                        autoHeight
+                        rows={categories}
+                        pagination
+                        columns={columns}
+                        rowCount={categories.length}
 
+                    />
+                </div>
+            </div>
+            :
+            <div>Loading...</div>
+        }
+    </>
 }
+
+
 
 export default CategoryList;

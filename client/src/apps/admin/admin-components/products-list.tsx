@@ -67,22 +67,25 @@ const ProductList:FC<PropsType> = ({setMode,setProductId}) => {
 
     ];
     return <>
-        <Button variant="contained" color="primary" onClick={() => setMode('create')} >
-            Create
-        </Button>
-        <div style={{width: '100%', marginTop: 20}}>
-            <DataGrid pageSize={pageSize}
-                      autoHeight
-                      rows={products}
-                      pagination
-                      columns={columns}
-                      paginationMode="client"
-                      rowCount={products.length}
-                      onPageChange={(params) => {
-                         setPage(params.page);
-                      }
-        }/>
-        </div>
+        {products.length ?
+            <div>
+                <Button variant="contained" color="primary" onClick={() => setMode('create')} >
+                    Create
+                </Button>
+                <div style={{width: '100%', marginTop: 20}}>
+                    <DataGrid pageSize={pageSize}
+                              autoHeight
+                              rows={products}
+                              pagination
+                              columns={columns}
+                              paginationMode="client"
+                              rowCount={products.length}
+
+                    />
+                </div>
+            </div> :
+            <div>Loading...</div>
+        }
     </>
 }
 

@@ -9,6 +9,7 @@ import ProductList from "./products-list";
 import ProductCreate from "./product-create";
 import ProductEdit from "./product-edit";
 import CategoryList from "./category-list";
+import CategoryCreate from "./category-create";
 
 function TabPanel(props: any) {
     const {children, value, index, ...other} = props;
@@ -67,6 +68,7 @@ export default function ProductsContainer() {
     const [value, setValue] = React.useState(0);
 
     const handleChange = (event: any, newValue: any) => {
+        setMode('list');
         setValue(newValue);
     };
 
@@ -83,6 +85,14 @@ export default function ProductsContainer() {
         }
     }, [mode]);
 
+    const handleCategoryEvent = useCallback((type: string) => {
+        if (type === 'list') {
+            return <CategoryList setMode={setMode} />
+        } else if (type === 'create') {
+            return <CategoryCreate setMode={setMode}/>
+        }
+    }, [mode]);
+
 
     return (
         <div className={classes.root}>
@@ -91,9 +101,8 @@ export default function ProductsContainer() {
                     variant="fullWidth"
                     value={value}
                     onChange={handleChange}
-                    aria-label="nav tabs example"
-                >
-                    <LinkTab label="Products" href="/drafts" {...a11yProps(0)} />
+                    aria-label="nav tabs example">
+                    <LinkTab label="Products" href="/drafts" {...a11yProps(0)}  />
                     <LinkTab label="Categories" href="/trash" {...a11yProps(1)} />
                 </Tabs>
             </AppBar>
@@ -101,7 +110,7 @@ export default function ProductsContainer() {
                 {handleMode(mode)}
             </TabPanel>
             <TabPanel value={value} index={1}>
-                <CategoryList/>
+                {handleCategoryEvent(mode)}
             </TabPanel>
         </div>
     );

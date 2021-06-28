@@ -71,6 +71,12 @@ export const ProductsAPI = {
     },
     deleteCategory(id: string){
         return instance.delete(`/api/category/${id}`).then(res => res.data);
+    },
+    createNewCategory(name: string) {
+        let formData = {
+            name
+        };
+        return instance.post(`/api/category`, formData).then(res => res);
     }
 };
 

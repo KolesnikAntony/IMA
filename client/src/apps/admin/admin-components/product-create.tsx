@@ -13,7 +13,6 @@ interface PropsType {
 
 const ProductCreate:FC<PropsType> = ({setMode}) => {
     const dispatch = useDispatch();
-    const history = useHistory();
     const categories = useSelector((state: RootState) => state.admin.categories);
     const isCreated = useSelector((state: RootState) => state.admin.isCreated);
     const [categoryDefault, setCategoryDefault] = useState('');

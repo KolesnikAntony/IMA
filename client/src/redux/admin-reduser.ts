@@ -123,7 +123,7 @@ export const deleteAdmitProduct = (id: string): ThunkProductsType => async (disp
     } catch (e) {
         console.log(e);
     }
-}
+};
 
 export const deleteCategory = (id: string): ThunkProductsType => async (dispatch, getState) => {
     let categories = getState().admin.categories;
@@ -135,7 +135,16 @@ export const deleteCategory = (id: string): ThunkProductsType => async (dispatch
     } catch (e) {
         console.log(e);
     }
-}
+};
+
+export const createCategory = (name: string): ThunkProductsType => async (dispatch) => {
+    try {
+        await ProductsAPI.createNewCategory(name);
+        dispatch(actionsAdmin.setIsCreated(true));
+    } catch (err) {
+        alert(err.response.data.message);
+    }
+};
 
 export default adminReducer;
 
