@@ -1,7 +1,7 @@
 const { Schema, model } = require('mongoose');
 
 const textBlockSchema = new Schema({
-	tBlock: {
+	content: {
 		type: String,
 		default: ''
 	}
