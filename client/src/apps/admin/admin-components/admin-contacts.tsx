@@ -115,5 +115,4 @@ const AdminContacts = () => {
     </>
 };
 
-
 export default AdminContacts;

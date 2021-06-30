@@ -28,6 +28,7 @@ import {useDispatch} from "react-redux";
 import ExpandLess from '@material-ui/icons/ExpandLess';
 import ExpandMore from '@material-ui/icons/ExpandMore';
 import AdminContacts from "./admin-contacts";
+import AdminAbout from "./admin-about";
 
 const drawerWidth = 240;
 
@@ -61,7 +62,7 @@ const useStyles = makeStyles((theme: Theme) =>
             width: drawerWidth,
             flexShrink: 0,
             whiteSpace: 'nowrap',
-            position: "fixed",
+
             background: "white",
             zIndex: 1,
         },
@@ -203,6 +204,12 @@ export default function SidebarAdmin() {
                             </ListItemIcon>
                             <ListItemText primary="Contacts" />
                         </ListItem>
+                        <ListItem component={NavLink} to='/admin/about'>
+                            <ListItemIcon>
+                                <PetsIcon/>
+                            </ListItemIcon>
+                            <ListItemText primary="About us" />
+                        </ListItem>
                     </List>
                 </Collapse>
             </Drawer>
@@ -211,6 +218,7 @@ export default function SidebarAdmin() {
                     <Route exact path='/admin/products' render={() => <ProductContainer setTitle={setTitle}/>}/>
                     <Route exact path='/admin/categories' component={CategoryContainer}/>
                     <Route exact path='/admin/contacts' component={AdminContacts}/>
+                    <Route exact path='/admin/about'  render={() => <AdminAbout setTitle={setTitle}/>}/>
                 </Switch>
             </main>
         </div>
