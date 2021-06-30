@@ -3,13 +3,6 @@ const Product = require('../models/Product');
 
 
 module.exports.getCategories = async (req, res) => {
-	// try {
-	// 	const categories = await Category.find().select('name _id');
-	// 	res.status(200).json({categories});
-	// } catch (err) {
-	// 	return res.status(500).json({message: err.message});
-	// }
-
 
 	try {
 		let query;
@@ -30,28 +23,23 @@ module.exports.getCategories = async (req, res) => {
 			formattedParams[key] = value.split(',');
 		}
 
-		// let queryStr = JSON.stringify(reqQuery);
-
-		// queryStr = queryStr.replace( /\b(gt|gte|lt|lte|in)\b/g,
-		// 	(match) => `$${match}`);
-
 		query = Category.find(formattedParams);
 
 		query2 = Category.find(formattedParams);
 
-		if (req.query.sort) {
-			const sortByArr = req.query.sort.split(',');
-
-			const sortByStr = sortByArr.join(' ');
-
-			query = query.sort(sortByStr);
-
-			query2 = query2.sort(sortByStr);
-		} else {
-			query = query.sort('-price');
-
-			query2 = query2.sort('-price');
-		}
+		// if (req.query.sort) {
+		// 	const sortByArr = req.query.sort.split(',');
+		//
+		// 	const sortByStr = sortByArr.join(' ');
+		//
+		// 	query = query.sort(sortByStr);
+		//
+		// 	query2 = query2.sort(sortByStr);
+		// } else {
+		// 	query = query.sort('-price');
+		//
+		// 	query2 = query2.sort('-price');
+		// }
 
 		const categoryCount = await query2.countDocuments();
 
