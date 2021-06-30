@@ -18,7 +18,6 @@ const ProductList:FC<PropsType & PropsTypeAdminProducts> = ({setMode,setProductI
     const dispatch = useDispatch();
     const products = useSelector((state: RootState) => state.admin.products);
     const {pageSize} = useSelector((state: RootState) => state.admin);
-    const [page, setPage] = useState(1);
 
     useEffect(() => {
         dispatch(getAdminProducts(1, FILTER_TYPES.SELECT_TYPE.ALL, FILTER_TYPES.SORT_TYPE.MAX, [], [], 1000))
@@ -75,7 +74,7 @@ const ProductList:FC<PropsType & PropsTypeAdminProducts> = ({setMode,setProductI
                 <Button variant="contained" color="primary" onClick={() => setMode('create')} >
                     Create
                 </Button>
-                <div style={{width: '100%', marginTop: 20}}>
+                <div style={{width: '100%', marginTop: 20, transition: '0.3s'}}>
                     <DataGrid pageSize={pageSize}
                               autoHeight
                               rows={products}

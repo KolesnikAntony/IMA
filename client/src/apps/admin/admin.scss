@@ -3,6 +3,10 @@
 
 .admin {
   padding: 60px 0;
+  font-family: Roboto, sans-serif;
+  p{
+    font-family: Roboto, sans-serif;
+  }
   .container {
     display: flex;
     flex-direction: row;
@@ -31,6 +35,19 @@
     &__image {
       width: 40px;
       height: 40px;
+    }
+  }
+  &-about {
+    &__text {
+      margin-bottom: 20px;
+      font-size: 16px;
+      &-aria {
+        padding: 6px 0 7px;
+        line-height: 1.1876em;
+      }
+    }
+    &__buttons {
+      margin-bottom: 30px;
     }
   }
 }
