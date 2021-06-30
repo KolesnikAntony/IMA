@@ -25,17 +25,7 @@ module.exports.createImgWithCaption = async (req, res) => {
 module.exports.getImgWithCaption = async (req, res) => {
 	try {
 
-		const { id } = req.params;
-
-		const basePath = `${req.protocol}://${req.get('host')}/`;
-
-		const getImgWithCap = await imgWithCaption.findById(id);
-
-		let hz = getImgWithCap.image.replace(basePath, '')
-
-		console.log('getImgWithCap', hz)
-
-		// fs.unlinkSync(req.file.path)
+		const getImgWithCap = await imgWithCaption.find();
 
 		res.status(200).json({getImgWithCap})
 
@@ -50,10 +40,11 @@ module.exports.editImgWithCaption = async (req, res) => {
 
 		const basePath = `${req.protocol}://${req.get('host')}/`;
 
-		const findImg = await imgWithCaption.find(req.params.id)
-		fs.unlinkSync(`${basePath} - ${req.file.path}`)
+		const findImg = await imgWithCaption.findById(id);
 
-		console.log({findImg})
+		let replacePath = findImg.image.replace(basePath, '');
+
+		fs.unlinkSync(replacePath);
 
 		const edited = {
 			caption: req.body.caption,
@@ -76,10 +67,16 @@ module.exports.editImgWithCaption = async (req, res) => {
 	}
 };
 
-module.exports.deleteImgWithCaption = async (req, res) => {
+module.exports.deleteImgWithCaption = async (req, res, next) => {
 	try {
 
+		const { id } = req.params;
+
 		const basePath = `${req.protocol}://${req.get('host')}/`;
+
+		const findImg = await imgWithCaption.findById(id);
+
+		let replacePath = findImg.image.replace(basePath, '');
 
 		let query = {};
 
@@ -92,7 +89,9 @@ module.exports.deleteImgWithCaption = async (req, res) => {
 		if (findImgWithCap.length === [])
 			return res.status(400).json({message: 'Картинка не найдена!'});
 
-		await findImgWithCap.deleteMany(query);
+		await imgWithCaption.deleteMany(query);
+
+		fs.unlinkSync(replacePath);
 
 		res.json({message: 'Товар успешно удалён!', findImgWithCap});
 

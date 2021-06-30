@@ -13,11 +13,7 @@ const productRouter = require('./routes/productRouter');
 const contactsRouter = require('./routes/contactsRouter');
 const cartRouter = require('./routes/cartRouter');
 const imgWithCaptionRouter = require('./routes/imgWithCaptionRouter');
-
-
-const multer = require("multer");
-const upload = multer({dest: 'public/'});
-
+const textBlockRouter = require('./routes/textBlockRouter');
 
 const app = express();
 
@@ -44,6 +40,7 @@ app.use('/api', productRouter);
 app.use('/api', contactsRouter);
 app.use('/api', cartRouter);
 app.use('/api', imgWithCaptionRouter);
+app.use('/api', textBlockRouter);
 
 const PORT = process.env.PORT || 5000;
 

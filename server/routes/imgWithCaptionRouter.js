@@ -5,7 +5,7 @@ const { me } = require('../middleware/authVerify');
 
 router.post('/imgWithCaption', me, upload.single('image'), imgWithCaption.createImgWithCaption);
 
-router.get('/imgWithCaption/:id', me, imgWithCaption.getImgWithCaption);
+router.get('/imgWithCaption', me, imgWithCaption.getImgWithCaption);
 
 router.put('/imgWithCaption/:id', me, upload.single('image'), imgWithCaption.editImgWithCaption);
 
