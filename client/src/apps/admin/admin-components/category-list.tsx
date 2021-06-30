@@ -4,6 +4,7 @@ import {DataGrid, GridColDef} from "@material-ui/data-grid";
 import {deleteCategory, getAdminCategories} from "../../../redux/admin-reduser";
 import {useDispatch, useSelector} from "react-redux";
 import {RootState} from "../../../redux/store";
+import {LinearProgress} from "@material-ui/core";
 
 interface PropsType {
     setMode: (mode: string) => void
@@ -60,7 +61,7 @@ const CategoryList: FC<PropsType> = ({setMode}) => {
                 </div>
             </div>
             :
-            <div>Loading...</div>
+            <LinearProgress />
         }
     </>
 }

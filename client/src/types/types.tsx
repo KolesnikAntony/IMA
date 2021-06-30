@@ -110,3 +110,13 @@ export type FormFilterPropsType = {
     categories: Array<{name: string
         _id: string}>
 }
+
+export type ContactsType = {
+    address: string
+    email: string
+    id: string
+    inst: string
+    nip: string
+    phone: string
+    region: string
+}
