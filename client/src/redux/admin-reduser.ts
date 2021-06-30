@@ -58,6 +58,19 @@ const adminReducer = (state = AdminInitialState, action: ActionType): AdminIniti
                     image: el.image
                 }))
             };
+        case EDIT_ABOUT_CARD:
+            let newCard = {
+                id: action.data.id,
+                caption: action.data.caption,
+                image: action.data.image,
+            };
+
+            let cardList = state.aboutList.map(el => el.id === newCard.id ? newCard : el);
+
+            return {
+                ...state,
+                aboutList: cardList
+            };
         default:
             return state
     }
