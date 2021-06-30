@@ -20,7 +20,17 @@ export const InfoAPI = {
         let formData = new FormData();
         img && formData.append('image', img);
         formData.append('caption', caption);
-        return instance.put(`/api/imgWithCaption/${id}`, formData).then(res => res);
+        return instance.put(`/api/imgWithCaption/${id}`, formData).then(res => res.data.editImgWithCap);
+    },
+    createAboutCard(data: AboutImage){
+        let {caption, img} = data;
+        let formData = new FormData();
+        img && formData.append('image', img);
+        formData.append('caption', caption);
+        return instance.post(`/api/imgWithCaption/`, formData).then(res => res);
+    },
+    deleteCard(id: string){
+        return instance.delete(`/api/imgWithCaption/${id}`).then(res => res.data);
     }
 };
 

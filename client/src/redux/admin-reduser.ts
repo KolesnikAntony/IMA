@@ -14,6 +14,7 @@ const IS_CREATED = 'admin-reducer/IS_CREATED';
 const SET_PAGINATION = 'admin-reducer/SET_PAGINATION';
 const SET_CONTACTS = 'admin-reducer/SET_CONTACTS';
 const SET_ABOUT_LIST = 'admin-reducer/SET_ABOUT_LIST';
+const EDIT_ABOUT_CARD = 'admin-reducer/EDIT_ABOUT_CARD';
 
 
 const AdminInitialState = {
@@ -50,11 +51,13 @@ const adminReducer = (state = AdminInitialState, action: ActionType): AdminIniti
         case SET_CONTACTS :
             return {...state, contacts: action.contacts};
         case SET_ABOUT_LIST:
-            return {...state, aboutList: action.list.map(el => ({
+            return {
+                ...state, aboutList: action.list.map(el => ({
                     id: el.id,
                     caption: el.caption,
                     image: el.image
-                }))};
+                }))
+            };
         default:
             return state
     }
@@ -92,6 +95,10 @@ export const actionsAdmin = {
         setAboutList: (list: AboutList) => ({
             type: SET_ABOUT_LIST,
             list
+        } as const),
+        editAboutCard:(data: AboutImage) => ({
+            type: EDIT_ABOUT_CARD,
+            data
         } as const)
     }
 ;
@@ -189,10 +196,27 @@ export const getAboutUsList = (): ThunkAdminType => async (dispatch) => {
     dispatch(actionsAdmin.setAboutList(res));
 };
 
-export const editAboutCard = (formData: AboutImage):ThunkAdminType => async (dispatch) => {
-    let res = await  InfoAPI.editAboutCard(formData);
-    console.log(res)
+export const createAboutCard = (formData: AboutImage): ThunkAdminType => async (dispatch) => {
+    dispatch(actionsAdmin.setIsFetching(true));
+    await InfoAPI.createAboutCard(formData);
+    dispatch(actionsAdmin.setIsCreated(true));
+    dispatch(actionsAdmin.setIsCreated(false));
+    await dispatch(getAboutUsList());
+    dispatch(actionsAdmin.setIsFetching(false));
+};
 
+export const editAboutCard = (formData: AboutImage): ThunkAdminType => async (dispatch) => {
+    dispatch(actionsAdmin.setIsFetching(true));
+    let res = await InfoAPI.editAboutCard(formData);
+    dispatch(actionsAdmin.setIsCreated(true));
+    dispatch(actionsAdmin.setIsCreated(false));
+    dispatch(actionsAdmin.setIsFetching(false));
+    dispatch(actionsAdmin.editAboutCard(res));
+};
+
+export const deleteCardAbout = (id: string): ThunkAdminType => async (dispatch) => {
+    await InfoAPI.deleteCard(id);
+    await dispatch(getAboutUsList());
 };
 
 export default adminReducer;

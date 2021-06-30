@@ -1,12 +1,15 @@
-import React, {FC, SyntheticEvent, useState} from 'react';
+import React, {FC, SyntheticEvent, useCallback, useEffect, useRef, useState} from 'react';
 import {AboutImage, AboutList, ProductType} from "../../../types/types";
 import {makeStyles} from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
 import {Button, CardActions, TextField} from "@material-ui/core";
-import {useDispatch} from "react-redux";
-import {editAboutCard} from "../../../redux/admin-reduser";
+import {useDispatch, useSelector} from "react-redux";
+import {createAboutCard, deleteCardAbout, editAboutCard} from "../../../redux/admin-reduser";
+import {useOutsideAlerter} from "../../../hooks/hooks";
+import {RootState} from "../../../redux/store";
+
 
 const useStyles = makeStyles({
     root: {
@@ -54,21 +57,35 @@ const useStyles = makeStyles({
         alignItems: 'center',
         zIndex: 2,
         fontSize: 18,
+    },
+    opacity: {
+        opacity: 0.2,
     }
 
 });
 
 
-const AboutCard: FC<AboutImage> = ({id, caption, image}) => {
+const AboutCard: FC<AboutImage> = ({id, caption, image, createMode}) => {
     const classes = useStyles();
     const dispatch = useDispatch();
+    const isFetching = useSelector((state: RootState) => state.admin.isFetching);
+    const isCreated = useSelector((state: RootState) => state.admin.isCreated);
     const [editMode, setEditMode] = useState(false);
+   // const [caption, setCaption] = useState(caption);
     const [cardData, setCardData] = useState({
         id,
         caption,
         image,
-        img: null as File| null
+        img: null as File | null
     });
+
+    useEffect(() => {
+        if (isCreated) {
+            setEditMode(false);
+            setCardData(prevState => ({...prevState, image: image, caption: caption}));
+        }
+    }, [isCreated]);
+
 
     const handleEditText = (e: React.ChangeEvent<HTMLInputElement>) => {
         setCardData(prevState => ({...prevState, caption: e.target.value}));
@@ -79,27 +96,45 @@ const AboutCard: FC<AboutImage> = ({id, caption, image}) => {
             ...prevState,
             image: URL.createObjectURL(e.target.files[0]),
             img: e.target.files[0]
-        }))
-
-        console.log(typeof e.target.files[0]);
+        }));
     };
 
     const handleSubmit = (formData: AboutImage) => {
         dispatch(editAboutCard(formData));
     };
 
+    const handleDeleteCard = (id: string) => {
+        dispatch(deleteCardAbout(id));
+    };
+
+    const handleCreate = (formData: AboutImage) => {
+        if (cardData.img === null) {
+            outsideCallBack();
+        } else {
+            dispatch(createAboutCard(formData));
+        }
+    };
+    const outsideCallBack = useCallback(() => {
+        setEditMode(false);
+        setCardData(prevState => ({...prevState, caption}));
+    }, [editMode]);
+
+    const wrapperRef = useRef(null);
+    useOutsideAlerter(wrapperRef, outsideCallBack);
+
     return <>
-        <Card className={classes.root}>
+        <Card ref={editMode ? wrapperRef : null}>
             <div className={classes.box}>
                 {editMode && <label htmlFor="cardPhoto" className={classes.upload}>
                     <span>Edit photo</span>
                     <input id='cardPhoto' type="file" className={classes.file} onChange={handlePhotoChange}/>
                 </label>}
-                <img src={cardData.image} alt="photo" className={classes.photo}/>
+                <img src={cardData.image} alt="photo"
+                     className={createMode ? `${classes.opacity} ${classes.photo} ` : classes.photo}/>
             </div>
             <CardContent className={classes.media}>
                 {editMode ?
-                    <TextField value={cardData.caption} multiline={true} onChange={handleEditText} autoFocus={true}
+                    <TextField value={cardData.caption}  multiline={true} onChange={handleEditText} autoFocus={true}
                                onFocus={function (e) {
                                    let val = e.target.value;
                                    e.target.value = '';
@@ -109,19 +144,43 @@ const AboutCard: FC<AboutImage> = ({id, caption, image}) => {
                         {cardData.caption}
                     </Typography>}
             </CardContent>
-            <CardActions>
-                {editMode ? <Button size="small" variant='outlined' color="primary" onClick={() => handleSubmit(cardData)}>
-                        Submit
-                    </Button> :
-                    <>
-                        <Button size="small" variant='outlined' color="primary" onClick={() => setEditMode(true)}>
-                            Edit
+
+            {createMode ?
+                <CardActions>
+                    {!editMode ? <Button size="small" fullWidth variant='outlined' color="primary"
+                                         onClick={() => setEditMode(true)}>
+                            New item
+                        </Button> :
+                        <Button size="small" fullWidth variant='outlined' color="primary"
+                                onClick={() => handleCreate(cardData)} disabled={isFetching}>
+                            Create
                         </Button>
-                        <Button size="small" variant='outlined' color="secondary">
-                            Delete
+                    }
+                </CardActions> :
+                <CardActions>
+                    {editMode ? <> <Button size="small" fullWidth variant='outlined' color="primary"
+                                           onClick={() => handleSubmit(cardData)}>
+                            Submit
                         </Button>
-                    </>}
-            </CardActions>
+                            <Button size="small" fullWidth variant='outlined' color="secondary"
+                                    onClick={() => outsideCallBack()}>
+                                Cancel
+                            </Button>
+
+                        </> :
+                        <>
+                            <Button size="small" fullWidth variant='outlined' color="primary"
+                                    onClick={() => setEditMode(true)}>
+                                Edit
+                            </Button>
+                            <Button size="small" fullWidth variant='outlined' color="secondary"
+                                    onClick={() => handleDeleteCard(cardData.id)}>
+                                Delete
+                            </Button>
+                        </>
+                    }
+                </CardActions>
+            }
         </Card>
     </>
 };
