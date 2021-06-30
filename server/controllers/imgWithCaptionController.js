@@ -44,9 +44,7 @@ module.exports.editImgWithCaption = async (req, res) => {
 
 		let replacePath = findImg.image.replace(basePath, '');
 
-		const edited = {
-			caption: req.body.caption,
-		};
+		const edited = { ...req.body };
 
 		if (req.file) {
 			edited.image = basePath + req.file.path;
