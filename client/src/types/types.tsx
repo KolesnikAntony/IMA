@@ -125,7 +125,8 @@ export type AboutImage = {
     image: string,
     id: string,
     caption: string,
-    img?: File | null
+    img?: File | null,
+    createMode?: boolean
 };
 
 export type AboutList = Array<AboutImage>;
