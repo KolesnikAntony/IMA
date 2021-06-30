@@ -48,6 +48,7 @@ module.exports.editImgWithCaption = async (req, res) => {
 
 		if (req.file) {
 			edited.image = basePath + req.file.path;
+			fs.unlinkSync(replacePath);
 		}
 
 		const editImgWithCap = await imgWithCaption.findByIdAndUpdate(
@@ -56,7 +57,6 @@ module.exports.editImgWithCaption = async (req, res) => {
 			{ new: true }
 		);
 
-		fs.unlinkSync(replacePath);
 
 		res.status(200).json({message: 'Данные успешно обновлены', editImgWithCap});
 
