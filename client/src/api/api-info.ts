@@ -1,5 +1,5 @@
 import {instance} from './api';
-import {ContactsType} from "../types/types";
+import {AboutImage, ContactsType} from "../types/types";
 
 export const InfoAPI = {
     getContacts(){
@@ -11,6 +11,16 @@ export const InfoAPI = {
             address, region, inst, email , nip , phone
         };
         return instance.put(`/api/contacts/${id}`, JSON.stringify(formData)).then(res => res.data.contacts);
+    },
+    getPhotoList(){
+       return instance.get('/api/imgWithCaption').then(res => res.data.getImgWithCap);
+    },
+    editAboutCard(data: AboutImage){
+        let {id, caption, img} = data;
+        let formData = new FormData();
+        img && formData.append('image', img);
+        formData.append('caption', caption);
+        return instance.put(`/api/imgWithCaption/${id}`, formData).then(res => res);
     }
 };
 

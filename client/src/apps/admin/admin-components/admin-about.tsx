@@ -2,6 +2,7 @@ import React, {FC, useEffect, useState} from 'react';
 import {useDispatch} from "react-redux";
 import {PropsTypeAdminProducts} from "./product-container";
 import {Button, makeStyles, TextField} from "@material-ui/core";
+import AdminAboutCarts from "./admin-about-carts";
 
 
 const useStyles = makeStyles((theme) => ({
@@ -52,8 +53,7 @@ const AdminAbout: FC<PropsTypeAdminProducts> = ({setTitle}) => {
                 <Button variant="contained" color="primary" onClick={() => handleSubmitText(text)}>Submit</Button>
             }
         </div>
-
-
+        <AdminAboutCarts/>
     </>
 
 };

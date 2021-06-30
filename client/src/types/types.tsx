@@ -120,3 +120,12 @@ export type ContactsType = {
     phone: string
     region: string
 }
+
+export type AboutImage = {
+    image: string,
+    id: string,
+    caption: string,
+    img?: File | null
+};
+
+export type AboutList = Array<AboutImage>;

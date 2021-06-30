@@ -1,6 +1,6 @@
 import {BaseThunkType, InferActionsTypes} from "./store";
 import {FormAction} from "redux-form";
-import {ContactsType, CreateProductType, ProductType} from "../types/types";
+import {AboutImage, AboutList, ContactsType, CreateProductType, ProductType} from "../types/types";
 import {FILTER_TYPES} from "../constants/constants";
 import {ProductsAPI} from "../api/api-products";
 import {push} from "connected-react-router";
@@ -13,9 +13,10 @@ const IS_FETCHING = 'admin-reducer/IS_FETCHING';
 const IS_CREATED = 'admin-reducer/IS_CREATED';
 const SET_PAGINATION = 'admin-reducer/SET_PAGINATION';
 const SET_CONTACTS = 'admin-reducer/SET_CONTACTS';
+const SET_ABOUT_LIST = 'admin-reducer/SET_ABOUT_LIST';
 
 
-const ProductsInitialState = {
+const AdminInitialState = {
     products: [] as Array<ProductType>,
     product: {} as ProductType,
     categories: [] as Array<{ name: string, id: string }>,
@@ -29,9 +30,10 @@ const ProductsInitialState = {
     isCreated: false,
     totalProduct: 1,
     contacts: {},
+    aboutList: [] as AboutList,
 };
 
-const adminReducer = (state = ProductsInitialState, action: ActionType): ProductsInitialStateType => {
+const adminReducer = (state = AdminInitialState, action: ActionType): AdminInitialStateType => {
     switch (action.type) {
         case SET_ADMIN_PRODUCTS:
             return {...state, products: [...action.products]};
@@ -46,7 +48,13 @@ const adminReducer = (state = ProductsInitialState, action: ActionType): Product
         case SET_PAGINATION:
             return {...state, totalProduct: action.totalProduct};
         case SET_CONTACTS :
-            return {...state, contacts: action.contacts}
+            return {...state, contacts: action.contacts};
+        case SET_ABOUT_LIST:
+            return {...state, aboutList: action.list.map(el => ({
+                    id: el.id,
+                    caption: el.caption,
+                    image: el.image
+                }))};
         default:
             return state
     }
@@ -80,39 +88,43 @@ export const actionsAdmin = {
         setContacts: (contacts: ContactsType) => ({
             type: SET_CONTACTS,
             contacts,
+        } as const),
+        setAboutList: (list: AboutList) => ({
+            type: SET_ABOUT_LIST,
+            list
         } as const)
     }
 ;
 
 
-export const getAdminProducts = (currentPage: number, selectType: string, sort: string, category: Array<{ name: string, _id: string }>, colors: Array<string>, limit: number): ThunkProductsType => async (disptatch) => {
+export const getAdminProducts = (currentPage: number, selectType: string, sort: string, category: Array<{ name: string, _id: string }>, colors: Array<string>, limit: number): ThunkAdminType => async (disptatch) => {
     const res = await ProductsAPI.getProducts(currentPage, selectType, sort, category, colors, limit);
-    console.log('respoce', res.page, res.count)
+    console.log('respoce', res.page, res.count);
     disptatch(actionsAdmin.setPagination(res.count));
     disptatch(actionsAdmin.setProducts(res.products))
 };
 
 
-export const getAdminProduct = (id?: string): ThunkProductsType => async (disptatch) => {
+export const getAdminProduct = (id?: string): ThunkAdminType => async (disptatch) => {
     const res = await ProductsAPI.getProduct(id);
     const category = await ProductsAPI.getAllCategory();
     disptatch(actionsAdmin.setProduct(res));
     disptatch(actionsAdmin.setCategories(category));
 };
 
-export const getAdminCategories = (): ThunkProductsType => async (dispatch) => {
+export const getAdminCategories = (): ThunkAdminType => async (dispatch) => {
     const category = await ProductsAPI.getAllCategory();
     dispatch(actionsAdmin.setCategories(category));
 };
 
-export const changeAdminProduct = (id: string, formData: ProductType): ThunkProductsType => async (dispatch) => {
+export const changeAdminProduct = (id: string, formData: ProductType): ThunkAdminType => async (dispatch) => {
     const res = await ProductsAPI.changeProduct(id, formData);
     console.log(res, '---reducer');
     dispatch(actionsAdmin.setProduct(res));
     dispatch(actionsAdmin.setIsCreated(true));
 };
 
-export const createAdminProduct = (formData: CreateProductType): ThunkProductsType => async (dispatch) => {
+export const createAdminProduct = (formData: CreateProductType): ThunkAdminType => async (dispatch) => {
     try {
         await ProductsAPI.createProduct(formData);
         dispatch(actionsAdmin.setIsCreated(true));
@@ -122,7 +134,7 @@ export const createAdminProduct = (formData: CreateProductType): ThunkProductsTy
 
 };
 
-export const deleteAdmitProduct = (id: string): ThunkProductsType => async (dispatch, getState) => {
+export const deleteAdmitProduct = (id: string): ThunkAdminType => async (dispatch, getState) => {
     let products = getState().admin.products;
     try {
         await ProductsAPI.deleteProduct(id);
@@ -134,7 +146,7 @@ export const deleteAdmitProduct = (id: string): ThunkProductsType => async (disp
     }
 };
 
-export const deleteCategory = (id: string): ThunkProductsType => async (dispatch, getState) => {
+export const deleteCategory = (id: string): ThunkAdminType => async (dispatch, getState) => {
     let categories = getState().admin.categories;
     try {
         await ProductsAPI.deleteCategory(id);
@@ -146,7 +158,7 @@ export const deleteCategory = (id: string): ThunkProductsType => async (dispatch
     }
 };
 
-export const createCategory = (name: string): ThunkProductsType => async (dispatch) => {
+export const createCategory = (name: string): ThunkAdminType => async (dispatch) => {
     try {
         await ProductsAPI.createNewCategory(name);
         dispatch(actionsAdmin.setIsCreated(true));
@@ -162,18 +174,29 @@ const setContacts = (dispatch: any, data: ContactsType) => {
 };
 
 
-export const getContacts = (): ThunkProductsType => async (dispatch) => {
+export const getContacts = (): ThunkAdminType => async (dispatch) => {
     let res = await InfoAPI.getContacts();
     setContacts(dispatch, res);
 };
 
-export const changeContacts = (data: ContactsType): ThunkProductsType => async (dispatch) => {
+export const changeContacts = (data: ContactsType): ThunkAdminType => async (dispatch) => {
     let res = await InfoAPI.changeContacts(data);
     setContacts(dispatch, res);
 };
 
+export const getAboutUsList = (): ThunkAdminType => async (dispatch) => {
+    let res = await InfoAPI.getPhotoList();
+    dispatch(actionsAdmin.setAboutList(res));
+};
+
+export const editAboutCard = (formData: AboutImage):ThunkAdminType => async (dispatch) => {
+    let res = await  InfoAPI.editAboutCard(formData);
+    console.log(res)
+
+};
+
 export default adminReducer;
 
-type ProductsInitialStateType = typeof ProductsInitialState;
+type AdminInitialStateType = typeof AdminInitialState;
 type ActionType = InferActionsTypes<typeof actionsAdmin>;
-type ThunkProductsType = BaseThunkType<ActionType | FormAction>
+type ThunkAdminType = BaseThunkType<ActionType | FormAction>
