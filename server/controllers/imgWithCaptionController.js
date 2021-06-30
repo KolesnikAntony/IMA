@@ -44,8 +44,6 @@ module.exports.editImgWithCaption = async (req, res) => {
 
 		let replacePath = findImg.image.replace(basePath, '');
 
-		fs.unlinkSync(replacePath);
-
 		const edited = {
 			caption: req.body.caption,
 		};
@@ -59,6 +57,8 @@ module.exports.editImgWithCaption = async (req, res) => {
 			{ $set: edited },
 			{ new: true }
 		);
+
+		fs.unlinkSync(replacePath);
 
 		res.status(200).json({message: 'Данные успешно обновлены', editImgWithCap});
 
