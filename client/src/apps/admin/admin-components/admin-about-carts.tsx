@@ -18,19 +18,6 @@ const AdminAboutCarts = () => {
         dispatch(getAboutUsList())
     }, []);
 
-    const handleSubmitText = (newText: string) => {
-
-    };
-
-    const handleChangeText = (e: React.ChangeEvent<HTMLInputElement>) => {
-        let text = e.target.value;
-
-    };
-
-    const handleClickToTextChange = () => {
-
-    };
-
     return <div className='admin-about__list'>
         <Grid container spacing={2}>
             <Grid item md={3}><AboutCard image={plus} caption={'New item'} id={''} createMode={true}/></Grid>

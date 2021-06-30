@@ -70,6 +70,7 @@ const AboutCard: FC<AboutImage> = ({id, caption, image, createMode}) => {
     const dispatch = useDispatch();
     const isFetching = useSelector((state: RootState) => state.admin.isFetching);
     const isCreated = useSelector((state: RootState) => state.admin.isCreated);
+    const isEdited = useSelector((state: RootState) => state.admin.isEdited);
     const [editMode, setEditMode] = useState(false);
    // const [caption, setCaption] = useState(caption);
     const [cardData, setCardData] = useState({
@@ -84,7 +85,10 @@ const AboutCard: FC<AboutImage> = ({id, caption, image, createMode}) => {
             setEditMode(false);
             setCardData(prevState => ({...prevState, image: image, caption: caption}));
         }
-    }, [isCreated]);
+        if(isEdited) {
+            setEditMode(false);
+        }
+    }, [isCreated, isEdited]);
 
 
     const handleEditText = (e: React.ChangeEvent<HTMLInputElement>) => {

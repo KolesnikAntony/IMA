@@ -10,6 +10,7 @@ const SET_ADMIN_PRODUCTS = 'admin-reducer/SET_PRODUCTS';
 const SET_ADMIN_PRODUCT = 'admin-reducer/SET_PRODUCT';
 const SET_CATEGORY = 'admin-reducer/SET_CATEGORY';
 const IS_FETCHING = 'admin-reducer/IS_FETCHING';
+const IS_EDITED = 'admin-reducer/IS_EDITED';
 const IS_CREATED = 'admin-reducer/IS_CREATED';
 const SET_PAGINATION = 'admin-reducer/SET_PAGINATION';
 const SET_CONTACTS = 'admin-reducer/SET_CONTACTS';
@@ -29,6 +30,7 @@ const AdminInitialState = {
     sort: FILTER_TYPES.SORT_TYPE.MAX,
     isFetching: false,
     isCreated: false,
+    isEdited: false,
     totalProduct: 1,
     contacts: {},
     aboutList: [] as AboutList,
@@ -44,6 +46,8 @@ const adminReducer = (state = AdminInitialState, action: ActionType): AdminIniti
             return {...state, categories: [...action.categories]};
         case IS_FETCHING:
             return {...state, isFetching: action.isFetching};
+        case IS_EDITED:
+            return {...state, isEdited: action.isEdited};
         case IS_CREATED:
             return {...state, isCreated: action.isCreated};
         case SET_PAGINATION:
@@ -57,6 +61,19 @@ const adminReducer = (state = AdminInitialState, action: ActionType): AdminIniti
                     caption: el.caption,
                     image: el.image
                 }))
+            };
+        case EDIT_ABOUT_CARD:
+            let newCard = {
+                id: action.data.id,
+                caption: action.data.caption,
+                image: action.data.image,
+            };
+
+            let cardList = state.aboutList.map(el => el.id === newCard.id ? newCard : el);
+
+            return {
+                ...state,
+                aboutList: cardList
             };
         default:
             return state
@@ -80,6 +97,10 @@ export const actionsAdmin = {
             type: IS_FETCHING,
             isFetching
         } as const),
+        setIsEdited: (isEdited: boolean) => ({
+            type: IS_EDITED,
+            isEdited
+        } as const),
         setIsCreated: (isCreated: boolean) => ({
             type: IS_CREATED,
             isCreated
@@ -96,7 +117,7 @@ export const actionsAdmin = {
             type: SET_ABOUT_LIST,
             list
         } as const),
-        editAboutCard:(data: AboutImage) => ({
+        editAboutCard: (data: AboutImage) => ({
             type: EDIT_ABOUT_CARD,
             data
         } as const)
@@ -106,7 +127,6 @@ export const actionsAdmin = {
 
 export const getAdminProducts = (currentPage: number, selectType: string, sort: string, category: Array<{ name: string, _id: string }>, colors: Array<string>, limit: number): ThunkAdminType => async (disptatch) => {
     const res = await ProductsAPI.getProducts(currentPage, selectType, sort, category, colors, limit);
-    console.log('respoce', res.page, res.count);
     disptatch(actionsAdmin.setPagination(res.count));
     disptatch(actionsAdmin.setProducts(res.products))
 };
@@ -126,7 +146,6 @@ export const getAdminCategories = (): ThunkAdminType => async (dispatch) => {
 
 export const changeAdminProduct = (id: string, formData: ProductType): ThunkAdminType => async (dispatch) => {
     const res = await ProductsAPI.changeProduct(id, formData);
-    console.log(res, '---reducer');
     dispatch(actionsAdmin.setProduct(res));
     dispatch(actionsAdmin.setIsCreated(true));
 };
@@ -208,10 +227,10 @@ export const createAboutCard = (formData: AboutImage): ThunkAdminType => async (
 export const editAboutCard = (formData: AboutImage): ThunkAdminType => async (dispatch) => {
     dispatch(actionsAdmin.setIsFetching(true));
     let res = await InfoAPI.editAboutCard(formData);
-    dispatch(actionsAdmin.setIsCreated(true));
-    dispatch(actionsAdmin.setIsCreated(false));
-    dispatch(actionsAdmin.setIsFetching(false));
+    dispatch(actionsAdmin.setIsEdited(true));
+    dispatch(actionsAdmin.setIsEdited(false));
     dispatch(actionsAdmin.editAboutCard(res));
+    dispatch(actionsAdmin.setIsFetching(false));
 };
 
 export const deleteCardAbout = (id: string): ThunkAdminType => async (dispatch) => {
