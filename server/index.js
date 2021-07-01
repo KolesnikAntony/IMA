@@ -14,6 +14,7 @@ const contactsRouter = require('./routes/contactsRouter');
 const cartRouter = require('./routes/cartRouter');
 const imgWithCaptionRouter = require('./routes/imgWithCaptionRouter');
 const textBlockRouter = require('./routes/textBlockRouter');
+const bannerRouter = require('./routes/bannerRouter');
 
 const app = express();
 
@@ -41,6 +42,7 @@ app.use('/api', contactsRouter);
 app.use('/api', cartRouter);
 app.use('/api', imgWithCaptionRouter);
 app.use('/api', textBlockRouter);
+app.use('/api', bannerRouter);
 
 const PORT = process.env.PORT || 5000;
 
