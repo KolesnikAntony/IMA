@@ -21,7 +21,7 @@ const AdminAboutCarts = () => {
     return <div className='admin-about__list'>
         <Grid container spacing={2}>
             <Grid item md={3}><AboutCard image={plus} caption={'New item'} id={''} createMode={true}/></Grid>
-            {aboutList.length ? aboutList.reverse()
+            {aboutList.length ? aboutList
                 .map(el => <Grid item md={3} key={el.id}><AboutCard image={el.image} caption={el.caption} id={el.id} /></Grid>)
                 : <LinearProgress />}
         </Grid>

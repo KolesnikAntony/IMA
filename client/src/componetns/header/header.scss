@@ -9,6 +9,10 @@
   height: 68px;
   padding: 12px 0;
   z-index: 200;
+  background: $color-smoke;
+  &.home{
+    background: transparent;
+  }
   &.hide {
     opacity: 0;
   }

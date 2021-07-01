@@ -23,7 +23,6 @@ const NewProducts:FC<PropsType> = ({getCountOfSlide}) => {
         dispatch(getNewProducts());
     }, []);
 
-    console.log('render of NEW');
     return (
         <section className='new-products'>
             <div className="container">

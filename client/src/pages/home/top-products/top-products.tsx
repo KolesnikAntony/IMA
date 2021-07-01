@@ -22,7 +22,6 @@ const TopProducts:FC<PropsType> = ({getCountOfSlide}) => {
         dispatch(getTopProducts());
     }, []);
 
-    console.log('render of TOP');
     return (
         <section className="top">
             <div className="container">

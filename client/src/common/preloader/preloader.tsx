@@ -2,7 +2,7 @@ import React, {FC} from "react";
 import './preloader.scss';
 
 interface PropsType {
-    type: string
+    type?: string
 }
 
 const Preloader: FC<PropsType> = ({type}) => {

@@ -19,15 +19,22 @@
 
   &__image {
     width: 100%;
+  }
+  &__image-wrapp {
+    width: 100%;
+    min-width: 200px;
+    height: 250px;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
     margin-bottom: 12px;
   }
-
   &__info {
     @include column(flex-start);
     margin-bottom: 12px;
     width: 100%;
     max-width: 190px;
-  }
+    }
 
   &__add {
     width: 100%;

@@ -1,4 +1,4 @@
-import React, {FC, useCallback, useEffect, useState} from "react";
+import React, {FC, useCallback, useEffect, useMemo, useState} from "react";
 import {Provider, useDispatch} from "react-redux";
 import store from "../../redux/store";
 import {checkCartItems} from "../../redux/cart-reducer";
@@ -31,31 +31,38 @@ type PropsType = RouteComponentProps<PathParamsType>
 const ClientApp: FC<PropsType> = ({match}) => {
     const [open, setOpen] = useState(false);
     const [currentView, setCurrentView] = useState(null);
+    const [headerType, setHeaderType] = useState(false);
     const dispatch = useDispatch();
-
     const handleOpen = useCallback((type) => {
         setCurrentView(type);
         setOpen(true)
     }, []);
 
+    console.log(headerType);
+
     const handleClose = useCallback(() => setOpen(false), []);
+
+    const handleHeaderType = useCallback((view: boolean) => {
+        setHeaderType(view);
+    }, []);
 
     useEffect(() => {
         dispatch(checkCartItems());
         dispatch(getIsAuth());
     }, []);
 
-
     return (<>
             <OpenCartContext.Provider value={handleOpen}>
-                <Header onOpen={handleOpen}/>
+                {headerType ? <Header onOpen={handleOpen} classes={'header home'}/>
+                :<Header onOpen={handleOpen} classes={'header'}/>
+                }
                 <ScrollToTop>
                     <main className={'app'}>
                         <Aside open={open} view={currentView} onClose={handleClose} onOpen={handleOpen}/>
                         <Switch>
-                            <Route exact path={match.path} component={Home}/>
+                            <Route exact path={match.path} render={() => <Home onViewHeader={handleHeaderType}/>}/>
                             <Route path='/activate/:key?'
-                                   render={() => <Home isNewMember={true} onClose={handleClose}/>}/>
+                                   render={() => <Home isNewMember={true} onClose={handleClose} onViewHeader={handleHeaderType}/>}/>
                             <Route exact path='/product/:id' component={ProductScreen}/>
                             <Route path='/shop' render={() => <Shop/>}/>
                             <Route path='/about-us' render={() => <AboutUs/>}/>

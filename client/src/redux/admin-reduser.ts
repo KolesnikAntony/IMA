@@ -1,6 +1,6 @@
 import {BaseThunkType, InferActionsTypes} from "./store";
 import {FormAction} from "redux-form";
-import {AboutImage, AboutList, ContactsType, CreateProductType, ProductType} from "../types/types";
+import {AboutImage, AboutList, AboutTextType, ContactsType, CreateProductType, ProductType} from "../types/types";
 import {FILTER_TYPES} from "../constants/constants";
 import {ProductsAPI} from "../api/api-products";
 import {push} from "connected-react-router";
@@ -16,6 +16,7 @@ const SET_PAGINATION = 'admin-reducer/SET_PAGINATION';
 const SET_CONTACTS = 'admin-reducer/SET_CONTACTS';
 const SET_ABOUT_LIST = 'admin-reducer/SET_ABOUT_LIST';
 const EDIT_ABOUT_CARD = 'admin-reducer/EDIT_ABOUT_CARD';
+const SET_ABOUT_TEXT = 'admin-reducer/SET_ABOUT_TEXT';
 
 
 const AdminInitialState = {
@@ -34,6 +35,10 @@ const AdminInitialState = {
     totalProduct: 1,
     contacts: {},
     aboutList: [] as AboutList,
+    aboutText: {
+        content: '',
+        id: ''
+    },
 };
 
 const adminReducer = (state = AdminInitialState, action: ActionType): AdminInitialStateType => {
@@ -56,7 +61,7 @@ const adminReducer = (state = AdminInitialState, action: ActionType): AdminIniti
             return {...state, contacts: action.contacts};
         case SET_ABOUT_LIST:
             return {
-                ...state, aboutList: action.list.map(el => ({
+                ...state, aboutList: action.list.reverse().map(el => ({
                     id: el.id,
                     caption: el.caption,
                     image: el.image
@@ -75,6 +80,8 @@ const adminReducer = (state = AdminInitialState, action: ActionType): AdminIniti
                 ...state,
                 aboutList: cardList
             };
+        case SET_ABOUT_TEXT:
+            return {...state, aboutText: action.payload}
         default:
             return state
     }
@@ -120,6 +127,10 @@ export const actionsAdmin = {
         editAboutCard: (data: AboutImage) => ({
             type: EDIT_ABOUT_CARD,
             data
+        } as const),
+        setAboutText: (payload: AboutTextType) => ({
+            type: SET_ABOUT_TEXT,
+            payload
         } as const)
     }
 ;
@@ -237,6 +248,25 @@ export const deleteCardAbout = (id: string): ThunkAdminType => async (dispatch) 
     await InfoAPI.deleteCard(id);
     await dispatch(getAboutUsList());
 };
+
+export const getAboutText = (): ThunkAdminType => async (dispatch) => {
+    let {content, id} = await InfoAPI.getAboutText();
+    let payload = {
+        content, id
+    };
+    dispatch(actionsAdmin.setAboutText(payload))
+};
+
+export const editAboutText = ( text: string, _id: string,): ThunkAdminType => async (dispatch) => {
+    let {content, id} = await InfoAPI.editAboutText(text, _id);
+    let payload = {
+        content, id
+    };
+    dispatch(actionsAdmin.setIsEdited(true));
+    dispatch(actionsAdmin.setAboutText(payload));
+    dispatch(actionsAdmin.setIsEdited(false));
+};
+
 
 export default adminReducer;
 

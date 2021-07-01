@@ -36,10 +36,10 @@ const ProductCard: FC<ProductType> = ({title, imageSrc, price, salePrice, sale, 
                 {top && <span className="product-card__mark--top product-card__mark">top</span>}
             </div>
             {/*<span className="product-card__wish">0</span>*/}
-            <img className="product-card__image"
-                 src={imageSrc ? imageSrc : cap}
-                 alt={title}
-                 onError={(e) => addDefaultSrc(e)}/>
+            <div className='product-card__image-wrapp'><img className="product-card__image"
+                      src={imageSrc ? imageSrc : cap}
+                      alt={title}
+                      onError={(e) => addDefaultSrc(e)}/></div>
             <div className="product-card__info">
                 <p className="product-card__name">{title}</p>
                 <p className="product-card__price">{salePrice ? price + "/" + salePrice : price}zł</p>

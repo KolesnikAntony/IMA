@@ -1,4 +1,4 @@
-import React, {FC, useEffect} from 'react';
+import React, {FC, useCallback, useEffect, useState} from 'react';
 import './shop.scss';
 import {Field, FormSection, InjectedFormProps} from "redux-form";
 import {FormFilterHOC} from '../../hocs/hocs';
@@ -26,11 +26,23 @@ const Filter: FC<PropsType> = ({setFilter}) => {
 };
 
 const FilterForm: FC<InjectedFormProps<FormFilterDataType, FormFilterPropsType> & FormFilterPropsType> = ({handleSubmit, colors, categories}) => {
+    const [openCategory, setOpenCategory] = useState(false);
+    const [openColor, setOpenColor] = useState(false);
+
+    const handleOpen = useCallback((type) => {
+        if(type === 'category'){
+            setOpenCategory(!openCategory);
+        }
+        if(type === 'color'){
+            setOpenColor(!openColor);
+        }
+    }, [openColor, openCategory]);
+
     return (
         <form className="shop__form" onSubmit={handleSubmit}>
             <FormSection name="categories">
-                <div className="shop__form--wrap"><h4 className="shop__form--title">Kategory</h4>
-                    <div className="shop__categories">
+                <div className="shop__form--wrap"><h4 className="shop__form--title" onClick={() => handleOpen('category')}>Kategory</h4>
+                    {openCategory && <div className="shop__categories">
                         {categories.map(el =>
                             <div className="shop__categories--item" key={el._id}>
                                 <label htmlFor={"check--" + el._id} className="shop__categories--label">{el.name}</label>
@@ -38,13 +50,13 @@ const FilterForm: FC<InjectedFormProps<FormFilterDataType, FormFilterPropsType> 
                                 <span className="shop__categories--item-checkmark"/>
                             </div>
                         )}
-                    </div>
+                    </div>}
                 </div>
             </FormSection>
             <FormSection name="colors">
                 <div className="shop__form--wrap">
-                    <h4 className="shop__form--title">Kolory</h4>
-                    <div className="shop__categories">
+                    <h4 className="shop__form--title" onClick={() => handleOpen('color')}>Kolory</h4>
+                    {openColor && <div className="shop__categories">
                         {colors.map(el =>
                             <div className="shop__categories--item" key={el}>
                                 <label htmlFor={"check--" + el} className="shop__categories--label">{el}</label>
@@ -52,7 +64,7 @@ const FilterForm: FC<InjectedFormProps<FormFilterDataType, FormFilterPropsType> 
                                 <span className="shop__categories--item-checkmark"/>
                             </div>
                         )}
-                    </div>
+                    </div>}
                 </div>
             </FormSection>
             <button className="shop__form--submit">sprawdzić</button>
