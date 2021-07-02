@@ -1,7 +1,12 @@
-import React from "react";
+import React, {useEffect} from "react";
 import './contacts.scss'
 
 const Contacts = () => {
+
+    useEffect(()=> {
+
+    }, []);
+
     return <section className="contacts">
         <h3 className="aside__title">Kontakty</h3>
         <ul className="contacts__list">

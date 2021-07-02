@@ -15,7 +15,7 @@
     grid-template-columns: 180px 1fr;
     grid-column-gap: 20px;
 
-    @media (max-width: 942px) {
+    @media (max-width: 1031px) {
       grid-template-columns: 3fr;
     }
 
@@ -87,16 +87,7 @@
     @media (max-width: 992px) {
       grid-gap: 20px;
     }
-    @media (max-width: 942px) {
-      padding: 0 40px;
-    }
-    @media (max-width: 826px) {
-      padding: 0 20px;
-    }
-    @media (max-width: 780px) {
-      padding: 0;
-    }
-    @media (max-width: 742px) {
+    @media (max-width: 793px) {
       grid-template-columns: repeat(2, 1fr);
       padding: 0 60px;
     }
@@ -109,14 +100,14 @@
     @media (max-width: 544px) {
       padding: 0;
     }
-    @media (max-width: 492px) {
+    @media (max-width: 534px) {
       grid-template-columns: 1fr;
     }
   }
 
   &__sidebar{
     position: sticky;
-    top: 100px;
+    top: 120px;
     height: fit-content;
     width: 100%;
   }
@@ -132,7 +123,7 @@
         box-shadow: 0 0 4px 0 $color-mocco;
       }
     }
-    @media (max-width: 942px) {
+    @media (max-width: 1031px) {
       position: absolute;
       top: 40px;
       z-index: 10;
@@ -148,6 +139,13 @@
     &--title{
       margin-bottom: 20px;
       text-transform: capitalize;
+      cursor: pointer;
+      transition: 0.3s;
+      @media (hover: hover) and (pointer: fine) {
+        &:hover {
+          color: $color-nude;
+        }
+      }
     }
     &--submit{
       width: 100%;

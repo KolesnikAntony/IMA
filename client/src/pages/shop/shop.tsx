@@ -15,7 +15,7 @@ const Shop = () => {
     const dispatch = useDispatch();
     const products = useSelector<AppStateType, Array<ProductType>>(state => state.products.products);
     const {totalPages, currentPage, portionSize, selectType , sort, isFetching} = useSelector<AppStateType, ProductsInitialStateType>(state => state.products);
-    const isDesktop = useMediaQuery({minWidth: 943});
+    const isDesktop = useMediaQuery({minWidth: 1031});
 
     useEffect(()=> {
         console.log('render shop from useEffect');

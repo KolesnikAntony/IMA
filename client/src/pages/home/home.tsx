@@ -1,4 +1,4 @@
-import React, {FC, useCallback, useEffect} from 'react';
+import React, {FC, useCallback, useEffect, useMemo} from 'react';
 import './home.scss';
 import Intro from "./intro/intro";
 import NewProducts from "./new-products/new-products";
@@ -12,10 +12,8 @@ import {useViewSize} from "../../hooks/hooks";
 import SwiperCore, {Navigation} from "swiper";
 
 
-const Home:FC<PropsType> = ({isNewMember, match}) => {
-    console.log('render home');
+const Home:FC<PropsType> = ({isNewMember, match, onViewHeader}) => {
     let key = match.params.key;
-
     SwiperCore.use([Navigation]);
     let {width} = useViewSize();
 
@@ -32,9 +30,16 @@ const Home:FC<PropsType> = ({isNewMember, match}) => {
     }, [width]);
 
     const dispatch = useDispatch();
+
+    useEffect(() =>{
+        onViewHeader(true);
+        return () => onViewHeader(false);
+    }, []);
+
     useEffect(()=> {
         isNewMember && dispatch(activateUser(key));
     });
+
 
     return <>
         {isNewMember && <NewMemberPopup />}
@@ -53,6 +58,7 @@ type PathParamsType = {
 }
 // Your component own properties
 type PropsType = RouteComponentProps<PathParamsType> & {
-    isNewMember: boolean
-    onClose: () => void
+    isNewMember?: boolean
+    onClose?: () => void
+    onViewHeader: (view: boolean) => void
 }

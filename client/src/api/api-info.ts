@@ -31,6 +31,15 @@ export const InfoAPI = {
     },
     deleteCard(id: string){
         return instance.delete(`/api/imgWithCaption/${id}`).then(res => res.data);
+    },
+    getAboutText(){
+        return instance.get('/api/text').then(res => res.data.textBlock[0]);
+    },
+    editAboutText(content: string, id:string ){
+        let data = {
+            content
+        };
+        return instance.patch(`/api/text/${id}`, data).then(res=> res.data.textBlock);
     }
 };
 

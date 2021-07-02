@@ -129,4 +129,9 @@ export type AboutImage = {
     createMode?: boolean
 };
 
+export type AboutTextType = {
+    id: string,
+    content: string
+}
+
 export type AboutList = Array<AboutImage>;

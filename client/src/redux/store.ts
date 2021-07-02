@@ -10,6 +10,7 @@ import ProductReducer from "./product-reducer";
 import СartReducer from "./cart-reducer";
 import CartReducer from "./cart-reducer";
 import adminReducer from "./admin-reduser";
+import aboutUsReducer from "./aboutPage-reducer";
 
 const middleware = [thunk];
 const reducers = combineReducers(
@@ -21,7 +22,8 @@ const reducers = combineReducers(
         form: formReducer,
         user: UserReducer,
         cart: CartReducer,
-        admin: adminReducer
+        admin: adminReducer,
+        aboutUs: aboutUsReducer,
     }
 );
 
