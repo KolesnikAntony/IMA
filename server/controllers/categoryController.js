@@ -144,3 +144,31 @@ module.exports.getCategoryById = async (req, res) => {
 		return res.status(500).json({message: err.message});
 	}
 };
+
+module.exports.getCategoryWithProducts = async (req, res) => {
+
+	const getUniqueCategories = (array) => {
+		return array.filter((e, i, a) => a.indexOf(e) === i);
+	};
+
+	try {
+
+		const checkProducts = await Product.find().select('category');
+
+		const checkCategories = await Category.find().select('_id');
+
+		const products = getUniqueCategories(checkProducts.map(item => item.category));
+
+		const category = getUniqueCategories(checkCategories.map(item => item._id));
+
+		if (products === category) {
+			return
+		}
+
+		res.status(200).json({checkProducts, checkCategories});
+
+	} catch (err) {
+		return res.status(500).json({message: err.message});
+	}
+
+};
