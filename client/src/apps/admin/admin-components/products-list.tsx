@@ -17,6 +17,7 @@ interface PropsType {
 const ProductList:FC<PropsType & PropsTypeAdminProducts> = ({setMode,setProductId, setTitle}) => {
     const dispatch = useDispatch();
     const products = useSelector((state: RootState) => state.admin.products);
+    const isFetching = useSelector((state: RootState) => state.admin.isFetching);
     const {pageSize} = useSelector((state: RootState) => state.admin);
 
     useEffect(() => {
@@ -37,7 +38,8 @@ const ProductList:FC<PropsType & PropsTypeAdminProducts> = ({setMode,setProductI
         {field: 'title',  headerName: 'Title', flex: 0.4},
         {field: 'price',filterable: false, headerName: 'Price', flex: 0.2},
         {field: 'salePrice', filterable: false, sortable: false, headerName: 'Sale Price',  flex: 0.2},
-        {field: 'id', filterable: false, sortable: false, headerName: 'ID', width: 150, flex: 0.2},
+        //{field: 'id', filterable: false, sortable: false, headerName: 'ID', width: 150, flex: 0.2},
+        //{field: 'category', filterable: false, sortable: false, headerName: 'ID', width: 150, flex: 0.2},
         {
             field: "edit",
             headerName: "Edit",
@@ -69,7 +71,7 @@ const ProductList:FC<PropsType & PropsTypeAdminProducts> = ({setMode,setProductI
 
     ];
     return <>
-        {products.length ?
+        {!isFetching ?
             <div>
                 <Button variant="contained" color="primary" onClick={() => setMode('create')} >
                     Create

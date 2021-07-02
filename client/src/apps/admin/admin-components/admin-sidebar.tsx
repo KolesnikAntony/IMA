@@ -1,17 +1,11 @@
 import React, {useState} from 'react';
-import clsx from 'clsx';
-import {createStyles, makeStyles, Theme, useTheme} from '@material-ui/core/styles';
-import Drawer from '@material-ui/core/Drawer';
+import {createStyles, makeStyles, Theme} from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import List from '@material-ui/core/List';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Typography from '@material-ui/core/Typography';
 import Divider from '@material-ui/core/Divider';
-import IconButton from '@material-ui/core/IconButton';
-import MenuIcon from '@material-ui/icons/Menu';
-import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
-import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
@@ -62,28 +56,15 @@ const useStyles = makeStyles((theme: Theme) =>
             width: drawerWidth,
             flexShrink: 0,
             whiteSpace: 'nowrap',
-
+            position: 'sticky',
+            top: 60,
             background: "white",
             zIndex: 1,
+            height: 'fit-content',
+            boxShadow: '0 0 0 1px rgba(0, 0, 255, .06)',
+            borderRadius: 4
         },
-        drawerOpen: {
-            width: drawerWidth,
-            transition: theme.transitions.create('width', {
-                easing: theme.transitions.easing.sharp,
-                duration: theme.transitions.duration.enteringScreen,
-            }),
-        },
-        drawerClose: {
-            transition: theme.transitions.create('width', {
-                easing: theme.transitions.easing.sharp,
-                duration: theme.transitions.duration.leavingScreen,
-            }),
-            overflowX: 'hidden',
-            width: theme.spacing(7) + 1,
-            [theme.breakpoints.up('sm')]: {
-                width: theme.spacing(9) + 1,
-            },
-        },
+
         toolbar: {
             display: 'flex',
             alignItems: 'center',
@@ -97,10 +78,13 @@ const useStyles = makeStyles((theme: Theme) =>
             paddingTop: 24,
             paddingBottom: 24,
             paddingRight: 24,
-            paddingLeft: 90,
+            paddingLeft: 24,
         },
         logout: {
             marginLeft: 'auto'
+        },
+        activeTab: {
+            background: 'rgba(0,0,0,0.04)'
         }
     }),
 );
@@ -108,18 +92,8 @@ const useStyles = makeStyles((theme: Theme) =>
 export default function SidebarAdmin() {
     const classes = useStyles();
     const dispatch = useDispatch()
-    const theme = useTheme();
-    const [open, setOpen] = React.useState(false);
     const [openColl, setOpenColl] = React.useState(false);
-    const [title, setTitle] = useState('Admin panel')
-
-    const handleDrawerOpen = () => {
-        setOpen(true);
-    };
-
-    const handleDrawerClose = () => {
-        setOpen(false);
-    };
+    const [title, setTitle] = useState('Admin panel');
 
     const handleOnLogout = () => {
         dispatch(logout())
@@ -130,22 +104,9 @@ export default function SidebarAdmin() {
             <CssBaseline/>
             <AppBar
                 position="fixed"
-                className={clsx(classes.appBar, {
-                    [classes.appBarShift]: open,
-                })}
+                className={classes.appBar}
             >
                 <Toolbar>
-                    <IconButton
-                        color="inherit"
-                        aria-label="open drawer"
-                        onClick={handleDrawerOpen}
-                        edge="start"
-                        className={clsx(classes.menuButton, {
-                            [classes.hide]: open,
-                        })}
-                    >
-                        <MenuIcon/>
-                    </IconButton>
                     <Typography variant="h6" noWrap>
                        {title}
                     </Typography>
@@ -159,31 +120,14 @@ export default function SidebarAdmin() {
                     </Button>
                 </Toolbar>
             </AppBar>
-            <Drawer
-                variant="permanent"
-                className={clsx(classes.drawer, {
-                    [classes.drawerOpen]: open,
-                    [classes.drawerClose]: !open,
-                })}
-                classes={{
-                    paper: clsx({
-                        [classes.drawerOpen]: open,
-                        [classes.drawerClose]: !open,
-                    }),
-                }}
-            >
-                <div className={classes.toolbar}>
-                    <IconButton onClick={handleDrawerClose}>
-                        {theme.direction === 'rtl' ? <ChevronRightIcon/> : <ChevronLeftIcon/>}
-                    </IconButton>
-                </div>
+            <div className={classes.drawer}>
                 <Divider/>
                 <List>
-                    <ListItem component={NavLink} to='/admin/products'>
+                    <ListItem component={NavLink} to='/admin/products' activeClassName={classes.activeTab}>
                         <ListItemIcon><LibraryAddIcon/></ListItemIcon>
                         <ListItemText primary='Products'/>
                     </ListItem>
-                    <ListItem component={NavLink} to='/admin/categories'>
+                    <ListItem component={NavLink} to='/admin/categories' activeClassName={classes.activeTab}>
                         <ListItemIcon><PetsIcon/></ListItemIcon>
                         <ListItemText primary='Categories'/>
                     </ListItem>
@@ -193,18 +137,24 @@ export default function SidebarAdmin() {
                     <ListItemIcon>
                         <InboxIcon />
                     </ListItemIcon>
-                    <ListItemText primary="Inbox" />
+                    <ListItemText primary="Site info"/>
                     {openColl ? <ExpandLess /> : <ExpandMore />}
                 </ListItem>
                 <Collapse in={openColl} timeout="auto" unmountOnExit>
                     <List component="div" disablePadding>
-                        <ListItem component={NavLink} to='/admin/contacts'>
+                        <ListItem component={NavLink} to='/admin/homepage' activeClassName={classes.activeTab}>
+                            <ListItemIcon>
+                                <PetsIcon/>
+                            </ListItemIcon>
+                            <ListItemText primary="Home page" />
+                        </ListItem>
+                        <ListItem component={NavLink} to='/admin/contacts' activeClassName={classes.activeTab}>
                             <ListItemIcon>
                                 <PetsIcon/>
                             </ListItemIcon>
                             <ListItemText primary="Contacts" />
                         </ListItem>
-                        <ListItem component={NavLink} to='/admin/about'>
+                        <ListItem component={NavLink} to='/admin/about' activeClassName={classes.activeTab}>
                             <ListItemIcon>
                                 <PetsIcon/>
                             </ListItemIcon>
@@ -212,7 +162,7 @@ export default function SidebarAdmin() {
                         </ListItem>
                     </List>
                 </Collapse>
-            </Drawer>
+            </div>
             <main className={classes.content}>
                 <Switch>
                     <Route exact path='/admin/products' render={() => <ProductContainer setTitle={setTitle}/>}/>

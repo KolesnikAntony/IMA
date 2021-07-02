@@ -19,6 +19,7 @@ import Payment from "../../pages/payment/payment";
 import Refund from "../../pages/refund/refund";
 import {ContainerCheckout} from "../../pages/checkout/checkout";
 import Footer from "../../componetns/footer/footer";
+import {getContacts} from "../../redux/contacts-reducer";
 
 
 type PathParamsType = {
@@ -49,6 +50,7 @@ const ClientApp: FC<PropsType> = ({match}) => {
     useEffect(() => {
         dispatch(checkCartItems());
         dispatch(getIsAuth());
+        dispatch(getContacts());
     }, []);
 
     return (<>

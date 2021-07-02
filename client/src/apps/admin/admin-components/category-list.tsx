@@ -13,6 +13,7 @@ interface PropsType {
 const CategoryList: FC<PropsType> = ({setMode}) => {
     const dispatch = useDispatch();
     const categories = useSelector((state: RootState) => state.admin.categories);
+    const isFetching = useSelector((state: RootState) => state.admin.isFetching);
 
     useEffect(() => {
         dispatch(getAdminCategories())
@@ -43,7 +44,7 @@ const CategoryList: FC<PropsType> = ({setMode}) => {
 
 
     return <>
-        {categories.length ?
+        {!isFetching ?
             <div>
                 <Button variant="contained" color="primary" onClick={() => setMode('create')}>
                     Create

@@ -11,13 +11,15 @@ import {PropsTypeAdminProducts} from "./product-container";
 type PathParamsType = {
     id: string
 }
-interface PropsModeType  {
+
+interface PropsModeType {
     setMode: (mode: string) => void
     productId: string
 }
+
 type PropsType = RouteComponentProps<PathParamsType> & PropsModeType;
 
-const ProductEdit: FC<PropsType & PropsTypeAdminProducts> = ({setMode,productId, setTitle}) => {
+const ProductEdit: FC<PropsType & PropsTypeAdminProducts> = ({setMode, productId, setTitle}) => {
         //const productId = match.params.id;
         const dispatch = useDispatch();
         const history = useHistory();
@@ -62,6 +64,7 @@ const ProductEdit: FC<PropsType & PropsTypeAdminProducts> = ({setMode,productId,
                 setMode('list')
             }
         }, [isCreated]);
+
 
         const handleChangeFile = (e: any) => {
             setInputsData((prevState: ProductType) => ({
@@ -132,7 +135,7 @@ const ProductEdit: FC<PropsType & PropsTypeAdminProducts> = ({setMode,productId,
                     </Grid>
                     <Grid item xs={6}>
                         <TextField id="Short-Description" placeholder="Short Description"
-                                   defaultValue={inputsData.shortDescr}
+                                   value={inputsData.shortDescr}
                                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => handleChangeText('short', e.target.value)}
                                    fullWidth={true} variant='outlined'/>
                     </Grid>
@@ -234,7 +237,7 @@ const ProductEdit: FC<PropsType & PropsTypeAdminProducts> = ({setMode,productId,
                 </Grid>
             </form>
 
-            <Button variant="contained" color="primary" onClick={() => setMode('list')} >
+            <Button variant="contained" color="primary" onClick={() => setMode('list')}>
                 Back to product list
             </Button></>
     }

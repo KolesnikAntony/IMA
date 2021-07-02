@@ -61,8 +61,8 @@ const Product: FC<PropsType> = ({match}) => {
                     </div>
                     <div className="product__col product__information">
                         <h3 className="product__title">{title}</h3>
-                        <p className="product__short-descr">{shortDescr}</p>
-                        <p className="product__description">{description}</p>
+                        <p className="product__short-descr" dangerouslySetInnerHTML={{__html: shortDescr}} />
+                        <p className="product__description" dangerouslySetInnerHTML={{__html: description}} />
                         <div className="product__action">
                             <span className="product__price">{salePrice ? price + "/" + salePrice : price}zł</span>
                             {!isCart
@@ -73,7 +73,7 @@ const Product: FC<PropsType> = ({match}) => {
 
                     </div>
                 </div>
-                <p className="product__sub-info">{subText}</p>
+                <p className="product__sub-info" dangerouslySetInnerHTML={{__html: subText}} />
             </div>
         </section>}
         </>

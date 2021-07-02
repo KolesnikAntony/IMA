@@ -81,7 +81,7 @@ const adminReducer = (state = AdminInitialState, action: ActionType): AdminIniti
                 aboutList: cardList
             };
         case SET_ABOUT_TEXT:
-            return {...state, aboutText: action.payload}
+            return {...state, aboutText: action.payload};
         default:
             return state
     }
@@ -136,10 +136,12 @@ export const actionsAdmin = {
 ;
 
 
-export const getAdminProducts = (currentPage: number, selectType: string, sort: string, category: Array<{ name: string, _id: string }>, colors: Array<string>, limit: number): ThunkAdminType => async (disptatch) => {
+export const getAdminProducts = (currentPage: number, selectType: string, sort: string, category: Array<{ name: string, _id: string }>, colors: Array<string>, limit: number): ThunkAdminType => async (dispatch) => {
+    dispatch(actionsAdmin.setIsFetching(true));
     const res = await ProductsAPI.getProducts(currentPage, selectType, sort, category, colors, limit);
-    disptatch(actionsAdmin.setPagination(res.count));
-    disptatch(actionsAdmin.setProducts(res.products))
+    dispatch(actionsAdmin.setPagination(res.count));
+    dispatch(actionsAdmin.setProducts(res.products));
+    dispatch(actionsAdmin.setIsFetching(false));
 };
 
 
@@ -151,8 +153,10 @@ export const getAdminProduct = (id?: string): ThunkAdminType => async (disptatch
 };
 
 export const getAdminCategories = (): ThunkAdminType => async (dispatch) => {
+    dispatch(actionsAdmin.setIsFetching(true));
     const category = await ProductsAPI.getAllCategory();
     dispatch(actionsAdmin.setCategories(category));
+    dispatch(actionsAdmin.setIsFetching(false));
 };
 
 export const changeAdminProduct = (id: string, formData: ProductType): ThunkAdminType => async (dispatch) => {

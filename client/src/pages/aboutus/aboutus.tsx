@@ -4,7 +4,6 @@ import {getAboutUsPageData} from "../../redux/aboutPage-reducer";
 import {useDispatch, useSelector} from "react-redux";
 import {RootState} from "../../redux/store";
 import Preloader from "../../common/preloader/preloader";
-import ReactDOMServer from 'react-dom/server';
 
 const AboutUs = () => {
     const dispatch = useDispatch();

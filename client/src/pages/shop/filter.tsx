@@ -38,6 +38,8 @@ const FilterForm: FC<InjectedFormProps<FormFilterDataType, FormFilterPropsType> 
         }
     }, [openColor, openCategory]);
 
+    const capitalizeFirstLetter = (string: string) => string.charAt(0).toUpperCase() + string.slice(1);
+
     return (
         <form className="shop__form" onSubmit={handleSubmit}>
             <FormSection name="categories">
@@ -45,7 +47,7 @@ const FilterForm: FC<InjectedFormProps<FormFilterDataType, FormFilterPropsType> 
                     {openCategory && <div className="shop__categories">
                         {categories.map(el =>
                             <div className="shop__categories--item" key={el._id}>
-                                <label htmlFor={"check--" + el._id} className="shop__categories--label">{el.name}</label>
+                                <label htmlFor={"check--" + el._id} className="shop__categories--label">{capitalizeFirstLetter(el.name)}</label>
                                 <Field type='checkbox' name={el._id} component='input' id={"check--" + el._id}/>
                                 <span className="shop__categories--item-checkmark"/>
                             </div>
@@ -59,7 +61,7 @@ const FilterForm: FC<InjectedFormProps<FormFilterDataType, FormFilterPropsType> 
                     {openColor && <div className="shop__categories">
                         {colors.map(el =>
                             <div className="shop__categories--item" key={el}>
-                                <label htmlFor={"check--" + el} className="shop__categories--label">{el}</label>
+                                <label htmlFor={"check--" + el} className="shop__categories--label">{capitalizeFirstLetter(el)}</label>
                                 <Field type='checkbox' name={el} component='input' id={"check--" + el}/>
                                 <span className="shop__categories--item-checkmark"/>
                             </div>
