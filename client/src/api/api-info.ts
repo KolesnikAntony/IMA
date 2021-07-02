@@ -40,6 +40,15 @@ export const InfoAPI = {
             content
         };
         return instance.patch(`/api/text/${id}`, data).then(res=> res.data.textBlock);
+    },
+    getBannerText(){
+        return instance.get('/api/banner').then(res => res.data.banner[0]);
+    },
+    editBannerText(content: string, id:string ){
+        let data = {
+            content
+        };
+        return instance.patch(`/api/banner/${id}`, data).then(res=> res.data.banner);
     }
 };
 

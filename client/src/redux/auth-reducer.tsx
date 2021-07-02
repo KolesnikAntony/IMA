@@ -26,7 +26,7 @@ const AuthReducer = (state = initialState, action: ActionType): AuthInitialState
     }
 };
 
-const actions = {
+export const actionsAuth = {
     signUpSuccess: (email: string) => ({
         type: SIGN_UP,
         email,
@@ -40,13 +40,12 @@ const actions = {
 };
 
 export const getIsAuth = ():ThunkType => async (dispatch) => {
-    console.log(STATE_TYPES.AUTH.SIGN_UP);
     try {
         await AuthAPI.me();
         dispatch(await getProfileData());
-        dispatch(actions.setIsAuth(true))
+        dispatch(actionsAuth.setIsAuth(true))
     }catch (err) {
-        dispatch(actions.setIsAuth(false));
+        dispatch(actionsAuth.setIsAuth(false));
         console.log(err.response);
     }
 };
@@ -54,7 +53,7 @@ export const getIsAuth = ():ThunkType => async (dispatch) => {
 export const signUpThunk = (email: string, password: string): ThunkType => async (dispatch) => {
     try {
         await AuthAPI.signUp(email, password);
-        dispatch(actions.signUpSuccess(email))
+        dispatch(actionsAuth.signUpSuccess(email))
     } catch (err) {
         dispatch(stopSubmit('registration', {_error: err.response.data.message }))
     }
@@ -64,7 +63,7 @@ export const loginThunk = (email: string, password: string):ThunkType => async (
     try {
         await AuthAPI.login(email,password);
         dispatch(await getProfileData());
-        dispatch(actions.setIsAuth(true))
+        dispatch(actionsAuth.setIsAuth(true))
     }catch (err) {
        dispatch(stopSubmit('login', {_error: err.response.data.message}));
     }
@@ -81,7 +80,7 @@ export const activateUser = (key: string):ThunkType => async (dispatch) => {
 export const logout = ():ThunkType => async (dispatch) => {
     try {
         await AuthAPI.logout();
-        dispatch(actions.setIsAuth(false))
+        dispatch(actionsAuth.setIsAuth(false))
     }catch (err) {
         console.log(err.response)
     }
@@ -90,5 +89,5 @@ export const logout = ():ThunkType => async (dispatch) => {
 export default AuthReducer;
 
 export type AuthInitialStateType = typeof initialState;
-type ActionType = InferActionsTypes<typeof actions>
+type ActionType = InferActionsTypes<typeof actionsAuth>
 type ThunkType = BaseThunkType<ActionType | FormAction>

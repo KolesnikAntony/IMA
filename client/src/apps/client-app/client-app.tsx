@@ -1,6 +1,5 @@
-import React, {FC, useCallback, useEffect, useMemo, useState} from "react";
-import {Provider, useDispatch} from "react-redux";
-import store from "../../redux/store";
+import React, {FC, useCallback, useEffect, useState} from "react";
+import {useDispatch} from "react-redux";
 import {checkCartItems} from "../../redux/cart-reducer";
 import {getIsAuth} from "../../redux/auth-reducer";
 import {OpenCartContext} from "../../context/context";
@@ -20,6 +19,7 @@ import Refund from "../../pages/refund/refund";
 import {ContainerCheckout} from "../../pages/checkout/checkout";
 import Footer from "../../componetns/footer/footer";
 import {getContacts} from "../../redux/contacts-reducer";
+import { getHomeBannerText } from "../../redux/home-reducer";
 
 
 type PathParamsType = {
@@ -51,6 +51,7 @@ const ClientApp: FC<PropsType> = ({match}) => {
         dispatch(checkCartItems());
         dispatch(getIsAuth());
         dispatch(getContacts());
+        dispatch(getHomeBannerText());
     }, []);
 
     return (<>

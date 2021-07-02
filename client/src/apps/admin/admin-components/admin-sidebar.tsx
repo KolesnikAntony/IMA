@@ -23,6 +23,7 @@ import ExpandLess from '@material-ui/icons/ExpandLess';
 import ExpandMore from '@material-ui/icons/ExpandMore';
 import AdminContacts from "./admin-contacts";
 import AdminAbout from "./admin-about";
+import AdminHome from "./admin-home";
 
 const drawerWidth = 240;
 
@@ -169,6 +170,7 @@ export default function SidebarAdmin() {
                     <Route exact path='/admin/categories' component={CategoryContainer}/>
                     <Route exact path='/admin/contacts' component={AdminContacts}/>
                     <Route exact path='/admin/about'  render={() => <AdminAbout setTitle={setTitle}/>}/>
+                    <Route exact path='/admin/homepage'  render={() => <AdminHome setTitle={setTitle}/>}/>
                 </Switch>
             </main>
         </div>

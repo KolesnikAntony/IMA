@@ -1,20 +1,16 @@
 import React from "react";
 import './banner.scss';
+import {useSelector} from "react-redux";
+import {RootState} from "../../../redux/store";
 
 const Banner = () => {
+    const text = useSelector((state:RootState) => state.home.bannerText);
+
     return (
         <section className="banner">
             <div className="container">
                 <div className="banner__text">
-                    <p className="banner__paragraph">
-                        «Never forget your manicure. Your hands are the first thing that catches your eye after your face» — Julia Restoin Roitfeld
-                    </p>
-                    <p className="banner__paragraph">
-                        «Groomed hands are like the period at the end of a sentence. They complete your look and make you whole.» — Prabal Gurung
-                    </p>
-                    <p className="banner__paragraph">
-                        «The happiest girls tend to have the best groomed manicures» — Tammy Taylor
-                    </p>
+                    <p className="banner__paragraph" dangerouslySetInnerHTML={{__html: text}}/>
                 </div>
             </div>
         </section>

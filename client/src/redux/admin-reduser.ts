@@ -5,6 +5,7 @@ import {FILTER_TYPES} from "../constants/constants";
 import {ProductsAPI} from "../api/api-products";
 import {push} from "connected-react-router";
 import {InfoAPI} from "../api/api-info";
+import {actionsAuth} from "./auth-reducer";
 
 const SET_ADMIN_PRODUCTS = 'admin-reducer/SET_PRODUCTS';
 const SET_ADMIN_PRODUCT = 'admin-reducer/SET_PRODUCT';
@@ -17,6 +18,7 @@ const SET_CONTACTS = 'admin-reducer/SET_CONTACTS';
 const SET_ABOUT_LIST = 'admin-reducer/SET_ABOUT_LIST';
 const EDIT_ABOUT_CARD = 'admin-reducer/EDIT_ABOUT_CARD';
 const SET_ABOUT_TEXT = 'admin-reducer/SET_ABOUT_TEXT';
+const SET_BANNER_TEXT = 'admin-reducer/SET_BANNER_TEXT';
 
 
 const AdminInitialState = {
@@ -36,6 +38,10 @@ const AdminInitialState = {
     contacts: {},
     aboutList: [] as AboutList,
     aboutText: {
+        content: '',
+        id: ''
+    },
+    bannerText: {
         content: '',
         id: ''
     },
@@ -82,6 +88,9 @@ const adminReducer = (state = AdminInitialState, action: ActionType): AdminIniti
             };
         case SET_ABOUT_TEXT:
             return {...state, aboutText: action.payload};
+
+        case SET_BANNER_TEXT:
+            return {...state, bannerText: action.payload};
         default:
             return state
     }
@@ -131,6 +140,10 @@ export const actionsAdmin = {
         setAboutText: (payload: AboutTextType) => ({
             type: SET_ABOUT_TEXT,
             payload
+        } as const),
+        setBannerText: (payload: AboutTextType) => ({
+            type: SET_BANNER_TEXT,
+            payload
         } as const)
     }
 ;
@@ -160,9 +173,16 @@ export const getAdminCategories = (): ThunkAdminType => async (dispatch) => {
 };
 
 export const changeAdminProduct = (id: string, formData: ProductType): ThunkAdminType => async (dispatch) => {
-    const res = await ProductsAPI.changeProduct(id, formData);
-    dispatch(actionsAdmin.setProduct(res));
-    dispatch(actionsAdmin.setIsCreated(true));
+    try {
+        const res = await ProductsAPI.changeProduct(id, formData);
+        dispatch(actionsAdmin.setProduct(res));
+        dispatch(actionsAdmin.setIsCreated(true));
+    } catch (err) {
+        if (err.response.status === 401) {
+            alert('Session was finished. Please login');
+            dispatch(actionsAuth.setIsAuth(false));
+        }
+    }
 };
 
 export const createAdminProduct = (formData: CreateProductType): ThunkAdminType => async (dispatch) => {
@@ -170,7 +190,10 @@ export const createAdminProduct = (formData: CreateProductType): ThunkAdminType 
         await ProductsAPI.createProduct(formData);
         dispatch(actionsAdmin.setIsCreated(true));
     } catch (err) {
-        alert(err.response.data.message);
+        if (err.response.status === 401) {
+            alert('Session was finished. Please login');
+            dispatch(actionsAuth.setIsAuth(false));
+        }
     }
 
 };
@@ -182,8 +205,11 @@ export const deleteAdmitProduct = (id: string): ThunkAdminType => async (dispatc
         let newProductList = products.filter(item => item.id + '' !== id);
         dispatch(actionsAdmin.setProducts(newProductList));
         dispatch(actionsAdmin.setPagination(products.length));
-    } catch (e) {
-        console.log(e);
+    } catch (err) {
+        if (err.response.status === 401) {
+            alert('Session was finished. Please login');
+            dispatch(actionsAuth.setIsAuth(false));
+        }
     }
 };
 
@@ -194,8 +220,11 @@ export const deleteCategory = (id: string): ThunkAdminType => async (dispatch, g
         let newCategories = categories.filter(item => item.id + '' !== id);
         dispatch(actionsAdmin.setCategories(newCategories));
         dispatch(actionsAdmin.setPagination(newCategories.length));
-    } catch (e) {
-        console.log(e);
+    } catch (err) {
+        if (err.response.status === 401) {
+            alert('Session was finished. Please login');
+            dispatch(actionsAuth.setIsAuth(false));
+        }
     }
 };
 
@@ -204,7 +233,12 @@ export const createCategory = (name: string): ThunkAdminType => async (dispatch)
         await ProductsAPI.createNewCategory(name);
         dispatch(actionsAdmin.setIsCreated(true));
     } catch (err) {
-        alert(err.response.data.message);
+        if (err.response.status === 401) {
+            alert('Session was finished. Please login');
+            dispatch(actionsAuth.setIsAuth(false));
+        } else if (err.response.status === 400) {
+            alert('Please choose a photo');
+        }
     }
 };
 
@@ -216,41 +250,83 @@ const setContacts = (dispatch: any, data: ContactsType) => {
 
 
 export const getContacts = (): ThunkAdminType => async (dispatch) => {
-    let res = await InfoAPI.getContacts();
-    setContacts(dispatch, res);
+    try {
+        let res = await InfoAPI.getContacts();
+        setContacts(dispatch, res);
+    } catch (err) {
+        if (err.response.status === 401) {
+            alert('Session was finished. Please login');
+            dispatch(actionsAuth.setIsAuth(false));
+        }
+    }
 };
 
 export const changeContacts = (data: ContactsType): ThunkAdminType => async (dispatch) => {
-    let res = await InfoAPI.changeContacts(data);
-    setContacts(dispatch, res);
+    try {
+        let res = await InfoAPI.changeContacts(data);
+        setContacts(dispatch, res);
+    } catch (err) {
+        if (err.response.status === 401) {
+            alert('Session was finished. Please login');
+            dispatch(actionsAuth.setIsAuth(false));
+        }
+    }
 };
 
 export const getAboutUsList = (): ThunkAdminType => async (dispatch) => {
-    let res = await InfoAPI.getPhotoList();
-    dispatch(actionsAdmin.setAboutList(res));
+    try {
+        let res = await InfoAPI.getPhotoList();
+        dispatch(actionsAdmin.setAboutList(res));
+    } catch (err) {
+        if (err.response.status === 401) {
+            alert('Session was finished. Please login');
+            dispatch(actionsAuth.setIsAuth(false));
+        }
+    }
 };
 
 export const createAboutCard = (formData: AboutImage): ThunkAdminType => async (dispatch) => {
-    dispatch(actionsAdmin.setIsFetching(true));
-    await InfoAPI.createAboutCard(formData);
-    dispatch(actionsAdmin.setIsCreated(true));
-    dispatch(actionsAdmin.setIsCreated(false));
-    await dispatch(getAboutUsList());
-    dispatch(actionsAdmin.setIsFetching(false));
+    try {
+        dispatch(actionsAdmin.setIsFetching(true));
+        await InfoAPI.createAboutCard(formData);
+        dispatch(actionsAdmin.setIsCreated(true));
+        dispatch(actionsAdmin.setIsCreated(false));
+        await dispatch(getAboutUsList());
+        dispatch(actionsAdmin.setIsFetching(false));
+    } catch (err) {
+        if (err.response.status === 401) {
+            alert('Session was finished. Please login');
+            dispatch(actionsAuth.setIsAuth(false));
+        }
+    }
 };
 
 export const editAboutCard = (formData: AboutImage): ThunkAdminType => async (dispatch) => {
-    dispatch(actionsAdmin.setIsFetching(true));
-    let res = await InfoAPI.editAboutCard(formData);
-    dispatch(actionsAdmin.setIsEdited(true));
-    dispatch(actionsAdmin.setIsEdited(false));
-    dispatch(actionsAdmin.editAboutCard(res));
-    dispatch(actionsAdmin.setIsFetching(false));
+    try {
+        dispatch(actionsAdmin.setIsFetching(true));
+        let res = await InfoAPI.editAboutCard(formData);
+        dispatch(actionsAdmin.setIsEdited(true));
+        dispatch(actionsAdmin.setIsEdited(false));
+        dispatch(actionsAdmin.editAboutCard(res));
+        dispatch(actionsAdmin.setIsFetching(false));
+    } catch (err) {
+        if (err.response.status === 401) {
+            alert('Session was finished. Please login');
+            dispatch(actionsAuth.setIsAuth(false));
+        }
+    }
 };
 
 export const deleteCardAbout = (id: string): ThunkAdminType => async (dispatch) => {
-    await InfoAPI.deleteCard(id);
-    await dispatch(getAboutUsList());
+    try {
+        await InfoAPI.deleteCard(id);
+        await dispatch(getAboutUsList());
+    } catch (err) {
+        if (err.response.status === 401) {
+            alert('Session was finished. Please login');
+            dispatch(actionsAuth.setIsAuth(false));
+        }
+    }
 };
 
 export const getAboutText = (): ThunkAdminType => async (dispatch) => {
@@ -261,14 +337,46 @@ export const getAboutText = (): ThunkAdminType => async (dispatch) => {
     dispatch(actionsAdmin.setAboutText(payload))
 };
 
-export const editAboutText = ( text: string, _id: string,): ThunkAdminType => async (dispatch) => {
-    let {content, id} = await InfoAPI.editAboutText(text, _id);
+export const getBannerText = (): ThunkAdminType => async (dispatch) => {
+    let {content, id} = await InfoAPI.getBannerText();
+    let payload = {
+        content, id
+    };
+    dispatch(actionsAdmin.setBannerText(payload))
+};
+
+
+const editTextBlock = (id: string, content: string, action: any, dispatch: any) => {
     let payload = {
         content, id
     };
     dispatch(actionsAdmin.setIsEdited(true));
-    dispatch(actionsAdmin.setAboutText(payload));
+    dispatch(action(payload));
     dispatch(actionsAdmin.setIsEdited(false));
+};
+
+export const editAboutText = (text: string, _id: string,): ThunkAdminType => async (dispatch) => {
+    try {
+        let {content, id} = await InfoAPI.editAboutText(text, _id);
+        editTextBlock(id, content, actionsAdmin.setAboutText, dispatch);
+    } catch (err) {
+        if (err.response.status === 401) {
+            alert('Session was finished. Please login');
+            dispatch(actionsAuth.setIsAuth(false));
+        }
+    }
+};
+
+export const editBannerText = (text: string, _id: string,): ThunkAdminType => async (dispatch) => {
+    try {
+        let {content, id} = await InfoAPI.editBannerText(text, _id);
+        editTextBlock(id, content, actionsAdmin.setBannerText, dispatch);
+    } catch (err) {
+        if (err.response.status === 401) {
+            alert('Session was finished. Please login');
+            dispatch(actionsAuth.setIsAuth(false));
+        }
+    }
 };
 
 
