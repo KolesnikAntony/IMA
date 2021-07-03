@@ -30,7 +30,7 @@ app.use(express.urlencoded({extended: true}));
 app.use(cookieParser());
 app.use(cors());
 
-//routes ///
+//routes
 app.get('/api', me, async (req, res) => {
 	res.json({message: 'work'});
 }); 
