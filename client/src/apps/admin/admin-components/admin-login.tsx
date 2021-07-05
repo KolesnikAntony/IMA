@@ -12,10 +12,11 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import {makeStyles} from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
-import {actionsAuth, loginThunk} from "../../../redux/auth-reducer";
+import {actionsAuth, AdminLoginThunk} from "../../../redux/auth-reducer";
 import {useDispatch, useSelector} from "react-redux";
 import {Snackbar} from "@material-ui/core";
 import {RootState} from "../../../redux/store";
+import Alert from '@material-ui/lab/Alert';
 
 function Copyright() {
     return (
@@ -55,6 +56,8 @@ export default function SignIn() {
     const classes = useStyles();
     const dispatch = useDispatch();
     const isError = useSelector((state:RootState) => state.auth.isError);
+    console.log(isError.toggle, '----toogle')
+
 
 
     const [formData, setFormData] = useState({
@@ -66,11 +69,11 @@ export default function SignIn() {
     const handleSubmit = (e: React.SyntheticEvent, data: any) => {
         e.preventDefault();
         let {login, password} = data;
-        dispatch(loginThunk(login, password));
+        dispatch(AdminLoginThunk(login, password));
     };
 
     const handleCloseAlert = () => {
-        dispatch(actionsAuth.setError(false));
+        dispatch(actionsAuth.setError({toggle: false, errorText: ''}));
     };
 
     return (
@@ -143,8 +146,8 @@ export default function SignIn() {
             <Box mt={8}>
                 <Copyright/>
             </Box>
-            <Snackbar open={isError} autoHideDuration={6000} onClose={handleCloseAlert}>
-                <p>Error</p>
+            <Snackbar open={isError.toggle} autoHideDuration={6000} onClose={handleCloseAlert}>
+                <Alert severity="error">{isError.errorText}</Alert>
             </Snackbar>
         </Container>
     );

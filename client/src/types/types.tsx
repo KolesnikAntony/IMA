@@ -134,6 +134,9 @@ export type AboutTextType = {
     content: string
 }
 
-
-
 export type AboutList = Array<AboutImage>;
+
+export type ErrorType = {
+    errorText: string
+    toggle: boolean
+}

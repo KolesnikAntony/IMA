@@ -288,6 +288,7 @@ export const changeContacts = (data: ContactsType): ThunkAdminType => async (dis
     try {
         let res = await InfoAPI.changeContacts(data);
         setContacts(dispatch, res);
+        dispatch(actionsAdmin.setIsEdited(true));
     } catch (err) {
         if (err.response.status === 401) {
             alert('Session was finished. Please login');

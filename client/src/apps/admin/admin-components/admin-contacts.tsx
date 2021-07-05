@@ -1,10 +1,11 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useMemo, useState} from 'react';
 import {Button, Grid, LinearProgress, Snackbar, TextField} from "@material-ui/core";
 import {useDispatch, useSelector} from "react-redux";
 
 import {RootState} from "../../../redux/store";
-import {changeContacts, getContacts} from "../../../redux/admin-reduser";
+import {actionsAdmin, changeContacts, getContacts} from "../../../redux/admin-reduser";
 import {ContactsType} from "../../../types/types";
+import Alert from '@material-ui/lab/Alert';
 
 const AdminContacts = () => {
     const dispatch = useDispatch();
@@ -18,13 +19,13 @@ const AdminContacts = () => {
         region: "",
     } as ContactsType);
 
-    const [showAlert, setShowAlert] = useState(false);
-
     useEffect(() => {
-        dispatch(getContacts())
+        dispatch(getContacts());
+        return ofIsEdit();
     }, []);
 
     const contacts = useSelector((state: RootState) => state.admin.contacts);
+    const isEdited = useSelector((state: RootState) => state.admin.isEdited);
 
     useEffect(() => {
         let isFetch = Object.keys(contacts).length;
@@ -37,7 +38,6 @@ const AdminContacts = () => {
     const handleSubmit = (e: React.SyntheticEvent, formData: any) => {
         e.preventDefault();
         dispatch(changeContacts(formData));
-        setShowAlert(true);
     };
 
     const handleChangeText = (type: string, value: string) => {
@@ -63,8 +63,11 @@ const AdminContacts = () => {
         if (reason === 'clickaway') {
             return;
         }
+        ofIsEdit();
+    };
 
-        setShowAlert(false);
+    const ofIsEdit = () => {
+        dispatch(actionsAdmin.setIsEdited(false));
     };
 
     return <>
@@ -109,8 +112,8 @@ const AdminContacts = () => {
             </form> :
             <LinearProgress />
         }
-        <Snackbar open={showAlert} autoHideDuration={6000} onClose={handleCloseAlert}>
-           <p>Contacts was edited.</p>
+        <Snackbar open={isEdited} autoHideDuration={6000} onClose={handleCloseAlert}>
+            <Alert severity="success">Contacts was edited.</Alert>
         </Snackbar>
     </>
 };

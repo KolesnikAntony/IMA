@@ -2,7 +2,7 @@ import {BaseThunkType, InferActionsTypes} from "./store";
 import {FormAction, stopSubmit} from "redux-form";
 import {AuthAPI} from "../api/api-auth";
 import {getProfileData} from "./user-reducer";
-import {STATE_TYPES} from "../constants/constants";
+import {ErrorType} from "../types/types";
 
 const SIGN_UP = 'auth-reducer/SIGH_UP';
 const IS_AUTH = 'auth-reducer/IS_AUTH';
@@ -15,7 +15,10 @@ const initialState = {
     isSuccessReg: false,
     isAuth: false,
     isFetching: false,
-    isError: false,
+    isError: {
+        errorText: '',
+        toggle: false,
+    } as ErrorType,
 };
 
 const AuthReducer = (state = initialState, action: ActionType): AuthInitialStateType => {
@@ -46,7 +49,7 @@ export const actionsAuth = {
         type: IS_FETCHING,
         isFetching
     } as const),
-    setError: (isError: boolean) => ({
+    setError: (isError: ErrorType) => ({
         type: SET_ERROR,
         isError,
     } as const)
@@ -66,7 +69,6 @@ export const getIsAuth = ():ThunkType => async (dispatch) => {
         dispatch(actionsAuth.setIsAuth(false));
     }
     dispatch(actionsAuth.setIsFetching(false));
-
 };
 
 export const signUpThunk = (email: string, password: string): ThunkType => async (dispatch) => {
@@ -74,7 +76,6 @@ export const signUpThunk = (email: string, password: string): ThunkType => async
         await AuthAPI.signUp(email, password);
         dispatch(actionsAuth.signUpSuccess(email))
     } catch (err) {
-        dispatch(actionsAuth.setError(true));
         dispatch(stopSubmit('registration', {_error: err.response.data.message }))
     }
 };
@@ -85,9 +86,24 @@ export const loginThunk = (email: string, password: string):ThunkType => async (
         dispatch(await getProfileData());
         dispatch(actionsAuth.setIsAuth(true))
     }catch (err) {
-       dispatch(stopSubmit('login', {_error: err.response.data.message}));
+        if(err.response.status === 400){
+            dispatch(stopSubmit('login', {_error: err.response.data.message}));
+        }
     }
 };
+
+export const AdminLoginThunk = (email: string, password: string):ThunkType => async (dispatch) => {
+    try {
+        await AuthAPI.login(email,password);
+        dispatch(await getProfileData());
+        dispatch(actionsAuth.setIsAuth(true))
+    }catch (err) {
+        if(err.response.status === 400){
+            dispatch(actionsAuth.setError({errorText: err.response.data.message, toggle: true}));
+        }
+    }
+};
+
 
 export const activateUser = (key: string):ThunkType => async (dispatch) => {
     try {
