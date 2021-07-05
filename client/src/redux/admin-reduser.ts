@@ -1,9 +1,15 @@
 import {BaseThunkType, InferActionsTypes} from "./store";
 import {FormAction} from "redux-form";
-import {AboutImage, AboutList, AboutTextType, ContactsType, CreateProductType, ProductType} from "../types/types";
-import {FILTER_TYPES} from "../constants/constants";
+import {
+    AboutImage,
+    AboutList,
+    AboutTextType,
+    ContactsType,
+    CreateProductType,
+    ProductType,
+    ProfileDataType
+} from "../types/types";
 import {ProductsAPI} from "../api/api-products";
-import {push} from "connected-react-router";
 import {InfoAPI} from "../api/api-info";
 import {actionsAuth} from "./auth-reducer";
 
@@ -19,6 +25,8 @@ const SET_ABOUT_LIST = 'admin-reducer/SET_ABOUT_LIST';
 const EDIT_ABOUT_CARD = 'admin-reducer/EDIT_ABOUT_CARD';
 const SET_ABOUT_TEXT = 'admin-reducer/SET_ABOUT_TEXT';
 const SET_BANNER_TEXT = 'admin-reducer/SET_BANNER_TEXT';
+const SET_ALL_USERS = 'admin-reducer/SET_ALL_USERS';
+const SET_ERROR = 'admin-reducer/SET_ERROR';
 
 
 const AdminInitialState = {
@@ -29,8 +37,6 @@ const AdminInitialState = {
     pageSize: 12,
     portionSize: 4,
     currentPage: 1,
-    selectType: FILTER_TYPES.SELECT_TYPE.ALL,
-    sort: FILTER_TYPES.SORT_TYPE.MAX,
     isFetching: false,
     isCreated: false,
     isEdited: false,
@@ -45,6 +51,9 @@ const AdminInitialState = {
         content: '',
         id: ''
     },
+    users: [] as Array<ProfileDataType>,
+    isError: false,
+
 };
 
 const adminReducer = (state = AdminInitialState, action: ActionType): AdminInitialStateType => {
@@ -91,6 +100,12 @@ const adminReducer = (state = AdminInitialState, action: ActionType): AdminIniti
 
         case SET_BANNER_TEXT:
             return {...state, bannerText: action.payload};
+
+        case SET_ALL_USERS:
+            return {...state, users: action.users};
+        case SET_ERROR:
+            return {...state, isError: action.isError};
+
         default:
             return state
     }
@@ -144,6 +159,14 @@ export const actionsAdmin = {
         setBannerText: (payload: AboutTextType) => ({
             type: SET_BANNER_TEXT,
             payload
+        } as const),
+        setUsers: (users: Array<ProfileDataType>) => ({
+            type: SET_ALL_USERS,
+            users
+        } as const),
+        setError: (isError: boolean) => ({
+            type: SET_ERROR,
+            isError,
         } as const)
     }
 ;
@@ -330,11 +353,14 @@ export const deleteCardAbout = (id: string): ThunkAdminType => async (dispatch) 
 };
 
 export const getAboutText = (): ThunkAdminType => async (dispatch) => {
+    dispatch(actionsAdmin.setIsFetching(true));
     let {content, id} = await InfoAPI.getAboutText();
     let payload = {
         content, id
     };
-    dispatch(actionsAdmin.setAboutText(payload))
+    dispatch(actionsAdmin.setAboutText(payload));
+    dispatch(await getAboutUsList());
+    dispatch(actionsAdmin.setIsFetching(false));
 };
 
 export const getBannerText = (): ThunkAdminType => async (dispatch) => {
@@ -371,6 +397,21 @@ export const editBannerText = (text: string, _id: string,): ThunkAdminType => as
     try {
         let {content, id} = await InfoAPI.editBannerText(text, _id);
         editTextBlock(id, content, actionsAdmin.setBannerText, dispatch);
+    } catch (err) {
+        if (err.response.status === 401) {
+            alert('Session was finished. Please login');
+            dispatch(actionsAuth.setIsAuth(false));
+        }
+    }
+};
+
+export const getAllUsers = (): ThunkAdminType => async (dispatch) => {
+    try {
+        dispatch(actionsAdmin.setIsFetching(true));
+        let res = await InfoAPI.getUsers();
+        console.log(res);
+        dispatch(actionsAdmin.setUsers(res));
+        dispatch(actionsAdmin.setIsFetching(false));
     } catch (err) {
         if (err.response.status === 401) {
             alert('Session was finished. Please login');

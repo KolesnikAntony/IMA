@@ -24,6 +24,11 @@ import ExpandMore from '@material-ui/icons/ExpandMore';
 import AdminContacts from "./admin-contacts";
 import AdminAbout from "./admin-about";
 import AdminHome from "./admin-home";
+import UserList from "./admin-user-list";
+import HomeIcon from '@material-ui/icons/Home';
+import InfoIcon from '@material-ui/icons/Info';
+import ContactsIcon from '@material-ui/icons/Contacts';
+import GroupIcon from '@material-ui/icons/Group';
 
 const drawerWidth = 240;
 
@@ -145,24 +150,33 @@ export default function SidebarAdmin() {
                     <List component="div" disablePadding>
                         <ListItem component={NavLink} to='/admin/homepage' activeClassName={classes.activeTab}>
                             <ListItemIcon>
-                                <PetsIcon/>
+                                <HomeIcon/>
                             </ListItemIcon>
                             <ListItemText primary="Home page" />
                         </ListItem>
                         <ListItem component={NavLink} to='/admin/contacts' activeClassName={classes.activeTab}>
                             <ListItemIcon>
-                                <PetsIcon/>
+                                <ContactsIcon/>
                             </ListItemIcon>
                             <ListItemText primary="Contacts" />
                         </ListItem>
                         <ListItem component={NavLink} to='/admin/about' activeClassName={classes.activeTab}>
                             <ListItemIcon>
-                                <PetsIcon/>
+                                <InfoIcon/>
                             </ListItemIcon>
                             <ListItemText primary="About us" />
                         </ListItem>
                     </List>
                 </Collapse>
+                <Divider/>
+                <List component="div" disablePadding>
+                    <ListItem component={NavLink} to='/admin/users' activeClassName={classes.activeTab}>
+                        <ListItemIcon>
+                            <GroupIcon/>
+                        </ListItemIcon>
+                        <ListItemText primary="Users" />
+                    </ListItem>
+                </List>
             </div>
             <main className={classes.content}>
                 <Switch>
@@ -171,6 +185,7 @@ export default function SidebarAdmin() {
                     <Route exact path='/admin/contacts' component={AdminContacts}/>
                     <Route exact path='/admin/about'  render={() => <AdminAbout setTitle={setTitle}/>}/>
                     <Route exact path='/admin/homepage'  render={() => <AdminHome setTitle={setTitle}/>}/>
+                    <Route exact path='/admin/users'  render={() => <UserList setTitle={setTitle}/>}/>
                 </Switch>
             </main>
         </div>

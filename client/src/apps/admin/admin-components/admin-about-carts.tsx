@@ -7,16 +7,9 @@ import AboutCard from "./admin-list-card";
 import plus from './../../../assets/img/plus.png'
 
 
-const useStyles = makeStyles(() => ({
-
-}));
 
 const AdminAboutCarts = () => {
-    const dispatch = useDispatch();
     const aboutList = useSelector((state:RootState) => state.admin.aboutList);
-    useEffect(() => {
-        dispatch(getAboutUsList())
-    }, []);
 
     return <div className='admin-about__list'>
         <Grid container spacing={2}>

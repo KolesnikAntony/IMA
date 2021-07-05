@@ -500,3 +500,7 @@ a {
     right: 10px;
   }
 }
+
+*, *:before, *:after {
+  -webkit-tap-highlight-color: transparent;
+}

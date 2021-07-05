@@ -134,4 +134,6 @@ export type AboutTextType = {
     content: string
 }
 
+
+
 export type AboutList = Array<AboutImage>;

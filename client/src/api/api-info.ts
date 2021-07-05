@@ -49,6 +49,9 @@ export const InfoAPI = {
             content
         };
         return instance.patch(`/api/banner/${id}`, data).then(res=> res.data.banner);
+    },
+    getUsers(){
+        return instance.get(`/api/user/all_info?page=1&limit=1000`).then(res=> res.data);
     }
 };
 

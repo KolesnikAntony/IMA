@@ -6,12 +6,16 @@ import {STATE_TYPES} from "../constants/constants";
 
 const SIGN_UP = 'auth-reducer/SIGH_UP';
 const IS_AUTH = 'auth-reducer/IS_AUTH';
+const IS_FETCHING = 'auth-reducer/IS_FETCHING';
+const SET_ERROR = 'auth-reducer/SET_ERROR';
 
 const initialState = {
     email: null as string | null,
     password: null as string | null,
     isSuccessReg: false,
     isAuth: false,
+    isFetching: false,
+    isError: false,
 };
 
 const AuthReducer = (state = initialState, action: ActionType): AuthInitialStateType => {
@@ -20,7 +24,10 @@ const AuthReducer = (state = initialState, action: ActionType): AuthInitialState
             return {...state, isSuccessReg: true, email: action.email};
         case IS_AUTH:
             return {...state, isAuth: action.isAuth};
-
+        case IS_FETCHING:
+            return {...state, isFetching: action.isFetching};
+        case SET_ERROR :
+            return {...state, isError: action.isError};
         default:
             return state;
     }
@@ -35,19 +42,31 @@ export const actionsAuth = {
         type: IS_AUTH,
         isAuth
     } as const),
+    setIsFetching: (isFetching: boolean) => ({
+        type: IS_FETCHING,
+        isFetching
+    } as const),
+    setError: (isError: boolean) => ({
+        type: SET_ERROR,
+        isError,
+    } as const)
 
 
 };
 
 export const getIsAuth = ():ThunkType => async (dispatch) => {
+    dispatch(actionsAuth.setIsFetching(true));
     try {
         await AuthAPI.me();
         dispatch(await getProfileData());
-        dispatch(actionsAuth.setIsAuth(true))
+        dispatch(actionsAuth.setIsAuth(true));
+
     }catch (err) {
-        dispatch(actionsAuth.setIsAuth(false));
         console.log(err.response);
+        dispatch(actionsAuth.setIsAuth(false));
     }
+    dispatch(actionsAuth.setIsFetching(false));
+
 };
 
 export const signUpThunk = (email: string, password: string): ThunkType => async (dispatch) => {
@@ -55,6 +74,7 @@ export const signUpThunk = (email: string, password: string): ThunkType => async
         await AuthAPI.signUp(email, password);
         dispatch(actionsAuth.signUpSuccess(email))
     } catch (err) {
+        dispatch(actionsAuth.setError(true));
         dispatch(stopSubmit('registration', {_error: err.response.data.message }))
     }
 };

@@ -12,8 +12,10 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import {makeStyles} from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
-import {loginThunk} from "../../../redux/auth-reducer";
-import {useDispatch} from "react-redux";
+import {actionsAuth, loginThunk} from "../../../redux/auth-reducer";
+import {useDispatch, useSelector} from "react-redux";
+import {Snackbar} from "@material-ui/core";
+import {RootState} from "../../../redux/store";
 
 function Copyright() {
     return (
@@ -52,6 +54,7 @@ const useStyles = makeStyles((theme) => ({
 export default function SignIn() {
     const classes = useStyles();
     const dispatch = useDispatch();
+    const isError = useSelector((state:RootState) => state.auth.isError);
 
 
     const [formData, setFormData] = useState({
@@ -64,6 +67,10 @@ export default function SignIn() {
         e.preventDefault();
         let {login, password} = data;
         dispatch(loginThunk(login, password));
+    };
+
+    const handleCloseAlert = () => {
+        dispatch(actionsAuth.setError(false));
     };
 
     return (
@@ -136,6 +143,9 @@ export default function SignIn() {
             <Box mt={8}>
                 <Copyright/>
             </Box>
+            <Snackbar open={isError} autoHideDuration={6000} onClose={handleCloseAlert}>
+                <p>Error</p>
+            </Snackbar>
         </Container>
     );
 }
