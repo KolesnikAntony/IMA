@@ -26,7 +26,7 @@ const Filter: FC<PropsType> = ({setFilter}) => {
 };
 
 const FilterForm: FC<InjectedFormProps<FormFilterDataType, FormFilterPropsType> & FormFilterPropsType> = ({handleSubmit, colors, categories}) => {
-    const [openCategory, setOpenCategory] = useState(false);
+    const [openCategory, setOpenCategory] = useState(true);
     const [openColor, setOpenColor] = useState(false);
 
     const handleOpen = useCallback((type) => {

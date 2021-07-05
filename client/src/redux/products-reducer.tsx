@@ -47,6 +47,7 @@ const ProductsReducer = (state = ProductsInitialState, action: ProductsActionTyp
 
         case SET_FILTER:
             return {...state, filter: action.filter};
+
         case SET_FILTER_STATE:
 
             return {...state, filterState: action.filterState};
@@ -139,11 +140,8 @@ export const getProducts = (currentPage: number, selectType: string, sort: strin
 
 
 export const getFilter = (): ThunkProductsType => async (dispatch) => {
-
     const filter = await ProductsAPI.getFilterData();
     dispatch(actionsProducts.setFilter(filter));
-
-
 };
 
 export const filterOfCategories = (category: Array<{ name: string, _id: string }>, colors: Array<string>): ThunkProductsType => async (dispatch, getState) => {

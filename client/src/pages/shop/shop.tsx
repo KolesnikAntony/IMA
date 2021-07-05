@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react'
+import React, {useEffect, useRef, useState} from 'react'
 import './shop.scss'
 import Filter from "./filter";
 import {useDispatch, useSelector} from "react-redux";
@@ -10,6 +10,7 @@ import Paginator from '../../common/paginator/pagintaor';
 import {FILTER_TYPES} from "../../constants/constants";
 import Preloader from "../../common/preloader/preloader";
 import ProductCard from "../../componetns/product-card/product-card";
+import {useOutsideAlerter} from "../../hooks/hooks";
 
 const Shop = () => {
     const dispatch = useDispatch();
@@ -60,6 +61,8 @@ const Shop = () => {
         setShowMobFilter(prev => !prev);
     };
 
+    const wrapperRef = useRef(null);
+    useOutsideAlerter(wrapperRef, handleShowMobFilter);
 
     return <>
         <section className="shop">
@@ -74,7 +77,7 @@ const Shop = () => {
                                 {isDesktop || <button className="shop__select" onClick={handleShowMobFilter}>
                                     Filter
                                 </button>}
-                                {showMobFilter && !isDesktop && <Filter  setFilter={setFilter} />}
+                                {showMobFilter && !isDesktop && <div ref={wrapperRef} className='shop__form--div'><Filter  setFilter={setFilter}/></div>}
                                 <select className="shop__select" value={sort} onChange={(e) => handleOrderPrice(e)}>
                                     <option value={FILTER_TYPES.SORT_TYPE.MIN} className="shop__select-item">min</option>
                                     <option value={FILTER_TYPES.SORT_TYPE.MAX} className="shop__select-item">max</option>

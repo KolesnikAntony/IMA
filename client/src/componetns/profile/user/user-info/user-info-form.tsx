@@ -15,6 +15,7 @@ interface PropsType {
 const UserInfoForm: FC<InjectedFormProps<ProfileFormValueType,
     ProfilePropsType<PropsType>> & ProfilePropsType<PropsType>> = ({handleSubmit, photo, changePhoto}) => {
     return (
+        // @ts-ignore
         <form onSubmit={handleSubmit} className="user__form--info">
             <div className="user__self">
                 <div className="user__img">

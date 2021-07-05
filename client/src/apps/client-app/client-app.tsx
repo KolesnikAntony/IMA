@@ -6,7 +6,7 @@ import {OpenCartContext} from "../../context/context";
 import Header from "../../componetns/header/header";
 import ScrollToTop from "../../componetns/scroll-op/scroll-top";
 import Aside from "../../componetns/aside/aside";
-import {Route, RouteComponentProps, Switch} from "react-router-dom";
+import {NavLink, Route, RouteComponentProps, Switch} from "react-router-dom";
 import Home from "../../pages/home/home";
 import ProductScreen from "../../pages/product/product";
 import Shop from "../../pages/shop/shop";
@@ -20,6 +20,7 @@ import {ContainerCheckout} from "../../pages/checkout/checkout";
 import Footer from "../../componetns/footer/footer";
 import {getContacts} from "../../redux/contacts-reducer";
 import { getHomeBannerText } from "../../redux/home-reducer";
+import CookieConsent, { Cookies } from "react-cookie-consent";
 
 
 type PathParamsType = {
@@ -81,6 +82,8 @@ const ClientApp: FC<PropsType> = ({match}) => {
                 </ScrollToTop>
                 <Footer onOpen={handleOpen}/>
             </OpenCartContext.Provider>
+            <CookieConsent buttonText="Zgoda!" buttonStyle={{background: 'red', color: 'white', fontWeight: 'bold'}}
+            >Klauzula informacyjna RODO w zakresie przetwarzania danych osobowych. Możesz zobaczyć tutaj: <NavLink to='/rodo' className='cookies__link'>ima-professional.pl/rodo</NavLink></CookieConsent>
         </>
     )
 };

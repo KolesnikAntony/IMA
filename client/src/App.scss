@@ -13,4 +13,8 @@
   justify-content: center;
 }
 
-
+.cookies{
+  &__link {
+    color: $color-red;
+  }
+}
