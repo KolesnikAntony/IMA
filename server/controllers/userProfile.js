@@ -5,7 +5,7 @@ const fs = require('fs');
 module.exports.getAllUserProfiles = async (req, res) => {
 	try {
 		const user = await User.find()
-			.select('name email address phone');
+			.select('name email address phone avatar');
 			res.json({user});
 	} catch (err) {
 		return res.status(500).json({message: err.message});
@@ -16,7 +16,7 @@ module.exports.getAllUserProfiles = async (req, res) => {
 module.exports.getSingleProfile = async (req, res) => {
 	try {
 		const user = await User.findById({_id: req.user.id})
-			.select('name email address phone');
+			.select('name email address phone avatar');
 		res.status(200).json({user});
 	} catch (err) {
 		return res.status(500).json({message: err.message});
