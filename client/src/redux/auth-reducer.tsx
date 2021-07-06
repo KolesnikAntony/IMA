@@ -81,6 +81,7 @@ export const signUpThunk = (email: string, password: string): ThunkType => async
 };
 
 export const loginThunk = (email: string, password: string):ThunkType => async (dispatch) => {
+    dispatch(actionsAuth.setIsFetching(true));
     try {
         await AuthAPI.login(email,password);
         dispatch(await getProfileData());
@@ -90,6 +91,7 @@ export const loginThunk = (email: string, password: string):ThunkType => async (
             dispatch(stopSubmit('login', {_error: err.response.data.message}));
         }
     }
+    dispatch(actionsAuth.setIsFetching(false));
 };
 
 export const AdminLoginThunk = (email: string, password: string):ThunkType => async (dispatch) => {
