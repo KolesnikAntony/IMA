@@ -69,7 +69,7 @@ const FilterForm: FC<InjectedFormProps<FormFilterDataType, FormFilterPropsType> 
                     </div>}
                 </div>
             </FormSection>
-            <button className="shop__form--submit" >sprawdzić</button>
+            <button className="shop__form--submit">sprawdzić</button>
         </form>
     )
 }

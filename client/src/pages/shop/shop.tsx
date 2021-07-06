@@ -43,7 +43,7 @@ const Shop = () => {
     const setFilter = (data: FormFilterDataType) => {
         const categories = getTrueObjectKeys(data.categories);
         const colors = getTrueObjectKeys(data.colors);
-        dispatch(filterOfCategories(categories,colors))
+        dispatch(filterOfCategories(categories,colors));
         setShowMobFilter(false);
     };
 
