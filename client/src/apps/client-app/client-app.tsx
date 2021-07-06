@@ -40,7 +40,6 @@ const ClientApp: FC<PropsType> = ({match}) => {
         setOpen(true)
     }, []);
 
-    console.log(headerType);
 
     const handleClose = useCallback(() => setOpen(false), []);
 

@@ -80,22 +80,29 @@
         &:before {
           background-image: url(../../../src/assets/img/mail.svg);
         }
-        &:hover:before {
-          background-image: url(../../../src/assets/img/mail-mocco.svg);
+        @media (hover: hover) and (pointer: fine) {
+          &:hover:before {
+            background-image: url(../../../src/assets/img/mail-mocco.svg);
+          }
         }
       }
       &--phone {
         &:before {
           background-image: url(../../../src/assets/img/phone-dark.svg);
         }
-        &:hover:before {
-          background-image: url(../../../src/assets/img/phone-mocco.svg);
+
+        @media (hover: hover) and (pointer: fine) {
+          &:hover:before {
+            background-image: url(../../../src/assets/img/phone-mocco.svg);
+          }
         }
       }
     }
 
-    &:hover {
-      color: $color-mocco;
+    @media (hover: hover) and (pointer: fine) {
+      &:hover {
+        color: $color-mocco;
+      }
     }
   }
 
