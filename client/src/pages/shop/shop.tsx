@@ -18,6 +18,8 @@ const Shop = () => {
     const {totalPages, currentPage, portionSize, selectType , sort, isFetching} = useSelector<AppStateType, ProductsInitialStateType>(state => state.products);
     const isDesktop = useMediaQuery({minWidth: 1031});
 
+    const [showMobFilter, setShowMobFilter] = useState(false);
+
     useEffect(()=> {
         console.log('render shop from useEffect');
         dispatch(getProducts(1, FILTER_TYPES.SELECT_TYPE.ALL, FILTER_TYPES.SORT_TYPE.MAX));
@@ -41,8 +43,8 @@ const Shop = () => {
     const setFilter = (data: FormFilterDataType) => {
         const categories = getTrueObjectKeys(data.categories);
         const colors = getTrueObjectKeys(data.colors);
-
-         dispatch(filterOfCategories(categories,colors))
+        dispatch(filterOfCategories(categories,colors))
+        setShowMobFilter(false);
     };
 
     const handleOrderPrice = (e: React.FormEvent<HTMLSelectElement>) => {
@@ -54,8 +56,6 @@ const Shop = () => {
         let value = e.currentTarget.value;
         dispatch(getProducts(1, value, sort));
     };
-
-    const [showMobFilter, setShowMobFilter] = useState(false);
 
     const handleShowMobFilter = () => {
         setShowMobFilter(prev => !prev);
