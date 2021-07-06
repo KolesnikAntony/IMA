@@ -13,10 +13,9 @@ module.exports.cartFilter = async ( req, res ) => {
 		const cartItems = await Product.find(query)
 			.select('title price salePrice imageSrc');
 
-		console.log('cartItems===>', {cartItems})
-
 		if ( cartItems.length == [] )
-			return res.status(404).json({message: 'Корзина пуста'});
+			// return res.json({cartItems});
+			return res.json({cartItems});
 
 		res.status(200).json({message: 'Ok', qty: 1,  cartItems});
 
