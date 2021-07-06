@@ -1,7 +1,7 @@
 import React, {FC, useCallback, useEffect, useState} from "react";
-import {useDispatch} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {checkCartItems} from "../../redux/cart-reducer";
-import {getIsAuth} from "../../redux/auth-reducer";
+import {actionsAuth, AuthInitialStateType, getIsAuth} from "../../redux/auth-reducer";
 import {OpenCartContext} from "../../context/context";
 import Header from "../../componetns/header/header";
 import ScrollToTop from "../../componetns/scroll-op/scroll-top";
@@ -21,6 +21,7 @@ import Footer from "../../componetns/footer/footer";
 import {getContacts} from "../../redux/contacts-reducer";
 import { getHomeBannerText } from "../../redux/home-reducer";
 import CookieConsent, { Cookies } from "react-cookie-consent";
+import {RootState} from "../../redux/store";
 
 
 type PathParamsType = {
@@ -41,7 +42,9 @@ const ClientApp: FC<PropsType> = ({match}) => {
     }, []);
 
 
-    const handleClose = useCallback(() => setOpen(false), []);
+    const handleClose = useCallback(() => {
+        setOpen(false);
+    }, []);
 
     const handleHeaderType = useCallback((view: boolean) => {
         setHeaderType(view);

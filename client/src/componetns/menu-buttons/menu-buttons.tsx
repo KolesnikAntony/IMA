@@ -24,9 +24,6 @@ const MenuButtons:FC<PropsType> =({onOpen}) => {
             <li className="menu-item">
                 <button className="menu-btn--burger "
                         onClick={() => onOpen(VIEW_TYPES.BURGER)}>
-                    <span></span>
-                    <span></span>
-                    <span></span>
                 </button>
             </li>
         </ul>

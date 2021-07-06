@@ -8,6 +8,7 @@ const SIGN_UP = 'auth-reducer/SIGH_UP';
 const IS_AUTH = 'auth-reducer/IS_AUTH';
 const IS_FETCHING = 'auth-reducer/IS_FETCHING';
 const SET_ERROR = 'auth-reducer/SET_ERROR';
+const TURN_OF_SUCCESS_BANNER = 'auth-reducer/TURN_OF_SUCCESS_BANNER';
 
 const initialState = {
     email: null as string | null,
@@ -31,6 +32,8 @@ const AuthReducer = (state = initialState, action: ActionType): AuthInitialState
             return {...state, isFetching: action.isFetching};
         case SET_ERROR :
             return {...state, isError: action.isError};
+        case TURN_OF_SUCCESS_BANNER:
+            return {...state, isSuccessReg: false}
         default:
             return state;
     }
@@ -52,6 +55,9 @@ export const actionsAuth = {
     setError: (isError: ErrorType) => ({
         type: SET_ERROR,
         isError,
+    } as const),
+    turnOfIsSuccess: () => ({
+        type: TURN_OF_SUCCESS_BANNER,
     } as const)
 
 
