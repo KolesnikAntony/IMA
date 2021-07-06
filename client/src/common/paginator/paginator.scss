@@ -9,6 +9,7 @@
   &__wrap {
     display: flex;
     width: 110px;
+    justify-content: center;
   }
   &__number {
     color: $color-mocco;

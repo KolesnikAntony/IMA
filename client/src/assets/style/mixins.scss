@@ -16,6 +16,9 @@
   &.show {
     transform: translateX(0);
   }
+  @media (max-width: 942px) {
+    height: 100%;
+  }
 }
 
 @mixin column($align : center) {

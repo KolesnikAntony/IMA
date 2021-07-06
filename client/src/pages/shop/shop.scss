@@ -18,7 +18,9 @@
     @media (max-width: 1031px) {
       grid-template-columns: 3fr;
     }
-
+  }
+  @media (max-width: 1031px) {
+    padding-bottom: 60px;
   }
   &__content{
     display: flex;
@@ -46,6 +48,7 @@
     -moz-appearance: none;
     appearance: none;       /* Remove default arrow */
     background-image: url(../../assets/img/arrow-fill.svg);
+    background-color: transparent;
     background-repeat: no-repeat;
     background-position:  72px center;
     background-size: 10px 10px;

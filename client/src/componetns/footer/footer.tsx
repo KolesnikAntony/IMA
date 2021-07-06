@@ -6,6 +6,8 @@ import SocialLinks from "../social-links/social-links";
 import {Link} from "react-router-dom";
 import logo from "../../assets/img/logo-for-IMA.png";
 import {useMediaQuery} from "react-responsive";
+import {useSelector} from "react-redux";
+import {RootState} from "../../redux/store";
 
 interface PropsType {
     onOpen: ({}) => void
@@ -13,7 +15,7 @@ interface PropsType {
 
 
 const Footer:FC<PropsType> = ({onOpen}) => {
-
+    const contacts = useSelector((state:RootState)=> state.contacts.contacts);
     const isDesktop = useMediaQuery({minWidth: 912});
     return (
         <footer className="footer">
@@ -35,13 +37,12 @@ const Footer:FC<PropsType> = ({onOpen}) => {
                                 <Link to="/rodo" className="footer__link">rodo</Link>
                         </div>
                         <div className="footer__col">
-                            <a href="tel: +48792424240" className="footer__link footer__link-with_icon footer__link-with_icon--phone">792 424 240</a>
-                            <a href="mailto:ima.professionalzone@gmail.com" className="footer__link footer__link-with_icon footer__link-with_icon--mail">ima.professionalzone@gmail.com</a>
-                            <span className="footer__info">NIP: 506-008-67-46</span>
-                            <span className="footer__info">Regon: 362406546</span>
+                            <a href={`tel: ${contacts.phone}`} className="footer__link footer__link-with_icon footer__link-with_icon--phone">{contacts.phone}</a>
+                            <a href={`mailto:${contacts.email}`} className="footer__link footer__link-with_icon footer__link-with_icon--mail">{contacts.email}</a>
+                            <span className="footer__info">NIP: {contacts.nip}</span>
+                            <span className="footer__info">Regon: {contacts.region}</span>
                             <p className="footer__info">
-                                Adress: Gęsia Wólka 52
-                                08-550 Kłoczew
+                                Adress: {contacts.address}
                             </p>
                         </div>
                         <div className="footer__col">
