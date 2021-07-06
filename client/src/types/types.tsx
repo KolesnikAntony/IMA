@@ -81,6 +81,7 @@ export type ProfileDataType = {
     phone: string
     name: string
     photo?: string
+    avatar: string
 }
 
 export type ProfileFormValueType = {email: string

@@ -1,12 +1,13 @@
-import React, {useCallback, useState} from "react";
+import React, {useCallback, useEffect, useState} from "react";
 import './user.scss'
 import UserInfo from "./user-info/user-info";
 import {ContainerUserInfoForm} from "./user-info/user-info-form";
 import {useDispatch, useSelector} from "react-redux";
-import {AppDispatch, RootState} from "../../../redux/store";
+import {RootState} from "../../../redux/store";
 import {getPhoto, updateUserInfo} from "../../../redux/user-reducer";
 import {logout} from "../../../redux/auth-reducer";
 import {ProfileFormValueType} from "../../../types/types";
+import Preloader from "../../../common/preloader/preloader";
 
 
 const VIEW_CHANGE_PROFILE = {
@@ -22,16 +23,17 @@ const User = () => {
 
     const dispatch = useDispatch();
 
-    const {name, email, address, phone, photo} = useSelector((state: RootState) => state.user);
+    const {name, email, address, phone, avatar, isFetching} = useSelector((state: RootState) => state.user);
+    const [currentPhoto, setCurrentPhoto] = useState('');
 
-    const [currentPhoto, setCurrentPhoto] = useState(photo);
+    useEffect(() => {
+        setCurrentPhoto(avatar);
+    }, [avatar]);
+
 
     const toggleCurrentChangeList = useCallback((type) => {
         setCurrentViewType(type);
     }, [currentViewType]);
-
-    //todo Will make disable button then response of updateUserInfo
-    //todo Change callback toggleCurrentChangeList
 
     const changeProfileData = async (formData: ProfileFormValueType) => {
         await dispatch(updateUserInfo(formData));
@@ -57,29 +59,30 @@ const User = () => {
 
 
     return <div className='user'>
-        {currentViewType === VIEW_CHANGE_PROFILE.INFO ?
-            <ContainerUserInfoForm onSubmit={changeProfileData}
-                                   email={email}
-                                   street={address.street}
-                                   city={address.city}
-                                   build={address.build}
-                                   flat={address.flat}
-                                   phone={phone}
-                                   kod={address.kod}
-                                   name={name}/>
-            : <UserInfo toggleList={() => toggleCurrentChangeList(VIEW_CHANGE_PROFILE.INFO)}
-                        email={email}
-                        street={address.street}
-                        city={address.city}
-                        build={address.build}
-                        flat={address.flat}
-                        phone={phone}
-                        kod={address.kod}
-                        name={name}
-                        photo={currentPhoto}
-                        changePhoto={changePhoto}
-                        setNewImage={setNewImage}
-            />}
+        {isFetching ? <Preloader/> : <>
+            {currentViewType === VIEW_CHANGE_PROFILE.INFO ?
+                <ContainerUserInfoForm onSubmit={changeProfileData}
+                                       email={email}
+                                       street={address.street}
+                                       city={address.city}
+                                       build={address.build}
+                                       flat={address.flat}
+                                       phone={phone}
+                                       kod={address.kod}
+                                       name={name}/>
+                : <UserInfo toggleList={() => toggleCurrentChangeList(VIEW_CHANGE_PROFILE.INFO)}
+                            email={email}
+                            street={address.street}
+                            city={address.city}
+                            build={address.build}
+                            flat={address.flat}
+                            phone={phone}
+                            kod={address.kod}
+                            name={name}
+                            photo={currentPhoto}
+                            changePhoto={changePhoto}
+                            setNewImage={setNewImage}
+                />}</>}
 
 
         {<div className="user__buttons">
