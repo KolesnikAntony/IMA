@@ -8,23 +8,15 @@ import avatar from "../../../../assets/img/avatar.svg";
 import {required} from "../../../../helpers/validation/validation";
 
 interface PropsType {
-    photo?: string
-    changePhoto: (e: React.ChangeEvent<HTMLInputElement>)=> void
+
 }
 
 const UserInfoForm: FC<InjectedFormProps<ProfileFormValueType,
-    ProfilePropsType<PropsType>> & ProfilePropsType<PropsType>> = ({handleSubmit, photo, changePhoto}) => {
+    ProfilePropsType<PropsType>> & ProfilePropsType<PropsType>> = ({handleSubmit}) => {
     return (
         // @ts-ignore
         <form onSubmit={handleSubmit} className="user__form--info">
             <div className="user__self">
-                <div className="user__img">
-                    <img src={photo ? photo : avatar} alt="" className="user__img--content"/>
-                    <label htmlFor="change-photo">
-                        Zmień zdjęcie
-                        <input className="user__change-photo" id="change-photo" type="file" onChange={changePhoto}/>
-                    </label>
-                </div>
                 <h4 className="user__name">
                     <Field component={'input'} name='name' placeholder='Imię' type='text' validate={[required]}
                            autoFocus/>

@@ -21,7 +21,6 @@ export const UserAPI = {
         };
 
         return instance.patch<ProfileAPIDataType>('/api/user/profile/update', data).then(res => {
-            console.log(res, '----data from server')
             return res.data.user
         });
     },
@@ -33,7 +32,7 @@ export const UserAPI = {
             headers: {
                 'Content-Type': 'multipart/form-data'
             }
-        }).then(res => console.log(res))
+        }).then(res => console.log(res.data))
     }
 };
 

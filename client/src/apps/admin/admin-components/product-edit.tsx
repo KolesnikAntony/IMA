@@ -20,9 +20,7 @@ interface PropsModeType {
 type PropsType = RouteComponentProps<PathParamsType> & PropsModeType;
 
 const ProductEdit: FC<PropsType & PropsTypeAdminProducts> = ({setMode, productId, setTitle}) => {
-        //const productId = match.params.id;
         const dispatch = useDispatch();
-        const history = useHistory();
         const product = useSelector((state: RootState) => state.admin.product);
         const categories = useSelector((state: RootState) => state.admin.categories);
         const isCreated = useSelector((state: RootState) => state.admin.isCreated);

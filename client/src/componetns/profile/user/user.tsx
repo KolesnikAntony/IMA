@@ -17,9 +17,14 @@ const VIEW_CHANGE_PROFILE = {
 
 const User = () => {
     const [currentViewType, setCurrentViewType] = useState('');
+    const [currentImage, setCurrentImage] = useState(null as FileList | null );
+
+
     const dispatch = useDispatch();
 
-    const {name, email, address, phone} = useSelector((state: RootState) => state.user);
+    const {name, email, address, phone, photo} = useSelector((state: RootState) => state.user);
+
+    const [currentPhoto, setCurrentPhoto] = useState(photo);
 
     const toggleCurrentChangeList = useCallback((type) => {
         setCurrentViewType(type);
@@ -35,9 +40,16 @@ const User = () => {
 
     const changePhoto = (e: React.ChangeEvent<HTMLInputElement>) => {
         let photo = e.target.files;
+        setCurrentImage(photo);
+        photo !== null && setCurrentPhoto(URL.createObjectURL(photo[0]));
         console.log(photo);
-        if (photo !== null) dispatch(getPhoto(photo[0]));
     };
+
+    const setNewImage = useCallback(() => {
+        if (currentImage != null) {
+            dispatch(getPhoto(currentImage[0]))
+        };
+    }, [currentImage]);
 
     const onLogout = () => {
         dispatch(logout())
@@ -54,9 +66,7 @@ const User = () => {
                                    flat={address.flat}
                                    phone={phone}
                                    kod={address.kod}
-                                   changePhoto={changePhoto}
-                                   name={name}
-                                   photo={''}/>
+                                   name={name}/>
             : <UserInfo toggleList={() => toggleCurrentChangeList(VIEW_CHANGE_PROFILE.INFO)}
                         email={email}
                         street={address.street}
@@ -66,7 +76,10 @@ const User = () => {
                         phone={phone}
                         kod={address.kod}
                         name={name}
-                        photo={''}/>}
+                        photo={currentPhoto}
+                        changePhoto={changePhoto}
+                        setNewImage={setNewImage}
+            />}
 
 
         {<div className="user__buttons">

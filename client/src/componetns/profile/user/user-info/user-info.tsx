@@ -1,18 +1,35 @@
-import React, {FC} from "react";
+import React, {FC, useState} from "react";
 import avatar from "../../../../assets/img/avatar.svg";
 import {ProfileFormValueType, ProfilePropsType} from "../../../../types/types";
 
 type PropsType = {
     toggleList: () => void
     photo: string
+    changePhoto: (e: React.ChangeEvent<HTMLInputElement>) => void
+    setNewImage: () => void
 }
 
-const UserInfo: FC<ProfilePropsType<PropsType>> = ({toggleList, email, phone, kod, build, city, street, flat, name, photo }) => {
+const UserInfo: FC<ProfilePropsType<PropsType>> = ({toggleList, email, phone, kod, build, city, street, flat, name, photo, changePhoto, setNewImage }) => {
+    const [startChange, setStartChange] = useState(false);
+
+    const uploadImage = () => {
+        setNewImage();
+        setStartChange(false);
+    };
+
+
     return (
        <>
            <div className="user__self">
+               {startChange ?  <button className=" user__change user__change--done" onClick={uploadImage}/>
+               :        <button className="user__change" onClick={() => setStartChange(!startChange)}/>
+               }
                <div className="user__img">
                    <img src={photo ? photo : avatar} alt="" className="user__img--content"/>
+                   {startChange && <label htmlFor="change-photo">
+                       Zmień zdjęcie
+                       <input className="user__change-photo" id="change-photo" type="file" onChange={changePhoto}/>
+                   </label>}
                </div>
                <h4 className="user__name user__name-state">
                    {name ? name: 'Name'}
