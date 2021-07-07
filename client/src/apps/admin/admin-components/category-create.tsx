@@ -4,6 +4,7 @@ import {Button, Grid, makeStyles, TextField} from "@material-ui/core";
 import {useDispatch, useSelector} from "react-redux";
 import {actionsAdmin, createCategory} from "../../../redux/admin-reduser";
 import {RootState} from "../../../redux/store";
+import {PropsTypeAdminProducts} from "./product-container";
 
 interface PropsType {
     setMode: (mode: string) => void
@@ -15,11 +16,15 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-const CategoryCreate: FC<PropsType> = ({setMode}) => {
+const CategoryCreate: FC<PropsType & PropsTypeAdminProducts> = ({setMode, setTitle}) => {
     const dispatch = useDispatch();
     const [inputsData, setInputsData] = useState('');
     const classes= useStyles();
     const isCreated = useSelector((state: RootState) => state.admin.isCreated);
+
+    useEffect(() => {
+        setTitle("Create category")
+    }, []);
 
     useEffect(() => {
         if (isCreated){
@@ -36,12 +41,12 @@ const CategoryCreate: FC<PropsType> = ({setMode}) => {
     return <>
         <form onSubmit={(e: React.SyntheticEvent) => handleSubmit(e, inputsData)} className='admin-product__edit'>
             <Grid container spacing={4}>
-                <Grid item xs={9}>
+                <Grid item xs={12} sm={8} md={9}>
                     <TextField placeholder="Category name" value={inputsData}
                                onChange={(e: React.ChangeEvent<HTMLInputElement>) => setInputsData(e.target.value)}
                                fullWidth={true} required={true} variant='outlined'/>
                 </Grid>
-                <Grid item xs={3}>
+                <Grid item xs={12} sm={4} md={3}>
                     <Button
                         className={classes.buttonPadding}
                         fullWidth={true}
@@ -57,7 +62,7 @@ const CategoryCreate: FC<PropsType> = ({setMode}) => {
             </Grid>
         </form>
         <Button variant="contained" color="primary" onClick={() => setMode('list')} >
-            Back to product list
+            Back to category list
         </Button></>
 }
 

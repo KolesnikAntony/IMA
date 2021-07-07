@@ -1,5 +1,5 @@
-import React, {FC, SyntheticEvent, useCallback, useEffect, useRef, useState} from 'react';
-import {AboutImage, AboutList, ProductType} from "../../../types/types";
+import React, {FC, useCallback, useEffect, useRef, useState} from 'react';
+import {AboutImage} from "../../../types/types";
 import {makeStyles} from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
@@ -9,6 +9,7 @@ import {useDispatch, useSelector} from "react-redux";
 import {createAboutCard, deleteCardAbout, editAboutCard} from "../../../redux/admin-reduser";
 import {useOutsideAlerter} from "../../../hooks/hooks";
 import {RootState} from "../../../redux/store";
+import cap from './../../../assets/img/nail-polish1.png'
 
 
 const useStyles = makeStyles({
@@ -20,13 +21,17 @@ const useStyles = makeStyles({
         overflow: "hidden",
     },
     photo: {
-        width: '100%'
+        height: '100%'
+
     },
     box: {
         overflow: "hidden",
         width: '100%',
         height: 250,
         position: 'relative',
+        padding: 6,
+        display: 'flex',
+        justifyContent: 'center'
     },
     text: {
         overflow: "hidden",
@@ -72,7 +77,6 @@ const AboutCard: FC<AboutImage> = ({id, caption, image, createMode}) => {
     const isCreated = useSelector((state: RootState) => state.admin.isCreated);
     const isEdited = useSelector((state: RootState) => state.admin.isEdited);
     const [editMode, setEditMode] = useState(false);
-   // const [caption, setCaption] = useState(caption);
     const [cardData, setCardData] = useState({
         id,
         caption,
@@ -124,8 +128,10 @@ const AboutCard: FC<AboutImage> = ({id, caption, image, createMode}) => {
     }, [editMode]);
 
     const wrapperRef = useRef(null);
+
     useOutsideAlerter(wrapperRef, outsideCallBack);
 
+    const addDefaultSrc = (e: any) => {e.target.src = cap};
     return <>
         <Card ref={editMode ? wrapperRef : null}>
             <div className={classes.box}>
@@ -133,7 +139,7 @@ const AboutCard: FC<AboutImage> = ({id, caption, image, createMode}) => {
                     <span>Edit photo</span>
                     <input id='cardPhoto' type="file" className={classes.file} onChange={handlePhotoChange}/>
                 </label>}
-                <img src={cardData.image} alt="photo"
+                <img src={cardData.image ? cardData.image : cap} onError={(e) => addDefaultSrc(e)} alt="photo"
                      className={createMode ? `${classes.opacity} ${classes.photo} ` : classes.photo}/>
             </div>
             <CardContent className={classes.media}>
