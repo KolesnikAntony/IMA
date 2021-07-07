@@ -1,4 +1,4 @@
-import React, {useMemo, useState} from 'react';
+import React, {useState} from 'react';
 import {createStyles, makeStyles, Theme} from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -11,11 +11,11 @@ import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import InboxIcon from '@material-ui/icons/MoveToInbox';
 import ProductContainer from "./product-container";
-import {NavLink, Route, Switch,Redirect} from "react-router-dom";
+import {NavLink, Redirect, Route, Switch} from "react-router-dom";
 import CategoryContainer from "./category-container";
 import LibraryAddIcon from '@material-ui/icons/LibraryAdd';
 import PetsIcon from '@material-ui/icons/Pets';
-import {Button, Collapse} from "@material-ui/core";
+import {Button, Collapse, IconButton} from "@material-ui/core";
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import {logout} from "../../../redux/auth-reducer";
 import {useDispatch} from "react-redux";
@@ -30,7 +30,6 @@ import InfoIcon from '@material-ui/icons/Info';
 import ContactsIcon from '@material-ui/icons/Contacts';
 import GroupIcon from '@material-ui/icons/Group';
 import useMediaQuery from "@material-ui/core/useMediaQuery";
-import { IconButton } from '@material-ui/core';
 import MenuIcon from '@material-ui/icons/Menu';
 import CloseIcon from '@material-ui/icons/Close';
 
