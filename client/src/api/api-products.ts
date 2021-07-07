@@ -59,7 +59,6 @@ export const ProductsAPI = {
     },
     createProduct(data: CreateProductType){
         const formData = createFormData(data);
-
         return instance.post(`/api/products`, formData, {
             headers: {
                 'Content-Type': 'multipart/form-data'
@@ -95,7 +94,7 @@ const createFormData = (data:ProductType | CreateProductType) => {
     formData.append('itsNew', JSON.stringify(itsNew));
     formData.append('description',description);
     formData.append('shortDescr', shortDescr);
-    formData.append('subText',subText);
+    formData.append('subText', subText);
     formData.append('title', title);
     formData.append('price', JSON.stringify(price));
     formData.append('salePrice', salePrice == null ? '' : JSON.stringify(salePrice));

@@ -33,6 +33,7 @@ const ProductCreate:FC<PropsType & PropsTypeAdminProducts> = ({setMode, setTitle
         img: null,
         subText: '',
         title: '',
+        shortDescr: "",
     } as CreateProductType);
 
     useEffect(() => {
@@ -114,7 +115,7 @@ const ProductCreate:FC<PropsType & PropsTypeAdminProducts> = ({setMode, setTitle
                                fullWidth={true} required={true} variant='outlined' multiline={true}/>
                 </Grid>
                 <Grid item xs={12} md={6}>
-                    <TextField id="Short-Description" placeholder="Short Description" defaultValue={inputsData.shortDescr}
+                    <TextField id="Short-Description" placeholder="Short Description" value={inputsData.shortDescr}
                                onChange={(e: React.ChangeEvent<HTMLInputElement>) => handleChangeText('short', e.target.value)}
                                fullWidth={true} variant='outlined' multiline={true}/>
                 </Grid>

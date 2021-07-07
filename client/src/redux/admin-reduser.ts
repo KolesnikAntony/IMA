@@ -114,7 +114,7 @@ const adminReducer = (state = AdminInitialState, action: ActionType): AdminIniti
 export const actionsAdmin = {
         setProducts: (products: Array<ProductType>) => ({
             type: SET_ADMIN_PRODUCTS,
-            products
+            products: products.reverse()
         } as const),
         setProduct: (product: ProductType) => ({
             type: SET_ADMIN_PRODUCT,
@@ -173,11 +173,15 @@ export const actionsAdmin = {
 
 
 export const getAdminProducts = (currentPage: number, selectType: string, sort: string, category: Array<{ name: string, _id: string }>, colors: Array<string>, limit: number): ThunkAdminType => async (dispatch) => {
-    dispatch(actionsAdmin.setIsFetching(true));
-    const res = await ProductsAPI.getProducts(currentPage, selectType, sort, category, colors, limit);
-    dispatch(actionsAdmin.setPagination(res.count));
-    dispatch(actionsAdmin.setProducts(res.products));
-    dispatch(actionsAdmin.setIsFetching(false));
+    try {
+        dispatch(actionsAdmin.setIsFetching(true));
+        const res = await ProductsAPI.getProducts(currentPage, selectType, sort, category, colors, limit);
+        dispatch(actionsAdmin.setPagination(res.count));
+        dispatch(actionsAdmin.setProducts(res.products));
+        dispatch(actionsAdmin.setIsFetching(false));
+    }catch (err) {
+        dispatch(actionsAdmin.setIsFetching(false));
+    }
 };
 
 
@@ -209,6 +213,7 @@ export const changeAdminProduct = (id: string, formData: ProductType): ThunkAdmi
 };
 
 export const createAdminProduct = (formData: CreateProductType): ThunkAdminType => async (dispatch) => {
+    console.log(formData);
     try {
         await ProductsAPI.createProduct(formData);
         dispatch(actionsAdmin.setIsCreated(true));

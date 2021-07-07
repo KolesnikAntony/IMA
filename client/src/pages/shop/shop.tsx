@@ -26,6 +26,7 @@ const Shop = () => {
         dispatch(filterOfCategories([],[]))
     }, []);
 
+
     const showCurrentProducts = (currentPage: number) => {
         dispatch(getProducts(currentPage, selectType, sort));
         window.scrollTo(0, 0);

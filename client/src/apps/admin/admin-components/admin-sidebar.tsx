@@ -11,7 +11,7 @@ import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import InboxIcon from '@material-ui/icons/MoveToInbox';
 import ProductContainer from "./product-container";
-import {NavLink, Route, Switch} from "react-router-dom";
+import {NavLink, Route, Switch,Redirect} from "react-router-dom";
 import CategoryContainer from "./category-container";
 import LibraryAddIcon from '@material-ui/icons/LibraryAdd';
 import PetsIcon from '@material-ui/icons/Pets';
@@ -207,6 +207,9 @@ export default function SidebarAdmin() {
             </div>
             <main className={classes.content}>
                 <Switch>
+                    <Route exact path='/admin'>
+                        <Redirect to="/admin/products" />
+                    </Route>
                     <Route exact path='/admin/products' render={() => <ProductContainer setTitle={setTitle}/>}/>
                     <Route exact path='/admin/categories' render={() => <CategoryContainer setTitle={setTitle}/>}/>
                     <Route exact path='/admin/contacts' render={() => <AdminContacts setTitle={setTitle}/>}/>
