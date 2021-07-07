@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useMemo, useState} from 'react';
 import {createStyles, makeStyles, Theme} from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -29,6 +29,10 @@ import HomeIcon from '@material-ui/icons/Home';
 import InfoIcon from '@material-ui/icons/Info';
 import ContactsIcon from '@material-ui/icons/Contacts';
 import GroupIcon from '@material-ui/icons/Group';
+import useMediaQuery from "@material-ui/core/useMediaQuery";
+import { IconButton } from '@material-ui/core';
+import MenuIcon from '@material-ui/icons/Menu';
+import CloseIcon from '@material-ui/icons/Close';
 
 const drawerWidth = 240;
 
@@ -36,6 +40,10 @@ const useStyles = makeStyles((theme: Theme) =>
     createStyles({
         root: {
             display: 'flex',
+        },
+        rootMobile: {
+            display: 'flex',
+            flexDirection: 'column',
         },
         appBar: {
             zIndex: theme.zIndex.drawer + 1,
@@ -59,18 +67,26 @@ const useStyles = makeStyles((theme: Theme) =>
             display: 'none',
         },
         drawer: {
-            width: drawerWidth,
-            flexShrink: 0,
             whiteSpace: 'nowrap',
             position: 'sticky',
+            width: drawerWidth,
+            flexShrink: 0,
             top: 60,
             background: "white",
             zIndex: 1,
             height: 'fit-content',
             boxShadow: '0 0 0 1px rgba(0, 0, 255, .06)',
-            borderRadius: 4
+            borderRadius: 4,
         },
-
+        drawerMobileView: {
+            position: 'static',
+            width: '100%',
+            padding: '0 8px',
+            display: 'none',
+        },
+        toShow: {
+            display: 'block',
+        },
         toolbar: {
             display: 'flex',
             alignItems: 'center',
@@ -91,28 +107,39 @@ const useStyles = makeStyles((theme: Theme) =>
         },
         activeTab: {
             background: 'rgba(0,0,0,0.04)'
-        }
+        },
+         burger: {
+            padding: 0,
+             marginRight: 20,
+             color: 'white'
+         }
     }),
 );
 
 export default function SidebarAdmin() {
     const classes = useStyles();
-    const dispatch = useDispatch()
+    const dispatch = useDispatch();
     const [openColl, setOpenColl] = React.useState(false);
+    const [openMenu, setOpenMenu] = React.useState(false);
     const [title, setTitle] = useState('Admin panel');
+
+    const isMobile = useMediaQuery('(max-width: 798px)');
 
     const handleOnLogout = () => {
         dispatch(logout())
     };
 
     return (
-        <div className={classes.root}>
+        <div className={isMobile ? classes.rootMobile : classes.root}>
             <CssBaseline/>
             <AppBar
                 position="fixed"
                 className={classes.appBar}
             >
                 <Toolbar>
+                    {isMobile && <IconButton className={classes.burger} onClick={() => setOpenMenu(!openMenu)}>
+                        {!openMenu ?  <MenuIcon /> :  <CloseIcon />}
+                    </IconButton>}
                     <Typography variant="h6" noWrap>
                        {title}
                     </Typography>
@@ -126,7 +153,7 @@ export default function SidebarAdmin() {
                     </Button>
                 </Toolbar>
             </AppBar>
-            <div className={classes.drawer}>
+            <div className={`${classes.drawer} ${isMobile ? classes.drawerMobileView : ''} ${openMenu ? classes.toShow : ''}`}>
                 <Divider/>
                 <List>
                     <ListItem component={NavLink} to='/admin/products' activeClassName={classes.activeTab}>
@@ -181,8 +208,8 @@ export default function SidebarAdmin() {
             <main className={classes.content}>
                 <Switch>
                     <Route exact path='/admin/products' render={() => <ProductContainer setTitle={setTitle}/>}/>
-                    <Route exact path='/admin/categories' component={CategoryContainer}/>
-                    <Route exact path='/admin/contacts' component={AdminContacts}/>
+                    <Route exact path='/admin/categories' render={() => <CategoryContainer setTitle={setTitle}/>}/>
+                    <Route exact path='/admin/contacts' render={() => <AdminContacts setTitle={setTitle}/>}/>
                     <Route exact path='/admin/about'  render={() => <AdminAbout setTitle={setTitle}/>}/>
                     <Route exact path='/admin/homepage'  render={() => <AdminHome setTitle={setTitle}/>}/>
                     <Route exact path='/admin/users'  render={() => <UserList setTitle={setTitle}/>}/>

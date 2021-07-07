@@ -1,14 +1,16 @@
-import React, {FC, useEffect, useState} from 'react';
-import {DataGrid, GridCellParams, GridCellValue, GridColDef, GridRowId, GridRowsProp} from "@material-ui/data-grid";
+import React, {FC, useEffect} from 'react';
+import {DataGrid, GridCellParams, GridColDef, GridRowParams} from "@material-ui/data-grid";
 import {useDispatch, useSelector} from "react-redux";
 import {deleteAdmitProduct, getAdminProducts} from "../../../redux/admin-reduser";
 import {FILTER_TYPES} from "../../../constants/constants";
 import {RootState} from "../../../redux/store";
 import Button from "@material-ui/core/Button";
-import {NavLink, useHistory} from "react-router-dom";
 import {PropsTypeAdminProducts} from "./product-container";
-import {LinearProgress, makeStyles} from "@material-ui/core";
+import {IconButton, LinearProgress, makeStyles} from "@material-ui/core";
 import cap from './../../../assets/img/nail-polish.png'
+import useMediaQuery from "@material-ui/core/useMediaQuery";
+import CloseIcon from '@material-ui/icons/Close';
+import EditIcon from '@material-ui/icons/Edit';
 
 interface PropsType {
     setMode: (mode: string) => void
@@ -52,11 +54,12 @@ const ProductList: FC<PropsType & PropsTypeAdminProducts> = ({setMode, setProduc
         setProductId(id);
     };
 
-
+    const isMobile = useMediaQuery('(max-width: 798px)');
+    const isTablet = useMediaQuery('(max-width: 1124px)');
 
     const columns: GridColDef[] = [
         {
-            field: 'imageSrc', filterable: false, sortable: false, headerName: 'Image', width: 100,
+            field: 'imageSrc', filterable: false, sortable: false, headerName: 'Image', width: 100, hide: isMobile,
             renderCell: (params) => {
                 return (
                     <div className={classes.imageWrap}><img className={classes.image}
@@ -64,12 +67,11 @@ const ProductList: FC<PropsType & PropsTypeAdminProducts> = ({setMode, setProduc
                 );
             }
         },
-        {field: 'title', headerName: 'Title', flex: 0.4},
-        {field: 'price', filterable: false, headerName: 'Price', flex: 0.2},
-        //{field: 'salePrice', filterable: false, sortable: false, headerName: 'Sale Price',  flex: 0.2},
-        {field: 'id', filterable: false, sortable: true, headerName: 'ID', flex: 0.2},
+        {field: 'title', headerName: 'Title', flex: isMobile ? 0.8 : 0.4 },
+        {field: 'price', filterable: false, headerName: 'Price', flex: 0.2, hide: isMobile || isTablet},
+        {field: 'id', filterable: false, sortable: true, headerName: 'ID', flex: 0.2, hide: isMobile || isTablet},
         {
-            field: 'category', filterable: false, sortable: false, headerName: 'Category', flex: 0.2,
+            field: 'category', filterable: false, sortable: false, headerName: 'Category', flex: 0.2, hide: isMobile || isTablet,
             renderCell: (params: GridCellParams) => {
                 //@ts-ignore
                 const value = params.getValue(params.id, params.field).name;
@@ -80,27 +82,35 @@ const ProductList: FC<PropsType & PropsTypeAdminProducts> = ({setMode, setProduc
         },
         {
             field: "edit",
-            headerName: "Edit",
+            headerName: isMobile ? '✏' : "Edit",
             sortable: false,
             filterable: false,
-            width: 80,
+            width: isMobile ? undefined : 80,
+            flex: isMobile ? 0.2 : undefined,
             renderCell: (params) => {
                 return (
-                    <Button variant="contained" color="primary" onClick={() => handleEdit(params.id + '')}>
-                        Edit
-                    </Button>
+                    isMobile ? <IconButton onClick={() => handleEdit(params.id + '')}>
+                            <EditIcon />
+                    </IconButton>
+                        : <Button variant="contained" color="primary" onClick={() => handleEdit(params.id + '')}>
+                    Edit
+                </Button>
                 );
             }
         },
         {
             field: "delete",
-            headerName: "Delete",
+            headerName: isMobile ? '❌' : "Delete",
             sortable: false,
             filterable: false,
-            width: 100,
+            width: isMobile ? undefined : 100,
+            flex: isMobile ? 0.2 : undefined,
             renderCell: (params) => {
                 return (
-                    <Button variant="contained" color="secondary" onClick={() => handleDeleteClick(params.id + '')}>
+                    isMobile ? <IconButton onClick={() => handleDeleteClick(params.id + '')}>
+                            <CloseIcon />
+                        </IconButton>
+                        :<Button variant="contained" color="secondary" onClick={() => handleDeleteClick(params.id + '')}>
                         Delete
                     </Button>
                 );
@@ -122,6 +132,7 @@ const ProductList: FC<PropsType & PropsTypeAdminProducts> = ({setMode, setProduc
                               columns={columns}
                               paginationMode="client"
                               rowCount={products.length}
+                              isRowSelectable={(params: GridRowParams) => false}
 
                     />
                 </div>

@@ -7,6 +7,7 @@ import {CreateProductType, FilterType, ProductType} from "../../../types/types";
 import {actionsAdmin, createAdminProduct, getAdminCategories} from "../../../redux/admin-reduser";
 import { useHistory } from 'react-router-dom';
 import {PropsTypeAdminProducts} from "./product-container";
+import useMediaQuery from "@material-ui/core/useMediaQuery";
 
 interface PropsType {
     setMode: (mode: string) => void
@@ -17,6 +18,8 @@ const ProductCreate:FC<PropsType & PropsTypeAdminProducts> = ({setMode, setTitle
     const categories = useSelector((state: RootState) => state.admin.categories);
     const isCreated = useSelector((state: RootState) => state.admin.isCreated);
     const [categoryDefault, setCategoryDefault] = useState('');
+    const isMobile = useMediaQuery('(max-width: 600px)');
+    const isDesk = useMediaQuery('(min-width: 960px)');
     const [inputsData, setInputsData] = useState({
         top: false,
         itsNew: false,
@@ -105,15 +108,15 @@ const ProductCreate:FC<PropsType & PropsTypeAdminProducts> = ({setMode, setTitle
     return <>
         <form className='admin-product__edit' onSubmit={(e: React.SyntheticEvent) => handleSubmit(e, inputsData)}>
             <Grid container spacing={4}>
-                <Grid item xs={6}>
+                <Grid item xs={12} md={6}>
                     <TextField id="Title" placeholder="Title" value={inputsData.title}
                                onChange={(e: React.ChangeEvent<HTMLInputElement>) => handleChangeText('title', e.target.value)}
-                               fullWidth={true} required={true} variant='outlined'/>
+                               fullWidth={true} required={true} variant='outlined' multiline={true}/>
                 </Grid>
-                <Grid item xs={6}>
+                <Grid item xs={12} md={6}>
                     <TextField id="Short-Description" placeholder="Short Description" defaultValue={inputsData.shortDescr}
                                onChange={(e: React.ChangeEvent<HTMLInputElement>) => handleChangeText('short', e.target.value)}
-                               fullWidth={true} variant='outlined'/>
+                               fullWidth={true} variant='outlined' multiline={true}/>
                 </Grid>
                 <Grid item xs={12}>
                     <TextField id="Description" placeholder="Description" value={inputsData.description}
@@ -126,13 +129,14 @@ const ProductCreate:FC<PropsType & PropsTypeAdminProducts> = ({setMode, setTitle
                                onChange={(e: React.ChangeEvent<HTMLInputElement>) => handleChangeText('sub', e.target.value)}
                                fullWidth={true} multiline={true} variant='outlined'/>
                 </Grid>
-                <Grid item xs={2}>
+                <Grid item xs={12} sm={4} lg={2} md={3}>
                     <TextField id="Price" placeholder="Price" value={inputsData.price} type='number'
                                onChange={(e: React.ChangeEvent<HTMLInputElement>) => handleChangeText('price', e.target.value)}
                                variant='outlined'
-                               required={true}/>
+                               required={true}
+                               fullWidth={true}/>
                 </Grid>
-                <Grid item xs={2}>
+                <Grid item xs={6} sm={4} lg={2} md={3}>
                     <FormControlLabel
                         control={<Switch size="small" checked={inputsData.sale}
                                          onChange={() => handleSwitch('sale', !inputsData.sale)}/>}
@@ -140,28 +144,30 @@ const ProductCreate:FC<PropsType & PropsTypeAdminProducts> = ({setMode, setTitle
                         labelPlacement="bottom"
                     />
                 </Grid>
-                <Grid item xs={2}>
+                <Grid item xs={6} sm={4} lg={2} md={3}>
                     <TextField id="Sale Price" placeholder="Sale Price"
                                type='number'
                                value={inputsData.sale && inputsData.salePrice !== null ? inputsData.salePrice : ''}
                                onChange={(e: React.ChangeEvent<HTMLInputElement>) => handleChangeText('sale', e.target.value)}
                                variant='outlined' disabled={!inputsData.sale}
-                               required={inputsData.sale}/>
+                               required={inputsData.sale}
+                               fullWidth={true}/>
                 </Grid>
-                <Grid item xs={3}>
+                <Grid item xs={12} sm={6} md={3}>
                     <TextField id="Color" placeholder="Color"
+                               fullWidth={true}
                                required={true}
                                value={inputsData.color}
                                onChange={(e: React.ChangeEvent<HTMLInputElement>) => handleChangeText('color', e.target.value)}
                                variant='outlined'/>
                 </Grid>
-                <Grid item xs={3}>
+                <Grid item xs={12}  sm={6} md={4} lg={3}>
                     <TextField id="Category" label="Category" value={categoryDefault} onChange={handleCategory} select
                                variant='outlined' fullWidth={true} required={true}>
                         {categories.map(el => <MenuItem key={el.id} value={el.id}>{el.name}</MenuItem>)}
                     </TextField>
                 </Grid>
-                <Grid item xs={2}>
+                <Grid item xs={6} sm={4} md={4} lg={2}>
                     <FormControlLabel
                         control={<Switch size="small" checked={inputsData.top}/>}
                         label="Top product"
@@ -169,7 +175,7 @@ const ProductCreate:FC<PropsType & PropsTypeAdminProducts> = ({setMode, setTitle
                         onChange={() => handleSwitch('top', !inputsData.top)}
                     />
                 </Grid>
-                <Grid item xs={2}>
+                <Grid item xs={6} sm={4} md={4} lg={2}>
                     <FormControlLabel
                         control={<Switch size="small" checked={inputsData.itsNew}/>}
                         onChange={() => handleSwitch('new', !inputsData.itsNew)}
@@ -177,7 +183,7 @@ const ProductCreate:FC<PropsType & PropsTypeAdminProducts> = ({setMode, setTitle
                         labelPlacement="bottom"
                     />
                 </Grid>
-                <Grid item xs={3}>
+                <Grid item xs={8} sm={6} lg={3} md={4}>
                     <Button
                         variant="contained"
                         component="label"
@@ -192,12 +198,12 @@ const ProductCreate:FC<PropsType & PropsTypeAdminProducts> = ({setMode, setTitle
                         />
                     </Button>
                 </Grid>
-                <Grid item xs={2}>
+                <Grid item xs={4} md={5} lg={2}>
                     {inputsData.imageSrc && <img src={inputsData.imageSrc} alt="Photo" className="admin-product__image"/>}
                 </Grid>
-                <Grid item xs={3}>
+                <Grid item xs={12} md={3}>
                     <Button
-                        fullWidth={true}
+                        fullWidth={isMobile || isDesk}
                         color='primary'
                         variant="outlined"
                         component="label"
