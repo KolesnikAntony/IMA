@@ -76,6 +76,20 @@ export const getIsAuth = ():ThunkType => async (dispatch) => {
     }
     dispatch(actionsAuth.setIsFetching(false));
 };
+export const googleAuth = ():ThunkType => async (dispatch) => {
+    dispatch(actionsAuth.setIsFetching(true));
+    try {
+        await AuthAPI.google();
+        dispatch(await getProfileData());
+        dispatch(actionsAuth.setIsAuth(true));
+
+    }catch (err) {
+        console.log(err.response);
+        dispatch(actionsAuth.setIsAuth(false));
+    }
+    dispatch(actionsAuth.setIsFetching(false));
+};
+
 
 export const signUpThunk = (email: string, password: string): ThunkType => async (dispatch) => {
     try {
