@@ -24,6 +24,7 @@ module.exports.createProduct = async (req, res) => {
 			category: req.body.category,
 			description: req.body.description,
 			shortDescr: req.body.shortDescr,
+			subText: req.body.subText,
 			color: req.body.color,
 			imageSrc: req.file ? `${basePath}${req.file.path}`: '',
 			sale: req.body.sale,
