@@ -29,7 +29,7 @@ export const AuthAPI = {
         return instance.get('/api', {}).then(res => res);
     },
     google() {
-        return instance.get('/api/google_login', {}).then(res => res);
+        return instance.post('/api/google_login', {}).then(res => res);
     },
 
 };

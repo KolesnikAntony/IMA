@@ -6,6 +6,7 @@ import {useDispatch} from "react-redux";
 import FacebookLogin from 'react-facebook-login'
 //@ts-ignore
 import AppleSignin from 'react-apple-signin-auth';
+import {googleAuth} from "../../../redux/auth-reducer";
 
 
 
@@ -19,6 +20,10 @@ const SocialAuth:FC<PropsType> = ({title}) => {
         console.log(response);
     };
 
+  const responseGoggle = (response:any) => {
+    console.log(response);
+  };
+
     return (
         <div className="auth__social">
             <h3 className="auth__social-title">
@@ -31,8 +36,10 @@ const SocialAuth:FC<PropsType> = ({title}) => {
                         <button  onClick={renderProps.onClick} disabled={renderProps.disabled} className="auth__social-link">Google</button>
                     )}
                     buttonText="Login"
-                    onSuccess={() => console.log('success')}
-                    onFailure={() => console.log('fail')}
+                    // onSuccess={() => dispatch(googleAuth())}
+                    onSuccess= {responseGoggle}
+                    onFailure= {responseGoggle}
+                    // onFailure={() => console.log('fail')}
                     cookiePolicy={'single_host_origin'}
                 />
                 <FacebookLogin
