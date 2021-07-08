@@ -1,0 +1,13 @@
+.test{
+   min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  button {
+    width: 200px ;
+    background-color: black;
+    color: white;
+    padding: 20px 30px;
+    cursor: pointer;
+  }
+}

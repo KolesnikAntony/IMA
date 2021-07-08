@@ -141,3 +141,19 @@ export type ErrorType = {
     errorText: string
     toggle: boolean
 }
+
+export type CheckoutType = {
+    name: string,
+    surnname: string
+    city: string
+    build: string
+    company?: string
+    country: string
+    delivery: string
+    email: string
+    kod: string
+    phone: string
+    policy?: true
+    post_box?: string
+    street: string
+}

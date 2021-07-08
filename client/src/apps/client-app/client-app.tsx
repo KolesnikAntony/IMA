@@ -22,6 +22,7 @@ import {getContacts} from "../../redux/contacts-reducer";
 import { getHomeBannerText } from "../../redux/home-reducer";
 import CookieConsent, { Cookies } from "react-cookie-consent";
 import {RootState} from "../../redux/store";
+import TestCheck from "../../componetns/checkText";
 
 
 type PathParamsType = {
@@ -57,6 +58,11 @@ const ClientApp: FC<PropsType> = ({match}) => {
         dispatch(getHomeBannerText());
     }, []);
 
+
+    const handleCheckout = (formData: any) => {
+        console.log(formData)
+    }
+
     return (<>
             <OpenCartContext.Provider value={handleOpen}>
                 {headerType ? <Header onOpen={handleOpen} classes={'header home'}/>
@@ -78,7 +84,8 @@ const ClientApp: FC<PropsType> = ({match}) => {
                             <Route path='/shopping-and-payment' render={() => <Payment/>}/>
                             <Route path='/refund-policy' render={() => <Refund/>}/>
                             {/*@ts-ignore*/}
-                            <Route path='/checkout' render={() => <ContainerCheckout/>}/>
+                            <Route path='/checkout' render={() => <ContainerCheckout onSubmit={handleCheckout}/>}/>
+                            <Route path='/cte' render={() => <TestCheck/>}/>
                         </Switch>
                     </main>
                 </ScrollToTop>

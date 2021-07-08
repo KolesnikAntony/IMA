@@ -8,11 +8,13 @@ import {createField, Input, TextAria} from "../../common/formControls/form-contr
 import {required} from "../../helpers/validation/validation";
 import {Link} from "react-router-dom";
 
+
+
 interface PropsType {
     cartProducts: Array<CartType>
 }
 
-const Checkout: FC<InjectedFormProps<ProfileFormValueType, ProfilePropsType<PropsType>> & ProfilePropsType<PropsType>> = ({cartProducts}) => {
+const Checkout: FC<InjectedFormProps<ProfileFormValueType, ProfilePropsType<PropsType>> & ProfilePropsType<PropsType>> = ({cartProducts, handleSubmit}) => {
     const products = cartProducts;
     const productsClasses = useMemo(() => products.length <= 3 ? 'checkout__products' : 'checkout__products scroll', [products] );
 
@@ -31,7 +33,7 @@ const Checkout: FC<InjectedFormProps<ProfileFormValueType, ProfilePropsType<Prop
 
     return <section className="checkout">
         <div className="container">
-            <form className="checkout__form">
+            <form className="checkout__form" onSubmit={handleSubmit}>
                 <div className="checkout__row">
                     <div className="checkout__col checkout__info">
                         <h3 className="checkout__title">
@@ -160,6 +162,7 @@ const Checkout: FC<InjectedFormProps<ProfileFormValueType, ProfilePropsType<Prop
                                 <h5 className="checkout__payments-title">
                                     SUMA
                                 </h5>
+                                <Field type="hidden" name='amount' component={'input'} value={12}  />
                                 <span className="checkout__total-price">
                                     zł{totalPrice}
                                 </span>
@@ -201,7 +204,6 @@ const mapStateToProps = (state: AppStateType): mapStateToPropsType => {
             company: '',
             country: 'Polska',
             post_box: '',
-
         },
         cartProducts: state.cart.cart
     }
