@@ -199,11 +199,7 @@ module.exports.googleLogin = async (req, res) => {
 	try {
 		const { tokenId } = req.body;
 
-		console.log('tokenId===>', tokenId);
-
 		const verify = await client.verifyIdToken({ idToken: tokenId,  audience: process.env.EMAIL_SERVICE_CLIENT_ID });
-
-		console.log({verify});
 
 		const { email_verified, email } = verify.payload;
 
@@ -230,7 +226,12 @@ module.exports.googleLogin = async (req, res) => {
 
 					res.json({ message: 'Авторизация прошла успешно!'});
 			} else {
-				const newUser = new User({ email, password: hashedPass });
+				const newUser = new User({
+					email,
+					password: hashedPass,
+					avatar: verify.payload.picture,
+					name: verify.payload.given_name
+				});
 	
 				await newUser.save();
 
