@@ -21,7 +21,7 @@ const SocialAuth:FC<PropsType> = ({title}) => {
     };
 
   const responseGoggle = (response:any) => {
-    console.log(response);
+    dispatch(googleAuth(response.dt.Nt, response.tokenId));
   };
 
     return (
