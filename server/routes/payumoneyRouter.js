@@ -3,7 +3,7 @@ const Payumoney = require('../controllers/Payumoney');
 const { me } = require('../middleware/authVerify');
 
 
-router.post('/payumoney', me, Payumoney.payUMoneyPayment);
-router.post('/payumoney/response', me, Payumoney.paymentResponse);
+router.post('/payumoney', Payumoney.payUMoneyPayment);
+router.post('/payumoney/response', Payumoney.paymentResponse);
 
 module.exports = router;
