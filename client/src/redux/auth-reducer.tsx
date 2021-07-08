@@ -76,10 +76,10 @@ export const getIsAuth = ():ThunkType => async (dispatch) => {
     }
     dispatch(actionsAuth.setIsFetching(false));
 };
-export const googleAuth = (email: string, token: string):ThunkType => async (dispatch) => {
+export const googleAuth = (data: any, token: string):ThunkType => async (dispatch) => {
     dispatch(actionsAuth.setIsFetching(true));
     try {
-        await AuthAPI.google(email, token);
+        await AuthAPI.google(data, token);
         dispatch(await getProfileData());
         dispatch(actionsAuth.setIsAuth(true));
 
