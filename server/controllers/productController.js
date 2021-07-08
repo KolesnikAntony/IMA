@@ -33,7 +33,6 @@ module.exports.createProduct = async (req, res) => {
 			totalCount: req.body.totalCount
 		});
 
-
 		// отмена загрузки изображения в локальное хранилище
 		// fs.unlinkSync(req.file.path);
 
