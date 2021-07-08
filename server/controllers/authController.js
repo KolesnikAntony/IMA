@@ -199,11 +199,12 @@ module.exports.googleLogin = async (req, res) => {
 	try {
 		const { tokenId } = req.body;
 
-		console.log('tokenId', tokenId);
+		console.log('tokenId===>', tokenId);
 
 		const verify = await client.verifyIdToken({ idToken: tokenId,  audience: process.env.EMAIL_SERVICE_CLIENT_ID });
 
-		console.log(verify);
+		console.log({verify});
+
 		const { email_verified, email } = verify.payload;
 
 		const password = email + process.env.GOOGLE_SECRET;
