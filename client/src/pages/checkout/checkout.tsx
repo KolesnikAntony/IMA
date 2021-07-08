@@ -27,6 +27,8 @@ const Checkout: FC<InjectedFormProps<ProfileFormValueType, ProfilePropsType<Prop
         setTotalPrice(total !== 0 ? total + delPrice : 0);
     }, [products, delivery]);
 
+
+
     return <section className="checkout">
         <div className="container">
             <form className="checkout__form">

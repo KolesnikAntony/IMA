@@ -18,6 +18,9 @@ const SocialAuth:FC<PropsType> = ({title}) => {
     const responseFacebook = (response: any) => {
         console.log(response);
     };
+    const responseGoggle = (response:any) => {
+        console.log(response);
+    };
 
     return (
         <div className="auth__social">
@@ -31,8 +34,8 @@ const SocialAuth:FC<PropsType> = ({title}) => {
                         <button  onClick={renderProps.onClick} disabled={renderProps.disabled} className="auth__social-link">Google</button>
                     )}
                     buttonText="Login"
-                    onSuccess={() => console.log('success')}
-                    onFailure={() => console.log('fail')}
+                    onSuccess={responseGoggle}
+                    onFailure={responseGoggle}
                     cookiePolicy={'single_host_origin'}
                 />
                 <FacebookLogin
@@ -46,7 +49,7 @@ const SocialAuth:FC<PropsType> = ({title}) => {
                     /** Auth options passed to AppleID.auth.init() */
                     authOptions={{
                         /** Client ID - eg: 'com.example.com' */
-                        clientId: 'com.example.web',
+                        clientId: 'com.example.com',
                         /** Requested scopes, seperated by spaces - eg: 'email name' */
                         scope: 'email name',
                         /** Apple's redirectURI - must be one of the URIs you added to the serviceID - the undocumented trick in apple docs is that you should call auth from a page that is listed as a redirectURI, localhost fails */
