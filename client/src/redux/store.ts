@@ -7,11 +7,11 @@ import UserReducer from "./user-reducer";
 import AuthReducer from "./auth-reducer";
 import ProductsReducer from "./products-reducer";
 import ProductReducer from "./product-reducer";
-import СartReducer from "./cart-reducer";
 import CartReducer from "./cart-reducer";
 import adminReducer from "./admin-reduser";
 import aboutUsReducer from "./aboutPage-reducer";
 import contactsReducer from "./contacts-reducer";
+import payReducer from "./pay-reducer";
 
 const middleware = [thunk];
 const reducers = combineReducers(
@@ -26,6 +26,7 @@ const reducers = combineReducers(
         admin: adminReducer,
         aboutUs: aboutUsReducer,
         contacts: contactsReducer,
+        pay: payReducer
     }
 );
 
