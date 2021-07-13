@@ -27,20 +27,6 @@ module.exports.getCategories = async (req, res) => {
 
 		query2 = Category.find(formattedParams);
 
-		// if (req.query.sort) {
-		// 	const sortByArr = req.query.sort.split(',');
-		//
-		// 	const sortByStr = sortByArr.join(' ');
-		//
-		// 	query = query.sort(sortByStr);
-		//
-		// 	query2 = query2.sort(sortByStr);
-		// } else {
-		// 	query = query.sort('-price');
-		//
-		// 	query2 = query2.sort('-price');
-		// }
-
 		const categoryCount = await query2.countDocuments();
 
 		const pages = Math.ceil(categoryCount / pageSize);
@@ -147,25 +133,13 @@ module.exports.getCategoryById = async (req, res) => {
 
 module.exports.getCategoryWithProducts = async (req, res) => {
 
-	const getUniqueCategories = (array) => {
-		return array.filter((e, i, a) => a.indexOf(e) === i);
-	};
-
 	try {
 
-		const checkProducts = await Product.find().select('category');
+		const checkCategories = await Product.distinct('category');
 
-		const checkCategories = await Category.find().select('_id');
+		const category = await Category.find({_id: checkCategories}).select('name');
 
-		const products = getUniqueCategories(checkProducts.map(item => item.category));
-
-		const category = getUniqueCategories(checkCategories.map(item => item._id));
-
-		if (products === category) {
-			return
-		}
-
-		res.status(200).json({checkProducts, checkCategories});
+		res.status(200).json({ category });
 
 	} catch (err) {
 		return res.status(500).json({message: err.message});
