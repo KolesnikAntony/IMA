@@ -27,5 +27,6 @@ router.delete('/user/delete/:id', me, authController.deleteUser);
 //social login
 router.post('/google_login', authController.googleLogin);
 router.post('/facebook_login', authController.facebookLogin);
+router.post('/facebook_login', authController.iosLogin);
 
 module.exports = router;
