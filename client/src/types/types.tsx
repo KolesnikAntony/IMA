@@ -165,12 +165,12 @@ export type CustomerType = {
     country: string
     delivery: string
     email: string
-    flat: string
+    flat?: string
     kod: string
     name: string
     payId: string
     phone: string
-    policy: string
+    policy?: string
     post_box: string
     products: Array<{title: string, price: number, qty: number}>
     street: string

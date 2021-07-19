@@ -4,6 +4,7 @@ import {Redirect, useHistory } from "react-router-dom";
 import BackAside from "../back-aside/back-aside";
 import {useDisableBodyScroll} from "../../hooks/hooks";
 import { CustomerType } from '../../types/types';
+import {OrderAPI} from "../../api/api-order";
 
 interface PropsType {
 
@@ -18,8 +19,8 @@ const Bought:FC<PropsType> = () => {
         const json = localStorage.getItem('orderData');
         const data = JSON.parse(json as string);
         setCustomerData(data);
-        console.log(data);
-        delete localStorage.cartItem
+        delete localStorage.cartItem;
+        OrderAPI.orderSuccess(data).then(res => console.log(res));
     }, []);
 
     useDisableBodyScroll(showBackAside);
