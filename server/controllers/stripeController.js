@@ -67,11 +67,11 @@ module.exports.stripePayment = async (req, res) => {
 
 	};
 
-	const { amount } = req.body;
+	const { items } = req.body;
 
 	try {
 		const paymentIntent = await stripe.paymentIntents.create({
-			amount: amount * 100,
+			amount: calculateOrderAmount(items) * 100,
 			currency: 'pln',
 			payment_method_types: ['p24'],
 		});
