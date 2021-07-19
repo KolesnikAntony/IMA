@@ -7,9 +7,9 @@ module.exports.createOrder = async (req, res) => {
 	try {
 		const order = new Order({
 			email: req.body.email,
-			phone: orders.phone,
-			order: orders.payId,
-			price: orders.amount,
+			phone: req.body.phone,
+			order: req.body.payId,
+			price: req.body.amount,
 		});
 
 		// await order.save();
