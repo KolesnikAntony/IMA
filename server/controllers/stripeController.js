@@ -57,21 +57,21 @@ const stripe = require('stripe')(process.env.ST_SECRET_KEY);
 
 module.exports.stripePayment = async (req, res) => {
 
-	const calculateOrderAmount = items => {
+	// const calculateOrderAmount = items => {
+    //
+	// 	const result = items.reduce((sum,{price, qty}) => sum + price * qty, 0);
+    //
+	// 	// console.log('result===>', result);
+    //
+	// 	return result;
+    //
+	// };
 
-		const result = items.reduce((sum,{price, qty}) => sum + price * qty, 0);
-
-		// console.log('result===>', result);
-
-		return result;
-
-	};
-
-	const { items } = req.body;
+	const { amount } = req.body;
 
 	try {
 		const paymentIntent = await stripe.paymentIntents.create({
-			amount: calculateOrderAmount(items) * 100,
+			amount: amount * 100,
 			currency: 'pln',
 			payment_method_types: ['p24'],
 		});
