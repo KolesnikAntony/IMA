@@ -78,7 +78,8 @@ module.exports.stripePayment = async (req, res) => {
 		});
 
 		res.send({
-			clientSecret: paymentIntent.client_secret
+			clientSecret: paymentIntent.client_secret,
+			pay_id: paymentIntent.id
 		});
 
 	} catch (err) {
