@@ -10,6 +10,9 @@ interface PropsType {
 }
 
 const Cart:FC<PropsType> = ({onClose}) => {
+
+
+
     let cartProducts = useSelector((state: RootState) => state.cart.cart);
     const [totalPrice, setTotalPrice] = useState(0);
 

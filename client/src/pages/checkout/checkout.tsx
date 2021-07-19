@@ -1,32 +1,96 @@
-import React, {FC, useEffect, useMemo, useState} from "react";
-import './checkout.scss'
-import {Field, InjectedFormProps, reduxForm} from "redux-form";
-import {connect} from "react-redux";
-import {AppStateType} from "../../redux/store";
-import {CartType, ProfileFormValueType, ProfilePropsType} from "../../types/types";
-import {createField, Input, TextAria} from "../../common/formControls/form-controls";
-import {required} from "../../helpers/validation/validation";
+import React, {useEffect, useMemo, useState} from "react";
+import '../../stripe/checkout.scss'
+import {useSelector} from "react-redux";
+import {RootState} from "../../redux/store";
 import {Link} from "react-router-dom";
+import {P24BankElement, useElements, useStripe} from "@stripe/react-stripe-js";
 
-
-
-interface PropsType {
-    cartProducts: Array<CartType>
-}
-
-const Checkout: FC<InjectedFormProps<ProfileFormValueType, ProfilePropsType<PropsType>> & ProfilePropsType<PropsType>> = ({cartProducts, handleSubmit}) => {
-    const products = cartProducts;
+const Checkout = () => {
+    const products = useSelector((state: RootState) => state.cart.cart);
     const productsClasses = useMemo(() => products.length <= 3 ? 'checkout__products' : 'checkout__products scroll', [products] );
 
     const [delivery, setDelivery] = useState('paczkomat');
     const [checkPolicy, setCheckPolicy] = useState(false);
 
+    const [succeeded, setSucceeded] = useState(false);
+    const [error, setError] = useState(null as null | string);
+    const [processing, setProcessing] = useState(false);
+    const [disabled, setDisabled] = useState(false);
+    const [clientSecret, setClientSecret] = useState('');
+    const stripe = useStripe();
+    const elements = useElements();
+
     const [totalPrice, setTotalPrice] = useState(0);
+
+    useEffect(() => {
+        window
+            .fetch("/create-payment-intent", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({items: [{id: "xl-tshirt"}]})
+            })
+            .then(res => {
+                return res.json();
+            })
+            .then(data => {
+                setClientSecret(data.clientSecret);
+            });
+    },[])
+
+    const P24_ELEMENT_OPTIONS = {
+        // Custom styling can be passed to options when creating an Element
+        style: {
+            base: {
+                padding: '10px 12px',
+                color: '#32325d',
+                fontSize: '16px',
+                '::placeholder': {
+                    color: '#aab7c4'
+                },
+            },
+        },
+    };
+
+
+    const handleSubmit = async(ev: any) => {
+        ev.preventDefault();
+        //setProcessing(true);
+
+        // @ts-ignore
+        const payload = await stripe.confirmP24Payment(clientSecret, {
+            payment_method: {
+                // @ts-ignore
+                p24: elements.getElement(P24BankElement),
+                billing_details: {
+                    email: 'test@gmail.com',
+                },
+            },
+            payment_method_options: {
+                p24: {
+                    tos_shown_and_accepted: true,
+                }
+            },
+            return_url: 'https://example.com/checkout/complete',
+        });
+
+        if (payload.error) {
+            setError(`Payment failed ${payload.error.message}`);
+            setProcessing(false);
+        } else {
+            setError(null);
+            setProcessing(false);
+            setSucceeded(true);
+        }
+    };
+
     useEffect(() => {
         let total = 0;
         let delPrice = delivery === 'paczkomat' ? 10.99 :  12.99;
-        cartProducts.forEach(item => total += item.qty * item.price);
+        products.forEach(item => total += item.qty * item.price);
         setTotalPrice(total !== 0 ? total + delPrice : 0);
+        console.log(products);
     }, [products, delivery]);
 
 
@@ -44,36 +108,36 @@ const Checkout: FC<InjectedFormProps<ProfileFormValueType, ProfilePropsType<Prop
                                 <div className="checkout__item-separator">
                                     <div className="checkout__item-wrap">
                                         <span className="checkout__item-caption">Imię <span>*</span></span>
-                                        {createField<ProfileFormValueTypeKeys>(Input, 'name', 'Imię', 'text', [required])}
+                                        <input type="text" name='name' placeholder='Imię' required={true}/>
                                     </div>
                                     <div className="checkout__item-wrap">
                                         <span className="checkout__item-caption">Nazwisko <span>*</span></span>
-                                        {createField<ProfileFormValueTypeKeys>(Input, 'surname', 'Nazwisko', 'text', [required])}
+                                        <input type="text" name='surname' placeholder='Nazwisko' required={true}/>
                                     </div>
                                 </div>
                             </li>
                             <li className="checkout__item">
                                 <span className="checkout__item-caption">Nazwa firmy (opcjonalne)</span>
-                                {createField<ProfileFormValueTypeKeys>(Input, 'company', 'Nazwa firmy', 'text', [])}
+
+                                <input type="text" name='company' placeholder='Nazwa firmy'/>
                             </li>
                             <li className="checkout__item">
                                 <span className="checkout__item-caption">Kraj / region <span>*</span></span>
-                                {createField<ProfileFormValueTypeKeys>(Input, 'country', 'Kraj / region', 'text', [required])}
+                                <input type="text" name='country' placeholder='Kraj / region' required={true}/>
                             </li>
                             <li className="checkout__item">
                                 <div className="checkout__item-line">
                                     <span className="checkout__item-caption">Ulica <span>*</span></span>
-                                    {createField<ProfileFormValueTypeKeys>(Input, 'street', 'Ulica', 'text', [required])}
+                                    <input type="text" name='street' placeholder='Ulican' required={true}/>
                                 </div>
                                 <div className="checkout__item-separator">
                                     <div className="checkout__item-wrap">
                                         <span className="checkout__item-caption">Budynek <span>*</span></span>
-                                        {createField<ProfileFormValueTypeKeys>(Input, 'build', 'Budynek', 'text', [required])}
+                                        <input type="text" name='build' placeholder='Budynek' required={true}/>
                                     </div>
                                     <div className="checkout__item-wrap">
                                         <span className="checkout__item-caption">Mieszkanie</span>
-                                        {createField<ProfileFormValueTypeKeys>(Input, 'flat',
-                                            'Mieszkanie', 'text', [])}
+                                        <input type="text" name='flat' placeholder='Mieszkanie' required={false}/>
                                     </div>
                                 </div>
                             </li>
@@ -81,25 +145,21 @@ const Checkout: FC<InjectedFormProps<ProfileFormValueType, ProfilePropsType<Prop
                                 <div className="checkout__item-separator">
                                     <div className="checkout__item-wrap">
                                         <span className="checkout__item-caption">Miasto <span>*</span></span>
-                                        {createField<ProfileFormValueTypeKeys>(Input, 'city',
-                                            'Miasto', 'text', [required])}
+                                        <input type="text" name='city' placeholder='Miasto' required={true}/>
                                     </div>
                                     <div className="checkout__item-wrap">
                                         <span className="checkout__item-caption">Kod pocztowy<span>*</span></span>
-                                        {createField<ProfileFormValueTypeKeys>(Input, 'kod',
-                                            'Kod pocztowy', 'text', [required])}
+                                        <input type="text" name='kod' placeholder='Kod pocztowy' required={true}/>
                                     </div>
                                 </div>
                             </li>
                             <li className="checkout__item">
                                 <span className="checkout__item-caption">Telefon<span>*</span></span>
-                                {createField<ProfileFormValueTypeKeys>(Input, 'phone',
-                                    'Telefon', 'text', [required])}
+                                <input type="text" name='phone' placeholder='Telefon' required={true}/>
                             </li>
                             <li className="checkout__item">
                                 <span className="checkout__item-caption">Email <span>*</span></span>
-                                {createField<ProfileFormValueTypeKeys>(Input, 'email',
-                                    'Email', 'text', [required])}
+                                <input type="text" name='email' placeholder='Email' required={true}/>
                             </li>
                         </ul>
                     </div>
@@ -136,7 +196,7 @@ const Checkout: FC<InjectedFormProps<ProfileFormValueType, ProfilePropsType<Prop
                                 </h5>
                                 <div className="checkout__delivery">
                                     <label htmlFor='paczkomat' className='checkout__delivery-label' >
-                                        <Field component='input' type='radio' name="delivery" value='paczkomat'
+                                        <input  type='radio' name="delivery" value='paczkomat'
                                                id='paczkomat' checked={delivery === 'paczkomat'}
                                                onClick={()=> setDelivery('paczkomat')}/>
                                         <span className="checkout__delivery-checkmark"/>
@@ -145,9 +205,10 @@ const Checkout: FC<InjectedFormProps<ProfileFormValueType, ProfilePropsType<Prop
                                             <span className='checkout__delivery-price'>zł10.99</span>
                                         </span>
                                     </label>
-                                    {delivery === 'paczkomat' && createField<ProfileFormValueTypeKeys>(TextAria, 'post_box', 'Prosimy o podanie adresu paczkomatu', 'text', [required])}
+                                    {delivery === 'paczkomat' &&
+                                    <textarea name="post_box"  placeholder={'Prosimy o podanie adresu paczkomatu'} required={true}/>}
                                     <label htmlFor='kurier' className='checkout__delivery-label'>
-                                        <Field component='input' type='radio' name="delivery"
+                                        <input type='radio' name="delivery"
                                                value='kurier' id='kurier' checked={delivery === 'kurier'}
                                                onClick={()=> setDelivery('kurier')}/>
                                         <span className="checkout__delivery-checkmark"/>
@@ -162,10 +223,12 @@ const Checkout: FC<InjectedFormProps<ProfileFormValueType, ProfilePropsType<Prop
                                 <h5 className="checkout__payments-title">
                                     SUMA
                                 </h5>
-                                <Field type="hidden" name='amount' component={'input'} value={12}  />
                                 <span className="checkout__total-price">
                                     zł{totalPrice}
                                 </span>
+                            </li>
+                            <li className="checkout__payments-item checkout__total">
+                                <P24BankElement options={P24_ELEMENT_OPTIONS}/>
                             </li>
                         </ul>
                         <div className="checkout__policy">
@@ -173,8 +236,8 @@ const Checkout: FC<InjectedFormProps<ProfileFormValueType, ProfilePropsType<Prop
                                 Twoje dane osobowe będą wykorzystywane w celu realizacji Twojego zamówienia, wsparcia Twojego doświadczenia na tej stronie oraz do innych celów opisanych w naszej <Link to='/'>polityce prywatności</Link>.
                             </p>
                             <p className="checkout__policy-info checkout__delivery">
-                                <Field component='input' type='checkbox' name="policy" value='true' validate={required}
-                                       checked={checkPolicy} onClick={() => setCheckPolicy(!checkPolicy)}/>
+                                <input type="checkbox" name='policy' value='true' required={true}
+                                       checked={checkPolicy} onChange={() => setCheckPolicy(!checkPolicy)}/>
                                 <span className="checkout__delivery-checkmark"/>
                                 <span>Przeczytałem/am i akceptuję <Link to='/'>regulamin *</Link></span>
                             </p>
@@ -187,33 +250,5 @@ const Checkout: FC<InjectedFormProps<ProfileFormValueType, ProfilePropsType<Prop
     </section>
 };
 
-const CheckoutForm = reduxForm<ProfileFormValueType, ProfilePropsType<PropsType> >({form: 'checkout'})(Checkout);
+export default Checkout;
 
-const mapStateToProps = (state: AppStateType): mapStateToPropsType => {
-    return {
-        initialValues: {
-            email: state.user.email,
-            phone: state.user.phone,
-            street: state.user.address.street,
-            build: state.user.address.build,
-            flat: state.user.address.flat,
-            city: state.user.address.city,
-            kod: state.user.address.kod,
-            name: state.user.name,
-            surname: '',
-            company: '',
-            country: 'Polska',
-            post_box: '',
-        },
-        cartProducts: state.cart.cart
-    }
-};
-
-export const ContainerCheckout = connect(mapStateToProps, {})(CheckoutForm);
-
-interface mapStateToPropsType {
-    initialValues: ProfileFormValueType
-    cartProducts: Array<CartType>
-}
-
-type ProfileFormValueTypeKeys = Extract<keyof ProfileFormValueType, string>

@@ -1,7 +1,7 @@
 import React, {FC, useCallback, useEffect, useState} from "react";
-import {useDispatch, useSelector} from "react-redux";
+import {useDispatch} from "react-redux";
 import {checkCartItems} from "../../redux/cart-reducer";
-import {actionsAuth, AuthInitialStateType, getIsAuth} from "../../redux/auth-reducer";
+import {getIsAuth} from "../../redux/auth-reducer";
 import {OpenCartContext} from "../../context/context";
 import Header from "../../componetns/header/header";
 import ScrollToTop from "../../componetns/scroll-op/scroll-top";
@@ -16,13 +16,14 @@ import Rodo from "../../pages/rodo/rodo";
 import Faq from "../../pages/faq/faq";
 import Payment from "../../pages/payment/payment";
 import Refund from "../../pages/refund/refund";
-import {ContainerCheckout} from "../../pages/checkout/checkout";
 import Footer from "../../componetns/footer/footer";
 import {getContacts} from "../../redux/contacts-reducer";
-import { getHomeBannerText } from "../../redux/home-reducer";
-import CookieConsent, { Cookies } from "react-cookie-consent";
-import {RootState} from "../../redux/store";
+import {getHomeBannerText} from "../../redux/home-reducer";
+import CookieConsent from "react-cookie-consent";
 import TestCheck from "../../componetns/checkText";
+import {loadStripe} from "@stripe/stripe-js";
+import Stripe from "../../stripe/stripe";
+import Bought from "../../common/bought/bought";
 
 
 type PathParamsType = {
@@ -37,6 +38,9 @@ const ClientApp: FC<PropsType> = ({match}) => {
     const [currentView, setCurrentView] = useState(null);
     const [headerType, setHeaderType] = useState(false);
     const dispatch = useDispatch();
+
+    const promise = loadStripe("pk_test_bxUFP5az29DxXByl6hAxqbZt00u3JlrxbW");
+
     const handleOpen = useCallback((type) => {
         setCurrentView(type);
         setOpen(true)
@@ -66,7 +70,7 @@ const ClientApp: FC<PropsType> = ({match}) => {
     return (<>
             <OpenCartContext.Provider value={handleOpen}>
                 {headerType ? <Header onOpen={handleOpen} classes={'header home'}/>
-                :<Header onOpen={handleOpen} classes={'header'}/>
+                    : <Header onOpen={handleOpen} classes={'header'}/>
                 }
                 <ScrollToTop>
                     <main className={'app'}>
@@ -74,7 +78,8 @@ const ClientApp: FC<PropsType> = ({match}) => {
                         <Switch>
                             <Route exact path={match.path} render={() => <Home onViewHeader={handleHeaderType}/>}/>
                             <Route path='/activate/:key?'
-                                   render={() => <Home isNewMember={true} onClose={handleClose} onViewHeader={handleHeaderType}/>}/>
+                                   render={() => <Home isNewMember={true} onClose={handleClose}
+                                                       onViewHeader={handleHeaderType}/>}/>
                             <Route exact path='/product/:id' component={ProductScreen}/>
                             <Route path='/shop' render={() => <Shop/>}/>
                             <Route path='/about-us' render={() => <AboutUs/>}/>
@@ -84,15 +89,18 @@ const ClientApp: FC<PropsType> = ({match}) => {
                             <Route path='/shopping-and-payment' render={() => <Payment/>}/>
                             <Route path='/refund-policy' render={() => <Refund/>}/>
                             {/*@ts-ignore*/}
-                            <Route path='/checkout' render={() => <ContainerCheckout onSubmit={handleCheckout}/>}/>
+                            <Route path='/checkout' render={() => <Stripe/>}/>
                             <Route path='/cte' render={() => <TestCheck/>}/>
+                            <Route path='/bought' render={() => <Home isBought={true} onClose={handleClose}
+                                                                    onViewHeader={handleHeaderType}/>}/>
                         </Switch>
                     </main>
                 </ScrollToTop>
                 <Footer onOpen={handleOpen}/>
             </OpenCartContext.Provider>
             <CookieConsent buttonText="Zgoda!" buttonStyle={{background: 'red', color: 'white', fontWeight: 'bold'}}
-            >Klauzula informacyjna RODO w zakresie przetwarzania danych osobowych. Możesz zobaczyć tutaj: <NavLink to='/rodo' className='cookies__link'>ima-professional.pl/rodo</NavLink></CookieConsent>
+            >Klauzula informacyjna RODO w zakresie przetwarzania danych osobowych. Możesz zobaczyć tutaj: <NavLink
+                to='/rodo' className='cookies__link'>ima-professional.pl/rodo</NavLink></CookieConsent>
         </>
     )
 };
