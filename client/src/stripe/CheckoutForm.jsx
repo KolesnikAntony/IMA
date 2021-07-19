@@ -109,36 +109,36 @@ export default function CheckoutForm() {
 
         localStorage.setItem('orderData', JSON.stringify({...data, payId, amount: totalPrice, products: custProducts.map(el=> ({title: el.title, price: el.price, qty: el.qty, id: el.id}))}));
 
-        // const payload = await stripe.confirmP24Payment(clientSecret, {
-        //     payment_method: {
-        //         p24: elements.getElement(P24BankElement),
-        //         billing_details: {
-        //             email: user.email,
-        //             "address": {
-        //                 "city": user.city,
-        //                 "postal_code": user.kod,
-        //             },
-        //             "name": user.name + ' ' + user.surname,
-        //             "phone": user.phone,
-        //         },
-        //
-        //     },
-        //     payment_method_options: {
-        //         p24: {
-        //             tos_shown_and_accepted: true,
-        //         }
-        //     },
-        //     return_url: 'http://localhost:3000/bought',
-        // });
+        const payload = await stripe.confirmP24Payment(clientSecret, {
+            payment_method: {
+                p24: elements.getElement(P24BankElement),
+                billing_details: {
+                    email: user.email,
+                    "address": {
+                        "city": user.city,
+                        "postal_code": user.kod,
+                    },
+                    "name": user.name + ' ' + user.surname,
+                    "phone": user.phone,
+                },
 
-        // if (payload.error) {
-        //     setError(`Payment failed ${payload.error.message}`);
-        //     setProcessing(false);
-        // } else {
-        //     setError(null);
-        //     setProcessing(false);
-        //     setSucceeded(true);
-        // }
+            },
+            payment_method_options: {
+                p24: {
+                    tos_shown_and_accepted: true,
+                }
+            },
+            return_url: 'http://localhost:3000/bought',
+        });
+
+        if (payload.error) {
+            setError(`Payment failed ${payload.error.message}`);
+            setProcessing(false);
+        } else {
+            setError(null);
+            setProcessing(false);
+            setSucceeded(true);
+        }
     };
     const banks =  useMemo(() => {
         return <P24BankSection/>
