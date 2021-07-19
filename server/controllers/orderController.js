@@ -6,7 +6,7 @@ module.exports.createOrder = async (req, res) => {
 
 	try {
 		const order = new Order({
-			email: orders.email,
+			email: req.body.email,
 			phone: orders.phone,
 			order: orders.payId,
 			price: orders.amount,
