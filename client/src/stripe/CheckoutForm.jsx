@@ -167,7 +167,6 @@ export default function CheckoutForm() {
                                 </li>
                                 <li className="checkout__item">
                                     <span className="checkout__item-caption">Nazwa firmy (opcjonalne)</span>
-
                                     <input type="text" name='company' placeholder='Nazwa firmy'/>
                                 </li>
                                 <li className="checkout__item">
