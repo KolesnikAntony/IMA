@@ -41,11 +41,11 @@ module.exports.paymentResponse = (req, res) => {
 		const hash = sha.getHash("HEX");
 
 		// Verify the new hash with the hash value in response
-		if (hash === pd.hash) {
-			res.json({'status': pd.status});
-		} else {
-			res.json({'status': "Error occurred" });
-		}
+        if (hash === pd.hash) {
+            res.json({'status': pd.status});
+        } else {
+            res.json({'status': "Error occurred" });
+        }
 	} catch (err) {
 		return res.status(500).json({ message: err.message });
 	}

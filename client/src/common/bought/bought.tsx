@@ -1,0 +1,33 @@
+import React, {FC, useCallback, useState} from 'react'
+import './bought.scss'
+import { useHistory } from "react-router-dom";
+import BackAside from "../back-aside/back-aside";
+import {useDisableBodyScroll} from "../../hooks/hooks";
+
+interface PropsType {
+
+}
+
+const Bought:FC<PropsType> = () => {
+    const history = useHistory();
+    const [showBackAside, setShowBackAside] = useState(true);
+
+    useDisableBodyScroll(showBackAside);
+
+    const closeNewMemberPopup = useCallback(() => {
+        history.push('/');
+        setShowBackAside(false);
+    }, [showBackAside]);
+
+
+    return <>
+        <div className="new-member">
+            <button onClick={closeNewMemberPopup} className="new-member__close"/>
+            <h2 className="new-member__title">Gratulujemy!</h2>
+            <p className='new-member__text'>Szczegóły zakupu wysłane pocztą elektroniczną</p>
+        </div>
+        <BackAside open={showBackAside} onClose={closeNewMemberPopup}/>
+    </>
+};
+
+export default Bought;
