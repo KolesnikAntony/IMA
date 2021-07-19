@@ -30,19 +30,14 @@ export default function CheckoutForm() {
 
     useEffect(() => {
         // Create PaymentIntent as soon as the page loads
-        let items = products.map(obj => ({
-            id: obj.id,
-            title: obj.title,
-            price: obj.price,
-            qty: obj.qty
-        }));
-       products &&  window
-            .fetch("/create-payment-intent", {
+        let amount = totalPrice;
+       products.length && amount !== 0 &&  window
+            .fetch("/api/stripePay", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json"
                 },
-                body: JSON.stringify({items})
+                body: JSON.stringify({amount})
             })
             .then(res => {
                 return res.json();
@@ -50,7 +45,7 @@ export default function CheckoutForm() {
             .then(data => {
                 setClientSecret(data.clientSecret);
             });
-    }, [products]);
+    }, [products,totalPrice]);
 
     const cardStyle = {
         style: {
@@ -110,15 +105,22 @@ export default function CheckoutForm() {
             payment_method: {
                 p24: elements.getElement(P24BankElement),
                 billing_details: {
-                    email: 'test@gmail.com',
+                    email: user.email,
+                    "address": {
+                        "city": user.city,
+                        "postal_code": user.kod,
+                    },
+                    "name": user.name + ' ' + user.surname,
+                    "phone": user.phone,
                 },
+
             },
             payment_method_options: {
                 p24: {
                     tos_shown_and_accepted: true,
                 }
             },
-            return_url: 'https://example.com/checkout/complete',
+            return_url: 'http://localhost:3000/bought',
         });
 
         if (payload.error) {
