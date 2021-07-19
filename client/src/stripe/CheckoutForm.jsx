@@ -10,6 +10,7 @@ export default function CheckoutForm() {
     const [processing, setProcessing] = useState('');
     const [disabled, setDisabled] = useState(false);
     const [clientSecret, setClientSecret] = useState('');
+    const [payId, setPayId] = useState('');
     const stripe = useStripe();
     const elements = useElements();
     const products = useSelector((state) => state.cart.cart);
@@ -19,13 +20,16 @@ export default function CheckoutForm() {
     const [checkPolicy, setCheckPolicy] = useState(false);
 
     const [totalPrice, setTotalPrice] = useState(0);
+    const [custProducts, setCustProducts] = useState(products);
 
     useEffect(() => {
         let total = 0;
         let delPrice = delivery === 'paczkomat' ? 10.99 :  12.99;
         products.forEach(item => total += item.qty * item.price);
         setTotalPrice(total !== 0 ? total + delPrice : 0);
+        setCustProducts(products);
         console.log(products);
+
     }, [products, delivery]);
 
     useEffect(() => {
@@ -44,6 +48,7 @@ export default function CheckoutForm() {
             })
             .then(data => {
                 setClientSecret(data.clientSecret);
+                setPayId(data.pay_id);
             });
     }, [products,totalPrice]);
 
@@ -95,42 +100,45 @@ export default function CheckoutForm() {
 
     const handleSubmit = async ev => {
         ev.preventDefault();
-        const data = new FormData(ev.target);
+        const formData = new FormData(ev.target);
         const user = {};
-        for (let entry of data.entries()) {
+        for (let entry of formData.entries()) {
             user[entry[0]] = entry[1]
         }
+        const {policy, ...data} = user;
 
-        const payload = await stripe.confirmP24Payment(clientSecret, {
-            payment_method: {
-                p24: elements.getElement(P24BankElement),
-                billing_details: {
-                    email: user.email,
-                    "address": {
-                        "city": user.city,
-                        "postal_code": user.kod,
-                    },
-                    "name": user.name + ' ' + user.surname,
-                    "phone": user.phone,
-                },
+        localStorage.setItem('orderData', JSON.stringify({...data, payId, amount: totalPrice, products: custProducts.map(el=> ({title: el.title, price: el.price, qty: el.qty, id: el.id}))}));
 
-            },
-            payment_method_options: {
-                p24: {
-                    tos_shown_and_accepted: true,
-                }
-            },
-            return_url: 'http://localhost:3000/bought',
-        });
+        // const payload = await stripe.confirmP24Payment(clientSecret, {
+        //     payment_method: {
+        //         p24: elements.getElement(P24BankElement),
+        //         billing_details: {
+        //             email: user.email,
+        //             "address": {
+        //                 "city": user.city,
+        //                 "postal_code": user.kod,
+        //             },
+        //             "name": user.name + ' ' + user.surname,
+        //             "phone": user.phone,
+        //         },
+        //
+        //     },
+        //     payment_method_options: {
+        //         p24: {
+        //             tos_shown_and_accepted: true,
+        //         }
+        //     },
+        //     return_url: 'http://localhost:3000/bought',
+        // });
 
-        if (payload.error) {
-            setError(`Payment failed ${payload.error.message}`);
-            setProcessing(false);
-        } else {
-            setError(null);
-            setProcessing(false);
-            setSucceeded(true);
-        }
+        // if (payload.error) {
+        //     setError(`Payment failed ${payload.error.message}`);
+        //     setProcessing(false);
+        // } else {
+        //     setError(null);
+        //     setProcessing(false);
+        //     setSucceeded(true);
+        // }
     };
     const banks =  useMemo(() => {
         return <P24BankSection/>
