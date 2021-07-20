@@ -62,7 +62,7 @@ const FilterForm: FC<InjectedFormProps<FormFilterDataType, FormFilterPropsType> 
                         {colors.map(el =>
                             <div className="shop__categories--item" key={el}>
                                 <label htmlFor={"check--" + el} className="shop__categories--label">{capitalizeFirstLetter(el)}</label>
-                                <Field type='checkbox' name={el} component='input' id={"check--" + el}/>
+                                <Field type='checkbox' name={el} component='input' id={"check--" + el} />
                                 <span className="shop__categories--item-checkmark"/>
                             </div>
                         )}

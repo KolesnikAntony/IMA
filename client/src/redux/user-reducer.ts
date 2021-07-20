@@ -6,6 +6,7 @@ import {toASCII} from "punycode";
 
 const SET_PHOTO = 'user-reducer/SET_PHOTO';
 const SET_INFO_DATA = 'user-reducer/SET_INFO_DATA';
+const CHANGE_INFO_DATA = 'user-reducer/CHANGE_INFO_DATA';
 const SET_IS_FETCHING = 'user-reducer/SET_IS_FETCHING';
 
 const userInitialState = {
@@ -30,6 +31,8 @@ const UserReducer = (state = userInitialState, action: ActionType): UserInitialS
             return {...state, avatar: action.photo};
         case SET_INFO_DATA:
             return {...state, address: {...action.address}, email: action.email, phone: action.phone, name: action.name, avatar: action.avatar}
+            case CHANGE_INFO_DATA:
+            return {...state, address: {...action.address}, email: action.email, phone: action.phone, name: action.name}
         case SET_IS_FETCHING: {
             return {...state, isFetching: action.isFetching}
         }
@@ -52,6 +55,13 @@ const actionsUser = {
         name: data.name,
         avatar: data.avatar
     } as const),
+    changeProfileData: (data: ProfileDataType) => ({
+        type: CHANGE_INFO_DATA,
+        address: data.address,
+        email: data.email,
+        phone: data.phone,
+        name: data.name,
+    } as const),
     setIsFetching: (isFetching: boolean) => ({
         type: SET_IS_FETCHING,
         isFetching
@@ -70,7 +80,7 @@ export const getPhoto = (photoFile: any): ThunkUserType => async (dispatch) => {
 };
 
 export const getProfileData = (): ThunkUserType => async (dispatch) => {
-    dispatch(actionsUser.setIsFetching(true))
+    dispatch(actionsUser.setIsFetching(true));
     const data = await UserAPI.getUser();
     dispatch(actionsUser.setProfileData(data));
     dispatch(actionsUser.setIsFetching(false))
@@ -78,7 +88,7 @@ export const getProfileData = (): ThunkUserType => async (dispatch) => {
 
 export const updateUserInfo = (userInfo: ProfileFormValueType):ThunkUserType => async (dispatch) =>{
     const data = await UserAPI.uploadUser(userInfo);
-    dispatch(actionsUser.setProfileData(data));
+    dispatch(actionsUser.changeProfileData(data));
 };
 
 export type UserInitialStateType = typeof userInitialState;
