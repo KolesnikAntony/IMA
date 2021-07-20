@@ -85,7 +85,7 @@ export default function CheckoutForm() {
         }
         const {policy, ...data} = user;
 
-        localStorage.setItem('orderData', JSON.stringify({...data, payId, amount: totalPrice, products: custProducts.map(el=> ({title: el.title, price: el.price, qty: el.qty, id: el.id}))}));
+        localStorage.setItem('orderData', JSON.stringify({...data, payId, amount: totalPrice, products: custProducts.map(el=> ({ title: el.title, price: el.price, qty: el.qty, id: el.id}))}));
 
         const payload = await stripe.confirmP24Payment(clientSecret, {
             payment_method: {
@@ -207,7 +207,7 @@ export default function CheckoutForm() {
                                 <li className="checkout__payments-item">
                                     <ul className={productsClasses}>
                                         {products.map(item =>
-                                            <li className="checkout__products-item">
+                                            <li className="checkout__products-item" key={item.title}>
                                                 <div className="checkout__products-name">
                                             <span className="checkout__products-title">
                                                 {item.title}

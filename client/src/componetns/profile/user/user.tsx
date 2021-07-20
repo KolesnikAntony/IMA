@@ -44,7 +44,6 @@ const User = () => {
         let photo = e.target.files;
         setCurrentImage(photo);
         photo !== null && setCurrentPhoto(URL.createObjectURL(photo[0]));
-        console.log(photo);
     };
 
     const setNewImage = useCallback(() => {

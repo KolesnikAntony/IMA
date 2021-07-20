@@ -21,7 +21,6 @@ const Shop = () => {
     const [showMobFilter, setShowMobFilter] = useState(false);
 
     useEffect(()=> {
-        console.log('render shop from useEffect');
         dispatch(getProducts(1, FILTER_TYPES.SELECT_TYPE.ALL, FILTER_TYPES.SORT_TYPE.MAX));
         dispatch(filterOfCategories([],[]))
     }, []);
@@ -31,9 +30,6 @@ const Shop = () => {
         dispatch(getProducts(currentPage, selectType, sort));
         window.scrollTo(0, 0);
     };
-
-    //todo make custom Hook for function below
-
 
     const getTrueObjectKeys = (obj: {}) => {
         let objectKeys = !obj ? [] :  Object.keys(obj) as Array<keyof typeof obj>;
@@ -63,6 +59,7 @@ const Shop = () => {
     };
 
     const wrapperRef = useRef(null);
+
     useOutsideAlerter(wrapperRef, handleShowMobFilter);
 
     return <>
