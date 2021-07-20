@@ -5,4 +5,6 @@ const me = require('../middleware/authVerify');
 
 router.post('/order', orderController.createOrder);
 
+router.get('/order', orderController.getOrders);
+
 module.exports = router;
