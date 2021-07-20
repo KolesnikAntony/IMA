@@ -11,13 +11,12 @@ module.exports.cartFilter = async ( req, res ) => {
 		}
 
 		const cartItems = await Product.find(query)
-			.select('title price salePrice imageSrc');
+			.select('title price salePrice imageSrc qty');
 
-		if ( cartItems.length === [] )
-			// return res.json({cartItems});
+		if ( cartItems.length == [] )
 			return res.json({cartItems});
 
-		res.status(200).json({message: 'Ok', qty: 1,  cartItems});
+		res.status(200).json({message: 'Ok',  cartItems});
 
 	} catch (err) {
 		return res.status(500).json({message: err.message});
