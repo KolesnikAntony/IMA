@@ -1,9 +1,7 @@
 import React, {FC, useCallback, useEffect, useState} from 'react'
-import './bought.scss'
 import {Redirect, RouteComponentProps, useHistory, withRouter} from "react-router-dom";
 import BackAside from "../back-aside/back-aside";
-import {useDisableBodyScroll} from "../../hooks/hooks";
-import { CustomerType } from '../../types/types';
+import {CustomerType} from '../../types/types';
 import {OrderAPI} from "../../api/api-order";
 import {checkCartItems} from "../../redux/cart-reducer";
 import {useDispatch} from "react-redux";
@@ -38,11 +36,10 @@ const Bought:FC<PropsType> = ({match, location}) => {
         }
     }, [status]);
 
-    useDisableBodyScroll(showBackAside);
 
     const closeNewMemberPopup = useCallback(() => {
-        setShowBackAside(false);
         history.push('/');
+        setShowBackAside(false);
         localStorage.removeItem('orderData');
     }, [showBackAside]);
 

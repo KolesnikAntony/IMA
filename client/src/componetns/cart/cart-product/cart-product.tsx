@@ -34,7 +34,6 @@ const CartProduct: FC<CartPropsType> = ({title, currentPrice, image, id, qty}) =
     };
 
     useEffect(() => {
-        console.log('render cart component');
         setTotalProductPrice(quantity * currentPrice);
         quantity >= 1 && dispatch(actionsCart.updateQty(id, quantity));
     }, [quantity]);

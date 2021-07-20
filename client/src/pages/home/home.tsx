@@ -8,7 +8,7 @@ import {useDispatch} from "react-redux";
 import {activateUser} from "../../redux/auth-reducer";
 import Banner from './banner/banner';
 import TopProducts from "./top-products/top-products";
-import {useViewSize} from "../../hooks/hooks";
+import {useDisableBodyScroll, useViewSize} from "../../hooks/hooks";
 import SwiperCore, {Navigation} from "swiper";
 import Bought from "../../common/bought/bought";
 
@@ -41,7 +41,7 @@ const Home:FC<PropsType> = ({isNewMember, match, onViewHeader, isBought,isFail})
         isNewMember && dispatch(activateUser(key));
     });
 
-
+    useDisableBodyScroll(!!isNewMember || !!isBought);
     return <>
         {isNewMember && <NewMemberPopup />}
         {isBought && <Bought />}
