@@ -60,13 +60,16 @@ module.exports.getCategoriesAndColors = async (req, res) => {
 
 	try {
 
-		const categories = await Category.find().select('name');
+		// const categories = await Category.find().select('name');
+		// const category = getUniqueNames(categories.map(item => item));
 
 		const color = await Product.find().select('color');
 
-		const colors = getUniqueNames(color.map(item => item.color));
+		const checkCategories = await Product.distinct('category');
 
-		const category = getUniqueNames(categories.map(item => item));
+		const category = await Category.find({_id: checkCategories}).select('name');
+
+		const colors = getUniqueNames(color.map(item => item.color));
 
 		res.status(200).json({message: 'OK', category, colors});
 	} catch (err) {

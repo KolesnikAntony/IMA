@@ -19,3 +19,15 @@ module.exports.createOrder = async (req, res) => {
 		return res.status(500).json({message: err.message});
 	}
 };
+
+module.exports.getOrders = async (req, res) => {
+
+	try {
+
+	const orders = await Order.find();
+
+		res.status(200).json({ orders});
+	} catch (err) {
+		return res.status(500).json({message: err.message});
+	}
+};
