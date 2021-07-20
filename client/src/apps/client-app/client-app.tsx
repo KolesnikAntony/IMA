@@ -91,8 +91,10 @@ const ClientApp: FC<PropsType> = ({match}) => {
                             {/*@ts-ignore*/}
                             <Route path='/checkout' render={() => <Stripe/>}/>
                             <Route path='/cte' render={() => <TestCheck/>}/>
-                            <Route path='/bought' render={() => <Home isBought={true} onClose={handleClose}
+                            <Route exact path='/bought' render={() => <Home isBought={true} onClose={handleClose}
                                                                     onViewHeader={handleHeaderType}/>}/>
+                            {/*<Route  path='/bought?:fail' render={() => <Home isFail={true} onClose={handleClose}*/}
+                            {/*                                                onViewHeader={handleHeaderType}/>}/>*/}
                         </Switch>
                     </main>
                 </ScrollToTop>

@@ -12,7 +12,7 @@ module.exports.createOrder = async (req, res) => {
 			price: req.body.amount,
 		});
 
-		 await order.save();
+		await order.save();
 		console.log({order})
 		res.json({message: 'Заказ создан!', order});
 	} catch (err) {

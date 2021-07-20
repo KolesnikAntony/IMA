@@ -9,14 +9,15 @@ interface CartPropsType {
     image: string
     currentPrice: number
     id: string
+    qty: number
 }
 
-const CartProduct: FC<CartPropsType> = ({title, currentPrice, image, id}) => {
+const CartProduct: FC<CartPropsType> = ({title, currentPrice, image, id, qty}) => {
 
     const [totalProductPrice, setTotalProductPrice] = useState(currentPrice);
     const dispatch = useDispatch();
 
-    const [quantity, setQuantity] = useState(1);
+    const [quantity, setQuantity] = useState(qty);
 
     const addQnt = () => {
         if (quantity <= 100) {

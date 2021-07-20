@@ -8,7 +8,7 @@ export default function CheckoutForm() {
     const [succeeded, setSucceeded] = useState(false);
     const [error, setError] = useState(null);
     const [processing, setProcessing] = useState('');
-    const [disabled, setDisabled] = useState(false);
+    const [disabled, setDisabled] = useState(true);
     const [clientSecret, setClientSecret] = useState('');
     const [payId, setPayId] = useState('');
     const stripe = useStripe();
@@ -28,8 +28,6 @@ export default function CheckoutForm() {
         products.forEach(item => total += item.qty * item.price);
         setTotalPrice(total !== 0 ? total + delPrice : 0);
         setCustProducts(products);
-        console.log(products);
-
     }, [products, delivery]);
 
     useEffect(() => {
@@ -52,33 +50,18 @@ export default function CheckoutForm() {
             });
     }, [products,totalPrice]);
 
-    const cardStyle = {
-        style: {
-            base: {
-                color: "#32325d",
-                fontFamily: 'Arial, sans-serif',
-                fontSmoothing: "antialiased",
-                fontSize: "16px",
-                "::placeholder": {
-                    color: "#32325d"
-                }
-            },
-            invalid: {
-                color: "#fa755a",
-                iconColor: "#fa755a"
-            }
-        }
-    };
+
     const P24_ELEMENT_OPTIONS = {
         // Custom styling can be passed to options when creating an Element
         style: {
             base: {
-                padding: '10px 12px',
-                color: '#32325d',
+                padding: '8px',
+                color: '#3B3F45',
                 fontSize: '16px',
                 '::placeholder': {
-                    color: '#aab7c4'
+                    color: '#3B3F45'
                 },
+                 borderBottom: "1px solid #D9C3B6",
             },
         },
     };
@@ -86,16 +69,11 @@ export default function CheckoutForm() {
     function P24BankSection() {
         return (
             <label style={{width: "100%"}}>
-                <P24BankElement options={P24_ELEMENT_OPTIONS} empty={false} />
+                <P24BankElement options={P24_ELEMENT_OPTIONS} empty={false} onChange={
+                    () =>  setDisabled(false)
+                } />
             </label>
         );
-    };
-
-    const handleChange = async (event) => {
-        // Listen for changes in the CardElement
-        // and display any errors as the customer types their card details
-        setDisabled(event.empty);
-        setError(event.error ? event.error.message : "");
     };
 
     const handleSubmit = async ev => {
@@ -143,6 +121,8 @@ export default function CheckoutForm() {
     const banks =  useMemo(() => {
         return <P24BankSection/>
     }, []);
+
+
     return (
         <section className="checkout">
             <div className="container">
@@ -294,7 +274,7 @@ export default function CheckoutForm() {
                                     <span>Przeczytałem/am i akceptuję <Link to='/'>regulamin *</Link></span>
                                 </p>
                             </div>
-                            <button className="checkout__submit" disabled={!checkPolicy}>KUPUJĘ I PŁACĘ</button>
+                            <button className="checkout__submit" disabled={!checkPolicy || disabled || processing}>KUPUJĘ I PŁACĘ</button>
                         </div>
                     </div>
                     {error && (
