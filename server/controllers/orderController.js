@@ -10,7 +10,10 @@ module.exports.createOrder = async (req, res) => {
 			phone: req.body.phone,
 			order: req.body.payId,
 			price: req.body.amount,
+			confirm: false
 		});
+
+		console.log({order})
 
 		 await order.save();
 
