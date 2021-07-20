@@ -1,10 +1,10 @@
 const { Schema, model } = require('mongoose');
 
 const productSchema = new Schema({
-	// productIndex: {
-	// 	type: Number,
-	// 	default: null
-	// },
+	qty: {
+		type: Number,
+		default: 1
+	},
 	title: {
 		type: String,
 		required: true,

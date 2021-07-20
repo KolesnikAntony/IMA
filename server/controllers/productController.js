@@ -157,8 +157,9 @@ module.exports.updateCollection = async (req, res) => {
 	try {
     //here we change the values of the collection, if necessary
 		// const newProducts = await Product.updateMany( {}, {$rename:{"aaaaa": "productIndex"}});
-		await Category.deleteMany();
-		res.status(200).json({message: 'udalil'});
+		const newProducts = await Product.updateMany( {'itsNew': true}, {$rename: {"productIndex": "qty"}});
+		// await Category.deleteMany();
+		res.status(200).json({message: 'qty added', newProducts});
 	} catch (err) {
 		return res.status(500).json({message: err.message});
 	}
