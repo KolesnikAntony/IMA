@@ -10,13 +10,10 @@ module.exports.createOrder = async (req, res) => {
 			phone: req.body.phone,
 			order: req.body.payId,
 			price: req.body.amount,
-			confirm: false
 		});
 
-		console.log({order})
-
 		 await order.save();
-
+		console.log({order})
 		res.json({message: 'Заказ создан!', order});
 	} catch (err) {
 		return res.status(500).json({message: err.message});

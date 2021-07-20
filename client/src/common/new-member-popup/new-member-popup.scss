@@ -13,7 +13,7 @@
   background-color: $color-smoke;
   border-radius: 4px;
   box-shadow: 0 0 4px $color-dark;
-  z-index: 150;
+  z-index: 1000;
   &__close {
     @include closeBtn(12px, 12px, 12px, 12px);
   }
@@ -23,5 +23,8 @@
   }
   &__text {
     text-decoration: underline;
+  }
+  @media (max-width: 600px) {
+    left: auto;
   }
 }

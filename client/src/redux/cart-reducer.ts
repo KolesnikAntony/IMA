@@ -67,6 +67,7 @@ export const getAddToCart = (id: string): ThunkCartType => async (dispatch) => {
         localStorage.setItem('cartItem', newCartIds);
 
         let cartItems = await ProductsAPI.getCartProducts(newCartIds);
+
         dispatch(actionsCart.setInCart(cartItems));
 
         let cartIdsArray = newCartIds.split(',');

@@ -15,6 +15,7 @@ const ProductCard: FC<ProductType> = ({title, imageSrc, price, salePrice, sale, 
 
     const putToCart = (e: React.MouseEvent<HTMLButtonElement>, id: string) => {
         e.preventDefault();
+        console.log(id);
         dispatch(getAddToCart(id));
     };
 
