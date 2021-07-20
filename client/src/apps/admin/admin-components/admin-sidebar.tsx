@@ -32,6 +32,7 @@ import GroupIcon from '@material-ui/icons/Group';
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import MenuIcon from '@material-ui/icons/Menu';
 import CloseIcon from '@material-ui/icons/Close';
+import OrderList from "./order-list";
 
 const drawerWidth = 240;
 
@@ -203,6 +204,14 @@ export default function SidebarAdmin() {
                         <ListItemText primary="Users" />
                     </ListItem>
                 </List>
+                <List component="div" disablePadding>
+                    <ListItem component={NavLink} to='/admin/orders' activeClassName={classes.activeTab}>
+                        <ListItemIcon>
+                            <GroupIcon/>
+                        </ListItemIcon>
+                        <ListItemText primary="Orders" />
+                    </ListItem>
+                </List>
             </div>
             <main className={classes.content}>
                 <Switch>
@@ -215,6 +224,7 @@ export default function SidebarAdmin() {
                     <Route exact path='/admin/about'  render={() => <AdminAbout setTitle={setTitle}/>}/>
                     <Route exact path='/admin/homepage'  render={() => <AdminHome setTitle={setTitle}/>}/>
                     <Route exact path='/admin/users'  render={() => <UserList setTitle={setTitle}/>}/>
+                    <Route exact path='/admin/orders'  render={() => <OrderList setTitle={setTitle}/>}/>
                 </Switch>
             </main>
         </div>

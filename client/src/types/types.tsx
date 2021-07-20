@@ -176,3 +176,10 @@ export type CustomerType = {
     street: string
     surname: string
 }
+
+export type OrderType = {
+    id: string
+    phone: string
+    email: string
+    price: number
+}

@@ -6,12 +6,14 @@ import {
     AboutTextType,
     ContactsType,
     CreateProductType,
+    OrderType,
     ProductType,
     ProfileDataType
 } from "../types/types";
 import {ProductsAPI} from "../api/api-products";
 import {InfoAPI} from "../api/api-info";
 import {actionsAuth} from "./auth-reducer";
+import {OrderAPI} from "../api/api-order";
 
 const SET_ADMIN_PRODUCTS = 'admin-reducer/SET_PRODUCTS';
 const SET_ADMIN_PRODUCT = 'admin-reducer/SET_PRODUCT';
@@ -27,6 +29,7 @@ const SET_ABOUT_TEXT = 'admin-reducer/SET_ABOUT_TEXT';
 const SET_BANNER_TEXT = 'admin-reducer/SET_BANNER_TEXT';
 const SET_ALL_USERS = 'admin-reducer/SET_ALL_USERS';
 const SET_ERROR = 'admin-reducer/SET_ERROR';
+const SET_ORDER_LIST = 'admin-reducer/SET_ORDER_LIST';
 
 
 const AdminInitialState = {
@@ -42,6 +45,7 @@ const AdminInitialState = {
     isEdited: false,
     totalProduct: 1,
     contacts: {},
+    orderList: [] as Array<OrderType>,
     aboutList: [] as AboutList,
     aboutText: {
         content: '',
@@ -74,6 +78,8 @@ const adminReducer = (state = AdminInitialState, action: ActionType): AdminIniti
             return {...state, totalProduct: action.totalProduct};
         case SET_CONTACTS :
             return {...state, contacts: action.contacts};
+        case SET_ORDER_LIST:
+            return {...state, orderList: action.orderList};
         case SET_ABOUT_LIST:
             return {
                 ...state, aboutList: action.list.reverse().map(el => ({
@@ -167,10 +173,18 @@ export const actionsAdmin = {
         setError: (isError: boolean) => ({
             type: SET_ERROR,
             isError,
+        } as const),
+        setOrder: (orderList: Array<OrderType>) => ({
+            type: SET_ORDER_LIST,
+            orderList
         } as const)
     }
 ;
 
+export const getOrderList = ():ThunkAdminType => async (dispatch) => {
+    const res = await OrderAPI.orderList();
+    dispatch(actionsAdmin.setOrder(res.orders));
+};
 
 export const getAdminProducts = (currentPage: number, selectType: string, sort: string, category: Array<{ name: string, _id: string }>, colors: Array<string>, limit: number): ThunkAdminType => async (dispatch) => {
     try {
@@ -179,7 +193,7 @@ export const getAdminProducts = (currentPage: number, selectType: string, sort: 
         dispatch(actionsAdmin.setPagination(res.count));
         dispatch(actionsAdmin.setProducts(res.products));
         dispatch(actionsAdmin.setIsFetching(false));
-    }catch (err) {
+    } catch (err) {
         dispatch(actionsAdmin.setIsFetching(false));
     }
 };
