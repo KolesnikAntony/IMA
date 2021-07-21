@@ -17,7 +17,7 @@ const oauth2Client = new OAuth2(
 	OAUTH_PlAYGROUND
 );
 
-const sendEmail = async (to, url, txt) => {
+const sendEmail = async (to, url, txt, tbody) => {
 	oauth2Client.setCredentials({
 		refresh_token: EMAIL_SERVICE_REFRESH_TOKEN
 	});
@@ -34,7 +34,7 @@ const sendEmail = async (to, url, txt) => {
 			accessToken
 		}
 	});
-
+// тестовый вариант добавление tbody
 	const mailOptions = {
 		from: process.env.EMAIL_FROM,
 		to,
@@ -42,6 +42,7 @@ const sendEmail = async (to, url, txt) => {
 		html: ` 
       <a href=${url} style="text-decoration: none">${txt}</a> 
 			<div>${url}</div>
+			<div>${tbody}</div>
 		`
 	};
 
