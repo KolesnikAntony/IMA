@@ -41,7 +41,6 @@ const sendEmail = async (to, url, txt, tbody) => {
 		subject: 'test',
 		html: ` 
       <a href=${url} style="text-decoration: none">${txt}</a> 
-			<div>${url}</div>
 			<div>${tbody}</div>
 		`
 	};

@@ -17,7 +17,9 @@ module.exports.createOrder = async (req, res) => {
 
 		console.log({url});
 
-		await sendMail(email, url, `Детали заказа №${order._id}`, order);
+		console.log('PAY_ID:', req.body.payId)
+
+		await sendMail(email, url, `Заказ № ${req.body.payId} успешно обработан `, order);
 
 		await order.save();
 
