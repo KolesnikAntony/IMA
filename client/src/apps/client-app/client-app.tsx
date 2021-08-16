@@ -1,4 +1,5 @@
 import React, {FC, useCallback, useEffect, useState} from "react";
+
 import {useDispatch} from "react-redux";
 import {checkCartItems} from "../../redux/cart-reducer";
 import {getIsAuth} from "../../redux/auth-reducer";
@@ -7,15 +8,8 @@ import Header from "../../componetns/header/header";
 import ScrollToTop from "../../componetns/scroll-op/scroll-top";
 import Aside from "../../componetns/aside/aside";
 import {NavLink, Route, RouteComponentProps, Switch} from "react-router-dom";
-import Home from "../../pages/home/home";
-import ProductScreen from "../../pages/product/product";
-import Shop from "../../pages/shop/shop";
-import AboutUs from "../../pages/aboutus/aboutus";
-import Regulamin from "../../pages/regulamin/regulamin";
-import Rodo from "../../pages/rodo/rodo";
-import Faq from "../../pages/faq/faq";
+
 import Payment from "../../pages/payment/payment";
-import Refund from "../../pages/refund/refund";
 import Footer from "../../componetns/footer/footer";
 import {getContacts} from "../../redux/contacts-reducer";
 import {getHomeBannerText} from "../../redux/home-reducer";
@@ -23,7 +17,18 @@ import CookieConsent from "react-cookie-consent";
 import TestCheck from "../../componetns/checkText";
 import {loadStripe} from "@stripe/stripe-js";
 import Stripe from "../../stripe/stripe";
-import Bought from "../../common/bought/bought";
+import { Suspense } from "react";
+import Preloader from "../../common/preloader/preloader";
+const Home = React.lazy(() => import('../../pages/home/home'));
+const ProductScreen = React.lazy(() => import('../../pages/product/product'));
+const Shop = React.lazy(() => import('../../pages/shop/shop'));
+const AboutUs = React.lazy(() => import('../../pages/aboutus/aboutus'));
+const Regulamin = React.lazy(() => import('../../pages/regulamin/regulamin'));
+const Rodo = React.lazy(() => import('../../pages/rodo/rodo'));
+const Faq = React.lazy(() => import('../../pages/faq/faq'));
+const Refund = React.lazy(() => import('../../pages/refund/refund'));
+
+
 
 
 type PathParamsType = {
@@ -65,7 +70,7 @@ const ClientApp: FC<PropsType> = ({match}) => {
 
     const handleCheckout = (formData: any) => {
         console.log(formData)
-    }
+    };
 
     return (<>
             <OpenCartContext.Provider value={handleOpen}>
@@ -75,6 +80,7 @@ const ClientApp: FC<PropsType> = ({match}) => {
                 <ScrollToTop>
                     <main className={'app'}>
                         <Aside open={open} view={currentView} onClose={handleClose} onOpen={handleOpen}/>
+                        <Suspense fallback={<Preloader/>}>
                         <Switch>
                             <Route exact path={match.path} render={() => <Home onViewHeader={handleHeaderType}/>}/>
                             <Route path='/activate/:key?'
@@ -96,6 +102,7 @@ const ClientApp: FC<PropsType> = ({match}) => {
                             {/*<Route  path='/bought?:fail' render={() => <Home isFail={true} onClose={handleClose}*/}
                             {/*                                                onViewHeader={handleHeaderType}/>}/>*/}
                         </Switch>
+                        </Suspense>
                     </main>
                 </ScrollToTop>
                 <Footer onOpen={handleOpen}/>

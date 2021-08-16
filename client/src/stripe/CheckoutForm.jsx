@@ -190,6 +190,8 @@ export default function CheckoutForm() {
                                     <input type="text" name='email' placeholder='Email' required={true}/>
                                 </li>
                             </ul>
+                            <label htmlFor='faktura' className='checkout__delivery-label'/>
+                                <input type='radio' name="faktura"  id="fakturaa"/>
                         </div>
                         <div className="checkout__col checkout__payments">
                             <h3 className="checkout__title">
