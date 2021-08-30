@@ -92,16 +92,20 @@ module.exports.getProducts = async (req, res) => {
 
 		const pages = Math.ceil(productsCount / pageSize);
 
-		if (page > pages) {
-			return res.status(404).json({message: 'Страница не найдена.'})
-		}
-
 		const products = await query.populate('category', 'name')
 			.limit(pageSize)
 			.skip(skip);
 
+		if (!products.length) {
+			return res.json({products});
+		}
+
 		if (page > pages) {
-			return res.status(404).json({message: 'Страница не найдена.', products})
+			return res.status(404).json({message: 'Страница не найдена.'});
+		}
+
+		if (page > pages) {
+			return res.status(404).json({message: 'Страница не найдена.', products});
 		}
 
 		res.status(200).json({

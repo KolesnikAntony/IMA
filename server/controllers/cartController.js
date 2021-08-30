@@ -13,7 +13,7 @@ module.exports.cartFilter = async ( req, res ) => {
 		const cartItems = await Product.find(query)
 			.select('title price salePrice imageSrc qty');
 
-		if ( cartItems.length == [] )
+		if ( !cartItems.length )
 			return res.json({cartItems});
 
 		res.status(200).json({message: 'Ok',  cartItems});
