@@ -53,6 +53,11 @@ export default function CheckoutForm() {
     }, [products,totalPrice]);
 
 
+    useEffect(() => {
+        console.log('reorder');
+    })
+
+
     const P24_ELEMENT_OPTIONS = {
         // Custom styling can be passed to options when creating an Element
         style: {
