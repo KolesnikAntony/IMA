@@ -48,4 +48,4 @@ export const  useOutsideAlerter =(ref: any, outsideCallBack: () => void ) =>  {
             document.removeEventListener("mousedown", handleClickOutside);
         };
     }, [ref]);
-}
+};

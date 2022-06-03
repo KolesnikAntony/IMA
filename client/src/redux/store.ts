@@ -14,6 +14,7 @@ import contactsReducer from "./contacts-reducer";
 import payReducer from "./pay-reducer";
 
 const middleware = [thunk];
+
 const reducers = combineReducers(
     {
         auth: AuthReducer,
@@ -32,7 +33,6 @@ const reducers = combineReducers(
 
 
 export type RootState = ReturnType<typeof store.getState>
-export type AppDispatch = typeof store.dispatch
 
 type RootReduserType = typeof reducers;
 export type AppStateType = ReturnType<RootReduserType>;

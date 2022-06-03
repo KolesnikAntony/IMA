@@ -214,6 +214,7 @@ export const getAdminCategories = (): ThunkAdminType => async (dispatch) => {
 };
 
 export const changeAdminProduct = (id: string, formData: ProductType): ThunkAdminType => async (dispatch) => {
+    console.log(formData)
     try {
         const res = await ProductsAPI.changeProduct(id, formData);
         dispatch(actionsAdmin.setProduct(res));

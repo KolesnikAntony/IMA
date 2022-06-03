@@ -34,6 +34,7 @@ const ProductCreate:FC<PropsType & PropsTypeAdminProducts> = ({setMode, setTitle
         subText: '',
         title: '',
         shortDescr: "",
+        totalCount: null
     } as CreateProductType);
 
     useEffect(() => {
@@ -134,6 +135,7 @@ const ProductCreate:FC<PropsType & PropsTypeAdminProducts> = ({setMode, setTitle
                     <TextField id="Price" placeholder="Price" value={inputsData.price} type='number'
                                onChange={(e: React.ChangeEvent<HTMLInputElement>) => handleChangeText('price', e.target.value)}
                                variant='outlined'
+                               label='Price'
                                required={true}
                                fullWidth={true}/>
                 </Grid>
@@ -183,6 +185,15 @@ const ProductCreate:FC<PropsType & PropsTypeAdminProducts> = ({setMode, setTitle
                         label="New product"
                         labelPlacement="bottom"
                     />
+                </Grid>
+                <Grid item xs={6} sm={2} lg={2} md={3}>
+                    <TextField id="Product count" placeholder="Product count"
+                               label="Product count"
+                               value={inputsData.totalCount}
+                               onChange={(e: React.ChangeEvent<HTMLInputElement>) => handleChangeText('count', e.target.value)}
+                               variant='outlined'
+                               required
+                               fullWidth={true}/>
                 </Grid>
                 <Grid item xs={8} sm={6} lg={3} md={4}>
                     <Button

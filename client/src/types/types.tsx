@@ -16,7 +16,7 @@ export type ProductType = {
     subText: string
     title: string
     top: boolean
-    totalCount?: 15
+    totalCount?: null | number
     updatedAt: string
     __v?: number
     _id: string
@@ -38,6 +38,7 @@ export type CreateProductType = {
     subText: string
     title: string
     top: boolean
+    totalCount: null | number
 }
 
 
@@ -159,14 +160,22 @@ export type CheckoutType = {
 }
 
 export type CustomerType = {
+
+    country: string
+    address: boolean
+    buildFirm?: string
+    cityFirm?: string
+    deliveryFirm?: string
+    emailFirm?: string
+    flatFirm?: string
+    kodFirm?: string
     build: string
     city: string
-    company: string
-    country: string
     delivery: string
     email: string
     flat?: string
     kod: string
+    company?: string
     name: string
     payId: string
     phone: string
@@ -175,6 +184,8 @@ export type CustomerType = {
     products: Array<{title: string, price: number, qty: number}>
     street: string
     surname: string
+    customerType: string
+
 }
 
 export type OrderType = {
@@ -182,4 +193,5 @@ export type OrderType = {
     phone: string
     email: string
     price: number
+    createdAt: string
 }

@@ -10,6 +10,7 @@ import Preloader from "../../common/preloader/preloader";
 import {getAddToCart} from "../../redux/cart-reducer";
 import {OpenCartContext} from "../../context/context";
 import {VIEW_TYPES} from "../../constants/constants";
+import {notDeepEqual} from "assert";
 
 
 type PathParamsType = {
@@ -29,8 +30,7 @@ const Product: FC<PropsType> = ({match}) => {
 
 
     const {product ,isFetching } = useSelector((state:RootState)  => state.productPage);
-    const {title, description, imageSrc, price, salePrice, shortDescr, subText} = product;
-
+    const {title, description, imageSrc, price, salePrice, shortDescr, subText, totalCount} = product;
     const cart = useSelector<RootState, Array<CartType>>((state) => state.cart.cart);
     const isCart = useMemo(()=> cart.some(el => el._id == productId), [cart]);
 
@@ -66,9 +66,13 @@ const Product: FC<PropsType> = ({match}) => {
                         <div className="product__action">
                             <span className="product__price">{salePrice ? price + "/" + salePrice : price}zł</span>
                             {!isCart
-                                ? <button className="product__btn product__btn--atc" onClick={(e) => putToCart(e, productId)}>dodaj do koszyka</button>
+                                ? <button className="product__btn product__btn--atc" disabled={!totalCount} onClick={(e) => putToCart(e, productId)}>dodaj do koszyka</button>
                                 : <button className="product__btn product__btn--go" onClick={(e)=> openCartHandler(e)}>sprawdź koszyk</button>
                             }
+                            {totalCount ? <span className="product__count">Dostępność {totalCount} sztuk</span> :
+                                <span className="product__count-not">Produkt jest niedostępny!</span>
+                            }
+
                         </div>
 
                     </div>

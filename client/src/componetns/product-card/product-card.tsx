@@ -9,7 +9,7 @@ import {OpenCartContext} from "../../context/context";
 import {getAddToCart} from "../../redux/cart-reducer";
 
 
-const ProductCard: FC<ProductType> = ({title, imageSrc, price, salePrice, sale, top, itsNew, _id, isCart}) => {
+const ProductCard: FC<ProductType> = ({title, imageSrc, price, salePrice, sale, top, itsNew, _id, isCart, totalCount}) => {
 
     const dispatch = useDispatch();
 
@@ -47,7 +47,9 @@ const ProductCard: FC<ProductType> = ({title, imageSrc, price, salePrice, sale, 
             </div>
 
             {!isCart ?
-                <button className="product-card__add" onClick={(e) => putToCart(e, _id)}>dodaj do koszyka</button>:
+                <button className="product-card__add" disabled={!totalCount} onClick={(e) => putToCart(e, _id)}>
+                    {totalCount ? 'dodaj do koszyka' : 'produkt niedostępny'}
+                </button>:
                 <button className="product-card__go" onClick={(e)=> openCartHandler(e)} >sprawdź koszyk</button>
             }
         </Link>

@@ -25,6 +25,7 @@
     &:last-of-type {
       padding-left: 30px;
     }
+
     @media (max-width: 1138px) {
       width: 100%;
       &:first-of-type {
@@ -83,9 +84,11 @@
     padding: 8px;
     border-bottom: 1px solid $color-nude;
   }
+
   .error input[type=text] {
     border-bottom: 1px solid crimson;
   }
+
   &__payments {
     &-item {
       display: flex;
@@ -111,6 +114,7 @@
         width: 50%;
         margin-bottom: 0;
       }
+
       @media (max-width: 912px) {
         &:not(.not) {
           width: unset;
@@ -132,6 +136,7 @@
 
     &.scroll {
       padding-right: 8px;
+
       &::-webkit-scrollbar {
         display: block;
         width: 3px;
@@ -158,12 +163,14 @@
     &-name {
       width: 50%;
     }
+
     @media (max-width: 912px) {
       &-name {
         width: unset;
         margin-right: auto;
       }
     }
+
     &-price {
       font-family: 'Libre Baskerville', sans-serif;
     }
@@ -328,11 +335,20 @@
     &:disabled {
       background-color: #d9c3b6;
     }
+
     @media (max-width: 1138px) {
       max-width: 268px;
     }
     @media (max-width: 524px) {
       max-width: unset;
+    }
+  }
+
+  &__factura {
+    flex-direction: row;
+    padding-left: 20px;
+    label:first-of-type {
+      margin-right: 20px;
     }
   }
 }

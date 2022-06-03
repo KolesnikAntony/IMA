@@ -82,7 +82,7 @@ export const ProductsAPI = {
 
 const createFormData = (data:ProductType | CreateProductType) => {
     let formData = new FormData();
-    let {category, color, img, salePrice, sale, top, itsNew, description, shortDescr, subText, title, price} = data;
+    let {category, color, img, salePrice, sale, top, itsNew, description, shortDescr, subText, title, price, totalCount} = data;
     console.log(top,itsNew,  sale);
 
     img && formData.append('imageSrc', img as File);
@@ -98,5 +98,6 @@ const createFormData = (data:ProductType | CreateProductType) => {
     formData.append('title', title);
     formData.append('price', JSON.stringify(price));
     formData.append('salePrice', salePrice == null ? '' : JSON.stringify(salePrice));
+    formData.append('totalCount', JSON.stringify(totalCount));
     return formData;
 }

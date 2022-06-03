@@ -43,6 +43,15 @@
     margin-right: 20px;
     color: $color-mocco;
   }
+  &__count {
+    margin-left: 20px;
+    color: $color-mocco;
+    font-size: 16px;
+  }
+  &__count-not {
+    margin-left: 20px;
+    color: $color-red;
+  }
   &__btn {
     font-size: 20px;
     padding: 10px 20px;
@@ -52,6 +61,14 @@
     color: white;
     cursor: pointer;
     transition: 0.3s;
+    &:disabled {
+      background-color: #888888;
+      @media (hover: hover) and (pointer: fine) {
+        &:hover {
+          background-color: #888888;
+        }
+      }
+    }
     &--atc {
       background-color: $color-mocco;
     }
@@ -87,12 +104,24 @@
       order: -1;
       margin: 0 auto;
     }
+    &__price {
+      margin-right: 0;
+      margin-bottom: 12px;
+    }
+    &__count {
+      margin-left: 0;
+      &-not {
+        margin-left: 0;
+      }
+    }
     &__action{
       order: 0;
       margin: 0 auto;
+      flex-direction: column;
     }
     &__btn {
       min-width: 200px;
+      margin-bottom: 16px;
     }
     &__short-descr{
       order: 1;

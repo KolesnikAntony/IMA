@@ -28,3 +28,4 @@ export const AdminApp: FC<PropsType> = ({match}) => {
     </div>
 };
 
+export default AdminApp;

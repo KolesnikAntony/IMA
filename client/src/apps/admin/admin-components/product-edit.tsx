@@ -39,7 +39,8 @@ const ProductEdit: FC<PropsType & PropsTypeAdminProducts> = ({setMode, productId
                 name: '',
                 _id: ''
             },
-            imageSrc: ''
+            imageSrc: '',
+            totalCount: 0
         } as ProductType);
         const [categoryDefault, setCategoryDefault] = useState('');
 
@@ -93,6 +94,10 @@ const ProductEdit: FC<PropsType & PropsTypeAdminProducts> = ({setMode, productId
             }
             if (type === 'color') {
                 setInputsData((prevState: ProductType) => ({...prevState, color: value}));
+            }
+            if (type === 'count') {
+                console.log(value, typeof value);
+                setInputsData((prevState: ProductType) => ({...prevState, totalCount: +value}));
             }
         };
 
@@ -152,6 +157,7 @@ const ProductEdit: FC<PropsType & PropsTypeAdminProducts> = ({setMode, productId
                         <TextField id="Price" placeholder="Price" value={inputsData.price} type='number'
                                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => handleChangeText('price', e.target.value)}
                                    variant='outlined'
+                                   label="Price"
                                    required={true}
                                    fullWidth={true}/>
                     </Grid>
@@ -203,6 +209,15 @@ const ProductEdit: FC<PropsType & PropsTypeAdminProducts> = ({setMode, productId
                             label="New product"
                             labelPlacement="bottom"
                         />
+                    </Grid>
+                    <Grid item xs={6} sm={2} lg={2} md={3}>
+                        <TextField id="Product count" placeholder="Product count"
+                                   label="Product count"
+                                   value={inputsData.totalCount}
+                                   onChange={(e: React.ChangeEvent<HTMLInputElement>) => handleChangeText('count', e.target.value)}
+                                   variant='outlined'
+                                   required
+                                   fullWidth={true}/>
                     </Grid>
                     <Grid item xs={8} sm={6} lg={3} md={4}>
                         <Button

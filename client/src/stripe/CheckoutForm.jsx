@@ -17,7 +17,9 @@ export default function CheckoutForm() {
     const productsClasses = useMemo(() => products.length <= 3 ? 'checkout__products' : 'checkout__products scroll', [products] );
 
     const [delivery, setDelivery] = useState('paczkomat');
+    const [customerType, setCustomerType] = useState('indywidualny');
     const [checkPolicy, setCheckPolicy] = useState(false);
+    const [addressMatch, setAddressMatch] = useState(true);
 
     const [totalPrice, setTotalPrice] = useState(0);
     const [custProducts, setCustProducts] = useState(products);
@@ -146,10 +148,6 @@ export default function CheckoutForm() {
                                     </div>
                                 </li>
                                 <li className="checkout__item">
-                                    <span className="checkout__item-caption">Nazwa firmy (opcjonalne)</span>
-                                    <input type="text" name='company' placeholder='Nazwa firmy'/>
-                                </li>
-                                <li className="checkout__item">
                                     <span className="checkout__item-caption">Kraj / region <span>*</span></span>
                                     <input type="text" name='country' placeholder='Kraj / region' required={true}/>
                                 </li>
@@ -189,9 +187,91 @@ export default function CheckoutForm() {
                                     <span className="checkout__item-caption">Email <span>*</span></span>
                                     <input type="text" name='email' placeholder='Email' required={true}/>
                                 </li>
+                                <li className="checkout__item column">
+                                    <h5 className="checkout__payments-title not">
+                                        Jesteś osobą:
+                                    </h5>
+                                    <div className="checkout__delivery checkout__factura">
+                                        <label htmlFor='indywidualny' className='checkout__delivery-label'>
+                                            <input type='radio' name="customerType" value='indywidualny'
+                                                   id='indywidualny' checked={customerType === 'indywidualny'}
+                                                   onClick={() => setCustomerType('indywidualny')}/>
+                                            <span className="checkout__delivery-checkmark"/>
+                                            <span className='checkout__delivery-text'>
+                                            Indywidualną
+                                        </span>
+                                        </label>
+                                        <label htmlFor='prawny' className='checkout__delivery-label'>
+                                            <input type='radio' name="customerType"
+                                                   value='prawny' id='prawny' checked={customerType === 'prawny'}
+                                                   onClick={() => setCustomerType('prawny')}/>
+                                            <span className="checkout__delivery-checkmark"/>
+                                            <span className='checkout__delivery-text'>
+                                            Prawną
+                                        </span>
+                                        </label>
+                                    </div>
+                                </li>
+                                {customerType === 'prawny' && <>
+                                    <li className="checkout__item">
+                                        <span className="checkout__item-caption">Nazwa firmy<span>*</span></span>
+                                        <input type="text" name='company' required={true} placeholder='Nazwa firmy'/>
+                                    </li>
+                                    <li className="checkout__item">
+                                        <span className="checkout__item-caption">NIP<span>*</span></span>
+                                        <input type="text" name='nip' required={true} placeholder='NIP'/>
+                                    </li>
+                                   <li className='checkout__delivery'>
+                                       <h5 className="checkout__payments-title not">
+                                           Adres korespondencyjny:
+                                       </h5>
+                                       <label htmlFor='address' className='checkout__delivery-label'>
+                                           <input type='checkbox' name="addressFirm"
+                                                  id='address' checked={addressMatch}
+                                                  onClick={() => setAddressMatch(!addressMatch)}/>
+                                           <span className="checkout__delivery-checkmark"/>
+                                           <span className='checkout__delivery-text'>
+                                               taki sam jak adres dostawy
+                                        </span>
+                                       </label>
+                                   </li>
+                                    {
+                                        !addressMatch && <>
+                                            <li className="checkout__item">
+                                                <div className="checkout__item-separator">
+                                                    <div className="checkout__item-wrap">
+                                                        <span className="checkout__item-caption">Miasto <span>*</span></span>
+                                                        <input type="text" name='cityFirm' placeholder='Miasto' required={true}/>
+                                                    </div>
+                                                    <div className="checkout__item-wrap">
+                                                        <span className="checkout__item-caption">Kod pocztowy<span>*</span></span>
+                                                        <input type="text" name='kodFirm' placeholder='Kod pocztowy' required={true}/>
+                                                    </div>
+                                                </div>
+                                            </li>
+                                            <li className="checkout__item">
+                                                <div className="checkout__item-line">
+                                                    <span className="checkout__item-caption">Ulica <span>*</span></span>
+                                                    <input type="text" name='streetFirm' placeholder='Ulica' required={true}/>
+                                                </div>
+                                                <div className="checkout__item-separator">
+                                                    <div className="checkout__item-wrap">
+                                                        <span className="checkout__item-caption">Budynek <span>*</span></span>
+                                                        <input type="text" name='buildFirm' placeholder='Budynek' required={true}/>
+                                                    </div>
+                                                    <div className="checkout__item-wrap">
+                                                        <span className="checkout__item-caption">Mieszkanie</span>
+                                                        <input type="text" name='flatFirm' placeholder='Mieszkanie' required={false}/>
+                                                    </div>
+                                                </div>
+                                            </li>
+
+                                        </>
+                                    }
+                                </>}
                             </ul>
-                            <label htmlFor='faktura' className='checkout__delivery-label'/>
-                                <input type='radio' name="faktura"  id="fakturaa"/>
+                            {/*<label htmlFor='faktura' className='checkout__delivery-label'/>*/}
+                            {/*    <input type='radio' name="faktura"  id="fakturaa"/>*/}
                         </div>
                         <div className="checkout__col checkout__payments">
                             <h3 className="checkout__title">

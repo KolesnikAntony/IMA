@@ -33,6 +33,7 @@ import useMediaQuery from "@material-ui/core/useMediaQuery";
 import MenuIcon from '@material-ui/icons/Menu';
 import CloseIcon from '@material-ui/icons/Close';
 import OrderList from "./order-list";
+import OrderContainer from "./order-container";
 
 const drawerWidth = 240;
 
@@ -224,7 +225,7 @@ export default function SidebarAdmin() {
                     <Route exact path='/admin/about'  render={() => <AdminAbout setTitle={setTitle}/>}/>
                     <Route exact path='/admin/homepage'  render={() => <AdminHome setTitle={setTitle}/>}/>
                     <Route exact path='/admin/users'  render={() => <UserList setTitle={setTitle}/>}/>
-                    <Route exact path='/admin/orders'  render={() => <OrderList setTitle={setTitle}/>}/>
+                    <Route exact path='/admin/orders'  render={() => <OrderContainer setTitle={setTitle}/>}/>
                 </Switch>
             </main>
         </div>

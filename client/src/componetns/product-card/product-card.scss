@@ -45,9 +45,15 @@
     transition: 0.3s;
     cursor: pointer;
     border-radius: 2px;
+    &:disabled {
+      background-color: #888888;
+    }
     @media (hover: hover) and (pointer: fine) {
       &:hover {
         background-color: $color-nude;
+      }
+      &:disabled {
+        background-color: #888888;
       }
     }
   }
